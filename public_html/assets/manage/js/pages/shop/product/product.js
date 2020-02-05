@@ -1,0 +1,1 @@
+$('.table-responsive').responsiveTable({addDisplayAllBtn:false,addFocusBtn:false});

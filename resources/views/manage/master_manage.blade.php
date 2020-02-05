@@ -11,6 +11,7 @@
         <link href="<?php echo url('assets/manage/css/metismenu.min.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/icons.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/js/plugins/bootstraptoggle/bootstrap-toggle.css');?>" rel="stylesheet">
+        @yield('css')
         <link href="<?php echo url('assets/manage/css/style.css');?>" rel="stylesheet" type="text/css">
         
     </head>
@@ -111,8 +112,11 @@
 
             </div>
             <!-- Top Bar End -->
-
+            <?php if(isset($shop)):?>
+            @include('manage.sidebar_shop_manage')
+            <?php else:?>
             @include('manage.sidebar')
+            <?php endif;?>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -158,8 +162,10 @@
         <script src="<?php echo url('assets/manage/js/waves.min.js');?>"></script>
         <script src="<?php echo url('assets/js/plugins/bootstraptoggle/bootstrap-toggle.min.js');?>"></script>
         <!-- App js -->
+        <script src="<?php echo url('assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/js/app.js');?>"></script>
         <script src="<?php echo url('assets/js/plugins/blockUI.js');?>"></script>
+        <script src="<?php echo url('assets/js/plugins/currency.min.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
 
     </body>

@@ -20,7 +20,6 @@ class AAccountController extends Controller
    {
      
       $data['user']=\Auth::user();
-    
       $data['address']=\Auth::user()->address;
       $data['provinces']=\DB::table('province_tb')->get();
       return view('account.profile',$data);
@@ -34,8 +33,6 @@ class AAccountController extends Controller
      return LKS::o(1,$addr);
    }
    public function profile_save(Request $r){
-
-      
 
         if($r->email=="" || $r->name=="")
         return redirect()->back()->withInput()->with('error',__('auth.please_enter_data'));

@@ -1,0 +1,46 @@
+#image_area{
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+#image_area div.img_preview{
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    float: left;
+    border: 1px solid #eee;
+    margin: 3px;
+    position: relative;
+
+}
+#image_area div.img_preview img{
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  right: -9999px;
+  bottom: -9999px;
+  margin: auto;
+  width: 100%;
+}
+#image_area div.img_preview button.remove_btn{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+#image_area div.img_preview div.set_default{
+    position: absolute;
+    right: 5px;
+    top: 35px;
+    padding: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border: 1px solid #eee;
+    background-color: white;
+    text-align: center;
+}
+#image_area div.img_preview div.set_default i{
+   color: #ccc;
+}
+#image_area div.img_preview div.set_default:hover>i{
+    color: #b8860b;
+    cursor: pointer;
+}

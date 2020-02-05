@@ -10,6 +10,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
+    <?php LKS::has_alert();?>
         <?php if(count($shops)==0):?>
         <div class="card">
             <div class="card-body">
@@ -33,7 +34,7 @@
                     </div>
                     <div class="shop_action float-right m-t-20">
                         <input type="checkbox" <?php echo ($shop->is_open==1?'checked':'');?> data-width="90" data-on="เปิดร้าน" data-off="ปิดร้าน" data-toggle="toggle" data-offstyle="light">
-                        <a href="<?php echo url('shop/'.$shop->url);?>" class="btn btn-info">จัดการร้าน</a>
+                        <a href="<?php echo url($shop->url);?>" class="btn btn-info">จัดการร้าน</a>
                         
                     </div>
                    

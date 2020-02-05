@@ -27,6 +27,31 @@ return [
     'password_info'=>'การเปลี่ยนรหัสผ่าน',
     'empty_if_dont_change'=>'(สามารถเว้นว่างหากไม่ต้องการเปลี่ยนรหัสผ่าน)',
     'updated'=>'บันทึกสำเร็จ',
-    'address_not_found'=>'ไม่พบข้อมูลที่อยู่'
+    'address_not_found'=>'ไม่พบข้อมูลที่อยู่',
+    'shop_not_allow'=>'ไม่มีสิทธิ์เข้าถึงร้าน',
+    'shop_id_not_found'=>'ไม่พบ ID ของร้านค้า',
+    'shop_not_found'=>'ไม่พพข้อมูลร้าน',
+    'add_image'=>'เพิ่มรูปภาพ',
+    'currency'=>'บาท',
+    'off'=>'ปิด',
+    'on'=>'เปิด',
+    'product'=>[
+        'product_name'=>'ชื่อสินค้า',
+        'qty'=>'จำนวน',
+        'price'=>'ราคา',
+        'discount'=>'ส่วนลด',
+        'edit_product'=>'แก้ไขสินค้า',
+        'delete_product'=>'ลบสินค้า',
+        'no_products'=>'ไม่มีสินค้าใดๆ',
+        'product_not_found'=>'ไม่พบข้อมูลสินค้า',
+        'new_product'=>'สินค้าใหม่',
+        'create_product'=>'เพิ่มสินค้าใหม่',
+        'info_short'=>'รายละเอียดสินค้าแบบย่อ',
+        'info'=>'รายละเอียดสินค้า',
+        'product_detail'=>'ข้อมูลสินค้า',
+        'product_image'=>'รูปภาพสินค้า',
+        'image_upload_info'=>'รองรับเฉพาะรูปภาพ png,jpg,jpeg ขนาดรูปละไม่เกิน 2 MB สูงสุด 20 รูป',
+        'product_category'=>'หมวดหมู่สิทค้า'
+    ]
 
 ];

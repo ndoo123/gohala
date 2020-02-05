@@ -11,5 +11,12 @@ class Shop extends Model
     public function get_url(){
         return env('APP_URL').'/'.$this->url;
     }
+    public function is_allow($user)
+    {
+         //สำหรับเช็คว่ามีสิทธิ์เข้าถึงมั้ย
+
+        if($this->user_id==$user->id)// เป็นเจ้าของ
+        return true;
+    }
 
 }

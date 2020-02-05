@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shop;
+use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use LKS;
 class MShopController extends Controller
@@ -32,5 +34,38 @@ class MShopController extends Controller
 
        return LKS::o(1,$shop);
 
+   }
+
+
+
+   //SHOP MAnage
+   
+   public function shop_manage(Request $r)
+   {
+       $data['shop']=$r->shop;
+       return view('manage.shop.shop_manage',$data);
+   }
+   public function product_list(Request $r)
+   {
+        $data['shop']=$r->shop;
+        $data['products']=Product::where("shop_id",$r->shop->id)->get();
+       return view('manage.shop.product.product_list',$data);
+   }
+   public function product_view(Request $r)
+   {
+       $data['shop']=$r->shop;
+       $data['product']=new Product();
+       if(isset($r->product_id)){
+       
+        $data['product']=Product::where("id",$r->product_id)->first();
+        
+        if(!$data['product'])
+        return redirect()->back()->with('error',__('view.product.product_not_found'));
+
+       }
+
+       $data['product_categories']=ProductCategory::all();
+
+       return view('manage.shop.product.product_view',$data);
    }
 }

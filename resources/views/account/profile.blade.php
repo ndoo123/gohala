@@ -84,7 +84,13 @@
         <!-- page wrapper start -->
         <div class="wrapper">
             <div class="container-fluid">
-                <?php LKS::has_alert();?>        
+                <?php LKS::has_alert();?>
+                
+                <div class="card">
+                    <div class="card-body">
+                        คุณยังไม่มีร้านใดๆ เริ่มสร้างร้านได้เลย <a href="<?php echo  LKS::url_subdomain('manage','shops');?>" class="btn btn-sm btn-primary">สร้างร้านค้า</a>
+                    </div>
+                </div>  
                <div class="row">
                    <div class="col-md-4">
                        <div class="card directory-card">
@@ -200,7 +206,7 @@
                                                 </form>
                                             </div>
                                             <div class="tab-pane p-3" id="address" role="tabpanel">
-                                               
+                                            
                                                     <?php foreach($address as $index=>$addr):?>
                                                     <div user_address_id="<?php echo $addr->id;?>" class="card card_user_address p-10" style="border:1px solid #bdbcbc">
                                                         <div class="card-body m-b-0">

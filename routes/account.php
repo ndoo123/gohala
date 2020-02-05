@@ -13,4 +13,5 @@ Route::middleware(['auth'])->group(function(){
     Route::post('profile/address/get','AAccountController@profile_address_get');
     Route::post('profile/address/update','AAccountController@profile_address_save');
     Route::post('profile/address/delete','AAccountController@profile_address_delete');
+    
 });

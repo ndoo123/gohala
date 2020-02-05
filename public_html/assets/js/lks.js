@@ -320,30 +320,60 @@ $(document).on('keyup','input.input_upper',function(){
     this.value=this.value.toLocaleUpperCase();
     this.value=this.value.replace(/\s/g, '');
 });
+function setInputFilter(textbox, inputFilter) {
+  ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+    textbox.addEventListener(event, function() {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+    });
+  });
+}
+function initMoney(){
+    $('input[type="money"]').each(function(){
+        $(this).addClass('text-right');
+        if($(this).val()=="")
+        $(this).val(currency(0.00));
 
-//ทำให้ Enter ทำหน้าที่เหมือน Tab
-$(document).on('keydown', 'input, select, textarea', function(e) {
-    var self = $(this)
-      , form = self.parents('form:eq(0)')
-      , focusable
-      , next
-      ;
-      if(self.hasClass("skipnext"))
-      return;
-      
-    if (e.keyCode == 13) {
-        focusable = form.find('input[type="text"],input[type="money"],input[type="number"],textarea').filter(':visible:not([readonly]):not([disabled])');
-        next = focusable.eq(focusable.index(this)+1);
-        if (next.length) {
-            next.focus();
-            
-        } 
-        return false;
-    }
-});
+       
+    });
+    $(document).on('focus','input[type="money"]',function(){
+        var money=$(this).attr('money');
+        if(money!=undefined)
+        $(this).val(money);
+        
+        $(this).select();
+    });
+    $(document).on('blur','input[type="money"]',function(){
+        var money=currency($(this).val());
+        $(this).attr('money',money);
+        $(this).val(currency($(this).attr('money'),{ separator: ',' }).format());
+    });
+
+}
+function initMaxLength(){
+     $('input.maxlength').maxlength({
+            warningClass: "badge badge-info",
+            limitReachedClass: "badge badge-warning"
+        });
+        $('textarea.maxlength').maxlength({
+            warningClass: "badge badge-info",
+            limitReachedClass: "badge badge-warning"
+        });
+}
 $(document).ready(function(){
-
+    initMoney();
+    initMaxLength();
     bind_data_date();
+
+
 });
 
-var lks=new LKS();
+
