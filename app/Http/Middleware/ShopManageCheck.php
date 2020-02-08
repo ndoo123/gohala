@@ -20,7 +20,7 @@ class ShopManageCheck
 
         $shop=\App\Models\Shop::where("url",$r->shop_id)->first();
         if(!$shop)
-        return redirect()->back()->with('error',__('view.shop_not_found'));
+        return redirect(env('APP_URL').'/error_404')->with('error',__('view.shop_not_found'));
 
         if(!$shop->is_allow(\Auth::user()))
         return redirect()->back()->with('error',__('view.shop_not_allow'));

@@ -25,7 +25,7 @@
 
                         <!-- Logo container-->
                         <div class="logo">
-                            <a href="index.html" class="logo">
+                            <a href="<?php echo env('APP_URL');?>" class="logo">
                                 <img src="<?php echo url('assets/images/logo-dark.png');?>" alt="" height="35">
                             </a>
                         </div>
@@ -336,11 +336,12 @@
         <script src="<?php echo url('assets/manage/login/js/waves.min.js');?>"></script>
          <script src="<?php echo url('assets/js/plugins/blockUI.js');?>"></script>
         <!-- App js -->
+         <script src="<?php echo url('assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/login/js/app.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
         <script>
-        var gohala=new LKS();
-        gohala.url='<?php echo url('');?>';
+        var app=new LKS();
+        app.url='<?php echo url('');?>';
         </script>
         <script src="<?php echo url('assets/account/js/account.js');?>"></script>
     </body>

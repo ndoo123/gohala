@@ -18,13 +18,13 @@
                     <div class="table-rep-plugin bg-light">
                         <div class="table-responsive mb-0"  data-pattern="priority-columns">
                             <table id="products_table" class="table table-striped">
-                                <thead>
+                                <thead class="thead-light">
                                 <tr>
                                     <th width="100"></th>
                                     <th width="150">#SKU</th>
                                     <th><?php echo __('view.product.product_name');?></th>
-                                    <th ><?php echo __('view.product.price');?></th>
-                                    <th ><?php echo __('view.product.qty');?></th>
+                                    <th class="text-right"><?php echo __('view.product.price');?></th>
+                                    <th class="text-center"><?php echo __('view.product.qty');?></th>
                                     <th width="1"></th>
                                 </tr>
                                 </thead>
@@ -32,7 +32,18 @@
                                 <?php if(count($products)==0):?>
                                 <tr><td colspan="6"><p class="text-center"><?php echo __('view.product.no_products');?></p></td></tr>
                                 <?php endif;?>
-                                
+                                <?php foreach($products as $product):?>
+                                <tr>
+                                    <td>
+                                        <img src="<?php echo $product->get_photo();?>" alt="" class="rounded thumb-lg">
+                                    </td>
+                                    <td><?php echo $product->sku;?></td>
+                                    <td><?php echo $product->name;?><br><span class="badge badge-info"><?php echo $product->category->name;?></span></td>
+                                    <td class="text-right"><?php echo number_format($product->price,2);?></td>
+                                    <td class="text-center"><?php echo $product->qty;?></td>
+                                    <td><a class="btn btn-sm btn-primary" href="<?php echo url($shop->url.'/product/'.$product->id);?>"><?php echo __('view.product.edit_product');?></a></td>
+                                </tr>
+                                <?php endforeach;?>
                                 </tbody>
                             </table>
                         </div>

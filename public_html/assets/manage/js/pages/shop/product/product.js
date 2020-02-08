@@ -1,1 +1,1 @@
-$('.table-responsive').responsiveTable({addDisplayAllBtn:false,addFocusBtn:false});
+// $('.table-responsive').responsiveTable({addDisplayAllBtn:false,addFocusBtn:false});

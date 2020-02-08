@@ -37,10 +37,13 @@
     background-color: white;
     text-align: center;
 }
+#image_area div.img_preview div.set_default.active_default>i{
+     color: #4090cb;
+}
 #image_area div.img_preview div.set_default i{
    color: #ccc;
 }
 #image_area div.img_preview div.set_default:hover>i{
-    color: #b8860b;
+    color: #4090cb;
     cursor: pointer;
 }

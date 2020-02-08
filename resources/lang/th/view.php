@@ -17,6 +17,7 @@ return [
     'address'=>'ที่อยู่',
     'address_name'=>'ชื่อเรียกที่อยุ่',
     'province'=>'จังหวัด',
+    'require_data'=>'กรุณาระบุข้อมูลให้ครบ',
     'zipcode'=>'รหัสไปรษณีย์',
     'contact_name'=>'ชื่อผู้รับ',
     'contact_phone'=>'เบอร์โทรผู้รับ',
@@ -35,6 +36,17 @@ return [
     'currency'=>'บาท',
     'off'=>'ปิด',
     'on'=>'เปิด',
+    'grand_total'=>'ยอดรวมทั้งหมด',
+    'save'=>'บันทึก',
+    'unit'=>'หน่วย',
+    'order'=>'สั่งซื้อ',
+    'product_all'=>'สินค้าทั้งหมด',
+    'profit'=>'ยอดขาย',
+    'order_list'=>'รายการสั่งซื้อ',
+    'order_by'=>'ผู้สั่งซื้อ',
+    'order_date'=>'วันที่สั่งซื้อ',
+    'total'=>'ยอดรวม',
+    'order_all'=>'รายการสั่งซื้อทั้งหมด',
     'product'=>[
         'product_name'=>'ชื่อสินค้า',
         'qty'=>'จำนวน',
@@ -50,8 +62,12 @@ return [
         'info'=>'รายละเอียดสินค้า',
         'product_detail'=>'ข้อมูลสินค้า',
         'product_image'=>'รูปภาพสินค้า',
-        'image_upload_info'=>'รองรับเฉพาะรูปภาพ png,jpg,jpeg ขนาดรูปละไม่เกิน 2 MB สูงสุด 20 รูป',
-        'product_category'=>'หมวดหมู่สิทค้า'
+        'image_upload_info'=>'รองรับเฉพาะรูปภาพ png,jpg,jpeg ขนาดรูปละไม่เกิน 2 MB สูงสุด 10 รูป',
+        'product_category'=>'หมวดหมู่สิทค้า',
+        'discount_off'=>'ไม่ใช้ส่วนลด',
+        'discount_on'=>'ใช้ส่วนลด',
+        'sku_exists'=>'SKU มีในระบบแล้ว',
+        
     ]
 
 ];

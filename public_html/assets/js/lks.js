@@ -197,7 +197,7 @@ function JPost(load_id) {
         {
             this.data={};
         }
-        lks.sendData(this, "post", load_id, 'json');
+        app.sendData(this, "post", load_id, 'json');
     }
 }
 function JGet(load_id) {
@@ -208,7 +208,7 @@ function JGet(load_id) {
         if (data) {
             this.data = data;
         }
-        lks.sendData(this, "get", load_id, 'json');
+        app.sendData(this, "get", load_id, 'json');
     }
 }
 function JPostHTML(load_id) {
@@ -219,7 +219,7 @@ function JPostHTML(load_id) {
         if (data) {
             this.data = data;
         }
-        lks.sendData(this, "post", load_id, 'html');
+        app.sendData(this, "post", load_id, 'html');
     }
 }
 function PostForm(load_id)
@@ -234,7 +234,7 @@ function PostForm(load_id)
            
             
         }
-        lks.sendData(this,"post",load_id,"form");
+        app.sendData(this,"post",load_id,"form");
     }
 }
 $.fn.validate_clear=function(){
@@ -336,6 +336,7 @@ function setInputFilter(textbox, inputFilter) {
     });
   });
 }
+
 function initMoney(){
     $('input[type="money"]').each(function(){
         $(this).addClass('text-right');

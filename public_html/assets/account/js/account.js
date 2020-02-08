@@ -88,7 +88,7 @@ $(document).on('hidden.bs.modal','#new_address_modal',function(){
 $(document).on('click','button.edit_user_address',function(){
     var card=$(this).closest('div.card');
     var post =new JPost('body');
-    post.url=gohala.url+'/profile/address/get';
+    post.url=app.url+'/profile/address/get';
     post.success=function(r){
         if(r.result==0)
         {
@@ -120,7 +120,7 @@ $(document).on('click','button.delete_user_address',function(){
    
 
     var post=new JPost('body');
-    post.url=gohala.url+'/profile/address/delete';
+    post.url=app.url+'/profile/address/delete';
     
     post.success=function(r){
         if(r.result==0)

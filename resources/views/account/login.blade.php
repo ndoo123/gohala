@@ -9,13 +9,13 @@
         <link rel="shortcut icon" href="assets/images/favicon.ico">
         <link href="<?php echo url('assets/manage/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/icons.css');?>" rel="stylesheet" type="text/css">
-        <link href="<?php echo url('assets/manage/css/style.css');?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo url('assets/account/css/style.css');?>" rel="stylesheet" type="text/css">
     </head>
 
     <body class="pb-0">
 
         <div class="home-btn d-none d-sm-block">
-            <a href="index.html" class="text-white"><i class="fas fa-home h2"></i></a>
+            <a href="<?php echo env('APP_URL');?>" class="text-white"><i class="fas fa-home h2"></i></a>
         </div>
         
         <!-- Begin page -->
@@ -27,7 +27,7 @@
                 <div class="card-body p-b-0 " style="padding-bottom:0" >
 
                     <div class="text-center">
-                        <a href="index.html" class="logo"><img src="assets/images/logo-dark.png" height="55" alt="logo"></a>
+                        <a href="<?php echo env('APP_URL');?>" class="logo"><img src="assets/images/logo-dark.png" height="55" alt="logo"></a>
                     </div>
 
                     <div class="p-3 p-b-0">
@@ -123,15 +123,15 @@
         <script src="<?php echo url('assets/manage/js/bootstrap.bundle.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/js/jquery.slimscroll.js');?>"></script>
         <script src="<?php echo url('assets/manage/js/waves.min.js');?>"></script>
-
+ <script src="<?php echo url('assets/js/plugins/blockUI.js');?>"></script>
         <!-- App js -->
-     
+      <script src="<?php echo url('assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
-        <script src="<?php echo url('assets/js/plugins/blockUI.js');?>"></script>
+       
         <script src="<?php echo url('assets/account/js/account.js');?>"></script>
         <script>
-        var gohala=new LKS();
-        gohala.url='<?php echo url('');?>';
+        var app=new LKS();
+        app.url='<?php echo url('');?>';
         </script>
     </body>
 

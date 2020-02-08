@@ -183,14 +183,15 @@ class ManageSectionDb extends Migration
         if(!Schema::hasTable('product_tb'))
         {
             Schema::create('product_tb', function (Blueprint $table) {
+                $table->increments('id');
                 $table->integer('shop_id')->unsigned();
                 $table->string('sku',20);
                 $table->string('name');
                 $table->string('info_short')->nullable();
                 $table->string('info_full')->nullable();
                 $table->integer('category_id');
-                $table->decimal('qty_init',10,2)->default("1.00");
-                $table->decimal('qty',10,2)->default("1.00");
+               
+                $table->integer('qty')->default(1);
                 $table->decimal('cost',10,2);
                 $table->decimal('price',10,2);
                 $table->tinyInteger('is_discount')->default("0")->comment="0= no discount,1=discount amount,2=discount percent";
@@ -200,22 +201,34 @@ class ManageSectionDb extends Migration
                 $table->tinyInteger('is_ecom')->default("1");
                 $table->decimal('rate')->default("0.00");
                 $table->integer('run_photo_id')->default("1");
+                $table->string('slug')->nullable();
+                $table->string('default_photo')->nullable();
                 $table->timestamps();
-                $table->primary(['shop_id','sku']);
+           
+            });
+        }
+        if(!Schema::hasTable('product_slug_tb'))
+        {
+            Schema::create('product_slug_tb', function (Blueprint $table) {
+               
+                $table->integer('shop_id')->unsigned();
+                $table->integer('product_id')->unsigned();
+                $table->string('slug');
+                $table->primary(['product_id','slug']);
             });
         }
         if(!Schema::hasTable('product_photo_tb'))
         {
             Schema::create('product_photo_tb', function (Blueprint $table) {
-                $table->string('sku',20);
+                $table->integer('product_id');
                 $table->integer('id');
                 $table->integer('shop_id')->unsigned();
-                $table->string('real_name');
+                // $table->string('real_name');
                 $table->string('name');
                 $table->tinyInteger('photo_type')->default("1")->comment="1=common,2=bank slip";
                 $table->tinyInteger('is_default')->default("0");
                 $table->timestamps();
-                $table->primary(['sku','id']);
+                $table->primary(['product_id','id']);
             });
         }
     }
@@ -230,12 +243,15 @@ class ManageSectionDb extends Migration
         Schema::dropIfExists('category_tb');
         Schema::dropIfExists('payment_method_tb');
         Schema::dropIfExists('ship_method_tb');
+        Schema::dropIfExists('product_slug_tb');
         Schema::dropIfExists('product_tb');
         Schema::dropIfExists('product_photo_tb');
         Schema::dropIfExists('shop_tb');
         Schema::dropIfExists('shop_payment_tb');
         Schema::dropIfExists('shop_shipping_tb');
         Schema::dropIfExists('province_tb');
+        
+        
         
          
     }

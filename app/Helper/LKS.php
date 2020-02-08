@@ -79,5 +79,25 @@ class LKS
         return date('d ', $time).$m[intval(date('m', $time))-1].' '.(date('Y', $time)+543);
 
     }
+    public static function convertToSlug($string)
+    {
+        return preg_replace('/[^A-Za-z0-9ก-๙\-]/u', '-',str_replace('&', '-and-', $string));
+    }
+    public static function error_404_url()
+    {
+        return url('').'/error_404';
+    }
+    public static function base64_to_image($base64)
+    {
+
+        $image = $base64;  // your base64 encoded
+        $data=explode(';',$image);
+        if($data[0]!="data:image/png" && $data[0]!="data:image/jpg"&& $data[0]!="data:image/jpeg")
+        return null;
+
+        $image = str_replace('base64,', '', $data[1]);
+        $image = str_replace(' ', '+', $image);
+        return base64_decode($image);
+    }
 }
 ?>

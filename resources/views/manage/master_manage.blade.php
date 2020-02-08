@@ -172,7 +172,7 @@
 
 </html>
 <script>
-var gohala=new LKS();
-gohala.url='<?php echo url('');?>';
+var app=new LKS();
+app.url='<?php echo (isset($shop)?url($shop->url):url(''));?>';
 </script>
 @yield('js')

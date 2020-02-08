@@ -91,6 +91,6 @@ class LoginController extends Controller
             \Auth::logout();
         }
 
-        return redirect(url(''));
+        return redirect(env('APP_URL'));
     }
 }
