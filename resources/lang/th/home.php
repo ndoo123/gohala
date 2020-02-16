@@ -23,7 +23,19 @@ return [
     'information'=>'ข้อมูลอื่นๆ',
     'please_enter_email'=>'กรุณาระบุอีเมล์ของท่าน',
     'subscribe'=>'รับดีลพิเศษ',
-    'open_shop'=>'สร้างร้านค้า'
+    'open_shop'=>'สร้างร้านค้า',
+    'show'=>'แสดง',
+    'sort_by'=>'เรียงสินค้าโดย',
+    'price_low_to_high'=>'ราคาถูกสุด',
+    'price_high_to_low'=>'ราคาแพงสุด',
+    'name'=>'ชื่อ',
+    'discount'=>'ลดราคา',
+    'add_to_cart'=>'เพิ่มลงตระกร้า',
+    'baht'=>'฿',
+    'no_product_info'=>'ไม่มีคำอธิบาย',
+    'qty'=>'จำนวน',
+    'product_info'=>'ข้อมูลสินค้า',
+    'review'=>'รีวิว'
     
     
 ];

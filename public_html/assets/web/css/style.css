@@ -152,7 +152,7 @@
 
 body {
 	background: #fafafa;
-	color: #ffffff;
+	color: #333e48;
 	font-family: 'Roboto Condensed', sans-serif;
 	font-size: 12px;
 	font-weight: 400;
@@ -1442,7 +1442,7 @@ ul#cart-sidebar {
 	font-size: 20px;
 	text-transform: uppercase;
 	font-weight: bold;
-	color: #ffffff
+	color: #333e48
 }
  @media (max-width:479px) {
 .page-header h2 {
@@ -3921,7 +3921,7 @@ html {
 	margin: 0;
 	padding: 16px 15px 11px;
 	text-transform: uppercase;
-	color: #ffffff;
+	color: #333e48;
 	line-height: 50px
 }
 .mm-toggle-wrap {
@@ -3929,7 +3929,7 @@ html {
 }
 }
 .page-title h1, .page-title h2 {
-	color: #ffffff;
+	color: #333e48;
 	font-size: 22px;
 	font-weight: bold;
 	text-transform: uppercase;
@@ -5886,7 +5886,7 @@ ul.products-list {
 }
 .cart-plus-minus .qty {
 	border: 1px solid #e0e0e0;
-	color: #ffffff;
+	color: #333e48;
 	float: left;
 	font-size: 18px;
 	font-weight: bold;
@@ -5901,7 +5901,7 @@ ul.products-list {
 	border: 1px #ddd solid;
 	border-right: none;
 	transition: color 300ms ease-in-out 0s, background-color 300ms ease-in-out 0s, background-position 300ms ease-in-out 0s;
-	color: #ffffff;
+	color: #333e48;
 	font-size: 14px;
 	line-height: normal;
 	padding: 12px 14px 9px 16px;
@@ -5921,7 +5921,7 @@ ul.products-list {
 	border: 1px #ddd solid;
 	border-left: none;
 	transition: color 300ms ease-in-out 0s, background-color 300ms ease-in-out 0s, background-position 300ms ease-in-out 0s;
-	color: #ffffff;
+	color: #333e48;
 	font-size: 14px;
 	line-height: normal;
 	padding: 12px 14px 9px 16px;
@@ -5979,7 +5979,7 @@ button.button.pro-add-to-cart {
 	border: 2px #4090cb solid;
 }
 button.button.pro-add-to-cart:hover {
-	background: #ffffff;
+	background: #333e48;
 	border: 2px #ffffff solid;
 	color: #fff;
 }
@@ -6120,7 +6120,7 @@ button.button.pro-add-to-cart span i {
 	color: #ffffff
 }
 .nav-tabs>li>a:hover {
-	background: #ffffff;
+	background: #333e48;
 	color: #fff;
 	border: 2px solid #ffffff
 }

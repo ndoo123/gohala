@@ -82,7 +82,7 @@
                     </div>
                      <div class="form-group">
                         <label><?php echo __('view.product.qty');?></label>
-                        <div class="input-group"><input required="" name="qty" type="number" value="<?php echo $product->qty;?>"  class="form-control text-right"><span class="input-group-addon input-group-append"><span class="input-group-text"><?php echo __('view.unit');?></span></span></div>
+                        <div class="input-group"><input required="" name="qty" type="number" value="<?php echo ($product->qty==""?"1":$product->qty);?>"  class="form-control text-right"><span class="input-group-addon input-group-append"><span class="input-group-text"><?php echo __('view.unit');?></span></span></div>
                     </div>
                     <div class="form-group">
                         <label><?php echo __('view.product.price');?></label>

@@ -25,6 +25,14 @@ class MShopController extends Controller
        if($r->name=="" || $r->shop_url=="")
        return LKS::o(0,"กรุณาระบุข้อมูลให้ครบ");
 
+       $r->shop_url=trim(strtolower($r->shop_url));
+
+       if(strpos($r->shop_url, ' ')!=0)
+       return LKS::o(0,"ต้องไม่มีช่องว่างใน URL");
+
+       if(strpos($r->shop_url, '.')!=0)
+       return LKS::o(0,"ต้องไม่มี . (จุด) ใดๆ ใน URL");
+
        $shop=Shop::where("url",$r->shop_url)->first();
        if($shop)
        return LKS::o(0,"URL นี้มีผู้ใช้แล้ว");

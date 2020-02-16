@@ -106,12 +106,13 @@ class ManageSectionDb extends Migration
             Schema::create('category_tb', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('name');
+                $table->string('slug');
                 $table->integer("parent_id")->nullable();
 
             });
             \DB::table('category_tb')->insert([
-                ['name'=>'อุปกรณ์ไฟฟ้า'],
-                ['name'=>'เครื่องสำอาง']
+                ['name'=>'อุปกรณ์ไฟฟ้า','slug'=>'อุปกรณ์ไฟฟ้า'],
+                ['name'=>'เครื่องสำอาง','slug'=>'เครื่องสำอาง']
             ]);
         }
         if(!Schema::hasTable('payment_method_tb'))
@@ -154,6 +155,7 @@ class ManageSectionDb extends Migration
                 $table->integer('province_id');
                 $table->string('zipcode',20)->nullable();
                 $table->integer('run_sku_id')->default(1);
+                $table->integer('run_order_id')->default(1);
                 $table->tinyInteger('is_open')->default("1");
                 $table->timestamps();
                 
@@ -231,6 +233,55 @@ class ManageSectionDb extends Migration
                 $table->primary(['product_id','id']);
             });
         }
+
+        if(!Schema::hasTable('order_tb'))
+        {
+            Schema::create('order_tb', function (Blueprint $table) {
+               
+                $table->string('id',20)->primary()->comment="O+y+m+(shop_id 3 digits)+shop run order_id";
+                $table->integer('shop_id')->unsigned();
+                $table->tinyInteger("channel_id")->default("1")->comment="1=online,2=pos";
+                $table->tinyInteger('status')->default("1")->comment="0=ยกเลิก,1= สั่งซื้อ,2=ยืนยัน,3=จัดส่ง,4=ส่งสำเร็จ";
+                $table->string('shipping_code',20)->nullable();
+                $table->datetime('order_date');
+                $table->decimal('total',10,2);
+                $table->integer('seller_user_id')->nullable()->comment="id ผุ้ขาย";
+                $table->integer('buyer_user_id')->nullable()->comment="ชื่อผู้ซื้อ สามารถว่างได้ กรณีไม่ใช่เมมเบอร์";
+                $table->integer('run_item_id')->default(1);
+                $table->timestamps();
+            });
+        }
+        if(!Schema::hasTable('order_item_tb'))
+        {
+            Schema::create('order_item_tb', function (Blueprint $table) {
+               
+                $table->string('order_id',20)->primary()->comment="order_id";
+                $table->integer('id')->comment="run_item_id";
+                $table->integer("product_id");
+                $table->string('product_name');
+                $table->string('remark');
+                $table->integer('qty')->default(0);
+                $table->decimal('price',10,2);
+                $table->decimal('total',10,2);
+                $table->tinyInteger('status')->default("1")->comment="1 need confirm,2=confirm item";
+
+            });
+        }
+        if(!Schema::hasTable('order_delivery_tb'))
+        {
+            Schema::create('order_delivery_tb', function (Blueprint $table) {
+               
+                $table->string('order_id',20)->primary()->comment="order_id";
+                $table->datetime('confirm_date')->nullable();
+                $table->datetime('delivery_date')->nullable();
+                $table->datetime('received_date')->nullable();
+                $table->string('name');
+                $table->string('address');
+                $table->integer('province_id');
+                $table->string('zipcode',20);
+                $table->string('phone',100);
+            });
+        }
     }
 
     /**
@@ -240,6 +291,7 @@ class ManageSectionDb extends Migration
      */
     public function down()
     {
+        
         Schema::dropIfExists('category_tb');
         Schema::dropIfExists('payment_method_tb');
         Schema::dropIfExists('ship_method_tb');
@@ -250,9 +302,9 @@ class ManageSectionDb extends Migration
         Schema::dropIfExists('shop_payment_tb');
         Schema::dropIfExists('shop_shipping_tb');
         Schema::dropIfExists('province_tb');
-        
-        
-        
+        Schema::dropIfExists('order_tb');
+        Schema::dropIfExists('order_item_tb');
+        Schema::dropIfExists('order_delivery_tb');      
          
     }
 }

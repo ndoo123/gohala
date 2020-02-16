@@ -37,3 +37,6 @@ Route::get('logout',function(){return redirect(LKS::url_subdomain('account','log
 
 Route::get('/', "HomeController@home");
 
+Route::get('category/{slug}','HomeController@category');
+Route::get('product/{slug}.{shop_id}','HomeController@product_single');
+
