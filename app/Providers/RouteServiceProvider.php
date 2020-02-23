@@ -38,6 +38,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
         $this->mapManageRoutes();
         $this->mapAccountRoutes();
+        $this->mapPosRoutes();
         $this->mapWebRoutes();
 
         //
@@ -84,5 +85,12 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('web')
              ->namespace("App\Http\Controllers\Account")
              ->group(base_path('routes/account.php'));
+    }
+    protected function mapPosRoutes()
+    {
+        Route::domain('pos.'.env('APP_DOMAIN'))
+             ->middleware('web')
+             ->namespace("App\Http\Controllers\Pos")
+             ->group(base_path('routes/pos.php'));
     }
 }

@@ -17,7 +17,6 @@ Route::get('dashboard', "MDashboardController@dashboard");
 Route::get('shops','MShopController@shops');
 Route::post('shops/create','MShopController@shop_create');
 
-
 Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],function () {
     //สามารถเรีย $request->shop เพื่อ ดึงข้อมูลของ Shop มาได้เลย ในทุกๆฟังชั่นในนี้
     Route::get('/', "MShopController@shop_manage");
