@@ -146,12 +146,11 @@
 
                                 <hr>
 
-                                <button type="button" class="btn btn-success btn-block m-0" id="btn-pay" txt="{{ URL('salebill_product') }}" onclick="click_pay()">
-                                    <i class="fa fa-money-bill-wave-alt"></i> ชำระเงิน
-                                </button>
+                                <button id="btn-pay" type="button" class="btn btn-primary waves-effect waves-light btn-block m-0" data-toggle="modal" data-target=".bs-example-modal-xl" onclick="click_pay()"><i class="fa fa-money-bill-wave-alt"></i> ชำระเงิน</button>
                                 <a href="#" class="text-danger pull-right" onclick="list_del()">
                                     <i class="fa fa-trash"></i> ลบทั้งหมด
                                 </a>
+
 
                             </div>
                         </div>
@@ -211,6 +210,128 @@
         <!-- page wrapper end -->
 
 
+
+
+        <!--  Modal ชำระเงิน -->
+        <div id="modalPay" class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0" id="myExtraLargeModalLabel">ชำระเงิน</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <!-- ฟอร์มชำระเงิน -->
+
+                        <div class="row">
+                            <div class="col-lg-12 col-xl-12">
+
+                                <div class="row">
+                                    <div class="col-6">
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-6 col-form-label" >รวมเงิน</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control sum_cash text-right text-primary" value="" readonly id="pricetotal" name="pricetotal" >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-6 col-form-label" >ส่วนลด</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control discount text-right" value="0" onfocusout="input0()" onkeyup="torn()" id="discount" name="discount" maxlength="11">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-6 col-form-label" >รวมเงินที่ต้องชำระ</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control sum_cash_all text-right text-danger" value="" readonly id="pricetotal_all" name="pricetotal_all" >
+                                            </div>
+                                        </div>
+
+                                        <div class="payScroll">
+                                        <table id="tb-pay-etc" class="table table-striped table-hover table-vcenter">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" style="width: 60%;">รายการชำระเงิน</th>
+                                                    <th class="text-center" style="width: 30%;">จำนวน</th>
+                                                    <th class="text-center" style="width: 10%;">ลบ</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="pay-etc">
+                                                
+                                            </tbody>
+                                            
+                                        </table>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-6 col-form-label" >รวม</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control pay-total-footer text-right" value="0" readonly id="pay-total-footer" name="pay-total-footer" >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-6 col-form-label" >เงินทอน</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control pay-change-footer text-right text-danger" value="0" readonly id="pay-change-footer" name="pay-change-footer" >
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-6">
+
+
+                                        <div class="form-group mb-2">
+                                            <label for="">ชำระโดยเงินสด</label>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button type="button" class="m-1 btn btn-square btn-hero-success" onclick="get_cash(20)">20</button>
+                                                <button type="button" class="m-1 btn btn-square btn-hero-info" onclick="get_cash(50)">50</button>
+                                                <button type="button" class="m-1 btn btn-square btn-hero-danger" onclick="get_cash(100)">100</button>
+                                                <button type="button" class="m-1 btn btn-square btn-hero-primary" onclick="get_cash(500)">500</button>
+                                                <button type="button" class="m-1 btn btn-square btn-hero-secondary" onclick="get_cash(1000)">1000</button>
+                                                <button type="button" class="m-1 btn btn-square btn-hero-success" onclick="get_balance()">พอดี</button>
+                                                <button type="button" class="m-1 btn btn-square btn-outline-danger" onclick="get_clear()">ล้าง</button>
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="t_name">รับเงิน</label>
+                                            <input type="decimal" class="form-control getmoney text-right" onkeyup="torn()"  id="getmoney" name="getmoney" maxlength="11" value="0">
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-primary btn-block pull-right" id="btn-save" disabled="" onclick="pay()" txt="{{ URL('salebill_product') }}">
+                                    <i class="fa fa-print"></i>
+                                    บันทึก / พิมพ์
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- END ฟอร์มชำระเงิน -->
+                                    
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
         
 
 

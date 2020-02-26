@@ -326,29 +326,17 @@
 
     function click_pay()
     {
-        //let path = "{{ URL('salebill_product') }}";
-        let path = $('#btn-pay').attr('txt');
-        $.get(path, $('#frm-basket').serialize(), function(data){
-            
-            var count = Object.keys(data).length;
-            //console.log(count);
-            if(count){
-                $.each( data, function( key, value){
-                    Dashmix.helpers('notify', {type: 'warning', icon: 'fa fa-exclamation mr-1', message: key + ' มีจำนวนคงเหลือ ' + value});
-                });
-            }else{
-                $('#modalPay').modal({
-                    show: true
-                })
-                let total_pay = $('#sum_cash').html();
+        
+        $('#modalPay').modal({
+            show: true
+        })
+        let total_pay = $('#sum_cash').html();
 
-                // รวมเงิน
-                $('#pricetotal').val(total_pay);
+        // รวมเงิน
+        $('#pricetotal').val(total_pay);
 
-                // รวมเงินที่ต้องชำระ
-                $("#pricetotal_all").val(total_pay);
-            }
-        });
+        // รวมเงินที่ต้องชำระ
+        $("#pricetotal_all").val(total_pay);
 
     }
 
