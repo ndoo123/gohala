@@ -117,8 +117,7 @@
     $('#t_search').on('keydown',function(e){
         if(e.which == 8){
             console.log('ลบ');
-            $('#t_sn').val(''); 
-            $('#t_ck').val('');
+            $('#t_sku').val(''); 
             $('#t_pid').val('');
         }
     })
@@ -126,52 +125,26 @@
 
     $('#frm_barcode').on('submit',function(e){
         e.preventDefault(); 
-        let list = $('#list_body').html();  // รายการสินค้าที่มีอยู่
-        let tsn = $('#t_sn').val(); // ps_sn
-        let tck = $('#t_ck').val(); // p_sn 0/1
-        let tpid = $('#t_pid').val(); // p_id
-        let tname = $('#t_search').val(); // p_name
-        let sn;
+        // let list = $('#list_body').html();  // รายการสินค้าที่มีอยู่
+        // let tsku = $('#t_sku').val(); // p_sku
+        // let tid = $('#t_id').val(); // p_id
+        let key = $('#t_search').val(); // p_name
+        let shopid = $('#shopid').val(); // shop_id
 
-        if((tck == '') && (tpid == '') && (tsn == '')){
-            // ไม่ได้รับค่าจาก autocomplete
-            // เช็คและเพิ่มรายการสินค้าได้เลย
-            add_product(tname);
-        }else{
-            // ได้รับค่าจาก autocomplete            
-            if(tck == '1'){
-                // เป็นสินค้า sn
-                // แสดง model เลือกรหัสสินค้า
-                let path = "{{ URL::to('sale/get_sn') }}"+'/'+tname;
-                console.log(path);
-                jQuery('#modalForm').modal('show',function(){
-                    $.get(path, function(data){
-                        $('#modal_content').html(data); 
-                        console.log(data);
-                    });
-                });
-            }else{
-                // ไม่ใช่สินค้า sn
-                // เช็คและเพิ่มรายการสินค้าได้เลย
-                add_product(tsn);
-            }
-        }
-        
-    })
-
-    function add_product(sn){
-
-        $.get("{{ URL::to('sale/check-barcode') }}"+'/'+sn, function(num){
-            //console.log(num);
+        //$.get("{{ URL::to('sale/check-barcode') }}"+'/'+sn, function(num){
+        $.get(app.url+"/check-barcode"+'/'+shopid+'/'+key, function(num){
+            console.log(num);
             if(num > 0){
-                click_product(sn);
+                click_product(key);
                 clear_all();
-            }else{   
-                Dashmix.helpers('notify', {type: 'warning', icon: 'fa fa-times mr-1', message: 'ไม่พบสินค้ารหัส '+sn});
+            }else{
+                alert('ไม่พบสินค้า');
+                //Dashmix.helpers('notify', {type: 'warning', icon: 'fa fa-times mr-1', message: 'ไม่พบสินค้ารหัส '+sn});
                 clear_all();
             }                
         })
-    }
+
+    })
 
     function clear_all(){
         $('.clear_end').val('');
@@ -180,6 +153,7 @@
 
     // autocomplete
 
+    //let path = app.url+"/shop/"+shopid+'/autocomplete';
     let path = app.url+'/autocomplete';
     $('#t_search').autocomplete({
         source : path,
@@ -222,27 +196,27 @@
         return time;
     }
 
-    // กดปุ่มชำระเงิน
-    // function pay()
-    // {
-    //     // ดึงข้อมูลสินค้าที่ขายเทียบจำนวนกับที่มี  TbSaleController@check_product()
-    //     let path = $('#btn-save').attr('txt');
-    //     $.get(path, $('#frm-basket').serialize(), function(data){
+    กดปุ่มชำระเงิน
+    function pay()
+    {
+        // ดึงข้อมูลสินค้าที่ขายเทียบจำนวนกับที่มี  PPosController@check_product()
+        let path = $('#btn-save').attr('txt');
+        $.get(path, $('#frm-basket').serialize(), function(data){
             
-    //         var count = Object.keys(data).length;
+            var count = Object.keys(data).length;
             
-    //         if(count){
-    //             $.each( data, function( key, value){
-    //                 jQuery('#modalPay').modal('hide');
-    //                 Dashmix.helpers('notify', {type: 'warning', icon: 'fa fa-exclamation mr-1', message: key + ' มีจำนวนคงเหลือ ' + value});
-    //             });
-    //         }else{
-    //             // ไปทำต่อที่ TbSaleBillController@pay
-    //             $("#frm-basket").submit();
-    //         }
-    //     });
+            if(count){
+                $.each( data, function( key, value){
+                    jQuery('#modalPay').modal('hide');
+                    Dashmix.helpers('notify', {type: 'warning', icon: 'fa fa-exclamation mr-1', message: key + ' มีจำนวนคงเหลือ ' + value});
+                });
+            }else{
+                // ไปทำต่อที่ TbSaleBillController@pay
+                $("#frm-basket").submit();
+            }
+        });
 
-    // }
+    }
 
     function cal_credit_pay()
     {
@@ -259,21 +233,21 @@
     function torn()
     {
         let a = $("#pricetotal").val().replace(",", "");  // รวมเงิน
-        let b = $("#discount").val();  // ส่วนลด
+        //let b = $("#discount").val();  // ส่วนลด
         let c = $("#getmoney").val().replace(",", "");  // รับเงิน
         //let e = $("#t_other_pay").val();  // รวมเงินที่ชำระด้วยวิธีอื่น
-        let d = $("#pricetotal_all").val().replace(",", ""); // รวมเงินที่ต้องชำระ หลังหักส่วนลด
+        //let d = $("#pricetotal_all").val().replace(",", ""); // รวมเงินที่ต้องชำระ หลังหักส่วนลด
         let f = $("#pay-total-footer").val().replace(",", ""); // รวม (เงินสด + อื่นๆ)
 
-        let total = parseFloat(a) - parseFloat(b) ;
-        let change = parseFloat(f) - parseFloat(d);
+        //let total = parseFloat(a);// - parseFloat(b) ;
+        let change = parseFloat(f) - parseFloat(a);
 
         // รวมเงินที่ต้องชำระ
         //$("#total-payall").html(total);
-        $("#pricetotal_all").val(addCommas(total));
+        //$("#pricetotal_all").val(addCommas(total));
 
         $("#total").val(addCommas(change));
-        $("#pay_discount").val(addCommas(b));
+        //$("#pay_discount").val(addCommas(b));
         $("#pay_getmoney").val(addCommas(c));
 
         $('.pay-total-footer').val(addCommas(c));
@@ -289,7 +263,7 @@
 
         // ปุ่มบันทึก / พิมพ์
         // รวมเงินที่ต้องชำระ >= รวม
-        if(parseFloat(d) > parseFloat(f)){
+        if(parseFloat(a) > parseFloat(f)){
             $("#btn-save").prop('disabled', true);
         }else{
             $("#btn-save").prop('disabled', false);
@@ -335,15 +309,13 @@
     {
         get_clear();
         // รวมเงินที่ต้องชำระ
-        let num = $('#pricetotal_all').val().replace(",", "");
-        let money = $('#getmoney').val().replace(",", "");
-        let tt_money = parseFloat(num) + parseFloat(money);
-        $('#getmoney').val(addCommas(tt_money)); // ช่องรับเงิน
+        let money = $('#pricetotal').val().replace(",", "");
+        $('#getmoney').val(addCommas(money)); // ช่องรับเงิน
         
         // รวมจำนวนเงินในรายละเอียดชำระ
-        let pay_total = parseFloat($('.pay-total-footer').val().replace(",", "")) + parseFloat(num);
-        $('.pay-total-footer').val(addCommas(pay_total));
-        $('#pay_total').val(addCommas(pay_total));
+        //let pay_total = parseFloat($('.pay-total-footer').val().replace(",", ""));
+        $('.pay-total-footer').val(addCommas(money));
+        $('#pay_total').val(addCommas(money));
 
         // รวมจำนวนเงิน ใน ชำระเงินด้วยวิธีอื่น
         // $('#t_other_pay').val(pay_total);

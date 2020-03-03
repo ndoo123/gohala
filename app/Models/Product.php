@@ -12,7 +12,7 @@ class Product extends Model
       
         if($this->default_photo!="")
         {
-            return env('APP_URL').'/images/product/'.$this->shop_id.'/'.$this->default_photo.'.jpg';
+            return env('APP_URL').'/images/product/'.$this->id.'/'.$this->default_photo.'.jpg';
         }
 
         return env('APP_URL').'/assets/images/no_image_available.jpeg';

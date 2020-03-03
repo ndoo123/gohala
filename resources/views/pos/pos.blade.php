@@ -8,7 +8,7 @@
         <title>Gohala - ข้อมูลผู้ใช้</title>
         <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
         <meta content="Themesbrand" name="author" />
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
+        <link rel="shortcut icon" href="{{ url('favicon.ico') }}">
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <link href="<?php echo url('assets/manage/login/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/login/css/icons.css');?>" rel="stylesheet" type="text/css">
@@ -20,13 +20,40 @@
                 padding-left: 0px;
             }
             .wrapper {
-                padding-top: 150px;
+                padding-top: 120px;
             }
             .pos-rl {
                 padding: 4px;
             }
-            .pos-top1 {
-                margin-top: -30px;
+            .pos-b {
+                margin-bottom: -50px;
+            }
+            .card-b {
+                margin-bottom: 5px;
+            }
+            .pos-product {
+                margin-bottom: -30px;
+            }
+
+            div figure{
+                width: 150px;
+                max-width: 150px;
+                height: 150px;
+                max-height: 150px;
+                overflow: hidden;
+                margin: 3px;
+                position: relative;
+                margin:0 auto;
+                background-size: cover;
+                background-position: 50% 50%;
+            }
+
+            .page-title-box {
+                padding: 0px 20px 0px 20px;
+            }
+            
+            .container-fluid {
+                width: 95%;
             }
 
 
@@ -115,9 +142,9 @@
                                     <div class="col-sm-8">
                                                                    
                                         <form name="frm_barcode" id="frm_barcode">
-                                            <input type="hidden" id="t_sn" value="" class="clear_end">
-                                            <input type="hidden" id="t_ck" value="" class="clear_end">
-                                            <input type="hidden" id="t_pid" value="" class="clear_end">
+                                            <input type="hidden" id="t_id" value="" class="clear_end">
+                                            <input type="hidden" id="t_sku" value="" class="clear_end">
+                                            <input type="hidden" id="shopid" value="{{$shop->id}}">
                                         <div class="input-group mb-2">
                                             <input type="text" class="typeahead form-control clear_end" id="t_search" name="t_search" placeholder="ค้นหา" autofocus>
                                             <div class="input-group-append">
@@ -157,7 +184,7 @@
                     </div>
 
                     <div class="col-lg-8">
-                        <div class="row">
+                        <div class="row pos-product">
                             <div class="col-12 pos-rl">
                                 <div class="card">
                                     <div class="card-body">
@@ -172,19 +199,22 @@
                             </div>
                         </div>     
 
-                        <div class="row pos-top1">
+                        <div class="row pos-product">
 
                             @foreach($products as $product)
 
                                 <div class="col-xl-2 col-md-4 pos-rl">
                                     <a id="pid{{ $product->id }}" get_product="{{ URL::to('pos/read-barcode/'.$product->sku.'/'.$shop->id) }}" onclick="click_product({{ $product->id }})" title="{{ $product->name }}">
-                                        <div class="card product-box">
+                                        <div class="card product-box card-b">
                                             <div class="card-body p-1">
                                                 <div class="product-img">
-                                                    <img src="{{ $product->get_photo() }}" class="img-fluid rounded-top mx-auto d-block" alt="work-thumbnail">
+                                                    <figure style="background-image:url({{ $product->get_photo() }})"> 
+                              
+                                                    </figure>
+                                                    
                                                 </div>
                                                 
-                                                <div class="detail mt-3">
+                                                <div class="detail">
                                                     <h4 class="font-14">{{ mb_substr($product->name,0,35,'UTF-8') }} </h4>
                                                     <h5 class="my-0 font-14 float-right">
                                                         <b>{{ number_format($product->price,2,'.',',') }}</b></h5>
@@ -233,23 +263,9 @@
                                     <div class="col-6">
 
                                         <div class="form-group row">
-                                            <label class="col-sm-6 col-form-label" >รวมเงิน</label>
+                                            <label class="col-sm-6 col-form-label" >ยอดเงินที่ต้องชำระ</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control sum_cash text-right text-primary" value="" readonly id="pricetotal" name="pricetotal" >
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label class="col-sm-6 col-form-label" >ส่วนลด</label>
-                                            <div class="col-sm-6">
-                                                <input type="text" class="form-control discount text-right" value="0" onfocusout="input0()" onkeyup="torn()" id="discount" name="discount" maxlength="11">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label class="col-sm-6 col-form-label" >รวมเงินที่ต้องชำระ</label>
-                                            <div class="col-sm-6">
-                                                <input type="text" class="form-control sum_cash_all text-right text-danger" value="" readonly id="pricetotal_all" name="pricetotal_all" >
                                             </div>
                                         </div>
 
@@ -294,12 +310,12 @@
 
                                         <div class="row">
                                             <div class="col-12">
-                                                <button type="button" class="m-1 btn btn-square btn-hero-success" onclick="get_cash(20)">20</button>
-                                                <button type="button" class="m-1 btn btn-square btn-hero-info" onclick="get_cash(50)">50</button>
-                                                <button type="button" class="m-1 btn btn-square btn-hero-danger" onclick="get_cash(100)">100</button>
-                                                <button type="button" class="m-1 btn btn-square btn-hero-primary" onclick="get_cash(500)">500</button>
-                                                <button type="button" class="m-1 btn btn-square btn-hero-secondary" onclick="get_cash(1000)">1000</button>
-                                                <button type="button" class="m-1 btn btn-square btn-hero-success" onclick="get_balance()">พอดี</button>
+                                                <button type="button" class="m-1 btn btn-outline-primary waves-effect waves-light" onclick="get_cash(20)">20</button>
+                                                <button type="button" class="m-1 btn btn-outline-primary waves-effect waves-light" onclick="get_cash(50)">50</button>
+                                                <button type="button" class="m-1 btn btn-outline-primary waves-effect waves-light" onclick="get_cash(100)">100</button>
+                                                <button type="button" class="m-1 btn btn-outline-primary waves-effect waves-light" onclick="get_cash(500)">500</button>
+                                                <button type="button" class="m-1 btn btn-outline-primary waves-effect waves-light" onclick="get_cash(1000)">1000</button>
+                                                <button type="button" class="m-1 btn btn-outline-primary waves-effect waves-light" onclick="get_balance()">พอดี</button>
                                                 <button type="button" class="m-1 btn btn-square btn-outline-danger" onclick="get_clear()">ล้าง</button>
                                                 
                                             </div>
@@ -310,6 +326,22 @@
                                             <input type="decimal" class="form-control getmoney text-right" onkeyup="torn()"  id="getmoney" name="getmoney" maxlength="11" value="0">
                                         </div>
 
+                                        <div class="form-group m-2">
+                                            <label for="">ชำระโดยวิธีอื่น</label>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12">
+
+                                                <button type="button" class="btn btn-outline-info open_modal" id="b-credit" data-href="{{ url('payment/add/credit') }}"><small>บัตรเครดิต</small></button>
+
+                                                <button type="button" class="btn btn-outline-info open_modal" id="b-check" data-href="{{ url('payment/add/check') }}"><small>เช็ค</small></button>
+
+                                                <button type="button" class="btn btn-outline-info open_modal" id="b-transfer" data-href="{{ url('payment/add/transfer') }}"><small>เงินโอน</small></button>
+                                                
+                                            </div>
+                                        </div>
+
 
                                     </div>
                                 </div>
@@ -317,9 +349,11 @@
                             </div>
                         </div>
                         
+                        <hr>
+                        
                         <div class="row">
                             <div class="col-12">
-                                <button type="button" class="btn btn-primary btn-block pull-right" id="btn-save" disabled="" onclick="pay()" txt="{{ URL('salebill_product') }}">
+                                <button type="button" class="btn btn-primary btn-block pull-right" id="btn-save" disabled="" onclick="pay()" txt="{{ URL('save_print') }}">
                                     <i class="fa fa-print"></i>
                                     บันทึก / พิมพ์
                                 </button>

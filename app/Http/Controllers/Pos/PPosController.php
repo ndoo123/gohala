@@ -30,12 +30,14 @@ class PPosController extends Controller
    public function autocomp(Request $req)
    {
        $res = array();
+
+       $datas = Product::get();
        
-       $datas = Product::where('qty','>','0')
-               ->where('status','1')
-               ->where("name","LIKE","%".$req->term."%")
-               ->where("shop_id",$req->id)
-               ->get();
+    //    $datas = Product::where('qty','>','0')
+    //            ->where('status','1')
+    //            ->where("name","LIKE","%".$req->term."%")
+    //            ->where("shop_id",$req->id)
+    //            ->get();
        
        foreach($datas as $data){
            $res[] = ['id'=>$data->id, 'value'=>$data->name, 'sku'=>$data->sku ];
@@ -91,6 +93,35 @@ class PPosController extends Controller
 
         
         return $txt;
+    }
+
+    // เมื่อคลิกปุ่ม บันทึก/พิมพ์ หน้า POS
+    // เช็คจำนวนสินค้าในสต๊อก กับจำนวนซื้อ
+    // public function check_product(Request $req)
+    // {
+    //     $over = [];
+    //     foreach($req->h_psn as $key => $value){
+    //         $prod = $this->type_stock($key);
+    //         if($prod[0]->p_stock == '1'){
+    //             // เป็นสินค้าที่ต้องตัดสต๊อก
+    //             if($prod[0]->psnum < $value){
+    //                 $over[$prod[0]->p_name] = $prod[0]->psnum;
+    //             }
+    //         }
+    //     }
+
+    //     return $over;
+    // }
+
+    public function check_barcode($shopid,$id)
+    {
+        $pro = Product::select('qty')
+                ->where('shop_id','=',$shopid)
+                ->where('sku',$id)
+                ->where('status','1')
+                ->first();
+        
+        return $pro->qty;
     }
 
 
