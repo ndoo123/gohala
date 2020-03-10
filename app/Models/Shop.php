@@ -18,5 +18,8 @@ class Shop extends Model
         if($this->user_id==$user->id)// เป็นเจ้าของ
         return true;
     }
+    public function user(){
+        return $this->hasOne('App\Models\User','id','user_id');
+    }
 
 }

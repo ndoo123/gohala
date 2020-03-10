@@ -10,12 +10,7 @@ class Product extends Model
 
     public function get_photo(){
       
-        if($this->default_photo!="")
-        {
-            return env('APP_URL').'/images/product/'.$this->shop_id.'/'.$this->default_photo.'.jpg';
-        }
-
-        return env('APP_URL').'/assets/images/no_image_available.jpeg';
+       return env('APP_URL').'/images/product/'.$this->shop_id.'/'.$this->id.'.'.$this->default_photo.'.jpg';
     }
 
     public function category(){
@@ -36,7 +31,7 @@ class Product extends Model
 
         return url('');
     }
-    public function get_discount_price(){
+    public function get_discount_price($is_money=false){
         $price=$this->price;
         if($this->is_discount==1)//ลดแบบ ราคา
         {
@@ -51,6 +46,9 @@ class Product extends Model
         if($price<0)
         $price=0;
 
+
+        if($is_money)
+        $price=number_format($price,2);
 
         return $price;
     }

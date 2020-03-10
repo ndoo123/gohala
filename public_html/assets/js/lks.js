@@ -315,7 +315,11 @@ function bind_data_date()
     });
 }
 
-
+function ToMoney(money)
+{
+    money=parseFloat(money);
+  return currency(money,{ separator: ',' }).format()
+}
 $(document).on('keyup','input.input_upper',function(){
     this.value=this.value.toLocaleUpperCase();
     this.value=this.value.replace(/\s/g, '');

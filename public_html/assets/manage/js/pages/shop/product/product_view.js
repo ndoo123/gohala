@@ -168,13 +168,13 @@ $(document).on('submit','#product_view_form',function(e){
                for(var i=0;i<r.data.upload_image_response.length;i++)
                {
                     var img=r.data.upload_image_response[i];
-                    console.log(img);
+               
                     
                     var img_dom=$('input[name="upload_image['+img.ref_id+']"]');
                   
                     
                     var img_preview=img_dom.closest('div.img_preview');
-                    img_preview.attr("img_id",img.id);
+                    img_preview.attr("img_id",img.name);
                     img_dom.remove();
                  
                }

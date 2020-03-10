@@ -56,7 +56,7 @@
                     <input type="file" id="file_input" style="display:none" multiple>
                      <div id="image_area">
                          <?php foreach($product->photos as $photo):?>
-                         <div class="img_preview" img_id="<?php echo $photo->id;?>">
+                         <div class="img_preview" img_id="<?php echo $photo->name;?>">
                              <img src="<?php echo $photo->get_image_url();?>">
                              <button type="button" class="btn btn-sm btn-danger remove_btn">
                                  <i class="far fa-trash-alt"></i>

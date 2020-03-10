@@ -50,6 +50,9 @@
                         <div class="tab-content">
                             <div class="tab-pane active p-3" id="login" role="tabpanel">
                                 <form id="login_form" class="form-horizontal m-t-10" method="post" action="<?php echo url('auth');?>">
+                                   <?php if(session('redirect')):?>
+                                <input type="hidden" name="redirect" value="<?php echo session('redirect');?>">
+                                <?php endif;?>
                                 <?php echo csrf_field();?>
                                     <div class="form-group">
                                         <label for="username"><?php echo __('view.email');?> </label>
@@ -73,6 +76,9 @@
                             </div>
                             <div class="tab-pane p-3 p-b-0" id="register" role="tabpanel">
                                 <form id="register_form" class="form-horizontal m-t-10" method="post" action="<?php echo url('register');?>">
+                                <?php if(session('redirect')):?>
+                                <input type="hidden" name="redirect" value="<?php echo session('redirect');?>">
+                                <?php endif;?>
                                 <?php echo csrf_field();?>
                                      <div class="form-group">
                                         <label for="username"><?php echo __('view.fullname');?> <span class="text-danger">*</span></label>

@@ -180,7 +180,7 @@
                               <div class="pr-img-area"> <a title="Ipsums Dolors Untra" href="single_product.html">
                                 <figure> <img class="first-img" src="http://via.placeholder.com/700x800" alt=""> <img class="hover-img" src="http://via.placeholder.com/700x800" alt=""></figure>
                                 </a>
-                                <button type="button" class="add-to-cart-mt"> <i class="fa fa-shopping-cart"></i><span> Add to Cart</span> </button>
+                                <button type="button" class="add-to-cart-mt"> <i class="fa fa-shopping-cart"></i><span> <?php echo __('home.add_to_cart');?></span> </button>
                               </div>
                               <div class="pr-info-area">
                                 <div class="pr-button">
