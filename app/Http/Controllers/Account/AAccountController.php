@@ -10,10 +10,10 @@ use App\Helper\LKS;
 class AAccountController extends Controller
 {
   
-   public function login(){
-     if(\Auth::check())
-     return redirect('profile');
-
+   public function login(Request $r){
+      if(\Auth::check())
+      return redirect('profile');
+ 
        return view('account.login');
    }
    public function profile()

@@ -57,6 +57,8 @@ class LoginController extends Controller
         \Auth::login($u);
 
    
+        if(isset($r->redirect))
+        return LKS::o(1,array('redirect'=>$r->redirect));
 
         return LKS::o(1,array('redirect'=>url('profile')));
     }
@@ -80,6 +82,9 @@ class LoginController extends Controller
         $u->save();
 
         \Auth::login($u);
+
+         if(isset($r->redirect))
+        return LKS::o(1,array('redirect'=>$r->redirect));
 
        return LKS::o(1,array('redirect'=>url('profile')));
 

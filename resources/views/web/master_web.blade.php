@@ -12,7 +12,7 @@
 
 <!-- Mobile specific metas  -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 <!-- Favicon  -->
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 
@@ -49,6 +49,7 @@
 
 <!-- style CSS -->
 <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/css/style.css');?>" media="all">
+@yield('css')
 <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/css/custom.css');?>" media="all">
 </head>
 
@@ -140,11 +141,11 @@
               <div class="mini-cart">
                 <div data-toggle="dropdown" data-hover="dropdown" class="basket dropdown-toggle"> <a href="#">
                   <div class="cart-icon"><i class="fa fa-shopping-cart"></i></div>
-                  <div class="shoppingcart-inner hidden-xs"><span class="cart-title">Shopping Cart</span> <span class="cart-total">4 Item(s): $520.00</span></div>
+                  <div class="shoppingcart-inner hidden-xs"><span class="cart-title">ตระกร้าสินค้า</span> <span class="cart-total">0 รายการ: 0.00</span></div>
                   </a></div>
                 <div>
                   <div class="top-cart-content">
-                    <div class="block-subtitle hidden-xs">Recently added item(s)</div>
+                    <div class="block-subtitle hidden-xs">รายการในตะกร้า</div>
                     <ul id="cart-sidebar" class="mini-products-list">
                       <li class="item odd"> <a href="shopping_cart.html" title="Ipsums Dolors Untra" class="product-image"><img src="http://via.placeholder.com/700x800" alt="Lorem ipsum dolor" width="65"></a>
                         <div class="product-details"> <a href="#" title="Remove This Item" class="remove-cart"><i class="icon-close"></i></a>
@@ -162,10 +163,10 @@
                           <strong>2</strong> x <span class="price">$420.00</span> </div>
                       </li>
                     </ul>
-                    <div class="top-subtotal">Subtotal: <span class="price">$520.00</span></div>
+                    <div class="top-subtotal">รวม: <span class="price">0.00</span></div>
                     <div class="actions">
-                      <button class="btn-checkout" type="button"><i class="fa fa-check"></i><span>Checkout</span></button>
-                      <button class="view-cart" type="button"><i class="fa fa-shopping-cart"></i> <span>View Cart</span></button>
+                      <a href="<?php echo url('/checkout');?>" class="btn-checkout" type="button"><i class="fa fa-check"></i><span>ชำระเงิน</span></a>
+                      <button class="view-cart" type="button"><i class="fa fa-shopping-cart"></i> <span>ดูตระกร้า</span></button>
                     </div>
                   </div>
                 </div>
@@ -191,7 +192,7 @@
               <div class="mega-menu-title">
                 <h3><?php echo __('home.product_category');?></h3>
               </div>
-              <div class="mega-menu-category" <?php echo (isset($category)?' style="display:none" ':'');?>>
+              <div class="mega-menu-category" <?php echo (isset($show_menu)?'':'style="display:none"');?>>
                 <ul class="nav">
                     <?php foreach($categories as $cat):?>
                     <li class="nosub"><a href="<?php echo url('category/'.$cat->slug);?>"><i class="icon fa fa-location-arrow fa-fw"></i> <?php echo $cat->name;?></a></li>
@@ -278,7 +279,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-6 col-md-4 col-xs-12 col-lg-3">
-          <div class="footer-logo"><a href="index.html"><img src="images/footer-logo.png" alt="fotter logo"></a> </div>
+          <div class="footer-logo"><a href="index.html"><img src="<?php echo url('assets/images/logo-dark.png');?>" alt="fotter logo"></a> </div>
           <p>Lorem Ipsum is simply dummy text of the print and typesetting industry.</p>
           <div class="footer-content">
             <div class="email"> <i class="fa fa-envelope"></i>
@@ -419,11 +420,18 @@
 
 <!--jquery-ui.min js --> 
 <script src="<?php echo url('assets/web/js/jquery-ui.js');?>"></script> 
-
+<script src="<?php echo url('assets/js/plugins/currency.min.js');?>"></script>
 <!-- main js --> 
+<script src="<?php echo url('assets/js/plugins/blockUI.js');?>"></script>
+<script src="<?php echo url('assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js');?>"></script>
+<script src="<?php echo url('assets/js/lks.js');?>"></script> 
 <script src="<?php echo url('assets/web/js/main.js');?>"></script> 
-
-
+<script src="<?php echo url('assets/web/js/ecom.js');?>"></script> 
+<script>
+  var app=new LKS();
+  app.url='<?php echo url('');?>';
+load_basket();
+</script>
 
 
 </body>

@@ -1091,7 +1091,7 @@ header .logo a img {
 	padding: 10px
 }
 .top-subtotal {
-	color: #ffffff;
+	color: #333e48;
 	font-size: 13px;
 	font-weight: 900;
 	padding: 8px 15px;
@@ -1121,7 +1121,7 @@ header .logo a img {
 }
 .top-cart-content .block-subtitle {
 	border-bottom: 1px solid #fbfbfb;
-	color: #ffffff;
+	color: #333e48;
 	overflow: hidden;
 	padding: 15px;
 	text-align: left;
@@ -1158,7 +1158,7 @@ ul#cart-sidebar {
 	padding-bottom: 10px
 }
 .top-cart-content .product-details {
-	color: #ffffff;
+	color: #232323;
 	position: relative;
 	text-align: left
 }
@@ -1219,11 +1219,11 @@ ul#cart-sidebar {
 	text-transform: uppercase
 }
 .mini-cart .actions .btn-checkout:hover {
-	background: #ffffff;
+	background: #4090cb;
 	color: #fff;
 }
 .mini-cart .actions .view-cart {
-	background: #fff;
+	background: #4090cb;
 	color: #ffffff;
 	font-size: 12px;
 	padding: 8px 16px;
@@ -4965,7 +4965,7 @@ button span {
 	float: left
 }
 h2.saider-bar-title {
-	color: #ffffff;
+	color: #333e48;
 	display: block;
 	font-size: 13px;
 	font-weight: 700;

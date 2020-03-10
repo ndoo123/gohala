@@ -60,7 +60,7 @@
                             </figure>
                            
                           </a>
-                          <button type="button" class="add-to-cart-mt"> <i class="fa fa-shopping-cart"></i><span> <?php echo __('home.add_to_cart');?></span> </button>
+                          <button type="button" product_id="<?php echo $product->id;?>" class="add-to-cart-mt"> <i class="fa fa-shopping-cart"></i><span> <?php echo __('home.add_to_cart');?></span> </button>
                         </div>
                         <div class="pr-info-area">
                           <div class="pr-button">

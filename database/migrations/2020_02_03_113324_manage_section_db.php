@@ -156,6 +156,7 @@ class ManageSectionDb extends Migration
                 $table->string('zipcode',20)->nullable();
                 $table->integer('run_sku_id')->default(1);
                 $table->integer('run_order_id')->default(1);
+                $table->integer('run_receipt_id')->default(1);
                 $table->tinyInteger('is_open')->default("1");
                 $table->timestamps();
                 
@@ -202,7 +203,7 @@ class ManageSectionDb extends Migration
                 $table->tinyInteger('is_pos')->default("1");
                 $table->tinyInteger('is_ecom')->default("1");
                 $table->decimal('rate')->default("0.00");
-                $table->integer('run_photo_id')->default("1");
+                // $table->integer('run_photo_id')->default("1");
                 $table->string('slug')->nullable();
                 $table->string('default_photo')->nullable();
                 $table->timestamps();
@@ -218,22 +219,57 @@ class ManageSectionDb extends Migration
                 $table->string('slug');
                 $table->primary(['product_id','slug']);
             });
+            
         }
         if(!Schema::hasTable('product_photo_tb'))
         {
             Schema::create('product_photo_tb', function (Blueprint $table) {
                 $table->integer('product_id');
-                $table->integer('id');
+                $table->string('name');
                 $table->integer('shop_id')->unsigned();
                 // $table->string('real_name');
-                $table->string('name');
+                // $table->string('name');
                 $table->tinyInteger('photo_type')->default("1")->comment="1=common,2=bank slip";
                 $table->tinyInteger('is_default')->default("0");
                 $table->timestamps();
-                $table->primary(['product_id','id']);
+                $table->primary(['product_id','name']);
             });
         }
-
+        if(!Schema::hasTable('receipt_tb'))
+        {
+            Schema::create('receipt_tb', function (Blueprint $table) {
+               // receipt items ใช้ อันเดียวกับ order_item_tb เลย
+                $table->string('id',20)->primary()->comment="R+shop_id+#+y+m+run_receipt_id";
+                $table->integer('shop_id')->unsigned();
+                $table->string('order_id');
+                $table->string('bill_title');
+                $table->string('bill_address');
+                $table->string('bill_tax');
+                $table->tinyInteger('receipt_type')->default("1")->comment="1=receipt,2=tax invoice";
+                $table->tinyInteger("channel_id")->default("1")->comment="1=online,2=pos";
+                $table->tinyInteger('status')->default("1")->comment="0=ยกเลิก,1= ชำระแล้ว";
+                $table->string('shipping_code',20)->nullable();
+                $table->datetime('order_date');
+                $table->datetime('paid_date');
+                $table->decimal('total',10,2);
+                $table->integer('seller_user_id')->nullable()->comment="id ผุ้ขาย";
+                $table->integer('buyer_user_id')->nullable()->comment="ชื่อผู้ซื้อ สามารถว่างได้ กรณีไม่ใช่เมมเบอร์";
+                $table->timestamps();
+            });
+        }
+        if(!Schema::hasTable('order_payment_tb'))
+        {
+            Schema::create('order_payment_tb', function (Blueprint $table) {
+                $table->string('order_id',20);
+                $table->integer('id')->comment="ใช้ run_item_id ของ orde_tb";
+                $table->tinyInteger("payment_method_id")->default("1")->comment="ดู table payment_method_tb";
+                $table->decimal('amount',10,2);
+                $table->string('credit_name')->nullable();
+                $table->string('credit_no')->nullable();
+                $table->string('credit_exp')->nullable();
+                $table->primary(['order_id','id']);
+            });
+        }
         if(!Schema::hasTable('order_tb'))
         {
             Schema::create('order_tb', function (Blueprint $table) {
@@ -243,6 +279,7 @@ class ManageSectionDb extends Migration
                 $table->tinyInteger("channel_id")->default("1")->comment="1=online,2=pos";
                 $table->tinyInteger('status')->default("1")->comment="0=ยกเลิก,1= สั่งซื้อ,2=ยืนยัน,3=จัดส่ง,4=ส่งสำเร็จ";
                 $table->string('shipping_code',20)->nullable();
+                $table->integer('shipping_id')->comment="0=หน้าร้าน/pos, >=1 ดูที่ shipping_method";
                 $table->datetime('order_date');
                 $table->decimal('total',10,2);
                 $table->integer('seller_user_id')->nullable()->comment="id ผุ้ขาย";
@@ -255,7 +292,7 @@ class ManageSectionDb extends Migration
         {
             Schema::create('order_item_tb', function (Blueprint $table) {
                
-                $table->string('order_id',20)->primary()->comment="order_id";
+                $table->string('order_id',20)->comment="order_id";
                 $table->integer('id')->comment="run_item_id";
                 $table->integer("product_id");
                 $table->string('product_name');
@@ -264,6 +301,7 @@ class ManageSectionDb extends Migration
                 $table->decimal('price',10,2);
                 $table->decimal('total',10,2);
                 $table->tinyInteger('status')->default("1")->comment="1 need confirm,2=confirm item";
+                $table->primary(['order_id','id']);
 
             });
         }
@@ -304,7 +342,13 @@ class ManageSectionDb extends Migration
         Schema::dropIfExists('province_tb');
         Schema::dropIfExists('order_tb');
         Schema::dropIfExists('order_item_tb');
-        Schema::dropIfExists('order_delivery_tb');      
-         
+        Schema::dropIfExists('order_delivery_tb');  
+        Schema::dropIfExists('receipt_tb');    
+        Schema::dropIfExists('order_payment_tb'); 
+        Schema::dropIfExists('shop_category_tb'); 
+        
+        
+          
+
     }
 }

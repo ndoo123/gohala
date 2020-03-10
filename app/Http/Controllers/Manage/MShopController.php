@@ -89,7 +89,7 @@ class MShopController extends Controller
             $p=new Product();
             $p->sku=$r->sku;
             $p->rate=0;
-            $p->run_photo_id=1;
+            // $p->run_photo_id=1;
             $p->shop_id=$r->shop->id;
             $p->cost=0;
            
@@ -157,7 +157,7 @@ class MShopController extends Controller
             {
                 foreach($r->delete_image as $delete_image)
                 {
-                    $photo=ProductPhoto::where("product_id",$p->id)->where("id",$delete_image)->where("shop_id",$p->shop_id)->first();
+                    $photo=ProductPhoto::where("product_id",$p->id)->where("name",$delete_image)->where("shop_id",$p->shop_id)->first();
                     if(!$photo)
                     continue;
 
@@ -184,12 +184,12 @@ class MShopController extends Controller
                     if($img==null)
                     continue;
 
-                    $img_name=md5(rand(10,99).time().$img_id.$p->id.($p->run_photo_id++).$r->shop->id.\Auth::user()->id);
+                    $img_name=md5(rand(10,99).time().$img_id.$p->id.$r->shop->id.\Auth::user()->id);
                     \File::put($path.'/'.$img_name, $img);
 
                     $photo=new ProductPhoto();
                     $photo->product_id=$p->id;
-                    $photo->id=$p->run_photo_id++;
+                    // $photo->id=$p->run_photo_id++;
                     $photo->shop_id=$r->shop->id;
                     $photo->name=$img_name;
                     $photo->photo_type=1;
@@ -199,12 +199,12 @@ class MShopController extends Controller
                         ProductPhoto::where("product_id",$p->id)->where("shop_id",$r->shop->id)->update(['is_default'=>0]);
                         $photo->is_default=1;
                         $has_check_default_image=true;
-                        $p->default_photo=$photo->id;
+                        $p->default_photo=$photo->name;
                     }
                     
                     $photo->save();
                    
-                    $upload_image_response[]=array("id"=>$photo->id,"ref_id"=>$img_id);
+                    $upload_image_response[]=array("name"=>$photo->name,"ref_id"=>$img_id);
 
                     
                 }
@@ -214,7 +214,7 @@ class MShopController extends Controller
             {
                 //ถ้าไม่พบการตั้งค่า default image ที่รูปที่อัพใหม่ แสดงว่าอาจจะใช้รูปเดิม
                 ProductPhoto::where("product_id",$p->id)->where("shop_id",$r->shop->id)->update(['is_default'=>0]);//ปรับให้ทั้งหมดเป็น ไม่มีค่า defaultก่อน
-                $photo= ProductPhoto::where("product_id",$p->id)->where("shop_id",$r->shop->id)->where("id",$r->set_default)->first();
+                $photo= ProductPhoto::where("product_id",$p->id)->where("shop_id",$r->shop->id)->where("name",$r->set_default)->first();
                 if($photo)
                 {
                     $p->default_photo=$photo->id;

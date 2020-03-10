@@ -11,5 +11,11 @@ class UserAddress extends Model
     public function province(){
         return $this->hasOne('\App\Models\Province','id','province_id');
     }
+    public function get_address()
+    {
+        $address=$this->address.' '.$this->province->name.' '.$this->zipcode;
+       
+        return $address;
+    }
 
 }
