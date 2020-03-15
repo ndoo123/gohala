@@ -36,7 +36,7 @@
         if(search_id){
             let num = parseInt(search_id) + 1;
             $('#num'+id).html(num);
-            $('#psn'+id).val(num);
+            $('#h_num'+id).val(num);
             //alert('เพิ่มสินค้าแล้ว');
             //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
                 
@@ -176,6 +176,16 @@
         // รวมเงินที่ต้องชำระ
         $("#pricetotal_all").val(addCommas(total_pay));
 
+        // hidden ในฟอร์ม frm_save
+        $("#h_total").val(total_pay.replace(",", ""));
+
+    }
+
+    กดปุ่มชำระเงิน
+    function pay()
+    {
+        $("#frm_save").submit();
+        console.log('test');
     }
 
 
@@ -194,28 +204,6 @@
         let dt = new Date($.now());
         let time = dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString();
         return time;
-    }
-
-    กดปุ่มชำระเงิน
-    function pay()
-    {
-        // ดึงข้อมูลสินค้าที่ขายเทียบจำนวนกับที่มี  PPosController@check_product()
-        let path = $('#btn-save').attr('txt');
-        $.get(path, $('#frm-basket').serialize(), function(data){
-            
-            var count = Object.keys(data).length;
-            
-            if(count){
-                $.each( data, function( key, value){
-                    jQuery('#modalPay').modal('hide');
-                    Dashmix.helpers('notify', {type: 'warning', icon: 'fa fa-exclamation mr-1', message: key + ' มีจำนวนคงเหลือ ' + value});
-                });
-            }else{
-                // ไปทำต่อที่ TbSaleBillController@pay
-                $("#frm-basket").submit();
-            }
-        });
-
     }
 
     function cal_credit_pay()
@@ -357,31 +345,31 @@
         });
     }
 
-    function click_product_sn(id)
-    {
-        let pid = $('#pid'+id).attr("get_product");
-        let list = $('#list_body').html();
-        let search_id = $(list).find('#num'+id).html();
+    // function click_product_sn(id)
+    // {
+    //     let pid = $('#pid'+id).attr("get_product");
+    //     let list = $('#list_body').html();
+    //     let search_id = $(list).find('#num'+id).html();
 
-        let list_prod = $('#list_product').html();
+    //     let list_prod = $('#list_product').html();
 
-        if(search_id){
-            Dashmix.helpers('notify', {type: 'warning', icon: 'fa fa-exclamation mr-1', message: 'เป็นสินค้าที่ไม่สามารถเพิ่มรายการซ้ำได้'});
-            clear_all();
-        }else{
+    //     if(search_id){
+    //         Dashmix.helpers('notify', {type: 'warning', icon: 'fa fa-exclamation mr-1', message: 'เป็นสินค้าที่ไม่สามารถเพิ่มรายการซ้ำได้'});
+    //         clear_all();
+    //     }else{
         
-            $.get(pid, function(txt){
-                list += txt;
-                $('#list_body').html(list);
+    //         $.get(pid, function(txt){
+    //             list += txt;
+    //             $('#list_body').html(list);
 
-                Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
+    //             Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
                 
-                sum_total(id);
-                clear_all();
-            })            
-        }
+    //             sum_total(id);
+    //             clear_all();
+    //         })            
+    //     }
 
-    }
+    // }
 
 
     // ปุ่มลบ ของการชำระเงินด้วยเงินสด

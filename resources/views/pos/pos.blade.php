@@ -157,6 +157,10 @@
                                 </div>   
                                 
                                 <div class="table-responsive">
+
+                                        <form name="frm_save" id="frm_save" method="POST" action="{{ url($shop->url.'/pos/save') }}">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="h_total" id="h_total" value="">
                                     <table class="table table-striped mb-0">
 
                                         <thead>
@@ -167,8 +171,12 @@
                                                 <th class="text-center" style="width: 10%;">ลบ</th>
                                             </tr>
                                         </thead>
+
                                         <tbody id="list_body"></tbody>
+
+                                        
                                     </table>
+                                        </form>
                                 </div>
 
                                 <hr>
