@@ -157,6 +157,9 @@ class ManageSectionDb extends Migration
                 $table->integer('run_sku_id')->default(1);
                 $table->integer('run_order_id')->default(1);
                 $table->integer('run_receipt_id')->default(1);
+                $table->integer('run_taxinvoice_id')->default(1)->comment="id ใบกำกับภาษี";
+                $table->integer('receipt_number')->default(1)->comment="จำนวนก๊อบปี้";
+                $table->integer('receipt_type')->default(1)->comment="1=3in no vat,2=3in+vat";
                 $table->tinyInteger('is_open')->default("1");
                 $table->timestamps();
                 
@@ -239,7 +242,7 @@ class ManageSectionDb extends Migration
         {
             Schema::create('receipt_tb', function (Blueprint $table) {
                // receipt items ใช้ อันเดียวกับ order_item_tb เลย
-                $table->string('id',20)->primary()->comment="R+shop_id+#+y+m+run_receipt_id";
+                $table->string('id',20)->comment="R+y+m+run_receipt_id";
                 $table->integer('shop_id')->unsigned();
                 $table->string('order_id');
                 $table->string('bill_title');
@@ -255,6 +258,7 @@ class ManageSectionDb extends Migration
                 $table->integer('seller_user_id')->nullable()->comment="id ผุ้ขาย";
                 $table->integer('buyer_user_id')->nullable()->comment="ชื่อผู้ซื้อ สามารถว่างได้ กรณีไม่ใช่เมมเบอร์";
                 $table->timestamps();
+                $table->primary(['id','shop_id']);
             });
         }
         if(!Schema::hasTable('order_payment_tb'))
@@ -274,7 +278,7 @@ class ManageSectionDb extends Migration
         {
             Schema::create('order_tb', function (Blueprint $table) {
                
-                $table->string('id',20)->primary()->comment="O+y+m+(shop_id 3 digits)+shop run order_id";
+                $table->string('id',20)->comment="O+y+m+shop run order_id";
                 $table->integer('shop_id')->unsigned();
                 $table->tinyInteger("channel_id")->default("1")->comment="1=online,2=pos";
                 $table->tinyInteger('status')->default("1")->comment="0=ยกเลิก,1= สั่งซื้อ,2=ยืนยัน,3=จัดส่ง,4=ส่งสำเร็จ";
@@ -286,6 +290,7 @@ class ManageSectionDb extends Migration
                 $table->integer('buyer_user_id')->nullable()->comment="ชื่อผู้ซื้อ สามารถว่างได้ กรณีไม่ใช่เมมเบอร์";
                 $table->integer('run_item_id')->default(1);
                 $table->timestamps();
+                $table->primary(['id','shop_id']);
             });
         }
         if(!Schema::hasTable('order_item_tb'))
