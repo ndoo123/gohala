@@ -196,7 +196,7 @@ class ManageSectionDb extends Migration
                 $table->string('info_short')->nullable();
                 $table->string('info_full')->nullable();
                 $table->integer('category_id');
-               
+                
                 $table->integer('qty')->default(1);
                 $table->decimal('cost',10,2);
                 $table->decimal('price',10,2);
@@ -210,13 +210,13 @@ class ManageSectionDb extends Migration
                 $table->string('slug')->nullable();
                 $table->string('default_photo')->nullable();
                 $table->timestamps();
-           
+                
             });
         }
         if(!Schema::hasTable('product_slug_tb'))
         {
             Schema::create('product_slug_tb', function (Blueprint $table) {
-               
+                
                 $table->integer('shop_id')->unsigned();
                 $table->integer('product_id')->unsigned();
                 $table->string('slug');
@@ -277,7 +277,7 @@ class ManageSectionDb extends Migration
         if(!Schema::hasTable('order_tb'))
         {
             Schema::create('order_tb', function (Blueprint $table) {
-               
+                
                 $table->string('id',20)->comment="O+y+m+shop run order_id";
                 $table->integer('shop_id')->unsigned();
                 $table->tinyInteger("channel_id")->default("1")->comment="1=online,2=pos";
@@ -296,7 +296,7 @@ class ManageSectionDb extends Migration
         if(!Schema::hasTable('order_item_tb'))
         {
             Schema::create('order_item_tb', function (Blueprint $table) {
-               
+                
                 $table->string('order_id',20)->comment="order_id";
                 $table->integer('id')->comment="run_item_id";
                 $table->integer("product_id");
@@ -313,7 +313,7 @@ class ManageSectionDb extends Migration
         if(!Schema::hasTable('order_delivery_tb'))
         {
             Schema::create('order_delivery_tb', function (Blueprint $table) {
-               
+                
                 $table->string('order_id',20)->primary()->comment="order_id";
                 $table->datetime('confirm_date')->nullable();
                 $table->datetime('delivery_date')->nullable();
@@ -353,7 +353,6 @@ class ManageSectionDb extends Migration
         Schema::dropIfExists('shop_category_tb'); 
         
         
-          
 
     }
 }

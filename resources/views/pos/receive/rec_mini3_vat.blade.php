@@ -79,10 +79,10 @@
     <td align="left">Total Item</td><td align="right">{{ $num }}</td>
   </tr>
   <tr>
-    <td align="left">Pay Cash</td><td align="right">{{ number_format("2000",2,'.',',') }}</td>
+    <td align="left">Pay Cash</td><td align="right">{{ number_format($payment->amount,2,'.',',') }}</td>
   </tr>
   <tr>
-    <td align="left">Change</td><td align="right">{{ number_format(0,2,'.',',') }}</td>
+    <td align="left">Change</td><td align="right">{{ number_format($payment->amount - $sum,2,'.',',') }}</td>
   </tr>
   <tr>
   	<td colspan="2" align="center">
@@ -94,7 +94,7 @@
   </tr>
 </table>
 
-<meta http-equiv="refresh" content="0;url={{ url('sale') }}">
+<meta http-equiv="refresh" content="0;url={{ url('shop/'.$shop->id) }}">
 
 
 </body>

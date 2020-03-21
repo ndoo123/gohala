@@ -161,6 +161,7 @@
                                         <form name="frm_save" id="frm_save" method="POST" action="{{ url($shop->url.'/pos/save') }}">
                                             {{ csrf_field() }}
                                             <input type="hidden" name="h_total" id="h_total" value="">
+                                            <input type="hidden" name="h_amount" id="h_amount" value="">
                                     <table class="table table-striped mb-0">
 
                                         <thead>

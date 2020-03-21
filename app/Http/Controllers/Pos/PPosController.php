@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Pos;
 
 use App\Http\Controllers\Controller;
-use App\Models\No;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\OrderPayment;
 use App\Models\Shop;
 use App\Models\Product;
 use App\Models\ProductSlug;
@@ -108,29 +108,14 @@ class PPosController extends Controller
     public function pos_save(Request $req)
     {
         
-        try
-        {
+        // try
+        // {
             $shop = Shop::where("user_id",Auth::user()->id)->first();
-            $no = No::where("shop_id", $shop->id)->first();
-
-            if(!isset($no)){
-                $ins_no = new No();
-                $ins_no->shop_id = $shop->id;
-                $ins_no->order_no = '0';
-                $ins_no->receipt_no = '0';
-                $ins_no->save();
-
-                $no = No::where("shop_id", $shop->id)->first();
-            }
-
-            //dd($no);
-            $rno = ++$no->receipt_no;
-            $ono = ++$no->order_no;
 
             // เลขที่ใบเสร็จ
-            $rec_no = 'R'.$shop->id.'#'.date('ym').$rno;
+            $rec_no = 'R'.$shop->id.'#'.date('ym').$shop->run_receipt_id;
             // เลขที่ order
-            $ord_no = 'O'.date('ym').$shop->id.$ono;
+            $ord_no = 'O'.date('ym').$shop->id.$shop->run_order_id;
             // วันที่
             $ddate = date("Y-m-d H:i:s");
             
@@ -165,14 +150,22 @@ class PPosController extends Controller
                     $oditem->save();
                 }
 
+                // บันทึก order_payment_tb
+                $pay = new OrderPayment();
+                $pay->order_id = $ord_no;
+                $pay->id = $od->run_item_id;
+                $pay->payment_method_id = '1';
+                $pay->amount = $req->h_amount;
+                $pay->save();
+
                 // บันทึกใบเสร็จ receipt_tb
                 $rec = new Receipt();
                 $rec->id = $rec_no;
                 $rec->shop_id = $shop->id;
                 $rec->order_id = $ord_no;
-                $rec->bill_title = 'a';
-                $rec->bill_address = '123';
-                $rec->bill_tax = '456';
+                $rec->bill_title = '-';
+                $rec->bill_address = '-';
+                $rec->bill_tax = '-';
                 $rec->receipt_type = '1';
                 $rec->channel_id = '2';
                 $rec->status = '1';
@@ -183,20 +176,20 @@ class PPosController extends Controller
                 $rec->save();
 
                 // update no_tb
-                $upd_no = No::where('shop_id', $shop->id)->firstOrFail();
-                $upd_no->order_no = $ono;
-                $upd_no->receipt_no = $rno;
+                $upd_no = Shop::where('id', $shop->id)->firstOrFail();
+                $upd_no->run_order_id = $shop->run_order_id + 1;
+                $upd_no->run_receipt_id = $shop->run_receipt_id + 1;
                 $upd_no->save();
             }
 
             // สั่งพิมพ์ใบเสร็จ
             return $this->go_to_bill($rec_no, $ord_no);
 
-        }
-        catch(Exception $e)
-        {
-            return redirect()->back()->with('error', $e->getMessage());
-        }
+        // }
+        // catch(Exception $e)
+        // {
+        //     return redirect()->back()->with('error', $e->getMessage());
+        // }
     }
 
     private function go_to_bill($rec_no, $ord_no)
@@ -207,14 +200,17 @@ class PPosController extends Controller
 
         $receipt = Receipt::where('id', $rec_no)->first();
 
+        $payment = OrderPayment::where('order_id', $ord_no)->first();
+
         $shop = Shop::where("user_id",Auth::user()->id)->first();
 
         //$rec = array('','sale.rec_mini3','sale.rec_mini3_vat','sale.rec_a5','sale.rec_a5_vat');
         
-        return view('pos.rec_mini3_vat',[
+        return view('pos.receive.rec_mini3_vat',[
             'order'=>$order,
             'ord_item'=>$ord_item,
             'receipt'=>$receipt,
+            'payment'=>$payment,
             'shop'=>$shop
             ]);
     }

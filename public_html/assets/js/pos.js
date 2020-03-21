@@ -285,7 +285,7 @@
         // รวมจำนวนเงินในรายละเอียดชำระ
         let pay_total = parseFloat($('.pay-total-footer').val().replace(",", "")) + parseFloat(num);
         $('.pay-total-footer').val(addCommas(pay_total));
-        $('#pay_total').val(addCommas(pay_total));
+        $('#h_amount').val(pay_total);
 
         // รวมจำนวนเงิน ใน ชำระเงินด้วยวิธีอื่น
         $('#t_other_pay').val(addCommas(pay_total));
@@ -303,7 +303,7 @@
         // รวมจำนวนเงินในรายละเอียดชำระ
         //let pay_total = parseFloat($('.pay-total-footer').val().replace(",", ""));
         $('.pay-total-footer').val(addCommas(money));
-        $('#pay_total').val(addCommas(money));
+        $('#h_amount').val(money);
 
         // รวมจำนวนเงิน ใน ชำระเงินด้วยวิธีอื่น
         // $('#t_other_pay').val(pay_total);
@@ -319,7 +319,7 @@
         
         // รวมจำนวนเงินในรายละเอียดชำระ
         $('.pay-total-footer').val(0);
-        $('#pay_total').val(0);
+        $('#h_amount').val(0);
 
         // รวมจำนวนเงินในชำระเงินด้วยวิธีอื่น
         $('#t_other_pay').val(0);
@@ -386,7 +386,7 @@
         pay_total = 0;
         
         $('.pay-total-footer').val(pay_total);
-        $('#pay_total').val(pay_total);
+        $('#h_amount').val(pay_total);
 
         // รวมจำนวนเงินในชำระเงินด้วยวิธีอื่น
         $('#t_other_pay').val(pay_total);

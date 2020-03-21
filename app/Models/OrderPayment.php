@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OrderItem extends Model
+class OrderPayment extends Model
 {
-    protected $table='order_item_tb';
+    protected $table='order_payment_tb';
     //protected $primaryKey = ['order_id', 'id'];
     public $timestamps =false;
 }
