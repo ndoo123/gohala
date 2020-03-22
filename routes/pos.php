@@ -17,3 +17,5 @@ Route::get('/check-barcode/{shopid}/{id}','PPosController@check_barcode');
 //Route::get('save_print','PPosController@check_product');
 Route::post('{shop_id}/pos/save','PPosController@pos_save');
 
+// สั่งพิมพ์ใบเสร็จ
+Route::get('/print_slip/{rec_no}','PPosController@print_slip');

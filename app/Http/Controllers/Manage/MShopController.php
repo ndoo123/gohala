@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Shop;
 use App\Models\Product;
 use App\Models\ProductSlug;
@@ -13,7 +14,7 @@ use Illuminate\Http\Request;
 use LKS;
 class MShopController extends Controller
 {
-   public function shops()
+   public function shops(Request $r)
    {
        
        $data['shops']=Shop::where("user_id",\Auth::user()->id)->get();
@@ -248,6 +249,11 @@ class MShopController extends Controller
    public function shop_manage(Request $r)
    {
        $data['shop']=$r->shop;
+       $data['lists'] = \DB::table('order_tb')
+                    ->join('order_item_tb', 'order_item_tb.order_id', 'order_tb.id')
+                    //->selectRaw('*, SUM(order_item_tb.qty) as sumitem')
+                    //->groupBy('order_item_tb.order_id')
+                    ->where('order_tb.shop_id', $r->shop->id)->get();
        $data['summary']=(object)array(
            "order"=>0,
            "product"=>\DB::table('product_tb')->where('shop_id',$r->shop->id)->count(),

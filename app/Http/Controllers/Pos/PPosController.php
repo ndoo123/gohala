@@ -12,6 +12,7 @@ use App\Models\ProductSlug;
 use App\Models\ProductPhoto;
 use App\Models\ProductCategory;
 use App\Models\Receipt;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -108,12 +109,12 @@ class PPosController extends Controller
     public function pos_save(Request $req)
     {
         
-        // try
-        // {
+        try
+        {
             $shop = Shop::where("user_id",Auth::user()->id)->first();
 
             // เลขที่ใบเสร็จ
-            $rec_no = 'R'.$shop->id.'#'.date('ym').$shop->run_receipt_id;
+            $rec_no = 'R'.$shop->id.date('ym').$shop->run_receipt_id;
             // เลขที่ order
             $ord_no = 'O'.date('ym').$shop->id.$shop->run_order_id;
             // วันที่
@@ -183,35 +184,36 @@ class PPosController extends Controller
             }
 
             // สั่งพิมพ์ใบเสร็จ
-            return $this->go_to_bill($rec_no, $ord_no);
+            //return $this->print_slip($rec_no);
+            return redirect('/print_slip/'.$rec_no);
 
-        // }
-        // catch(Exception $e)
-        // {
-        //     return redirect()->back()->with('error', $e->getMessage());
-        // }
+        }
+        catch(Exception $e)
+        {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
-    private function go_to_bill($rec_no, $ord_no)
+    // พิมพ์ใบเสร็จ
+    public function print_slip($rec_no)
     {
-        $order = Order::where('id', $ord_no)->first();
-
-        $ord_item = OrderItem::where('order_id', $ord_no)->get();
-
+        //dd($rec_no);
         $receipt = Receipt::where('id', $rec_no)->first();
-
-        $payment = OrderPayment::where('order_id', $ord_no)->first();
-
+        $order = Order::where('id', $receipt->order_id)->first();
+        $ord_item = OrderItem::where('order_id', $receipt->order_id)->get();
+        $payment = OrderPayment::where('order_id', $receipt->order_id)->first();
         $shop = Shop::where("user_id",Auth::user()->id)->first();
+        $seller = User::where('id', $receipt->seller_user_id)->first();
 
         //$rec = array('','sale.rec_mini3','sale.rec_mini3_vat','sale.rec_a5','sale.rec_a5_vat');
         
-        return view('pos.receive.rec_mini3_vat',[
+        return view('pos.receive.rec_mini3',[
             'order'=>$order,
             'ord_item'=>$ord_item,
             'receipt'=>$receipt,
             'payment'=>$payment,
-            'shop'=>$shop
+            'shop'=>$shop,
+            'seller'=>$seller
             ]);
     }
 

@@ -18,8 +18,6 @@
     <td colspan="2" align="center">
     	<b>{{ $shop->name }}</b><br>
         {{ $shop->address }} {{ $shop->phone}}<br>
-        TAX INVOICE (ABB.)<br>
-        TAX ID : {{ $shop->tax_id }}<br>
         ใบเสร็จรับเงิน/ใบกำกับภาษีอย่างย่อ
     </td>
   </tr>
@@ -68,12 +66,6 @@
   </tr>
   <tr>
     <td align="left"><b>TOTAL</b></td><td align="right"><b>{{ number_format($sum,2,'.',',') }}</b></td>
-  </tr>
-  <tr>
-    <td align="left">Before VAT</td><td align="right">{{ number_format($sum - $vat,2,'.',',') }}</td>
-  </tr>
-  <tr>
-    <td align="left">VAT 7%</td><td align="right">{{ number_format($vat,2,'.',',') }}</td>
   </tr>
   <tr>
     <td align="left">Total Item</td><td align="right">{{ $num }}</td>

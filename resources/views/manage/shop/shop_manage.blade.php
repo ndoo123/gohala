@@ -63,7 +63,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                   
+                    <?php $i = '1'; ?>
+                    @foreach($lists as $list)
+                    <tr>
+                        <td>{{ $i++ }}</td>
+                        <td>{{ $list->order_date }}</td>
+                        <td>{{ $list->buyer_user_id }}</td>
+                        <td>{{ $list->qty }}</td>
+                        <td>{{ $list->total }}</td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
