@@ -249,10 +249,10 @@ class MShopController extends Controller
    public function shop_manage(Request $r)
    {
        $data['shop']=$r->shop;
-       $data['lists'] = \DB::table('order_tb')
+       $data['orders'] = \DB::table('order_tb')
                     ->join('order_item_tb', 'order_item_tb.order_id', 'order_tb.id')
-                    //->selectRaw('*, SUM(order_item_tb.qty) as sumitem')
-                    //->groupBy('order_item_tb.order_id')
+                    ->selectRaw('order_tb.id, order_tb.order_date, order_tb.buyer_user_id, order_tb.total, SUM(order_item_tb.qty) as qty')
+                    ->groupBy(\DB::raw('order_tb.id, order_tb.order_date, order_tb.buyer_user_id, order_tb.total'))
                     ->where('order_tb.shop_id', $r->shop->id)->get();
        $data['summary']=(object)array(
            "order"=>0,

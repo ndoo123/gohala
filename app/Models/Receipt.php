@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Receipt extends Model
 {
     protected $table='receipt_tb';
+    public $incrementing = false;
 }

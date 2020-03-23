@@ -63,14 +63,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $i = '1'; ?>
-                    @foreach($lists as $list)
+                    
+                    @foreach($orders as $order)
                     <tr>
-                        <td>{{ $i++ }}</td>
-                        <td>{{ $list->order_date }}</td>
-                        <td>{{ $list->buyer_user_id }}</td>
-                        <td>{{ $list->qty }}</td>
-                        <td>{{ $list->total }}</td>
+                        <td>{{ $order->id }}</td>
+                        <td>{{ $order->order_date }}</td>
+                        <td>{{ $order->buyer_user_id }}</td>
+                        <td>{{ $order->qty }}</td>
+                        <td>{{ $order->total }}</td>
                     </tr>
                     @endforeach
                 </tbody>

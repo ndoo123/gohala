@@ -288,7 +288,7 @@ class ManageSectionDb extends Migration
                 $table->decimal('total',10,2);
                 $table->integer('seller_user_id')->nullable()->comment="id ผุ้ขาย";
                 $table->integer('buyer_user_id')->nullable()->comment="ชื่อผู้ซื้อ สามารถว่างได้ กรณีไม่ใช่เมมเบอร์";
-                $table->integer('run_item_id')->default(1);
+                $table->integer('qty')->default(1);
                 $table->timestamps();
                 $table->primary(['id','shop_id']);
             });
