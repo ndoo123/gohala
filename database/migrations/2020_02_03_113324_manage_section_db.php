@@ -239,7 +239,7 @@ class ManageSectionDb extends Migration
         {
             Schema::create('receipt_tb', function (Blueprint $table) {
                // receipt items ใช้ อันเดียวกับ order_item_tb เลย
-                $table->string('id',20)->primary()->comment="R+shop_id+#+y+m+run_receipt_id";
+                $table->string('id',20)->primary()->comment="R+shop_id+#+y+m+run_receipt_id (4 หลัก)";
                 $table->integer('shop_id')->unsigned();
                 $table->string('order_id');
                 $table->string('bill_title');

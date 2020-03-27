@@ -217,7 +217,7 @@ class MShopController extends Controller
                 $photo= ProductPhoto::where("product_id",$p->id)->where("shop_id",$r->shop->id)->where("name",$r->set_default)->first();
                 if($photo)
                 {
-                    $p->default_photo=$photo->id;
+                    $p->default_photo=$photo->name;
                     $photo->is_default=1;
                     $photo->save();
                 }
