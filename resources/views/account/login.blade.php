@@ -10,6 +10,7 @@
         <link href="<?php echo url('assets/manage/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/icons.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/account/css/style.css');?>" rel="stylesheet" type="text/css">
+
     </head>
 
     <body class="pb-0">

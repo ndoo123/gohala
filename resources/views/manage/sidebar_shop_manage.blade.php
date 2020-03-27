@@ -17,6 +17,11 @@
                             <i class="ti-home"></i> <span> <?php echo __('menu.product');?> </span>
                         </a>
                     </li>
+                    <li>
+                        <a href="<?php echo url($shop->url.'/setup');?>" class="waves-effect">
+                            <i class="ti-home"></i> <span> <?php echo __('menu.setup');?> </span>
+                        </a>
+                    </li>
                     
                 </ul>
 

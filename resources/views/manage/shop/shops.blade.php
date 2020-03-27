@@ -35,6 +35,7 @@
                     <div class="shop_action float-right m-t-20">
                         <input type="checkbox" <?php echo ($shop->is_open==1?'checked':'');?> data-width="90" data-on="เปิดร้าน" data-off="ปิดร้าน" data-toggle="toggle" data-offstyle="light">
                         <a href="<?php echo url($shop->url);?>" class="btn btn-info">จัดการร้าน</a>
+                        <a href="<?php echo \LKS::url_subdomain('pos','shop/'.$shop->id);?>" class="btn btn-success">POS</a>
                         
                     </div>
                    

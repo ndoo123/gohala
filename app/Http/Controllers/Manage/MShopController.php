@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Shop;
 use App\Models\Product;
 use App\Models\ProductSlug;
@@ -13,7 +14,7 @@ use Illuminate\Http\Request;
 use LKS;
 class MShopController extends Controller
 {
-   public function shops()
+   public function shops(Request $r)
    {
        
        $data['shops']=Shop::where("user_id",\Auth::user()->id)->get();
@@ -247,11 +248,20 @@ class MShopController extends Controller
     }
    public function shop_manage(Request $r)
    {
-       $data['shop']=$r->shop;
-       $data['summary']=(object)array(
-           "order"=>0,
-           "product"=>\DB::table('product_tb')->where('shop_id',$r->shop->id)->count(),
-           "profit"=>0
+        $data['shop']=$r->shop;
+    //    $data['orders'] = \DB::table('order_tb')
+    //                 ->join('order_item_tb', 'order_item_tb.order_id', 'order_tb.id')
+    //                 ->selectRaw('order_tb.id, order_tb.order_date, order_tb.buyer_user_id, order_tb.total, SUM(order_item_tb.qty) as qty')
+    //                 ->groupBy(\DB::raw('order_tb.id, order_tb.order_date, order_tb.buyer_user_id, order_tb.total'))
+    //                 ->where('order_tb.shop_id', $r->shop->id)->get();
+        $data['orders'] = Order::where('order_tb.shop_id', $r->shop->id)
+                    ->limit(10)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+        $data['summary']=(object)array(
+            "order"=>0,
+            "product"=>\DB::table('product_tb')->where('shop_id',$r->shop->id)->count(),
+            "profit"=>0
        );
     
        return view('manage.shop.shop_manage',$data);

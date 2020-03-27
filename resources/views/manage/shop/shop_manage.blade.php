@@ -63,7 +63,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                   
+                    
+                    @foreach($orders as $ord)
+                    <tr>
+                        <td>{{ $ord->id }}</td>
+                        <td>{{ $ord->order_date }}</td>
+                        <td>{{ $ord->buyer_user_id }}</td>
+                        <td>{{ $ord->qty }}</td>
+                        <td>{{ $ord->total }}</td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
