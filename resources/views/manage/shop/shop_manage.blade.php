@@ -64,13 +64,13 @@
                 </thead>
                 <tbody>
                     
-                    @foreach($orders as $order)
+                    @foreach($orders as $ord)
                     <tr>
-                        <td>{{ $order->id }}</td>
-                        <td>{{ $order->order_date }}</td>
-                        <td>{{ $order->buyer_user_id }}</td>
-                        <td>{{ $order->qty }}</td>
-                        <td>{{ $order->total }}</td>
+                        <td>{{ $ord->id }}</td>
+                        <td>{{ $ord->order_date }}</td>
+                        <td>{{ $ord->buyer_user_id }}</td>
+                        <td>{{ $ord->qty }}</td>
+                        <td>{{ $ord->total }}</td>
                     </tr>
                     @endforeach
                 </tbody>

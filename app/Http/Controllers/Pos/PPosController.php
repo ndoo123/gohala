@@ -33,53 +33,6 @@ class PPosController extends Controller
        return view('pos.pos',$data);
    }
 
-   public function autocomp(Request $req)
-   {
-       $res = array();
-
-       $datas = Product::get();
-       
-    //    $datas = Product::where('qty','>','0')
-    //            ->where('status','1')
-    //            ->where("name","LIKE","%".$req->term."%")
-    //            ->where("shop_id",$req->id)
-    //            ->get();
-       
-       foreach($datas as $data){
-           $res[] = ['id'=>$data->id, 'value'=>$data->name, 'sku'=>$data->sku ];
-       }
-       
-       return response()->json($res);
-
-       //return response()->json($data);
-   }
-
-    // jquery
-    public function readData($id, $shop)
-    {
-        //return $id;
-        if($id != '0')
-        {
-            $data = Product::where('shop_id',$shop)
-                ->where('category_id',$id)
-                ->where('status','1')
-                ->orderBy('name','asc')
-                ->get();
-        }
-        else
-        {
-            $data = Product::where('shop_id',$shop)
-                ->where('status','1')
-                ->orderBy('category_id','asc')
-                ->orderBy('name','asc')
-                ->get();
-        }
-        
-
-        return view('pos.pos_product',[
-            'data'=>$data
-            ]);
-    }
 
     // jquery
     public function read_barcode($sku,$shopid)
@@ -132,7 +85,7 @@ class PPosController extends Controller
                 $od->order_date = $ddate;
                 $od->total = $req->h_total;
                 $od->seller_user_id = Auth::user()->id;
-                $od->run_item_id = '1';
+                $od->qty = array_sum($req->h_num);
                 $od->save();
 
                 $i = '1';
@@ -154,7 +107,7 @@ class PPosController extends Controller
                 // บันทึก order_payment_tb
                 $pay = new OrderPayment();
                 $pay->order_id = $ord_no;
-                $pay->id = $od->run_item_id;
+                $pay->id = $shop->id;
                 $pay->payment_method_id = '1';
                 $pay->amount = $req->h_amount;
                 $pay->save();
@@ -175,6 +128,14 @@ class PPosController extends Controller
                 $rec->total = $req->h_total;
                 $rec->seller_user_id = Auth::user()->id;
                 $rec->save();
+
+
+                // update product_tb
+                foreach($req->h_id as $key => $value){
+                    $upd_product = Product::where('id', $req->h_id[$key])->firstOrFail();
+                    $upd_product->qty = $upd_product->qty - $req->h_num[$key];
+                    $upd_product->save();
+                }
 
                 // update no_tb
                 $upd_no = Shop::where('id', $shop->id)->firstOrFail();
@@ -200,7 +161,11 @@ class PPosController extends Controller
         //dd($rec_no);
         $receipt = Receipt::where('id', $rec_no)->first();
         $order = Order::where('id', $receipt->order_id)->first();
-        $ord_item = OrderItem::where('order_id', $receipt->order_id)->get();
+        $ord_item = \DB::table('order_item_tb')
+                    ->leftJoin('product_tb', 'order_item_tb.id', 'product_tb.id')
+                    ->select('order_item_tb.*','product_tb.sku')
+                    ->where('order_id', $receipt->order_id)
+                    ->get();
         $payment = OrderPayment::where('order_id', $receipt->order_id)->first();
         $shop = Shop::where("user_id",Auth::user()->id)->first();
         $seller = User::where('id', $receipt->seller_user_id)->first();

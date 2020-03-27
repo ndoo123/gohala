@@ -45,10 +45,13 @@
         ?>
 
           <tr>
-            <td colspan="3" align="left">x2132132132154644{{ $item->product_id }}  {{ $item->product_name }}namenamenameadsflkj;jsdfgsdfg ({{ $item->qty }}x{{ number_format($item->price,2,'.',',') }})</td>
+            <td align="left">{{ $item->sku }}  {{ $item->product_name }}</td>
+          </tr>
+          <tr>
+            <td align="left">({{ $item->qty }} x {{ number_format($item->price,2,'.',',') }})</td>
             <td align="right"><?=number_format(($item->price * $item->qty),2,'.',',');?></td>
           </tr>
-                   
+          
         @endforeach
 
 
