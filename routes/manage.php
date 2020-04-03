@@ -24,5 +24,7 @@ Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],funct
     Route::get('products/create','MShopController@product_view');
     Route::post('products/save','MShopController@product_save');
     Route::get('product/{product_id}','MShopController@product_view');
+
+    Route::get('setting_shop', 'MShopController@setting_shop');
     
 });

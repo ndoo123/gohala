@@ -6,6 +6,7 @@
             <div id="sidebar-menu">
                 <!-- Left Menu Start -->
                 <ul class="metismenu" id="side-menu">
+                    <li class="menu-title"><?php echo $shop->name;?></li>
                     <li class="menu-title">จัดการ</li>
                     <li>
                         <a href="<?php echo url($shop->url);?>" class="waves-effect">
@@ -18,7 +19,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo url($shop->url.'/setup');?>" class="waves-effect">
+                        <a href="<?php echo url($shop->url.'/setting_shop');?>" class="waves-effect">
                             <i class="ti-home"></i> <span> <?php echo __('menu.setup');?> </span>
                         </a>
                     </li>
