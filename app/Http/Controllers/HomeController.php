@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use App\Models\ProductCategory;
 use App\Models\Product;
+use App\Models\Province;
 use App\Models\ProductSlug;
 use App\Models\Shop;
 use Illuminate\Http\Request;
@@ -100,6 +101,7 @@ class HomeController extends Controller
         }
         $data['categories']=ProductCategory::all();
         $data['user_address']=\Auth::user()->address;
+        $data['provinces']=Province::all();
       
         return view('web.home.checkout',$data);
     }

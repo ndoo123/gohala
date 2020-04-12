@@ -279,7 +279,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-6 col-md-4 col-xs-12 col-lg-3">
-          <div class="footer-logo"><a href="index.html"><img src="<?php echo url('assets/images/logo-dark.png');?>" alt="fotter logo"></a> </div>
+          <div class="footer-logo"><a href="<?php echo url('');?>"><img src="<?php echo url('assets/images/logo-dark.png');?>" height="80" alt="fotter logo"></a> </div>
           <p>Lorem Ipsum is simply dummy text of the print and typesetting industry.</p>
           <div class="footer-content">
             <div class="email"> <i class="fa fa-envelope"></i>
@@ -359,34 +359,7 @@
     </div>
   </footer>
   <a href="#" class="totop"> <!-- End Footer --> 
-  <!--Newsletter Popup Start-->
-  <div id="myModal" class="modal fade">
-    <div class="modal-dialog newsletter-popup" style="background-image:url(<?php echo url('assets/web/images/newsletter.jpg');?>)">
-      <div class="modal-content">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <div class="modal-body">
-          <h4 class="modal-title"><?php echo __('home.signup_for_newsletter');?></h4>
-          <form id="newsletter-form" method="post" action="#">
-            <div class="content-subscribe">
-              <div class="form-subscribe-header">
-                <label>ระบุอีเมล์ของท่านเพื่อไม่ให้พลาดสินค้าราคาพิเศษจากเรา</label>
-              </div>
-              <div class="input-box">
-                <input type="text" class="input-text newsletter-subscribe" title="Sign up for our newsletter" name="email" placeholder="<?php echo __('home.please_enter_email');?>">
-              </div>
-              <div class="actions">
-                <button class="button-subscribe" title="Subscribe" type="submit"><?php echo __('home.subscribe');?></button>
-              </div>
-            </div>
-          </form>
-          <div class="subscribe-bottom">
-            <input name="notshowpopup" id="notshowpopup" type="checkbox">
-            ไม่แสดงข้อความนี้อีก </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--End of Newsletter Popup--> 
+
 </div>
 
 <!-- JS --> 
