@@ -5,9 +5,10 @@
 
     <div class="row">
         <div class="col-md-6 col-md-6">
-        <div class="page-content checkout-page">
-            @include('web.home.components.checkout_address')
-        </div>
+            <div class="page-content checkout-page">
+                @include('web.home.components.checkout_address')
+                @include('web.home.components.delivery')
+            </div>
         </div>
     </div>
 </div>

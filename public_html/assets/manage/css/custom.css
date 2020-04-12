@@ -1,0 +1,15 @@
+#setting_card .tab-content{
+    border-left: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+}
+#setting_card .card-body{
+    padding: 3px;
+}
+
+button.form-submit-action{
+    position: absolute;
+    right:10px;
+    top:10px;
+}
+#setting_card .tab-pane{position: relative;}

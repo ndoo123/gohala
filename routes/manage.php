@@ -24,5 +24,10 @@ Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],funct
     Route::get('products/create','MShopController@product_view');
     Route::post('products/save','MShopController@product_save');
     Route::get('product/{product_id}','MShopController@product_view');
+
+    Route::get('settings','MSettingController@settings');
+    Route::post('setting/info/save/json','MSettingController@setting_info_save_json');
+    Route::post('setting/delivery/save/json','MSettingController@setting_delivery_save_json');
+    Route::post('setting/payment/save/json','MSettingController@setting_payment_save_json');
     
 });

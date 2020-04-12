@@ -10,6 +10,7 @@ use App\Models\Province;
 use App\Models\ProductSlug;
 use App\Models\Shop;
 use Illuminate\Http\Request;
+use App\Models\ShopDelivery;
 use LKS;
 class HomeController extends Controller
 {
@@ -95,6 +96,7 @@ class HomeController extends Controller
     }
     public function checkout(Request $r)
     {
+  
         if(!\Auth::user())
         {
             return redirect('login')->with('redirect',env('APP_URL').'/checkout');
@@ -102,6 +104,9 @@ class HomeController extends Controller
         $data['categories']=ProductCategory::all();
         $data['user_address']=\Auth::user()->address;
         $data['provinces']=Province::all();
+        // $data['delivery_method']=ShopDelivery::where("shop_id",$r->shop->id)->leftJoin('payment_method_tb','payment_method_tb.id','shop_payment_tb.method_id')
+        // ->where("is_check",1)->select('shop_payment_tb.*,payment_method_tb.name')->get();
+
       
         return view('web.home.checkout',$data);
     }

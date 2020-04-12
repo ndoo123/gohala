@@ -18,13 +18,13 @@
             </div>
         </div>
         <?php endif;?>
-        <?php foreach($shops as $shop):?>
-         <div shop_id="<?php echo $shop->id;?>" class="card card_shop">
+        <?php foreach($shops as $s):?>
+         <div shop_id="<?php echo $s->id;?>" class="card card_shop">
             <div class="card-body">
                <div class="media m-b-10">
-                    <img class="d-flex mr-3 rounded-circle" src="<?php echo url('assets/images/shop_icon.png');?>" alt="<?php echo $shop->name;?>" height="64">
+                    <img class="d-flex mr-3 rounded-circle" src="<?php echo url('assets/images/shop_icon.png');?>" alt="<?php echo $s->name;?>" height="64">
                     <div class="media-body">
-                        <h5 class="mt-0 font-16"><?php echo $shop->name;?> <span class="badge badge-pill badge-primary"><a class="text-white" href="<?php echo $shop->get_url();?>"><i class="fas fa-share-square"></i> <?php echo $shop->get_url();?></a></span></h5>
+                        <h5 class="mt-0 font-16"><?php echo $s->name;?> <span class="badge badge-pill badge-primary"><a class="text-white" href="<?php echo $s->get_url();?>"><i class="fas fa-share-square"></i> <?php echo $s->get_url();?></a></span></h5>
                         <div class="button-items">
                             <button type="button" class="btn btn-secondary btn-sm waves-effect">สินค้า 0</button>
                             <button type="button" class="btn btn-secondary btn-sm waves-effect">สั่งซื้อ 0</button>
@@ -33,9 +33,9 @@
                         
                     </div>
                     <div class="shop_action float-right m-t-20">
-                        <input type="checkbox" <?php echo ($shop->is_open==1?'checked':'');?> data-width="90" data-on="เปิดร้าน" data-off="ปิดร้าน" data-toggle="toggle" data-offstyle="light">
-                        <a href="<?php echo url($shop->url);?>" class="btn btn-info">จัดการร้าน</a>
-                        <a href="<?php echo \LKS::url_subdomain('pos','shop/'.$shop->id);?>" class="btn btn-success">POS</a>
+                        <input type="checkbox" <?php echo ($s->is_open==1?'checked':'');?> data-width="90" data-on="เปิดร้าน" data-off="ปิดร้าน" data-toggle="toggle" data-offstyle="light">
+                        <a href="<?php echo url($s->url);?>" class="btn btn-info">จัดการร้าน</a>
+                        <a href="<?php echo \LKS::url_subdomain('pos','shop/'.$s->id);?>" class="btn btn-success">POS</a>
                         
                     </div>
                    
