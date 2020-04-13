@@ -161,6 +161,7 @@ class ManageSectionDb extends Migration
                 $table->integer('receipt_number')->default(1)->comment="จำนวนก๊อบปี้";
                 $table->integer('receipt_type')->default(1)->comment="1=3in no vat,2=3in+vat";
                 $table->tinyInteger('is_open')->default("1");
+                $table->string('logo')->nullable();
                 $table->timestamps();
                 
             });
@@ -180,6 +181,7 @@ class ManageSectionDb extends Migration
             Schema::create('shop_shipping_tb', function (Blueprint $table) {
                 $table->integer('shop_id');
                 $table->integer('shipping_id');
+                $table->tinyInteger('is_check')->default("0");
                 $table->decimal('ship_cost',10,2);
                 $table->tinyInteger('cal_type')->default("1")->comment="1=all one price,2=multiple by qty";
                 $table->primary(['shop_id','shipping_id']);

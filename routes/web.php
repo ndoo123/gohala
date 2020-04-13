@@ -10,7 +10,19 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('migrate',function(){
+  
+  if(!isset($_GET["cmd"]))
+  return "no CMD";
 
+    \Artisan::call($_GET["cmd"], [
+    '--force' => true,
+    ]);
+    return redirect('/')->with('success','เริ่มฐานข้อมูลใหม่สำเร็จ');
+});
+Route::get('lang?lang={lang}',function(){
+  App::setLocale('en');
+});
 Route::get('/error_404',function(){
   return view('error.error_404');
 })->name('error_404');
@@ -53,7 +65,8 @@ Route::get('/{shop_url}/cat/{cat_slug}','HomeController@shop_category_view');
 Route::get('/', "HomeController@home");
 
 
-Route::get('lang?lang={lang}',function(){
-  App::setLocale('en');
-});
+Route::group(['middleware'=>'auth'],function(){
+  //Account
+  Route::post('/account/user/add_address','\App\Http\Controllers\Account\AAccountController@profile_address_save');
 
+});

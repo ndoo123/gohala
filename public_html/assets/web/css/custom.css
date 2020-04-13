@@ -32,3 +32,25 @@ div.special-product a.product-image figure{
     background-size: cover;
     background-position: 50% 50%;
 }
+
+/*
+Shop page
+*/
+div.card-border{
+    padding:10px;
+    border:1px solid #eee;
+    position: relative;
+}
+div.card-border p.title{
+    font-weight: bold;
+}
+div.card-border a{
+ text-decoration: underline;
+    color: blue;
+}
+div.card-border div.action{
+    position: absolute;
+    right: 10px;
+    top:10px;
+   
+}

@@ -21,5 +21,9 @@ class Shop extends Model
     public function user(){
         return $this->hasOne('App\Models\User','id','user_id');
     }
+    public function get_logo(){
+        if($this->logo=="")
+        return url('assets/images/no_image_available.jpeg');
+    }
 
 }

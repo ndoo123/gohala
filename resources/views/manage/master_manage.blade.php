@@ -13,7 +13,7 @@
         <link href="<?php echo url('assets/js/plugins/bootstraptoggle/bootstrap-toggle.css');?>" rel="stylesheet">
         @yield('css')
         <link href="<?php echo url('assets/manage/css/style.css');?>" rel="stylesheet" type="text/css">
-        
+        <link href="<?php echo url('assets/manage/css/custom.css');?>" rel="stylesheet" type="text/css">
     </head>
 
     <body>
