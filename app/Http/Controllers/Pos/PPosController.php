@@ -29,7 +29,7 @@ class PPosController extends Controller
    {       
        $data['shop']=Shop::where("id",$req->id)->first();
        $data['pcats']=ProductCategory::get();
-       $data['products']=Product::where("shop_id",$req->id)->get();
+       $data['product']=Product::where("shop_id",$req->id)->get();
        return view('pos.pos',$data);
    }
 
@@ -202,13 +202,35 @@ class PPosController extends Controller
 
     public function check_barcode($shopid,$id)
     {
-        $pro = Product::select('qty')
+        $pro = Product::select('id','qty')
                 ->where('shop_id','=',$shopid)
                 ->where('sku',$id)
                 ->where('status','1')
                 ->first();
         
-        return $pro->qty;
+        return [$pro->qty, $pro->id];
+    }
+
+
+    // jquery คลิกหมวดหมู่สินค้า
+    public function readData($id,$shop)
+    {
+        //return $id;
+        if($id == '0')
+        {
+            $data = Product::where("shop_id",$shop)->get();
+        }
+        else
+        {
+            $data = Product::where("shop_id",$shop)
+                            ->where('category_id', $id)
+                            ->get();
+        }       
+        
+        return view('pos.pos_product',[
+            'shop'=>$shop,
+            'product'=>$data
+            ]);
     }
 
 

@@ -1,25 +1,12 @@
-    // $(document).ready(function(){
-    //     let path = app.url+'/pos/read-data/0/'+$shop->id;
-    //     $.get(path, function(data){
-    //         $('#block-product').empty().html(data)                
-    //     })
-    // })
-
-    // $(document).on('click','button.open_modal',function(){
-    //     let path = $(this).attr('data-href');
-    //     $.get(path, function(data){
-    //         $('#modalAdd div.modal-content').html(data);
-    //         $('#modalAdd').modal('show');
-    //     });
-    // });
-
-    // $(document).on('show.bs.modal', '.modal', function (event) {
-    //     var zIndex = 1040 + (10 * $('.modal:visible').length);
-    //     $(this).css('z-index', zIndex);
-    //     setTimeout(function() {
-    //         $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
-    //     }, 0);
-    // });
+    // เปิดหน้ามาโหลดเสร็จแล้วให้แสดงสินค้าทุกหมวดหมู่
+    $(document).ready(function(){
+        let path = app.url+'/pos/read-data/0/'+$('#shopid').attr("value");
+        //let path = $(this).attr('data-href');
+        $('#btncat0').attr('class','btn btn-primary waves-effect waves-light btn-cat');
+        $.get(path, function(data){
+            $('#block-product').empty().html(data)                
+        })
+    })
 
 
     // เพิ่มรายการสินค้าลงตารางขาย โดยคลิกจากภาพสินค้า
@@ -59,6 +46,7 @@
 
     }
 
+    // รวมเงิน
     function sum_total(id)
     {
         let sumcash = $('#sum_cash').html().replace(",", "");
@@ -67,6 +55,7 @@
         $('.sum_cash').html(addCommas(total));
     }
 
+    // เพิ่มคอมม่าในจำนวนเงิน
     function addCommas(nStr)
     {
         nStr += '';
@@ -80,30 +69,35 @@
         return x1 + x2;
     }
 
+    // ลบรายการซื้อทั้งหมด
     function list_del()
     {
-        $('#list_body').empty();
-        $('.sum_cash').html(0);
-        $('.other-pay').empty();
-        $('.pay-etc').empty();
-        alert('ยืนยันการลบทั้งหมด');
+        if(confirm('ยืนยันการลบทั้งหมด')){
+            $('#list_body').empty();
+            $('.sum_cash').html(0);
+            $('.other-pay').empty();
+            $('.pay-etc').empty();
+        }
+        
         //Dashmix.helpers('notify', {type: 'danger', icon: 'fa fa-times mr-1', message: 'ลบรายการทั้งหมดแล้ว'});
     }
 
+    // ลบบางรายการซื้อ
     function del_one(pssn)
     {
-        let pnum = $('#num'+pssn).html();
-        let pprice = $('#price'+pssn).html();
-        let sumcash = $('#sum_cash').html().replace(",","");
-        let total = parseFloat(sumcash) - (parseFloat(pnum) * parseFloat(pprice));
-        $('.sum_cash').html(addCommas(total));
-        //console.log(pnum);
+        if(confirm('ยืนยันการลบ')){
+            let pnum = $('#num'+pssn).html();
+            let pprice = $('#price'+pssn).html();
+            let sumcash = $('#sum_cash').html().replace(",","");
+            let total = parseFloat(sumcash) - (parseFloat(pnum) * parseFloat(pprice));
+            $('.sum_cash').html(addCommas(total));
+            //console.log(pnum);
 
-        let tr = $('#num'+pssn).closest('tr');
-        tr.remove();
-        alert('ยืนยันการลบ');
-        //Dashmix.helpers('notify', {type: 'danger', icon: 'fa fa-times mr-1', message: 'ลบแล้ว'});
-        //console.log(tr);
+            let tr = $('#num'+pssn).closest('tr');
+            tr.remove();
+        }
+            //Dashmix.helpers('notify', {type: 'danger', icon: 'fa fa-times mr-1', message: 'ลบแล้ว'});
+            //console.log(tr);
 
     }
 
@@ -114,28 +108,26 @@
         }
     })
 
-    $('#t_search').on('keydown',function(e){
-        if(e.which == 8){
-            console.log('ลบ');
-            $('#t_sku').val(''); 
-            $('#t_pid').val('');
-        }
-    })
+    // $('#t_search').on('keydown',function(e){
+    //     if(e.which == 8){
+    //         console.log('ลบ');
+    //         $('#t_sku').val(''); 
+    //         $('#t_pid').val('');
+    //     }
+    // })
 
 
     $('#frm_barcode').on('submit',function(e){
         e.preventDefault(); 
-        // let list = $('#list_body').html();  // รายการสินค้าที่มีอยู่
-        // let tsku = $('#t_sku').val(); // p_sku
-        // let tid = $('#t_id').val(); // p_id
+        
         let key = $('#t_search').val(); // p_name
         let shopid = $('#shopid').val(); // shop_id
 
         //$.get("{{ URL::to('sale/check-barcode') }}"+'/'+sn, function(num){
-        $.get(app.url+"/check-barcode"+'/'+shopid+'/'+key, function(num){
-            console.log(num);
-            if(num > 0){
-                click_product(key);
+        $.get(app.url+"/check-barcode"+'/'+shopid+'/'+key, function(prod){
+            console.log(prod[0]);
+            if((prod[0] > 0) || (prod[0] != null)){
+                click_product(prod[1]);
                 clear_all();
             }else{
                 alert('ไม่พบสินค้า');
@@ -146,6 +138,7 @@
 
     })
 
+    
     function clear_all(){
         $('.clear_end').val('');
         $('#t_search').focus();
@@ -334,42 +327,18 @@
 
 
 
-
+    // click หมวดหมู่สินค้า
     function click_cat(id)
     {
         let catid = $('#btncat'+id).attr("get_cat");
-        $('.btn-cat').attr('class','p-3 btn btn-square btn-outline-info btn-cat');
-        $('#btncat'+id).attr('class','p-3 btn btn-square btn-hero-info btn-cat');
+        $('.btn-cat').attr('class','btn btn-outline-primary waves-effect waves-light btn-cat');
+        $('#btncat'+id).attr('class','btn btn-primary waves-effect waves-light btn-cat');
         $.get(catid, function(data){
             $('#block-product').empty().html(data);
         });
     }
 
-    // function click_product_sn(id)
-    // {
-    //     let pid = $('#pid'+id).attr("get_product");
-    //     let list = $('#list_body').html();
-    //     let search_id = $(list).find('#num'+id).html();
-
-    //     let list_prod = $('#list_product').html();
-
-    //     if(search_id){
-    //         Dashmix.helpers('notify', {type: 'warning', icon: 'fa fa-exclamation mr-1', message: 'เป็นสินค้าที่ไม่สามารถเพิ่มรายการซ้ำได้'});
-    //         clear_all();
-    //     }else{
-        
-    //         $.get(pid, function(txt){
-    //             list += txt;
-    //             $('#list_body').html(list);
-
-    //             Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
-                
-    //             sum_total(id);
-    //             clear_all();
-    //         })            
-    //     }
-
-    // }
+    
 
 
     // ปุ่มลบ ของการชำระเงินด้วยเงินสด

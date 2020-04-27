@@ -56,6 +56,12 @@
                 width: 95%;
             }
 
+            .box-detail {
+                line-height:14pt;
+                height:40pt;
+                overflow:hidden;
+            }
+
 
         </style>
     </head>
@@ -142,11 +148,9 @@
                                     <div class="col-sm-8">
                                                                    
                                         <form name="frm_barcode" id="frm_barcode">
-                                            <input type="hidden" id="t_id" value="" class="clear_end">
-                                            <input type="hidden" id="t_sku" value="" class="clear_end">
                                             <input type="hidden" id="shopid" value="{{$shop->id}}">
                                         <div class="input-group mb-2">
-                                            <input type="text" class="typeahead form-control clear_end" id="t_search" name="t_search" placeholder="ค้นหา" autofocus>
+                                            <input type="text" class="typeahead form-control clear_end" id="t_search" name="t_search" placeholder="บาร์โค้ด" autofocus>
                                             <div class="input-group-append">
                                                 <button type="button" class="btn btn-primary"><i class="fa fa-plus"></i></button>
                                             </div>
@@ -198,9 +202,9 @@
                                 <div class="card">
                                     <div class="card-body">
                                     
-                                        <button type="button" class="btn btn-outline-primary waves-effect waves-light">ทั้งหมด</button>
+                                        <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat0" get_cat="{{ URL::to('pos/read-data/0/'.$shop->id) }}" onclick="click_cat(0)">ทั้งหมด</button>
                                         @foreach($pcats as $pcat)
-                                            <button type="button" class="btn btn-outline-primary waves-effect waves-light">{{ $pcat->name }}</button>
+                                            <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat{{ $pcat->id }}" get_cat="{{ URL::to('pos/read-data/'.$pcat->id.'/'.$shop->id) }}" onclick="click_cat({{ $pcat->id }})">{{ $pcat->name }}</button>
                                         @endforeach
 
                                     </div>
@@ -208,35 +212,8 @@
                             </div>
                         </div>     
 
-                        <div class="row pos-product">
-
-                            @foreach($products as $product)
-
-                                <div class="col-xl-2 col-md-4 pos-rl">
-                                    <a id="pid{{ $product->id }}" get_product="{{ URL::to('pos/read-barcode/'.$product->sku.'/'.$shop->id) }}" onclick="click_product({{ $product->id }})" title="{{ $product->name }}">
-                                        <div class="card product-box card-b">
-                                            <div class="card-body p-1">
-                                                <div class="product-img">
-                                                    <figure style="background-image:url({{ $product->get_photo() }})"> 
-                              
-                                                    </figure>
-                                                    
-                                                </div>
-                                                
-                                                <div class="detail">
-                                                    <h4 class="font-14">{{ mb_substr($product->name,0,35,'UTF-8') }} </h4>
-                                                    <h5 class="my-0 font-14 float-right">
-                                                        <b>{{ number_format($product->price,2,'.',',') }}</b></h5>
-                                                    <span class="badge badge-soft-primary">sku {{ $product->sku }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- end product-box -->
-                                    </a>
-                                </div>
-
-                            @endforeach
-                            
+                        <div class="row pos-product" id="block-product">
+                            <!-- แสดงสินค้า -->
                         </div>
 
                     </div>

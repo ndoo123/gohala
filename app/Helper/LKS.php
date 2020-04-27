@@ -99,5 +99,13 @@ class LKS
         $image = str_replace(' ', '+', $image);
         return base64_decode($image);
     }
+
+    public static function txt_receipt($id)
+    {
+        $txt = array('', 'ขนาด 3 นิ้ว ไม่มี VAT', 'ขนาด 3 นิ้ว แสดง VAT');        
+        return $txt[$id];
+    }
+
+
 }
 ?>

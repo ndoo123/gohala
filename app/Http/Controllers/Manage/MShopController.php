@@ -290,4 +290,12 @@ class MShopController extends Controller
 
        return view('manage.shop.product.product_view',$data);
    }
+
+    // ตั้งค่าข้อมูลร้าน
+    public function setting_shop(request $r){
+        $data['shop']=$r->shop;
+
+        return view('manage.shop.shop_setting',$data);
+
+    }
 }
