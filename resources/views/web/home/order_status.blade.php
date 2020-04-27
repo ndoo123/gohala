@@ -38,10 +38,13 @@
                                         $row='';
                                         foreach($j as $b)
                                         {
+                                            $bank_name=mb_convert_encoding($b->bank_name,'UTF-8','auto');
+                                            $account_name=mb_convert_encoding($b->account_name,'UTF-8','auto');
+                                            $account_no=mb_convert_encoding($b->account_no,'UTF-8','auto');
                                             $row.='<tr>';
-                                                $row.='<td>'.$b->bank_name.'</td>';
-                                                $row.='<td>'.$b->account_name.'</td>';
-                                                $row.='<td>'.$b->account_no.'</td>';
+                                                $row.='<td>'.$bank_name.'</td>';
+                                                $row.='<td>'.$account_name.'</td>';
+                                                $row.='<td>'.$account_no.'</td>';
                                             $row.='</tr>';
                                         }
                                         echo $row;
