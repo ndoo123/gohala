@@ -171,6 +171,7 @@ class ManageSectionDb extends Migration
             Schema::create('shop_payment_tb', function (Blueprint $table) {
                 $table->integer('shop_id');
                 $table->integer('method_id');
+                $table->tinyInteger('is_checked')->default("0");
                 $table->text('payment_data')->nullable();
                 $table->primary(['shop_id','method_id']);
                 
@@ -181,7 +182,7 @@ class ManageSectionDb extends Migration
             Schema::create('shop_shipping_tb', function (Blueprint $table) {
                 $table->integer('shop_id');
                 $table->integer('shipping_id');
-                $table->tinyInteger('is_check')->default("0");
+                $table->tinyInteger('is_checked')->default("0");
                 $table->decimal('ship_cost',10,2);
                 $table->tinyInteger('cal_type')->default("1")->comment="1=all one price,2=multiple by qty";
                 $table->primary(['shop_id','shipping_id']);
@@ -288,6 +289,7 @@ class ManageSectionDb extends Migration
                 $table->integer('shipping_id')->comment="0=หน้าร้าน/pos, >=1 ดูที่ shipping_method";
                 $table->datetime('order_date');
                 $table->decimal('total',10,2);
+                $table->decimal('total_delivery',10,2);
                 $table->integer('seller_user_id')->nullable()->comment="id ผุ้ขาย";
                 $table->integer('buyer_user_id')->nullable()->comment="ชื่อผู้ซื้อ สามารถว่างได้ กรณีไม่ใช่เมมเบอร์";
                 $table->integer('qty')->default(1);

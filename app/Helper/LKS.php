@@ -35,7 +35,7 @@ class LKS
     }
     public static function alert($state,$msg)
     {
-        $alert= '<div class="alert alert-'.$state.' alert-dismissible fade show" role="alert">';
+        $alert= '<div class="alert alert-'.$state.'" role="alert">';
         $alert.=$msg;
         $alert.='<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>';
         $alert.='</div>';

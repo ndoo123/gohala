@@ -227,9 +227,28 @@
                                                 
                                             </div>
                                             <div class="tab-pane p-3" id="order" role="tabpanel">
-                                                <p class="mb-0">
-                                                    
-                                                </p>
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>วันที่สั่งซื้อ</th>
+                                                        <th>ยอดรวม</th>
+                                                        <th>สถานะ</th>
+                                                        <th></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php foreach($orders as $order):?>
+                                                        <tr>
+                                                            <td><?php echo $order->id;?></td>
+                                                            <td><?php echo date('d/m/Y H:i:s',strtotime($order->order_date));?></td>
+                                                            <td><?php echo $order->total+$order->total_delivery;?></td>
+                                                            <td><?php echo $order->get_user_status_badge();?></td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <?php endforeach;?>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                    
                                         </div>

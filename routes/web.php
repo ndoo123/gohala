@@ -47,6 +47,9 @@ Route::get('images/product/{shop_id}/{product_id}.{photo_name}.jpg',function($sh
   return $response;
 
 });
+Route::get('clear-cart',function(){
+  \Cart::clear();
+});
 Route::get('login',function(Illuminate\Http\Request $r){
 
   if(session('redirect'))
@@ -55,17 +58,25 @@ Route::get('login',function(Illuminate\Http\Request $r){
   return redirect(LKS::url_subdomain('account','login'));
   });
 Route::get('logout',function(){return redirect(LKS::url_subdomain('account','logout'));});
+Route::get('search','HomeController@search');
 Route::get('category/{slug}','HomeController@category');
 Route::get('product/{slug}.{shop_id}','HomeController@product_single');
 Route::post('product/add_to_cart','HomeController@product_add_to_cart');
-Route::get('checkout','HomeController@checkout');
+Route::post('product/remove_cart','HomeController@product_remove_from_cart');
+Route::get('home/get/products','HomeController@get_products');
+Route::get('cart','HomeController@cart');
+Route::post('cart/shop/clear','HomeController@cart_shop_clear');
+Route::post('cart/item/update','HomeController@cart_update_item');
+// Route::get('checkout','HomeController@checkout');
 
 Route::get('/{shop_url}','HomeController@shop_view');
 Route::get('/{shop_url}/cat/{cat_slug}','HomeController@shop_category_view');
 Route::get('/', "HomeController@home");
 
-
+Route::get('/{shop_url}/checkout','HomeController@shop_checkout');
 Route::group(['middleware'=>'auth'],function(){
+  Route::post('/{shop_url}/checkout/process','HomeController@shop_checkout_process');
+  Route::get('/order/status','HomeController@order_status');
   //Account
   Route::post('/account/user/add_address','\App\Http\Controllers\Account\AAccountController@profile_address_save');
 

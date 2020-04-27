@@ -12,6 +12,7 @@ use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use App\Models\Province;
 use App\Models\ShopDelivery;
+use App\Models\ShopPayment;
 
 use LKS;
 class MSettingController extends Controller
@@ -24,7 +25,9 @@ class MSettingController extends Controller
        $data['ship_method_tb']=\DB::table('ship_method_tb')->get();
        $data['shop_shippings']=ShopDelivery::where("shop_id",$r->shop->id)->get();
        $data['payment_methods']=\DB::table('payment_method_tb')->get();
-       $data['shop_payment_methods']=\DB::table('shop_payment_tb')->leftJoin('payment_method_tb','shop_payment_tb.method_id','payment_method_tb.id')->where('shop_payment_tb.shop_id',$r->shop->id)->get();
+       $data['shop_payment_methods']=ShopPayment::where("shop_id",$r->shop->id)->get();
+
+
        return view('manage.shop.setting.settings',$data);
    }
    public function setting_info_save_json(Request $r){
@@ -66,9 +69,9 @@ class MSettingController extends Controller
                $shop_ship->shop_id=$r->shop->id;
            }
 
-            $shop_ship->is_check=0;
+            $shop_ship->is_checked=0;
            if(isset($r->ship_method[$ship->id]))
-           $shop_ship->is_check=1;
+           $shop_ship->is_checked=1;
 
            $shop_ship->ship_cost=0;
            if(isset($r->ship_cost[$ship->id]))
@@ -93,17 +96,33 @@ class MSettingController extends Controller
    }
 
    public function setting_payment_save_json(Request $r){
-       \DB::table('shop_payment_tb')->where('shop_id',$r->shop->id)->delete();
-       if(isset($r->shop_payment)){
-       foreach($r->shop_payment as $method_id=>$value)
+    //    \DB::table('shop_payment_tb')->where('shop_id',$r->shop->id)->delete();
+       
+       if(isset($r->payment_method))
        {
-            \DB::table('shop_payment_tb')->insert(['shop_id'=>$r->shop->id,'method_id'=>$method_id]);
-        //    $shop_p=\DB::table('shop_payment_tb')->where('shop_id',$r->shop->id)->where('method_id',$method_id)->first();
-        //    if(!$shop_p)
-        //    {
-        //        \DB::table('shop_payment_tb')->insert(['shop_id'=>$r->shop->id,'method_id'=>$method_id]);
-        //    }
-       }
+        foreach($r->payment_method as $index=>$method_id)
+        {
+            $payment=ShopPayment::where("shop_id",$r->shop->id)->where("method_id",$method_id)->first();
+            if(!$payment)
+            {
+                $payment=new ShopPayment();
+                $payment->shop_id=$r->shop->id;
+                $payment->method_id=$method_id;
+                
+            }
+            $payment->is_checked=0;
+            if(isset($r->payment_check[$method_id]))
+            $payment->is_checked=1;
+
+            $payment->payment_data=null;
+            if(isset($r->payment_data[$method_id]))
+            {
+                $payment->payment_data=json_encode($r->payment_data[$method_id]);
+            }
+
+            $payment->save();
+            
+        }
        }
 
        return LKS::o(1,"");

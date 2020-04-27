@@ -25,6 +25,7 @@
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/css/bootstrap.min.css');?>">
+<!-- <link rel="stylesheet" type="text/css" href="<?php echo url('assets/js/plugins/bootstrap4/dist/css/bootstrap.min.css');?>"> -->
 
 <!-- font-awesome & simple line icons CSS -->
 <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/css/font-awesome.css');?>" media="all">
@@ -46,7 +47,7 @@
 
 <!-- Revolution Slider CSS -->
 <link href="<?php echo url('assets/web/css/revolution-slider.css');?>" rel="stylesheet">
-
+<link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/plugins/toastr/toastr.min.css');?>"></link>
 <!-- style CSS -->
 <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/css/style.css');?>" media="all">
 @yield('css')
@@ -117,15 +118,15 @@
             
             <div class="top-search">
               <div id="search">
-                <form>
+                <form action="<?php echo url('search');?>" method="get">
                   <div class="input-group">
                     <select class="cate-dropdown hidden-xs" name="category_id">
-                      <option><?php echo __('home.all_categories');?></option>
+                      <option value=""><?php echo __('home.all_categories');?></option>
                       <?php foreach($categories as $cat):?>
                        <option value="<?php echo $cat->id;?>"><?php echo $cat->name;?></option>
                       <?php endforeach;?>
                     </select>
-                    <input type="text" class="form-control" placeholder="Search" name="search">
+                    <input type="text" class="form-control" placeholder="Search" name="s">
                     <button class="btn-search" type="button"><i class="fa fa-search"></i></button>
                   </div>
                 </form>
@@ -135,38 +136,45 @@
             <!-- End Search --> 
           </div>
           <!-- top cart -->
-          
+          <?php
+            $html='';
+            $qty=0;
+            $total=0;
+            $basket=\Cart::get_cart();
+           
+            foreach($basket as $b)
+            {
+              $html.='<li shop_id="'.$b['shop_id'].'" class="shop_basket_header">'.$b['name'].'</li>';
+              foreach($b['items'] as $item){
+                $qty+=$item['qty'];
+                $total+=$item['qty']*$item['price'];
+                $html.='<li shop_id="'.$b['shop_id'].'" product_id="'.$item['product_id'].'" class="item odd"> <a href="'.$item['link'].'" title="'.$item['name'].'" class="product-image"><div style="background-image:url('.$item['img'].')" class="cart_photo"></div></a>';
+                  $html.='<div class="product-details"> <a href="javascript:;" product_id="'.$item['product_id'].'" title="ลบสินค้า" class="remove-cart"><i class="icon-close"></i></a>';
+                  $html.='<p class="product-name"><a href="'.$item['link'].'">'.$item['name'].'</a> </p>';
+                  $html.='<strong>'.$item['qty'].'</strong> x <span class="price" price="'.$item['price'].'">'.number_format($item['price'],2).'</span> </div>';
+                  $html.='</li>';
+              }
+            }
+          ?>
           <div class="col-lg-3 col-xs-3 top-cart">
             <div class="top-cart-contain">
               <div class="mini-cart">
                 <div data-toggle="dropdown" data-hover="dropdown" class="basket dropdown-toggle"> <a href="#">
                   <div class="cart-icon"><i class="fa fa-shopping-cart"></i></div>
-                  <div class="shoppingcart-inner hidden-xs"><span class="cart-title">ตระกร้าสินค้า</span> <span class="cart-total">0 รายการ: 0.00</span></div>
+                  <div class="shoppingcart-inner hidden-xs"><span class="cart-title">ตระกร้าสินค้า</span> <span class="cart-total"><?php echo $qty;?> รายการ: <?php echo number_format($total,2);?></span></div>
                   </a></div>
                 <div>
                   <div class="top-cart-content">
                     <div class="block-subtitle hidden-xs">รายการในตะกร้า</div>
+                  
+               
                     <ul id="cart-sidebar" class="mini-products-list">
-                      <li class="item odd"> <a href="shopping_cart.html" title="Ipsums Dolors Untra" class="product-image"><img src="http://via.placeholder.com/700x800" alt="Lorem ipsum dolor" width="65"></a>
-                        <div class="product-details"> <a href="#" title="Remove This Item" class="remove-cart"><i class="icon-close"></i></a>
-                          <p class="product-name"><a href="shopping_cart.html">Lorem ipsum dolor sit amet Consectetur</a> </p>
-                          <strong>1</strong> x <span class="price">$20.00</span> </div>
-                      </li>
-                      <li class="item even"> <a href="shopping_cart.html" title="Ipsums Dolors Untra" class="product-image"><img src="http://via.placeholder.com/700x800" alt="Lorem ipsum dolor" width="65"></a>
-                        <div class="product-details"> <a href="#" title="Remove This Item" class="remove-cart"><i class="icon-close"></i></a>
-                          <p class="product-name"><a href="shopping_cart.html">Consectetur utes anet adipisicing elit</a> </p>
-                          <strong>1</strong> x <span class="price">$230.00</span> </div>
-                      </li>
-                      <li class="item last odd"> <a href="shopping_cart.html" title="Ipsums Dolors Untra" class="product-image"><img src="http://via.placeholder.com/700x800" alt="Lorem ipsum dolor" width="65"></a>
-                        <div class="product-details"> <a href="#" title="Remove This Item" class="remove-cart"><i class="icon-close"></i></a>
-                          <p class="product-name"><a href="shopping_cart.html">Sed do eiusmod tempor incidist</a> </p>
-                          <strong>2</strong> x <span class="price">$420.00</span> </div>
-                      </li>
+                     <?php echo $html;?>
                     </ul>
-                    <div class="top-subtotal">รวม: <span class="price">0.00</span></div>
+                    <div class="top-subtotal">รวม: <span class="price"><?php echo number_format($total,2);?></span></div>
                     <div class="actions">
-                      <a href="<?php echo url('/checkout');?>" class="btn-checkout" type="button"><i class="fa fa-check"></i><span>ชำระเงิน</span></a>
-                      <button class="view-cart" type="button"><i class="fa fa-shopping-cart"></i> <span>ดูตระกร้า</span></button>
+                      <a href="<?php echo url('/cart');?>" class="btn-checkout" type="button"><i class="fa fa-check"></i><span>ตระกร้าสินค้า</span></a>
+                      <!-- <button class="view-cart" type="button"><i class="fa fa-shopping-cart"></i> <span>ดูตระกร้า</span></button> -->
                     </div>
                   </div>
                 </div>
@@ -192,7 +200,7 @@
               <div class="mega-menu-title">
                 <h3><?php echo __('home.product_category');?></h3>
               </div>
-              <div class="mega-menu-category" <?php echo (isset($show_menu)?'':'style="display:none"');?>>
+              <div class="mega-menu-category" <?php echo (isset($show_menu) &&$show_menu==1?'':'style="display:none"');?>>
                 <ul class="nav">
                     <?php foreach($categories as $cat):?>
                     <li class="nosub"><a href="<?php echo url('category/'.$cat->slug);?>"><i class="icon fa fa-location-arrow fa-fw"></i> <?php echo $cat->name;?></a></li>
@@ -223,11 +231,7 @@
               </li>
              <?php endfor;?>
           
-              <li class="mt-root">
-                <div class="mt-root-item"><a href="about_us.html">
-                  <div class="title title_font"><span class="title-text"><?php echo __('home.about_us');?></span></div>
-                  </a></div>
-              </li>
+           
                 
     
               <li class="mt-root">
@@ -266,11 +270,7 @@
           <div class="social col-md-4 col-sm-5">
             <ul class="inline-mode">
               <li class="social-network fb"><a title="Connect us on Facebook" target="_blank" href="https://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
-              <li class="social-network googleplus"><a title="Connect us on Google+" target="_blank" href="https://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
-              <li class="social-network tw"><a title="Connect us on Twitter" target="_blank" href="https://twitter.com/"><i class="fa fa-twitter"></i></a></li>
-              <li class="social-network linkedin"><a title="Connect us on Linkedin" target="_blank" href="https://www.pinterest.com/"><i class="fa fa-linkedin"></i></a></li>
-              <li class="social-network rss"><a title="Connect us on Instagram" target="_blank" href="https://instagram.com/"><i class="fa fa-rss"></i></a></li>
-              <li class="social-network instagram"><a title="Connect us on Instagram" target="_blank" href="https://instagram.com/"><i class="fa fa-instagram"></i></a></li>
+             
             </ul>
           </div>
         </div>
@@ -366,9 +366,14 @@
 
 <!-- jquery js --> 
 <script src="<?php echo url('assets/web/js/jquery.min.js');?>"></script> 
+<!-- jquery.mobile-menu js --> 
+<script src="<?php echo url('assets/web/js/mobile-menu.js');?>"></script> 
 
+<!--jquery-ui.min js --> 
+<script src="<?php echo url('assets/web/js/jquery-ui.js');?>"></script> 
 <!-- bootstrap js --> 
 <script src="<?php echo url('assets/web/js/bootstrap.min.js');?>"></script> 
+<!-- <script src="<?php echo url('assets/js/plugins/bootstrap4/dist/js/bootstrap.min.js');?>"></script>  -->
 
 <!-- owl.carousel.min js --> 
 <script src="<?php echo url('assets/web/js/owl.carousel.min.js');?>"></script> 
@@ -388,11 +393,7 @@
   /* ]]> */
   </script> 
 
-<!-- jquery.mobile-menu js --> 
-<script src="<?php echo url('assets/web/js/mobile-menu.js');?>"></script> 
-
-<!--jquery-ui.min js --> 
-<script src="<?php echo url('assets/web/js/jquery-ui.js');?>"></script> 
+<script src="<?php echo url('assets/web/plugins/toastr/toastr.min.js');?>"></script>
 <script src="<?php echo url('assets/js/plugins/currency.min.js');?>"></script>
 <!-- main js --> 
 <script src="<?php echo url('assets/js/plugins/blockUI.js');?>"></script>
@@ -400,6 +401,11 @@
 <script src="<?php echo url('assets/js/lks.js');?>"></script> 
 <script src="<?php echo url('assets/web/js/main.js');?>"></script> 
 <script src="<?php echo url('assets/web/js/ecom.js');?>"></script> 
+<!-- flexslider js --> 
+<script src="<?php echo url('assets/web/js/jquery.flexslider.js');?>"></script> 
+
+
+
 <script>
   var app=new LKS();
   app.url='<?php echo url('');?>';

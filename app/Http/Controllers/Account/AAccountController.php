@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserAddress;
 use App\Helper\LKS;
+use App\Models\Order;
 class AAccountController extends Controller
 {
   
@@ -22,6 +23,7 @@ class AAccountController extends Controller
       $data['user']=\Auth::user();
       $data['address']=\Auth::user()->address;
       $data['provinces']=\DB::table('province_tb')->get();
+      $data['orders']=Order::where("buyer_user_id",\Auth::user()->id)->get();
       return view('account.profile',$data);
    }
    public function profile_address_get(Request $r)

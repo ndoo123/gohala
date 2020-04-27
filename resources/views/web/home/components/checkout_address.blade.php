@@ -136,7 +136,3 @@
         </div>
     </div>
 </div>
-@section('js')
-@parent
-<script src="<?php echo url('');?>/assets/web/js/page/checkout.js"></script>
-@stop
