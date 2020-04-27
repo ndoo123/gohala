@@ -13,7 +13,7 @@
                     </li>
                     <?php endif;?>
                     <li class="menu-title"><?php echo $shop->name;?></li>
-                    <li class="menu-title">จัดการ</li>
+                    <!-- <li class="menu-title">จัดการ</li> -->
                     <li>
                         <a href="<?php echo url($shop->url);?>" class="waves-effect">
                             <i class="ti-home"></i> <span> <?php echo __('menu.dashboard');?>  </span>
