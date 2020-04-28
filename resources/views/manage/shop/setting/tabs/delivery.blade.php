@@ -21,7 +21,7 @@
            <tr method_id="<?php echo $method->id;?>">
                <td>
                    <div class="custom-control custom-checkbox mb-2">
-                        <input type="checkbox" <?php echo ($shop_method && $shop_method->is_check==1?'checked':'');?> name="ship_method[<?php echo $method->id;?>]" class="custom-control-input" id="ship_method_<?php echo $method->id;?>">
+                        <input type="checkbox" <?php echo ($shop_method && $shop_method->is_checked==1?'checked':'');?> name="ship_method[<?php echo $method->id;?>]" class="custom-control-input" id="ship_method_<?php echo $method->id;?>">
                         <label class="custom-control-label" for="ship_method_<?php echo $method->id;?>"><?php echo $method->name;?></label>
                     </div>
                </td>

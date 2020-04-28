@@ -1,6 +1,7 @@
 @extends('web.master_web')
 
 @section('content')
+<input type="hidden" id="shop_url" value="<?php echo $shop->url;?>">
 <div class="main-container col2-left-layout">
     <div class="container">
  <div class="row">
@@ -9,37 +10,25 @@
           <div class="shop-inner">
             
             <div class="toolbar">
-              <div class="view-mode">
-                <ul>
-                  <li class="active"> <a href="shop_grid.html"> <i class="fa fa-th-large"></i> </a> </li>
-                  <li> <a href="shop_list.html"> <i class="fa fa-th-list"></i> </a> </li>
-                </ul>
-              </div>
+             
               <div class="sorter">
                 <div class="short-by">
-                  <label>Sort By:</label>
-                  <select>
-                    <option selected="selected">Position</option>
-                    <option>Name</option>
-                    <option>Price</option>
-                    <option>Size</option>
+                  <label>เรียงลำดับโดย:</label>
+                  <select id="sort_product_shop_view">
+                    <option <?php if(isset($_GET["sort"]) && $_GET["sort"]=="price_lower")echo 'selected';?> value="price_lower">ราคาถูกไปแพง</option>
+                    <option <?php if(isset($_GET["sort"]) && $_GET["sort"]=="price_higher")echo 'selected';?> value="price_higher">ราคาแพงไปถูก</option>
+                    <option <?php if(isset($_GET["sort"]) && $_GET["sort"]=="name")echo 'selected';?> value="name">ชื่อสินค้า</option>
+                    
+                    
                   </select>
                 </div>
-                <div class="short-by page">
-                  <label>Show:</label>
-                  <select>
-                    <option selected="selected">18</option>
-                    <option>20</option>
-                    <option>25</option>
-                    <option>30</option>
-                  </select>
-                </div>
+               
               </div>
             </div>
             <div class="product-grid-area">
               <ul class="products-grid">
                  <?php foreach($products as $product):?>
-               <li class="item col-lg-3 col-md-4 col-sm-6 col-xs-6 ">
+               <li class="item col-md-4">
                   <div class="product-item">
                     <div class="item-inner">
                       <div class="product-thumbnail">
@@ -66,7 +55,7 @@
                         <div class="info-inner">
                           <div class="item-title"> <a title="<?php echo $product->name;?>" href="single_product.html"><?php echo $product->name;?> </a> </div>
                           <div class="item-content">
-                            <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> </div>
+                            <!-- <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> </div> -->
                             <div class="item-price">
                               <div class="price-box"> <span class="regular-price"> <span class="price"><?php echo number_format($product->price,2);?> <?php echo __('home.baht');?></span> </span> </div>
                             </div>
@@ -85,12 +74,12 @@
               </ul>
             </div>
             <div class="pagination-area ">
-              <ul>
+              <!-- <ul>
                 <li><a class="active" href="#">1</a></li>
                 <li><a href="#">2</a></li>
                 <li><a href="#">3</a></li>
                 <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-              </ul>
+              </ul> -->
             </div>
           </div>
         </div>
@@ -150,7 +139,7 @@
             </div>
             <div class="text-center">
                 <img height="100" src="<?php echo url('assets/images/shop_icon.png');?>">
-                <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i>&nbsp; <span>(5 votes)</span></div>
+                <!-- <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i>&nbsp; <span>(5 votes)</span></div> -->
             </div>
             
             <div class="block-content">
@@ -160,8 +149,8 @@
                   <ul>
                     <li><a href="#"><i class="fa fa-user"></i> <?php echo $shop->user->name;?></a></li>
                     <li><a href="#"><i class="fa fa-calendar"></i> <?php echo date('d/m/Y',strtotime($shop->created_at));?></a></li>
-                    <li><a href="#"><i class="fa fa-angle-right"></i> สินค้า: 0 </a></li>
-                    <li><a href="#"><i class="fa fa-comment"></i> 3 </a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i> สินค้า: <?php echo $count_product;?> </a></li>
+                    <!-- <li><a href="#"><i class="fa fa-comment"></i> 3 </a></li> -->
                   </ul>
                 </div>
               </div>
@@ -210,4 +199,7 @@
       </div>
 </div>
 </div>
+@stop
+@section('js')
+<script src="<?php echo url('assets/web/js/page/shop_view.js');?>"></script>
 @stop

@@ -226,6 +226,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'LKS' => \App\Helper\LKS::class,
+        'Cart' => \App\Helper\Cart::class,
+
 
     ],
 

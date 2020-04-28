@@ -1,7 +1,7 @@
 function select_address(address,is_change){
 
     if($('#address_card input[name="address_id"]').length==0)
-        $('#address_card').prepend('input type="hidden" name="address_id" value="'+address.id+'">');
+        $('#address_card').prepend('<input type="hidden" name="address_id" value="'+address.id+'">');
     else
         $('#address_card input[name="address_id"]').val(address.id);
 
@@ -30,9 +30,12 @@ function select_address(address,is_change){
     }
 
      $("#user_address_add").modal('hide');
-     $("#user_address_add input").val("");
+     $("#user_address_add .input").val("");
 
 }
+$(document).on('hidden.bs.modal','#user_address_add',function(){
+    $("#user_address_add .input").val("");
+});
 $(document).on('click','#add_new_address_to_select',function(){
 
     $("#user_address_add").modal('show');
@@ -82,4 +85,31 @@ $(document).on('click','.select_user_address',function(){
     select_address(obj,1);
 $("#user_address_select").modal('hide');
 
+});
+
+$(document).on('change','input[name="delivery_method"]',function(){
+  
+    
+    var cost=$(this).attr("cost");
+    var cal_type=$(this).attr('cal_type');
+
+    var ship_cost=0;
+    var total=parseFloat($('#checkout_item_table tfoot td.total').attr('amount'));
+    if(cal_type==1)
+    ship_cost=cost;
+    else if(cal_type==2)
+    {
+        var qty=0;
+        $('#checkout_item_table td.qty').each(function(){
+            qty+=parseInt($(this).text());
+        });
+        ship_cost=cost*qty;
+    }
+    
+    
+    $('#checkout_item_table tfoot td.total_delivery_cost').attr('amount',ship_cost);
+    $('#checkout_item_table tfoot td.total_delivery_cost').html(ToMoney(ship_cost));
+    $('#checkout_item_table tfoot td.grand_total').html(ToMoney(ship_cost+total));
+
+    
 });
