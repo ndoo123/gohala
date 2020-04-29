@@ -47,10 +47,10 @@
         ?>
 
           <tr>
-            <td colspan="2" align="left">{{ $item->product_id }}  {{ $item->product_name }}</td>
+            <td align="left">{{ $item->sku }}  {{ $item->product_name }}</td>
           </tr>
           <tr>
-            <td align="left">ET {{ $item->qty }} x {{ number_format($item->price,2,'.',',') }}</td>
+            <td align="left">({{ $item->qty }} x {{ number_format($item->price,2,'.',',') }})</td>
             <td align="right"><?=number_format(($item->price * $item->qty),2,'.',',');?></td>
           </tr>
                    
@@ -94,8 +94,10 @@
   </tr>
 </table>
 
-<?php if($rec_num > 0){
-  echo redirect('/print_slip/'.$receipt->id.'/'.$rec_num);
+<?php 
+
+if($rec_num > 0){
+  echo '<meta http-equiv="refresh" content="0;url='. url('print_slip/'.$receipt->id.'/'.$rec_num) .'">';
 }else{
   echo '<meta http-equiv="refresh" content="0;url='. url('shop/'.$shop->id) .'">';
 }

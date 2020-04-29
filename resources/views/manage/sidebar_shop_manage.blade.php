@@ -31,7 +31,6 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo url($shop->url.'/setting_shop');?>" class="waves-effect">
                         <a href="<?php echo url($shop->url.'/settings');?>" class="waves-effect">
                             <i class="ti-home"></i> <span> <?php echo __('menu.setup');?> </span>
                         </a>

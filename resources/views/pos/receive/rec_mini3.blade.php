@@ -93,6 +93,7 @@ if($rec_num > 0){
 }else{
   echo '<meta http-equiv="refresh" content="0;url='. url('shop/'.$shop->id) .'">';
 }
+?>
 
 
 

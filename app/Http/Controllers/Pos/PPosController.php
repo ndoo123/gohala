@@ -14,6 +14,7 @@ use App\Models\ProductCategory;
 use App\Models\Receipt;
 use App\Models\User;
 use Exception;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use LKS;
