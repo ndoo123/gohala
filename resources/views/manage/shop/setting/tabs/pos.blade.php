@@ -1,5 +1,9 @@
+<form action="<?php echo url($shop->url.'/setting/pos/save/json');?>" method="post">
+    <?php echo csrf_field();?>
+    <button type="submit" class="btn btn-success form-submit-action"><i class="fas fa-save"></i> บันทึกข้อมูล</button>
+
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-3">
         <div class="card">
             <div class="card-body">
 
@@ -7,26 +11,21 @@
 
                     <div class="form-group">
                         <label>รูปแบบใบเสร็จ</label>
-                        <div>
-                            <input type="text" class="form-control"
-                                    data-parsley-minlength="6" value="{{ LKS::txt_receipt($shop->receipt_type) }}" />
-                        </div>
+
+                        <select name="s_receipt" class="form-control">
+                                <option value="1" <?php if($shop->receipt_type == '1'){ echo 'selected'; }?>>ขนาด 3 นิ้ว ไม่มี VAT</option>
+                                <option value="2" <?php if($shop->receipt_type == '2'){ echo 'selected'; }?>>ขนาด 3 นิ้ว แสดง VAT</option>
+                        </select>
+                        
                     </div>
                     <div class="form-group">
                         <label>จำนวนใบเสร็จ</label>
                         <div>
-                            <input type="text" class="form-control" required
+                            <input name="t_recnum" type="text" class="form-control" required
                                     data-parsley-maxlength="6" value="{{ $shop->receipt_number }}"/>
                         </div>
                     </div>
 
-                    <div class="form-group mb-0">
-                        <div>
-                            <button type="submit" class="btn btn-warning waves-effect waves-light mr-1">
-                                แก้ไข
-                            </button>
-                        </div>
-                    </div>
 
             </div>
         </div>
@@ -35,6 +34,8 @@
 
 
 </div>
+
+</form>
 
 @section('js')
 @parent

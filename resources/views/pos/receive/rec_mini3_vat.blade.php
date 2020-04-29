@@ -94,7 +94,12 @@
   </tr>
 </table>
 
-<meta http-equiv="refresh" content="0;url={{ url('shop/'.$shop->id) }}">
+<?php if($rec_num > 0){
+  echo redirect('/print_slip/'.$receipt->id.'/'.$rec_num);
+}else{
+  echo '<meta http-equiv="refresh" content="0;url='. url('shop/'.$shop->id) .'">';
+}
+?>
 
 
 </body>

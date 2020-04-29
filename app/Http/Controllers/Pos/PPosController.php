@@ -146,7 +146,7 @@ class PPosController extends Controller
 
             // สั่งพิมพ์ใบเสร็จ
             //return $this->print_slip($rec_no);
-            return redirect('/print_slip/'.$rec_no);
+            return redirect('/print_slip/'.$rec_no.'/'.$shop->receipt_number)->header('Cache-Control', 'no-store, no-cache, must-revalidate');
 
         }
         catch(Exception $e)
@@ -156,7 +156,7 @@ class PPosController extends Controller
     }
 
     // พิมพ์ใบเสร็จ
-    public function print_slip($rec_no)
+    public function print_slip($rec_no,$rec_num)
     {
         //dd($rec_no);
         $receipt = Receipt::where('id', $rec_no)->first();
@@ -170,15 +170,21 @@ class PPosController extends Controller
         $shop = Shop::where("user_id",Auth::user()->id)->first();
         $seller = User::where('id', $receipt->seller_user_id)->first();
 
-        //$rec = array('','sale.rec_mini3','sale.rec_mini3_vat','sale.rec_a5','sale.rec_a5_vat');
+        $rec = array('','pos.receive.rec_mini3','pos.receive.rec_mini3_vat');
+        if(!$rec_num){
+            $rec_num = $shop->receipt_number - 1;
+        }else{
+            $rec_num -= 1;
+        }
         
-        return view('pos.receive.rec_mini3',[
+        return view($rec[$shop->receipt_type],[
             'order'=>$order,
             'ord_item'=>$ord_item,
             'receipt'=>$receipt,
             'payment'=>$payment,
             'shop'=>$shop,
-            'seller'=>$seller
+            'seller'=>$seller,
+            'rec_num'=>$rec_num
             ]);
     }
 

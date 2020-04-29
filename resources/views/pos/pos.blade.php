@@ -312,7 +312,7 @@
                                             <input type="decimal" class="form-control getmoney text-right" onkeyup="torn()"  id="getmoney" name="getmoney" maxlength="11" value="0">
                                         </div>
 
-                                        <div class="form-group m-2">
+                                        {{-- <div class="form-group m-2">
                                             <label for="">ชำระโดยวิธีอื่น</label>
                                         </div>
 
@@ -326,7 +326,7 @@
                                                 <button type="button" class="btn btn-outline-info open_modal" id="b-transfer" data-href="{{ url('payment/add/transfer') }}"><small>เงินโอน</small></button>
                                                 
                                             </div>
-                                        </div>
+                                        </div> --}}
 
 
                                     </div>
