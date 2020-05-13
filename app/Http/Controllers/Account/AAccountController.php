@@ -67,14 +67,52 @@ class AAccountController extends Controller
         $u->phone=$r->phone;
         $u->line=$r->line;
         $u->phone=$r->phone;
+        $u->facebook=$r->facebook;
         $u->save();
 
 
         return redirect()->back()->with('success',__('view.updated'));
 
    }
-   public function profile_address_save(Request $r)
+   public function verify_email(Request $r)
    {
+     $user=User::where("email",$r->email)->where("email_verify_code",$r->code)->first();
+     if(!$user)
+     {
+       if(\Auth::user())
+       return redirect('profile')->with('error','การยืนยัน Email ไม่สำเร็จไม่พบผู้ใช้งาน');
+       else
+       return redirect('login')->with('error','การยืนยัน Email ไม่สำเร็จไม่พบผู้ใช้งาน');
+     }
+     
+     $user->is_verify_email=1;
+     $user->save();
+
+     if(\Auth::user())
+     return redirect('profile')->with('success','การยืนยัน Email สำเร็จ');
+     else
+     return redirect('login')->with('success','การยืนยัน Email สำเร็จ');
+   }
+   public function send_verify_email(Request $r){
+        $user=\Auth::user();
+        if($user->is_verify_email==1)
+        return redirect()->back()->with('error','คุณได้ยืนยัน Email แล้ว');
+
+         \Mail::send([], [], function ($message) use($user){
+
+            $user->email_verify_code=md5($user->id.time());
+            $user->save();
+            $message->from(env('MAIL_USERNAME'),"Gohala" );
+            
+
+            $message->to($user->email)->subject("ยืนยันอีเมล์")
+            ->setBody('กรุณายืนยันอีเมล์เพื่อใช้งาน<br><a href="'.LKS::url_subdomain('account','').'/email/verify?email='.$user->email.'&code='.$user->email_verify_code.'">ยืนยัน</a>','text/html');
+        });
+
+        return redirect()->back()->with('success','ส่งยืนยัน Email ไปเรียบร้อยแล้ว');
+
+   }
+   public function profile_address_save(Request $r){
    
      if($r->name==""||$r->contact_name==""||$r->contact_phone==""||$r->address==""||$r->zipcode=="")
      return LKS::o(0,__('auth.please_enter_data'));

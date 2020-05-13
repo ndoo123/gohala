@@ -28,6 +28,7 @@
                             <a href="<?php echo env('APP_URL');?>" class="logo">
                                 <img src="<?php echo url('assets/images/logo-dark.png');?>" alt="" height="35">
                             </a>
+                          
                         </div>
                         <!-- End Logo container-->
 
@@ -97,6 +98,9 @@
                             <div class="card-body">
                                 <div class="float-left mr-4">
                                     <img src="<?php echo url('assets/manage/images/users/user-2.jpg');?>" alt="" class="img-fluid img-thumbnail rounded-circle thumb-lg">
+                                      <br>
+                                      <input type="file" id="profile_image" style="display:none">
+                                      <button type="button" class="btn btn-sm btn-primary" style="margin-left:10px">เปลี่ยนรูป</button>
                                 </div>
                                 <ul class="list-unstyled social-links float-right">
                                     <?php if($user->facebook!=""):?>
@@ -105,10 +109,12 @@
                                 </ul>
                                 <h5 class="text-primary font-18 mt-0 mb-1"><?php echo $user->name;?></h5>
                                 <p class="font-12 mb-2">เป็นสมาชิกเมื่อ: <?php echo date('d/m/Y H:i:s',strtotime($user->created_at));?></p>
-                                <p class="mb-4"><?php echo $user->email;?></p>
+                                <p class="mb-4"><?php echo $user->email.($user->is_verify_email==1?' (ยืนยันเรียบร้อย)':'');?></p>
                                 <div class="clearfix"></div>
                                 <hr>
-                             <button type="button" class="btn btn-block btn-success waves-effect waves-light">ยืนยันตัวตน</button>
+                                <?php if($user->is_verify_email==0):?>
+                             <a type="button" href="<?php echo url('/send/email/verify');?>" class="btn btn-block btn-success waves-effect waves-light">ยืนยันตัวตน</a>
+                             <?php endif;?>
                             </div>
                             
                         </div>

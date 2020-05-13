@@ -29,6 +29,8 @@ class CreateUsersTable extends Migration
                 $table->tinyInteger('user_type')->default("1")->comment="1= user,9= admin";   
                 $table->string('profile_img')->nullable();
                 $table->tinyInteger('is_active')->default("1");
+                $table->tinyInteger('is_verify_email')->default("0");
+                $table->string('email_verify_code',200)->nullable();
                 $table->rememberToken();
                 $table->timestamps();
             });
