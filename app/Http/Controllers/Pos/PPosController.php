@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pos;
 
+use App\Helper\LKS as HelperLKS;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -17,6 +18,7 @@ use Exception;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use LKS;
 class PPosController extends Controller
 {
@@ -28,10 +30,16 @@ class PPosController extends Controller
 
    public function pos(Request $req)
    {       
-       $data['shop']=Shop::where("id",$req->id)->first();
-       $data['pcats']=ProductCategory::get();
-       $data['product']=Product::where("shop_id",$req->id)->get();
-       return view('pos.pos',$data);
+        $data['shop']=Shop::where("id",$req->id)->first();
+        //$data['pcats']=ProductCategory::get();
+        $pcats = DB::table('product_tb')
+                    ->join('category_tb','product_tb.category_id','=','category_tb.id')
+                    ->select('product_tb.category_id','category_tb.*')
+                    ->where('product_tb.status','!=','0')
+                    ->get();
+        $data['pcats']= $pcats->unique();
+        $data['product']=Product::where("shop_id",$req->id)->get();
+        return view('pos.pos',$data);
    }
 
 
@@ -43,14 +51,22 @@ class PPosController extends Controller
                 ->where('sku',$sku)
                 ->first();
 
+        if($pro->is_discount == '0'){
+            $price = $pro->price;
+        }elseif($pro->is_discount == '1'){
+            $price = $pro->discount_value;
+        }elseif($pro->is_discount == '2'){
+            $price = HelperLKS::price_discount($pro->discount_value, $pro->price);
+        }
+
         $txt = '<tr>
         <input type="hidden" name="h_id[]" value="'.$pro->id.'">
         <input type="hidden" name="h_name[]" value="'.$pro->name.'">
-        <input type="hidden" name="h_price[]" value="'.$pro->price.'">
+        <input type="hidden" name="h_price[]" value="'.$price.'">
         <input type="hidden" id="h_num'.$pro->id.'" name="h_num[]" value="1">
         <td class="text-left">'. $pro->name .'</td>
         <td class="text-center" id="num'.$pro->id.'">1</td>
-        <td class="text-center" id="price'.$pro->id.'">'. $pro->price .'</td>
+        <td class="text-center" id="price'.$pro->id.'">'. number_format($price,2,'.',',') .'</td>
         <td class="text-center">
             <a  class="btn-del" pId="'.$pro->id.'" onclick="del_one('.$pro->id.')"><i class="fa fa-trash text-danger"></i></a>
         </td></tr>';
