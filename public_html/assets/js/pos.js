@@ -50,7 +50,7 @@
     function sum_total(id)
     {
         let sumcash = $('#sum_cash').html().replace(",", "");
-        let price = $('#price'+id).html();
+        let price = $('#price'+id).html().replace(",", "");
         let total = parseFloat(sumcash) + parseFloat(price);
         $('.sum_cash').html(addCommas(total));
     }
