@@ -39,7 +39,7 @@
                                   <li class="dropdown notification-list list-inline-item">
                                     <div class="dropdown notification-list nav-pro-img">
                                         <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                            <img src="<?php echo url('assets/manage/images/users/user-4.jpg');?>" alt="user" class="rounded-circle">
+                                            <img src="<?php echo \Auth::user()->get_photo();?>" alt="user" class="rounded-circle">
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                             <!-- item-->
@@ -97,10 +97,13 @@
                        <div class="card directory-card">
                             <div class="card-body">
                                 <div class="float-left mr-4">
-                                    <img src="<?php echo url('assets/manage/images/users/user-2.jpg');?>" alt="" class="img-fluid img-thumbnail rounded-circle thumb-lg">
+                                    <img src="<?php echo \Auth::user()->get_photo();?>" alt="" class="img-fluid img-thumbnail rounded-circle thumb-lg">
                                       <br>
-                                      <input type="file" id="profile_image" style="display:none">
-                                      <button type="button" class="btn btn-sm btn-primary" style="margin-left:10px">เปลี่ยนรูป</button>
+                                      <form action="<?php echo url('profile/update/profile_image');?>" method="post" enctype="multipart/form-data">
+                                      <?php echo csrf_field();?>
+                                      <input type="file" name="profile_image" id="profile_image" style="display:none">
+                                      </form>
+                                      <button type="button" id="change_profile_image" class="btn btn-sm btn-primary" style="margin-left:10px">เปลี่ยนรูป</button>
                                 </div>
                                 <ul class="list-unstyled social-links float-right">
                                     <?php if($user->facebook!=""):?>
@@ -299,17 +302,18 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label><?php echo __('view.address_name');?> <span class="text-danger">*</span></label>
-                            <input type="text" name="name" class="form-control input_address" value="">
+                            <label><?php echo __('view.contact_name');?> <span class="text-danger">*</span></label>
+                            <input type="text" name="contact_name" class="form-control input_address" value="">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label><?php echo __('view.contact_name');?> <span class="text-danger">*</span></label>
-                            <input type="text" name="contact_name" class="form-control input_address" value="">
+                         <div class="form-group">
+                            <label><?php echo __('view.address_name');?> <span class="text-danger">*</span></label>
+                            <input type="text" name="name" class="form-control input_address" value="">
                         </div>
+                       
                     </div>
                         <div class="col-md-6">
                         <div class="form-group">

@@ -111,8 +111,26 @@ class ManageSectionDb extends Migration
 
             });
             \DB::table('category_tb')->insert([
-                ['name'=>'อุปกรณ์ไฟฟ้า','slug'=>'อุปกรณ์ไฟฟ้า'],
-                ['name'=>'เครื่องสำอาง','slug'=>'เครื่องสำอาง']
+                ['name'=>'เสื้อผ้าแฟชั่นผู้ชาย','slug'=>'เสื้อผ้าแฟชั่นผู้ชาย'],
+                ['name'=>'มือถือและอุปกรณ์เสริม','slug'=>'มือถือและอุปกรณ์เสริม'],
+                ['name'=>'อาหารเสริมและผลิตภัณฑ์สุขภาพ','slug'=>'อาหารเสริมและผลิตภัณฑ์สุขภาพ'],
+                ['name'=>'นาฬิกาและแว่นตา','slug'=>'นาฬิกาและแว่นตา'],
+                ['name'=>'รองเท้าผุ้ชาย','slug'=>'รองเท้าผุ้ชาย'],
+                ['name'=>'คอมพิวเตอร์และแล๊ปท๊อป','slug'=>'คอมพิวเตอร์และแล๊ปท๊อป'],
+                ['name'=>'กล้องและอุปกรณ์ถ่ายภาพ','slug'=>'กล้องและอุปกรณ์ถ่ายภาพ'],
+                ['name'=>'กีฬาและกิจกรรมกลางแจ้ง','slug'=>'กีฬาและกิจกรรมกลางแจ้ง'],
+                ['name'=>'สื่อบันเทิงภายในบ้าน','slug'=>'สื่อบันเทิงภายในบ้าน'],
+                ['name'=>'เกมส์และอุปกรณ์เสริม','slug'=>'เกมส์และอุปกรณ์เสริม'],
+                ['name'=>'เสื้อผ้าแฟชั่นผู้หญิง','slug'=>'เสื้อผ้าแฟชั่นผู้หญิง'],
+                ['name'=>'ความงามและของใช้ส่วนตัว','slug'=>'ความงามและของใช้ส่วนตัว'],
+                ['name'=>'ของเล่น สินค้าแม่และเด็ก','slug'=>'ของเล่น สินค้าแม่และเด็ก'],
+                ['name'=>'เครื่องใช้ในบ้าน','slug'=>'เครื่องใช้ในบ้าน'],
+                ['name'=>'กระเป๋า','slug'=>'กระเป๋า'],
+                ['name'=>'รองเท้าผู้หญิง','slug'=>'รองเท้าผู้หญิง'],
+                ['name'=>'เครื่องประดับ','slug'=>'เครื่องประดับ'],
+                ['name'=>'อาหารและเครื่องดื่ม','slug'=>'อาหารและเครื่องดื่ม'],
+                ['name'=>'เครื่องใช้ไฟฟ้าภายในบ้าน','slug'=>'เครื่องใช้ไฟฟ้าภายในบ้าน'],
+                ['name'=>'สัวตว์เลี้ยง','slug'=>'สัวตว์เลี้ยง'],
             ]);
         }
         if(!Schema::hasTable('payment_method_tb'))
@@ -195,12 +213,14 @@ class ManageSectionDb extends Migration
                 $table->increments('id');
                 $table->integer('shop_id')->unsigned();
                 $table->string('sku',20);
+                $table->string('barcode',20);
                 $table->string('name');
                 $table->string('info_short')->nullable();
                 $table->mediumText('info_full')->nullable();
                 $table->integer('category_id');
                 
                 $table->integer('qty')->default(1);
+                $table->string('unit',100)->nullable();
                 $table->decimal('cost',10,2);
                 $table->decimal('price',10,2);
                 $table->tinyInteger('is_discount')->default("0")->comment="0= no discount,1=discount amount,2=discount percent";
@@ -358,6 +378,11 @@ class ManageSectionDb extends Migration
         Schema::dropIfExists('order_payment_tb'); 
         Schema::dropIfExists('shop_category_tb'); 
         
+        $path_shop=storage_path('app/uploads/shop');
+        $path_profile=storage_path('app/uploads/profile');
+   
+        \File::deleteDirectory($path_shop);
+        \File::deleteDirectory($path_profile);
         
 
     }

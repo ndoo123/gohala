@@ -26,7 +26,21 @@ Route::get('lang?lang={lang}',function(){
 Route::get('/error_404',function(){
   return view('error.error_404');
 })->name('error_404');
+Route::get('profile/image/{user_id}',function($user_id){
+  $path=storage_path('app/uploads/profile/'.$user_id);
+  if(!file_exists($path))
+  $path=public_path('assets/images/no_user.png');
 
+  $file = File::get($path);
+
+  $type = File::mimeType($path);
+
+  $response = Response::make($file, 200);
+
+  $response->header("Content-Type", $type);
+  
+  return $response;
+});
 Route::get('images/product/{shop_id}/{product_id}.{photo_name}.jpg',function($shop_id,$product_id,$photo_name){
   // $photo=\App\Models\ProductPhoto::where("product_id",$product_id)->where("id",$image_id)->first();
   // if(!$photo)

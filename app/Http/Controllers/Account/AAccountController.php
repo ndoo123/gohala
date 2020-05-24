@@ -112,6 +112,107 @@ class AAccountController extends Controller
         return redirect()->back()->with('success','ส่งยืนยัน Email ไปเรียบร้อยแล้ว');
 
    }
+   public function profile_upload_photo(Request $r)
+   {
+    //  dd($r->all());
+    // dd($r->file('profile_image')->extension());
+      $vali=$this->validate($r,[
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
+      ]);
+
+
+      $path=storage_path('app/uploads/profile');
+      if(!\File::exists($path))
+      \File::makeDirectory($path, $mode = 0755, true);
+
+    
+      $name=\Auth::user()->id;
+      $r->file('profile_image')->move($path,$name);
+   
+
+      return redirect()->back()->with('success','เปลี่ยนรูปโปรไฟล์ใหม่');
+
+
+   }
+   public function reset_password_process(Request $r)
+   {
+     if($r->password=="")
+     return redirect()->back()->with('error','กรุณาระบุรหัสผ่านใหม่');
+
+     if($r->password!=$r->password_confirm)
+     return redirect()->back()->with('error','รหัสผ่านใหม่และรหัสผ่านยืนยันไม่ตรงกัน');
+
+     $user=User::where("email",$r->email)->first();
+     if(!$user)
+     return redirect()->back()->with('error','ไม่พบข้อมูลผู้ใช้งาน Email นี้');
+
+     $data=[];
+     $reset_check=\DB::table('password_resets')->where("email",$r->email)->where("token",$r->code)->first();
+     if(!$reset_check)
+     $data['error']='ไม่พบข้อมูล Reset รหัสผ่าน <a href="'.url('login').'">เข้าสู่ระบบ/ลงทะเบียน</a>';
+
+     $currentDate=new \DateTime();
+     $resetDate=new \DateTime($reset_check->created_at);
+
+     $sec=$currentDate->getTimestamp()-$resetDate->getTimestamp();
+     if($sec>env('RESET_PASSWORD_EXPIRE')){
+     \DB::table('password_resets')->where("email",$r->email)->delete();
+     $data['error']='การ Reset รหัสผ่านของท่านหมดอายุแล้ว กรุณาขอ Reset รหัสผ่านใหม่ <a href="'.url('login').'">เข้าสู่ระบบ/ลงทะเบียน</a>';
+     }
+    if(isset($data['error']))
+    return view('account.reset_password',$data);
+
+    
+    $user->password=\Hash::make($r->password);
+    $user->save();
+    \DB::table('password_resets')->where("email",$r->email)->delete();  
+
+
+    return redirect('login')->with('success','เปลี่ยนรหัสผ่านสำเร็จ');
+
+   }
+   public function reset_password(Request $r)
+   {
+     $data=[];
+     $reset_check=\DB::table('password_resets')->where("email",$r->email)->where("token",$r->code)->first();
+     if(!$reset_check)
+     $data['error']='ไม่พบข้อมูล Reset รหัสผ่าน <a href="'.url('login').'">เข้าสู่ระบบ/ลงทะเบียน</a>';
+
+     $currentDate=new \DateTime();
+     $resetDate=new \DateTime($reset_check->created_at);
+
+     $sec=$currentDate->getTimestamp()-$resetDate->getTimestamp();
+     if($sec>env('RESET_PASSWORD_EXPIRE')){
+     \DB::table('password_resets')->where("email",$r->email)->delete();
+     $data['error']='การ Reset รหัสผ่านของท่านหมดอายุแล้ว กรุณาขอ Reset รหัสผ่านใหม่ <a href="'.url('login').'">เข้าสู่ระบบ/ลงทะเบียน</a>';
+     }
+
+     $data['code']=$r->code;
+     $data['email']=$r->email;
+
+     return view('account.reset_password',$data);
+   }
+   public function reset_password_send(Request $r)
+   {
+    //  dd($r->all());
+     $u=User::where("email",$r->email)->first();
+     if(!$u)
+     return LKS::o(0,"ไม่พบ Email นี้ลงบะเทียนไว้ในระบบ");
+     $token = str_random(64);
+      \Mail::send([], [], function ($message) use($u,$token){
+
+          $message->from(env('MAIL_USERNAME'),"Gohala - Reset Password" );
+          
+
+          $message->to($u->email)->subject("Reset รหัสผ่าน")
+          ->setBody('ท่านได้ทำการข้อ Reset รหัสผ่าน<br>ต้องการดำเนินการต่อ? <a href="'.LKS::url_subdomain('account','').'/user/reset_password?email='.$u->email.'&code='.$token.'">ทำการ Reset รหัสผ่าน</a>','text/html');
+      });
+    \DB::table('password_resets')->where('email',$u->email)->delete();
+    \DB::table('password_resets')->insert(['email'=>$u->email,"token"=>$token,'created_at'=>date('Y-m-d H:i:s')]);
+
+    return LKS::o(1,"");
+
+   }
    public function profile_address_save(Request $r){
    
      if($r->name==""||$r->contact_name==""||$r->contact_phone==""||$r->address==""||$r->zipcode=="")

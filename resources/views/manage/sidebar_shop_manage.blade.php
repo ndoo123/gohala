@@ -7,18 +7,21 @@
                 <!-- Left Menu Start -->
                
                 <ul class="metismenu" id="side-menu">
-                    
-                    <li class="menu-title"><?php echo $shop->name;?></li>
+             
                     
                     <?php if(isset($shop)):?>
-                    <li class="p-2">
-                        <button type="button" onclick="location.href='<?php echo url('');?>/shops'" class="btn btn-sm btn-primary btn-block">ร้านของฉัน</button>
+                    <li class="p-0">
+                        <a style="color:white;text-decoration:underline" href="<?php echo url('');?>/shops">เปลี่ยนร้าน</a>
+                       
                     </li>
                     <?php endif;?>
-                    
+                    <li class="menu-title">
+                        <button type="button" class="btn btn-sm btn-primary btn-block text-left"><?php echo $shop->name;?></button>
+                        
+                    </li>
                     <li class="menu-title">จัดการ</li>
                     
-                    <li class="menu-title"><?php echo $shop->name;?></li>
+                 
                     <!-- <li class="menu-title">จัดการ</li> -->
                     <li>
                         <a href="<?php echo url($shop->url);?>" class="waves-effect">

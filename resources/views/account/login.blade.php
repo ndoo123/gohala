@@ -10,7 +10,7 @@
         <link href="<?php echo url('assets/manage/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/icons.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/account/css/style.css');?>" rel="stylesheet" type="text/css">
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
 
     <body class="pb-0">
@@ -49,6 +49,7 @@
                             </li>
                         </ul>
                         <div class="tab-content">
+                            <?php LKS::has_alert();?>
                             <div class="tab-pane active p-3" id="login" role="tabpanel">
                                 <form id="login_form" class="form-horizontal m-t-10" method="post" action="<?php echo url('auth');?>">
                                    <?php if(session('redirect')):?>
@@ -67,7 +68,7 @@
 
                                     <div class="form-group row m-t-20">
                                         <div class="col-sm-6 p-t-10">
-                                        <a href="pages-recoverpw-2.html"><i class="mdi mdi-lock"></i> <?php echo __('view.forgot_password');?></a>
+                                        <a data-toggle="modal" data-target="#forgot_pass_modal" href="javascript:;"><i class="mdi mdi-lock"></i> <?php echo __('view.forgot_password');?></a>
                                         </div>
                                         <div class="col-sm-6 text-right">
                                             <button class="btn btn-primary w-md waves-effect waves-light" type="submit"><?php echo __('view.login');?></button>
@@ -124,7 +125,28 @@
         </div>
         <!-- end wrapper-page -->
 
-
+        <div class="modal" id="forgot_pass_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">ลืมรหัสผ่าน</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group input_email">
+                    <label for="register_email">ระบุ Email ที่ได้ทำการลงทะเบียนไว้</label>
+                    <input type="text" class="form-control register_email"  placeholder="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="reset_password_btn" class="btn btn-primary">Reset รหัสผ่าน</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+            </div>
+            </div>
+        </div>
+        </div>
        <!-- jQuery  -->
         <script src="<?php echo url('assets/manage/js/jquery.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/js/bootstrap.bundle.min.js');?>"></script>

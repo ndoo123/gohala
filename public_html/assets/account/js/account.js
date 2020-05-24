@@ -133,3 +133,45 @@ $(document).on('click','button.delete_user_address',function(){
     post.send(obj);
 
 });
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    
+    reader.onload = function(e) {
+     console.log(e.target.result);
+     
+    }
+    
+    reader.readAsDataURL(input.files[0]); // convert to base64 string
+  }
+}
+$(document).on('change','#profile_image',function(){
+    Load('body',true);
+  $(this).closest('form').submit();
+});
+$(document).on('click','#change_profile_image',function(){
+    $('#profile_image').click();
+});
+
+$(document).on('click','#reset_password_btn',function(){
+    var obj=new Object();
+    obj.email=$('#forgot_pass_modal input.register_email').val();
+    if(obj.email=="")
+    {
+        alert("กรุณาระบุ Email");
+        return;
+    }
+    var post=new JPost('#forgot_pass_modal div.modal-content');
+    post.url='/user/reset_password/send';
+    post.success=function(r){
+        if(r.result==0)
+        {
+            alert(r.data);
+            return;
+        }
+        alert('Reset รหัสผ่านจะถูกส่งไปยังอีเมล์ที่ท่านระบุไว้ ท่านมีเวลา 60 นาทีในการดำเนินการ');
+        $('#forgot_pass_modal input.register_email').val("");
+        $('#forgot_pass_modal').modal('hide');
+    }
+    post.send(obj);
+});

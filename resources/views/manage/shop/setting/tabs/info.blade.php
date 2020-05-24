@@ -5,6 +5,7 @@
     <div class="col-md-2 text-right">
         <img src="<?php echo $shop->get_logo();?>" width="150" height="150">
     </div>
+     <div class="col-md-1"></div>
     <div class="col-md-6">
         <h6>ข้อมูลทั่วไป</h6>
             <div class="input-group">

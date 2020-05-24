@@ -57,7 +57,7 @@
                           <div class="item-content">
                             <!-- <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> </div> -->
                             <div class="item-price">
-                              <div class="price-box"> <span class="regular-price"> <span class="price"><?php echo number_format($product->price,2);?> <?php echo __('home.baht');?></span> </span> </div>
+                              <div class="price-box"> <span class="regular-price"> <span class="price"><?php echo $product->get_discount_price(true);?> <?php echo __('home.baht');?></span> </span> </div>
                             </div>
                           </div>
                         </div>

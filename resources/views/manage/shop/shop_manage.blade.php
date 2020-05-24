@@ -1,6 +1,6 @@
 @extends('manage.master_manage')
 @section('title')
-สรุปผลรวมของร้าน | <?php echo $shop->name;?>
+สรุปผลรวมของร้าน | <span style="color:blue"><?php echo $shop->name;?></span>
 @stop
 @section('content')
 <div class="row">

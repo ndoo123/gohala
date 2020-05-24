@@ -173,7 +173,7 @@
                     </ul>
                     <div class="top-subtotal">รวม: <span class="price"><?php echo number_format($total,2);?></span></div>
                     <div class="actions">
-                      <a href="<?php echo url('/cart');?>" class="btn-checkout" type="button"><i class="fa fa-check"></i><span>ตระกร้าสินค้า</span></a>
+                      <a href="<?php echo url('/cart');?>" class="btn-checkout" type="button"><i class="fa fa-shopping-cart"></i><span>จัดการตระกร้า</span></a>
                       <!-- <button class="view-cart" type="button"><i class="fa fa-shopping-cart"></i> <span>ดูตระกร้า</span></button> -->
                     </div>
                   </div>
