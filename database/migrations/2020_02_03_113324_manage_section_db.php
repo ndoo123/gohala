@@ -197,7 +197,7 @@ class ManageSectionDb extends Migration
                 $table->string('sku',20);
                 $table->string('name');
                 $table->string('info_short')->nullable();
-                $table->string('info_full')->nullable();
+                $table->mediumText('info_full')->nullable();
                 $table->integer('category_id');
                 
                 $table->integer('qty')->default(1);
