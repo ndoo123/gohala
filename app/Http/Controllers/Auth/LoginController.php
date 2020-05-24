@@ -79,9 +79,25 @@ class LoginController extends Controller
         $u->email=$r->email;
         $u->password=\Hash::make($r->password);
         $u->name=$r->name;
-        $u->save();
+       
+
+        //send mail
+        \Mail::send([], [], function ($message) use($u){
+
+            $u->email_verify_code=md5($u->id.time());
+            $u->save();
+            $message->from(env('MAIL_USERNAME'),"Gohala" );
+            
+
+            $message->to($u->email)->subject("ยืนยันอีเมล์")
+            ->setBody('กรุณายืนยันอีเมล์เพื่อใช้งาน<br><a href="'.LKS::url_subdomain('account','').'/email/verify?email='.$u->email.'&code='.$u->email_verify_code.'">ยืนยัน</a>','text/html');
+        });
+         $u->save();
 
         \Auth::login($u);
+        
+
+        return redirect()->back()->with('success','ส่งยืนยัน Email ไปเรียบร้อยแล้ว');
 
          if(isset($r->redirect))
         return LKS::o(1,array('redirect'=>$r->redirect));
