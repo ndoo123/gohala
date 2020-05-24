@@ -94,9 +94,9 @@ $(document).on('change','input[name="delivery_method"]',function(){
     var cal_type=$(this).attr('cal_type');
 
     var ship_cost=0;
-    var total=parseFloat($('#checkout_item_table tfoot td.total').attr('amount'));
+    var total=parseFloat($('#checkout_item_table tfoot td.total').attr('amount').replace(',',''));
     if(cal_type==1)
-    ship_cost=cost;
+    ship_cost=parseFloat(cost);
     else if(cal_type==2)
     {
         var qty=0;

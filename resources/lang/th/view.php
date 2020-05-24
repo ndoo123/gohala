@@ -22,7 +22,7 @@ return [
     'contact_name'=>'ชื่อผู้รับ',
     'contact_phone'=>'เบอร์โทรผู้รับ',
     'address_delivery'=>'ที่อยู่สำหรับรับสินค้า',
-    'order_list'=>'รายการสั่งซื้อ',
+    'order_list'=>'ประวัติการสั่งซื้อ',
     'contact_info'=>'ข้อมูลการติดต่อ',
     'user_info'=>'ข้อมูลทั่วไป',
     'password_info'=>'การเปลี่ยนรหัสผ่าน',
@@ -42,7 +42,7 @@ return [
     'order'=>'สั่งซื้อ',
     'product_all'=>'สินค้าทั้งหมด',
     'profit'=>'ยอดขาย',
-    'order_list'=>'รายการสั่งซื้อ',
+
     'order_by'=>'ผู้สั่งซื้อ',
     'order_date'=>'วันที่สั่งซื้อ',
     'total'=>'ยอดรวม',

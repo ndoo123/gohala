@@ -31,4 +31,8 @@ class User extends Authenticatable
     public function address(){
         return $this->hasMany('\App\Models\UserAddress','user_id','id');
     }
+    public function get_photo(){
+        return env('APP_URL').'/profile/image/'.$this->id;
+    }
+
 }

@@ -17,21 +17,32 @@
                 <div class="card-body">
                     <h4 class="mt-0 text-primary header-title"><?php echo __('view.product.product_detail');?></h4>
                     <div class="row">
-                        <div class="col-md-3">
-                             <div class="form-group">
-                                <label>#SKU <span class="text-danger">*</span></label>
-                                <input type="text" value="<?php echo $product->sku;?>" name="sku" maxlength="50"  class="form-control maxlength" required="">
-                            
-                            </div>
-                            
-                        </div>
-                        <div class="col-md-9">
+                          <div class="col-md-12">
                              <div class="form-group">
                                 <label><?php echo __('view.product.product_name');?> <span class="text-danger">*</span></label>
                                 <input type="text" value="<?php echo $product->name;?>" name="name" maxlength="150" class="form-control maxlength" required="">
                                 <p <?php if($product->id==""){ echo 'style="display:none"';}?> id="slug"><b>Slug: </b><span><?php echo $product->slug;?></span></p>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                             <div class="form-group">
+                                <label>#SKU <span class="text-danger">*</span></label>
+                                <input type="text" value="<?php echo $product->sku;?>" name="sku" maxlength="20"  class="form-control maxlength" required="">
+                            
+                            </div>
+                            
+                        </div>
+                         <div class="col-md-3">
+                             <div class="form-group">
+                                <label>Barcode</label>
+                                <input type="text" value="<?php echo $product->sku;?>" name="barcode" maxlength="20"  class="form-control maxlength" required="">
+                            
+                            </div>
+                            
+                        </div>
+                      
                     </div>
                     
                   
@@ -65,6 +76,7 @@
                          <?php endforeach;?>
                      </div>
                     <button type="button" id="file_selector" class="btn btn-rouned btn-primary"><?php echo __('view.add_image');?></button>
+                    <br><br><span class="text-muted">กดที่รูป <i class="fas fa-star"></i> เพื่อตั้งค่าให้เป็นรูปหลัก</span>
                 </div>
             </div>
         </div> <!-- end col -->
@@ -81,9 +93,20 @@
                         </select>
                     </div>
                      <div class="form-group">
-                        <label><?php echo __('view.product.qty');?></label>
-                        <div class="input-group"><input required="" name="qty" type="number" value="<?php echo ($product->qty==""?"1":$product->qty);?>"  class="form-control text-right"><span class="input-group-addon input-group-append"><span class="input-group-text"><?php echo __('view.unit');?></span></span></div>
-                    </div>
+                         <div class="row">
+                             <div class="col-md-8">
+                                <label><?php echo __('view.product.qty');?></label>
+                                    <div class="input-group"><input required="" name="qty" type="number" value="<?php echo ($product->qty==""?"1":$product->qty);?>"  class="form-control text-right"></div>
+                                </div>
+                      
+                             <div class="col-md-4">
+                                  <label>หน่วยนับ</label>
+                                    <div class="input-group"><input name="unit" type="text" value="<?php echo $product->unit;?>" placeholder="กล่อง/ชิ้น"  class="form-control text-right"></div>
+                                </div>  
+                           
+                         </div>
+                        </div>
+                      
                     <div class="form-group">
                         <label><?php echo __('view.product.price');?></label>
                         <div class="input-group"><input required="" name="price" type="money" value="<?php echo $product->price;?>"  class="form-control"><span class="input-group-addon input-group-append"><span class="input-group-text"><?php echo __('view.currency');?></span></span></div>
@@ -91,13 +114,13 @@
                      <div class="form-group">
                         
                         <div>
-                            <input type="checkbox" <?php echo ($product->is_discount==1?'checked':'');?> name="is_discount" id="discount_switch" data-height="20" data-width="120" data-on="<?php echo __('view.product.discount_on');?>" data-off="<?php echo __('view.product.discount_off');?>" data-toggle="toggle" data-offstyle="light">
+                            <input type="checkbox" <?php echo ($product->is_discount>0?'checked':'');?> name="is_discount" id="discount_switch" data-height="20" data-width="120" data-on="<?php echo __('view.product.discount_on');?>" data-off="<?php echo __('view.product.discount_off');?>" data-toggle="toggle" data-offstyle="light">
                         
-                            <div style="display:none" class="m-t-10" id="discount_price_panel">
-                                <div class="input-group"><input type="money" name="discount_amount" value=""  class="form-control"><span class="input-group-addon input-group-append">
+                            <div style="<?php echo $product->is_discount==0?'display:none':'display:block';?>" class="m-t-10" id="discount_price_panel">
+                                <div class="input-group"><input type="money" name="discount_amount" value="<?php echo number_format($product->discount_value,2);?>"  class="form-control"><span class="input-group-addon input-group-append">
                                       <select name="discount_type" class="form-control">
-                                        <option <?php echo ($product->discount_type==1?'checked':'');?> value="1">บาท</option>
-                                        <option <?php echo ($product->discount_type==2?'checked':'');?> value="2">%</option>
+                                        <option <?php echo ($product->is_discount==1?'selected':'');?> value="1">บาท</option>
+                                        <option <?php echo ($product->is_discount==2?'selected':'');?> value="2">%</option>
                                         </select>
                                     </span>
                                 </div>

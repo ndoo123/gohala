@@ -26,16 +26,17 @@
                     <div class="media-body">
                         <h5 class="mt-0 font-16"><?php echo $s->name;?> <span class="badge badge-pill badge-primary"><a class="text-white" href="<?php echo $s->get_url();?>"><i class="fas fa-share-square"></i> <?php echo $s->get_url();?></a></span></h5>
                         <div class="button-items">
-                            <button type="button" class="btn btn-secondary btn-sm waves-effect">สินค้า 0</button>
-                            <button type="button" class="btn btn-secondary btn-sm waves-effect">สั่งซื้อ 0</button>
+                            <button type="button" class="btn btn-secondary btn-sm waves-effect">สินค้า <?php echo $s->count_product();?></button>
+                            <button type="button" class="btn btn-secondary btn-sm waves-effect">สั่งซื้อ <?php echo $s->count_order();?></button>
                            
                         </div>
                         
                     </div>
                     <div class="shop_action float-right m-t-20">
                         <input type="checkbox" <?php echo ($s->is_open==1?'checked':'');?> data-width="90" data-on="เปิดร้าน" data-off="ปิดร้าน" data-toggle="toggle" data-offstyle="light">
-                        <a href="<?php echo url($s->url);?>" class="btn btn-info">จัดการร้าน</a>
-                        <a href="<?php echo \LKS::url_subdomain('pos','shop/'.$s->id);?>" class="btn btn-success">POS</a>
+                        <a href="<?php echo url($s->url);?>"  class="btn btn-info">จัดการร้าน</a>
+                        <a href="<?php echo $s->get_url();?>" target="_blank" class="btn btn-success">Web Store</a>
+                        <a href="<?php echo \LKS::url_subdomain('pos','shop/'.$s->id);?>" target="_blank" class="btn btn-success">POS</a>
                         
                     </div>
                    
@@ -57,11 +58,11 @@
                 </div>
                 <div class="modal-body">
                 <div class="form-group">
-                        <label>ชื่อร้าน <span style="text-danger">*</span></label>
+                        <label>ชื่อร้าน <span class="text-danger">*</span></label>
                         <input type="text" name="name" class="form-control" required="" placeholder="">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">URL ของร้าน <span style="text-danger">*</span></label>
+                        <label class="control-label">URL ของร้าน <span class="text-danger">*</span></label>
                         <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected"><span class="input-group-addon input-group-prepend"><span class="input-group-text"><?php echo env('APP_URL');?>/</span></span><input type="text" value="" name="shop_url" class="form-control"></div>
                         <span class="text-muted">ต้องเป็นตัวภาษาอังกฤษและไม่มีช่องว่างเท่านั้น</span>
                     </div>

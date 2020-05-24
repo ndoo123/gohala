@@ -25,5 +25,11 @@ class Shop extends Model
         if($this->logo=="")
         return url('assets/images/no_image_available.jpeg');
     }
+    public function count_product(){
+       return Product::where("shop_id",$this->id)->count();
+    }
+    public function count_order(){
+       return Order::where("shop_id",$this->id)->count();
+    }
 
 }

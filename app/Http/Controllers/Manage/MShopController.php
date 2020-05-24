@@ -78,6 +78,16 @@ class MShopController extends Controller
                 if($check_sku)
                 return LKS::o(0,__('view.product.sku_exists'));
             }
+            if($p->barcode!=$r->barcode)
+            {
+                //check barcode
+                $check_barcode=Product::where("barcode",$r->barcode)->where("shop_id",$r->shop->id)->where('id','<>',$p->id)->first();
+                if($check_barcode)
+                return LKS::o(0,"Barcode มีอยู่ในระบบแล้ว");
+            }
+
+            $p->barcode=$r->barcode;
+            $p->sku=$r->sku;
         }
 
         if(!isset($p))//NEW Product
@@ -86,17 +96,24 @@ class MShopController extends Controller
             if($check_sku)
             return LKS::o(0,__('view.product.sku_exists'));
 
+            $check_barcode=Product::where("barcode",$r->barcode)->where("shop_id",$r->shop->id)->first();
+            if($check_barcode)
+            return LKS::o(0,"Barcode มีอยู่ในระบบแล้ว");
+
 
             $p=new Product();
-            $p->sku=$r->sku;
+            
             $p->rate=0;
             // $p->run_photo_id=1;
+            $p->barcode=$r->barcode;
+            $p->sku=$r->sku;
             $p->shop_id=$r->shop->id;
             $p->cost=0;
            
+           
         }
 
-
+        
 
         if(!is_numeric($r->qty))
         $r->qty=1;
@@ -106,7 +123,7 @@ class MShopController extends Controller
        
 
         $current_name_for_check_slug=$p->name;
-
+        $p->unit=$r->unit;
         $p->price=$r->price;
         $p->name=$r->name;
         $p->info_short=$r->info_short;
@@ -114,6 +131,7 @@ class MShopController extends Controller
         $p->category_id=$r->category;
         $p->qty=$r->qty;
         $p->is_discount=0;
+  
         if(isset($r->is_discount)){
             $p->is_discount=1;
             $p->discount_value=$r->discount_amount;
@@ -259,7 +277,7 @@ class MShopController extends Controller
                     ->orderBy('created_at', 'desc')
                     ->get();
         $data['summary']=(object)array(
-            "order"=>0,
+            "order"=>\DB::table('order_tb')->where('shop_id',$r->shop->id)->count(),
             "product"=>\DB::table('product_tb')->where('shop_id',$r->shop->id)->count(),
             "profit"=>0
        );

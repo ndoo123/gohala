@@ -290,10 +290,14 @@ class HomeController extends Controller
     }
     public function get_products(Request $r)
     {
+   
         $offset=0;
         $take=50;
         $data['products']=Product::where('is_ecom',1)->where('status',1)->offset($offset)->take($take)->get();
-        
+        for($i=0;$i<count($data['products']);$i++)
+        {
+            $data['products'][$i]->price=$data['products'][$i]->get_discount_price(false);
+        }
         return LKS::o(1,$data);
     }
     public function search(Request $r)
