@@ -127,5 +127,21 @@ class MSettingController extends Controller
 
        return LKS::o(1,"");
    }
+
+   public function setting_pos_save_json(Request $r){
+     
+    if(!isset($r->t_recnum))
+    {
+        return LKS::o(0,"กรุณาระบุจำนวนใบเสร็จ");
+    }
+    $shop=Shop::where("id",$r->shop->id)->first();
+    $shop->receipt_type=$r->s_receipt;
+    $shop->receipt_number=$r->t_recnum;
+
+    $shop->save();
+
+    return LKS::o(1,"");
+
+}
   
 }

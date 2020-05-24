@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pos;
 
+use App\Helper\LKS as HelperLKS;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -14,8 +15,10 @@ use App\Models\ProductCategory;
 use App\Models\Receipt;
 use App\Models\User;
 use Exception;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use LKS;
 class PPosController extends Controller
 {
@@ -27,10 +30,16 @@ class PPosController extends Controller
 
    public function pos(Request $req)
    {       
-       $data['shop']=Shop::where("id",$req->id)->first();
-       $data['pcats']=ProductCategory::get();
-       $data['product']=Product::where("shop_id",$req->id)->get();
-       return view('pos.pos',$data);
+        $data['shop']=Shop::where("id",$req->id)->first();
+        //$data['pcats']=ProductCategory::get();
+        $pcats = DB::table('product_tb')
+                    ->join('category_tb','product_tb.category_id','=','category_tb.id')
+                    ->select('product_tb.category_id','category_tb.*')
+                    ->where('product_tb.status','!=','0')
+                    ->get();
+        $data['pcats']= $pcats->unique();
+        $data['product']=Product::where("shop_id",$req->id)->get();
+        return view('pos.pos',$data);
    }
 
 
@@ -42,14 +51,22 @@ class PPosController extends Controller
                 ->where('sku',$sku)
                 ->first();
 
+        if($pro->is_discount == '0'){
+            $price = $pro->price;
+        }elseif($pro->is_discount == '1'){
+            $price = $pro->discount_value;
+        }elseif($pro->is_discount == '2'){
+            $price = HelperLKS::price_discount($pro->discount_value, $pro->price);
+        }
+
         $txt = '<tr>
         <input type="hidden" name="h_id[]" value="'.$pro->id.'">
         <input type="hidden" name="h_name[]" value="'.$pro->name.'">
-        <input type="hidden" name="h_price[]" value="'.$pro->price.'">
+        <input type="hidden" name="h_price[]" value="'.$price.'">
         <input type="hidden" id="h_num'.$pro->id.'" name="h_num[]" value="1">
         <td class="text-left">'. $pro->name .'</td>
         <td class="text-center" id="num'.$pro->id.'">1</td>
-        <td class="text-center" id="price'.$pro->id.'">'. $pro->price .'</td>
+        <td class="text-center" id="price'.$pro->id.'">'. number_format($price,2,'.',',') .'</td>
         <td class="text-center">
             <a  class="btn-del" pId="'.$pro->id.'" onclick="del_one('.$pro->id.')"><i class="fa fa-trash text-danger"></i></a>
         </td></tr>';
@@ -146,7 +163,7 @@ class PPosController extends Controller
 
             // สั่งพิมพ์ใบเสร็จ
             //return $this->print_slip($rec_no);
-            return redirect('/print_slip/'.$rec_no);
+            return redirect('/print_slip/'.$rec_no.'/'.$shop->receipt_number)->header('Cache-Control', 'no-store, no-cache, must-revalidate');
 
         }
         catch(Exception $e)
@@ -156,7 +173,7 @@ class PPosController extends Controller
     }
 
     // พิมพ์ใบเสร็จ
-    public function print_slip($rec_no)
+    public function print_slip($rec_no,$rec_num)
     {
         //dd($rec_no);
         $receipt = Receipt::where('id', $rec_no)->first();
@@ -170,15 +187,21 @@ class PPosController extends Controller
         $shop = Shop::where("user_id",Auth::user()->id)->first();
         $seller = User::where('id', $receipt->seller_user_id)->first();
 
-        //$rec = array('','sale.rec_mini3','sale.rec_mini3_vat','sale.rec_a5','sale.rec_a5_vat');
+        $rec = array('','pos.receive.rec_mini3','pos.receive.rec_mini3_vat');
+        if(!$rec_num){
+            $rec_num = $shop->receipt_number - 1;
+        }else{
+            $rec_num -= 1;
+        }
         
-        return view('pos.receive.rec_mini3',[
+        return view($rec[$shop->receipt_type],[
             'order'=>$order,
             'ord_item'=>$ord_item,
             'receipt'=>$receipt,
             'payment'=>$payment,
             'shop'=>$shop,
-            'seller'=>$seller
+            'seller'=>$seller,
+            'rec_num'=>$rec_num
             ]);
     }
 

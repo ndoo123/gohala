@@ -106,6 +106,12 @@ class LKS
         return $txt[$id];
     }
 
+    public static function price_discount($dis, $price)
+    {
+        $per = ($price * $dis) / 100;
+        return $price - $per;
+    }
+
 
 }
 ?>

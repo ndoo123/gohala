@@ -16,8 +16,17 @@
                         <h4 class="font-14">{{ mb_substr($prod->name,0,35,'UTF-8') }} </h4>
                         </div>
                         <h5 class="my-0 font-14 float-right">
-                            <b>{{ number_format($prod->price,2,'.',',') }}</b></h5>
-                        <span class="badge badge-soft-primary">sku {{ $prod->sku }}</span>
+                            <b>
+                                <?php 
+                                if($prod->is_discount == '0'){
+                                    echo number_format($prod->price,2,'.',',');
+                                }elseif($prod->is_discount == '1'){
+                                    echo number_format($prod->discount_value,2,'.',',') ;
+                                }elseif($prod->is_discount == '2'){
+                                    echo number_format(\LKS::price_discount($prod->discount_value, $prod->price),2,'.',',') ;
+                                }
+                                ?></b></h5>
+                        <span class="badge badge-soft-primary">{{ $prod->sku }}</span>
                     </div>
                 </div>
             </div>
