@@ -14,7 +14,27 @@
     </head>
 
     <body class="pb-0">
-
+        <script>
+            window.fbAsyncInit = function() {
+                FB.init({
+                appId      : '2934897193194069',
+                cookie     : true,
+                xfbml      : true,
+                version    : 'v7.0'
+                });
+                
+                FB.AppEvents.logPageView();   
+                
+            };
+              (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        </script>
+       
         <div class="home-btn d-none d-sm-block">
             <a href="<?php echo env('APP_URL');?>" class="text-white"><i class="fas fa-home h2"></i></a>
         </div>
@@ -32,8 +52,7 @@
                     </div>
 
                     <div class="p-3 p-b-0">
-                        <h4 class="font-18 m-b-5 text-center"><?php echo __('view.welcome');?></h4>
-                        <p class="text-muted text-center"><?php echo __('view.welcome_sub');?></p>
+                       
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#login" role="tab">
@@ -111,6 +130,11 @@
                                 </form>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                             <div class="fb-login-button" onlogin="checkLoginState()" data-size="medium" data-button-type="login_with" data-layout="default"  data-width=""></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="m-t-0 text-center">
                 
@@ -152,7 +176,7 @@
         <script src="<?php echo url('assets/manage/js/bootstrap.bundle.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/js/jquery.slimscroll.js');?>"></script>
         <script src="<?php echo url('assets/manage/js/waves.min.js');?>"></script>
- <script src="<?php echo url('assets/js/plugins/blockUI.js');?>"></script>
+        <script src="<?php echo url('assets/js/plugins/blockUI.js');?>"></script>
         <!-- App js -->
       <script src="<?php echo url('assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
@@ -165,3 +189,45 @@
     </body>
 
 </html>
+
+<script>
+
+
+function checkLoginState() {
+    
+    
+  FB.getLoginStatus(function(response) {
+
+      if(response.status=="connected")
+      {
+          var uid=response.authResponse.userID;
+          var accessToken=response.authResponse.accessToken;
+        
+         
+        FB.api('/'+uid+"?fields=name,email", function(response) {
+          
+           
+            Load('div.accountbg',true)
+            var obj=new Object();
+            obj.fb_login=1;
+            obj.fb_id=uid;
+            obj.name=response.name;
+            obj.email=response.email;
+            var post=new JPost();
+            post.url='<?php echo url('auth/facebook');?>';
+            post.success=function(r){
+                if(r.result==0)
+                {
+                    alert(r.msg);
+                    return;
+                }
+                location.reload(); 
+            }
+            post.send(obj);
+            
+        });
+      }
+    statusChangeCallback(response);
+  });
+}
+</script>

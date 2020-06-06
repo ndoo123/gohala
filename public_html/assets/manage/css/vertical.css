@@ -1,0 +1,30 @@
+.metismenu li
+{
+    display: block;
+    width: 100%;
+}
+body[data-sidebar=dark] #sidebar-menu ul li ul.sub-menu li a
+{
+  
+    background: 0 0;
+}
+#sidebar-menu ul li ul.sub-menu li a
+{
+    padding: .4rem 1.5rem .4rem 3.5rem;
+    font-size: 15px;
+    color:#66676d
+
+}
+#sidebar-menu ul li ul.sub-menu li a:hover{
+    color:#b3c8dd
+}
+
+#sidebar-menu ul li a{
+    display: block;
+    padding: 12px 20px;
+   
+    position: relative;
+    font-size: 15.7px;
+    -webkit-transition: all .4s;
+    transition: all .4s;
+}

@@ -38,15 +38,65 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    public function login_facebook(Request $r)
+    {
+        // dd($r->all());
+        if((!isset($r->email)||$r->email=="") || (!isset($r->name) || $r->name=="") || (!isset($r->fb_id)||$r->fb_id==""))
+        {
+            return \LKS::o(0,"ไม่ระบุ Email หรือ Facebook ID และ ชื่อ ");
+        }
 
+        $u=User::where("facebook_id",$r->fb_id)->first();
+        if(!$u)
+        {
+            //Register
+            $u=new User();
+            $u->email=$r->email;
+            $u->password=\Hash::make($r->facebook_id.rand(100,999).time());
+            $u->name=$r->name;
+            $u->facebook_id=$r->fb_id;
+
+            $u->save();
+            //send mail
+            \Mail::send([], [], function ($message) use($u){
+
+                $u->email_verify_code=md5($u->id.time());
+                $u->save();
+                $message->from(env('MAIL_USERNAME'),"Gohala" );
+                
+
+                $message->to($u->email)->subject("ยืนยันอีเมล์")
+                ->setBody('กรุณายืนยันอีเมล์เพื่อใช้งาน<br><a href="'.LKS::url_subdomain('account','').'/email/verify?email='.$u->email.'&code='.$u->email_verify_code.'">ยืนยัน</a>','text/html');
+            });
+
+            
+            //get photo
+            $pic_url='http://graph.facebook.com/'.$r->fb_id.'/picture?type=large';
+            $contents = file_get_contents($pic_url);
+            $path=storage_path('app/uploads/profile');
+            if(!\File::exists($path))
+            \File::makeDirectory($path, $mode = 0755, true);
+
+        
+            $name=$u->id;
+            file_put_contents($path.'/'.$name,$contents);
+            
+            
+
+        }
+
+        \Auth::login($u);
+        return LKS::o(1,"");
+    }
     public function login(Request $r)
     {
+
         if((!isset($r->email)||$r->email=="") || (!isset($r->password) || $r->password==""))
         {
             return \LKS::o(0,__('auth.email_password_empty'));
         }
 
-        $u=User::where("email",$r->email)->first();
+        $u=User::where("email",$r->email)->where("facebook_id",null)->first();
         if(!$u)
         return LKS::o(0,__('auth.user_not_found'));
 
@@ -70,7 +120,7 @@ class LoginController extends Controller
         if($r->password!=$r->password_confirm)
         return LKS::o(0,__('auth.password_confirm_miss_match'));
 
-        $u=User::where("email",$r->email)->first();
+        $u=User::where("email",$r->email)->where("facebook_id",null)->first();
         if($u)
         return LKS::o(0,__("auth.user_exists"));
 
@@ -79,8 +129,7 @@ class LoginController extends Controller
         $u->email=$r->email;
         $u->password=\Hash::make($r->password);
         $u->name=$r->name;
-       
-
+        $u->save();
         //send mail
         \Mail::send([], [], function ($message) use($u){
 
@@ -92,7 +141,7 @@ class LoginController extends Controller
             $message->to($u->email)->subject("ยืนยันอีเมล์")
             ->setBody('กรุณายืนยันอีเมล์เพื่อใช้งาน<br><a href="'.LKS::url_subdomain('account','').'/email/verify?email='.$u->email.'&code='.$u->email_verify_code.'">ยืนยัน</a>','text/html');
         });
-         $u->save();
+        
 
         \Auth::login($u);
         

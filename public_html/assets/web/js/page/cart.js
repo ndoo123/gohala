@@ -49,7 +49,7 @@ $(document).on('click','a.remove_cart_item',function(){
     var obj=new Object();
     obj.product_id=tr.attr("product_id");
     obj.shop_id=tr.attr("shop_id");
-    var post =new JPost('body');
+    var post =new JPost('html');
     post.url='/product/remove_cart'
     post.success=function(r){
         console.log(r);
@@ -83,7 +83,7 @@ $(document).on('click','button.remove_all_cart_shop',function(){
     var card=$(this).closest('div.shop_card');
     var obj=new Object();
     obj.shop_id=card.attr("shop_id");
-    var post=new JPost('body');
+    var post=new JPost('html');
     post.url='/cart/shop/clear';
     post.success=function(r){
         if(r.result==0)
@@ -115,7 +115,7 @@ $(document).on('change','tr.cart_item td.qty input',function(){
         return;
     }
 
-    var post=new JPost('body');
+    var post=new JPost('html');
     post.url='/cart/item/update';
     post.success=function(r){
         if(r.result==0)

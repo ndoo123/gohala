@@ -18,8 +18,24 @@ class Product extends Model
         return env('APP_URL').'/assets/images/no_image_available.jpeg';
     }
 
-    public function category(){
-        return $this->hasOne('\App\Models\ProductCategory','id','category_id');
+    public function get_categories(){
+        
+        return ProductCategory::join('shop_category_tb','shop_category_tb.id','shop_category_product_tb.category_id')
+        ->where("shop_category_product_tb.product_id",$this->id)
+        ->where("shop_category_product_tb.shop_id",$this->shop_id)
+        ->selectRaw('shop_category_product_tb.*,shop_category_tb.name')->get();
+    }
+    public function in_category($cat_id,$categories)
+    {
+        
+      
+       foreach($categories as $cat)
+       {
+           if($cat_id==$cat->category_id)
+           return true;
+       }
+
+        return false;
     }
     public function photos(){
         return $this->hasMany('\App\Models\ProductPhoto','product_id','id');
@@ -27,12 +43,13 @@ class Product extends Model
     public function shop(){
         return $this->hasOne('\App\Models\Shop','id','shop_id');
     }
-    public function get_link(){
-       
+    public function get_link($shop_url=''){
+       if($shop_url!='')
+       $shop_url='/'.$shop_url;
         if($this->slug!="")
-        return env('APP_URL').'/product/'.$this->slug.'.'.$this->shop_id;
+        return env('APP_URL').$shop_url.'/product/'.$this->slug.'.'.$this->shop_id;
         else
-        return env('APP_URL').'/product/'.$this->id.'.'.$this->shop_id;
+        return env('APP_URL').$shop_url.'/product/'.$this->id.'.'.$this->shop_id;
 
         return url('');
     }

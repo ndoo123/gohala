@@ -1,4 +1,4 @@
-@extends('web.master_web')
+@extends('web.master_web_no_title')
 @section('content')
 <div id="cart_page" class="main-container col1-layout">
     <div class="container">

@@ -38,7 +38,19 @@
                                         <img src="<?php echo $product->get_photo();?>" alt="" class="rounded thumb-lg">
                                     </td>
                                     <td><?php echo $product->sku;?></td>
-                                    <td><?php echo $product->name;?><br><span class="badge badge-info"><?php echo $product->category->name;?></span></td>
+                                    <td><?php echo $product->name;?><br>
+                                        <?php 
+                                        $categories=$product->get_categories();
+                                        $cats='';
+                                        foreach($categories as $c){
+                                            $cats.=$c->name.',';
+                                        }
+                             
+                                        if($cats!='')
+                                        $cats=substr($cats,0,2);
+                                        echo '<span class="text-muted">'.$cats.'</span>';
+                                        ?>
+                                    </td>
                                     <td class="text-right"><?php echo number_format($product->price,2);?></td>
                                     <td class="text-center"><?php echo $product->qty;?></td>
                                     <td><a class="btn btn-sm btn-primary" href="<?php echo url($shop->url.'/product/'.$product->id);?>"><?php echo __('view.product.edit_product');?></a></td>

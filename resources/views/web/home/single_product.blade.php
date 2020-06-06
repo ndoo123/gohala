@@ -2,15 +2,7 @@
 @section('bredcrumb')
 <div class="breadcrumbs">
 <div class="container">
-    <div class="row">
-    <div class="col-xs-12">
-        <ul>
-        <li class="home"> <a title="<?php echo __('home.home');?>" href="<?php echo url('');?>"><?php echo __('home.home');?></a><span>»</span></li>
-        <li class=""> <a title="<?php echo $category->name;?>" href="<?php echo url('category').'/'.$category->slug;?>"><?php echo $category->name;?></a><span>»</span></li>
-        <li><strong><?php echo $product->name;?></strong></li>
-        </ul>
-    </div>
-    </div>
+
 </div>
 </div>
 @stop

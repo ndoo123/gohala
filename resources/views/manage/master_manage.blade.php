@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Gohala - ระบบจัดการหลังร้าน</title>
         <link rel="shortcut icon" href="<?php echo url('assets/manage/images/favicon.ico');?>">
 
@@ -13,6 +14,7 @@
         <link href="<?php echo url('assets/js/plugins/bootstraptoggle/bootstrap-toggle.css');?>" rel="stylesheet">
         @yield('css')
         <link href="<?php echo url('assets/manage/css/style.css');?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo url('assets/manage/css/vertical.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/custom.css');?>" rel="stylesheet" type="text/css">
     </head>
 
@@ -20,7 +22,9 @@
 
         <!-- Begin page -->
         <div id="wrapper">
-
+            <?php if(isset($shop)):?>
+            <input type="hidden" id="shop_url" value="<?php echo $shop->url;?>">
+            <?php endif;?>
             <!-- Top Bar Start -->
             <div class="topbar">
 

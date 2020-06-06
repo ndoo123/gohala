@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             Schema::create('user_tb', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('name');
-                $table->string('email')->unique();
+                $table->string('email');
                 $table->string('password');
                 $table->string('id_card')->nullable();
                 $table->string('phone')->nullable();
@@ -31,12 +31,14 @@ class CreateUsersTable extends Migration
                 $table->tinyInteger('is_active')->default("1");
                 $table->tinyInteger('is_verify_email')->default("0");
                 $table->string('email_verify_code',200)->nullable();
+                $table->string('facebook_id',50)->nullable();
                 $table->rememberToken();
                 $table->timestamps();
             });
 
             \DB::table('user_tb')->insert(['name'=>'ผู้ดูแลระบบ','email'=>'admin@admin.com','password'=>\Hash::make('123456'),'user_type'=>"9","created_at"=>date('Y-m-d H:i:s'),"updated_at"=>date('Y-m-d H:i:s')]);
         }
+        
 
         if(!Schema::hasTable('user_address_tb'))
         {
@@ -62,10 +64,10 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        
-       
         Schema::dropIfExists('user_tb');
         Schema::dropIfExists('user_address_tb');
-        
+       
+     
+
     }
 }
