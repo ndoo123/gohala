@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manage;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Shop;
+use App\Models\ShopCategory;
 use App\Models\Product;
 use App\Models\ProductSlug;
 use App\Models\ProductPhoto;
@@ -54,8 +55,7 @@ class MShopController extends Controller
    //SHOP MAnage
     public function product_save(Request $r)
     {
-        // dd($r->all());
-         
+       
         if(!isset($r->name)||$r->name==""||!isset($r->price)||!isset($r->qty)||!isset($r->sku)||$r->sku=="")
         return LKS::o(0,__('view.require_data'));
 
@@ -128,7 +128,7 @@ class MShopController extends Controller
         $p->name=$r->name;
         $p->info_short=$r->info_short;
         $p->info_full=$r->info;
-        $p->category_id=$r->category;
+     
         $p->qty=$r->qty;
         $p->is_discount=0;
   
@@ -244,7 +244,18 @@ class MShopController extends Controller
 
             $p->save();
 
-         
+         //Assign Category
+         ProductCategory::where("product_id",$p->id)->where("shop_id",$r->shop->id)->delete();
+         $add_categories=[];
+         if(isset($r->category))
+         {
+             for($i=0;$i<count($r->category);$i++)
+             {
+                 $add_categories[]=["product_id"=>$p->id,"shop_id"=>$r->shop->id,"category_id"=>$r->category[$i]];
+             }
+         }
+         if(count($add_categories)>0)
+         ProductCategory::insert($add_categories);
 
          \DB::commit();
         }
@@ -284,6 +295,69 @@ class MShopController extends Controller
     
        return view('manage.shop.shop_manage',$data);
    }
+   public function shop_categories(Request $r)
+   {
+       $data['shop']=$r->shop;
+       $data['categories']=ShopCategory::where("shop_id",$r->shop->id)
+       
+       ->selectRaw('shop_category_tb.*,(select count(product_id) from shop_category_product_tb where shop_category_product_tb.category_id=shop_category_tb.id and shop_category_product_tb.shop_id="'.$r->shop->id.'" ) as product_count')
+       ->get();
+
+       return view('manage.shop.shop_category',$data);
+   }
+   public function shop_categories_active_json(Request $r)
+   {
+        $c=ShopCategory::where("id",$r->category_id)->where("shop_id",$r->shop->id)->first();
+       if(!$c)
+       return LKS::o(0,"ไม่พบข้อมูลหมวดหมู่");
+
+       $c->is_active=$r->is_active?1:0;
+       $c->save();
+
+       return LKS::o(1,"");
+   }
+   public function shop_categories_get_json(Request $r)
+   {
+       $c=ShopCategory::where("id",$r->category_id)->where("shop_id",$r->shop->id)->first();
+       if(!$c)
+       return LKS::o(0,"ไม่พบข้อมูลหมวดหมู่");
+
+       return LKS::o(1,$c);
+   }
+   public function shop_categories_delete_json(Request $r)
+   {
+        $r=ShopCategory::where("id",$r->category_id)->where("shop_id",$r->shop->id)->delete();
+        if($r==0)
+        return LKS::o(0,"ไม่พบข้อมูลหมวดหมู่");
+
+        return LKS::o(1,"");
+   }
+   public function shop_categories_update_json(Request $r)
+   {
+       if($r->name=="")
+       {
+           return LKS::o(0,"กรุณาระบุชื่อ");
+       }
+       $c=null;
+        if($r->category_id!="")
+        {
+            $c=ShopCategory::where("id",$r->category_id)->where("shop_id",$r->shop->id)->first();
+            if(!$c)
+            return LKS::o(0,"ไม่พบข้อมูลหมวดหมู่");
+        }
+        if($c==null){
+             $c=new ShopCategory();
+             $c->user_id=\Auth::user()->id;
+             $c->shop_id=$r->shop->id;
+        }
+      
+       $c->name=$r->name;
+       $c->slug=LKS::convertToSlug( $c->name);
+       
+       $c->save();
+
+       return LKS::o(1,$c);
+   }
    public function product_list(Request $r)
    {
         $data['shop']=$r->shop;
@@ -303,8 +377,9 @@ class MShopController extends Controller
         return redirect()->back()->with('error',__('view.product.product_not_found'));
 
        }
+       $data['categories']=ShopCategory::where("shop_id",$r->shop->id)->get();
 
-       $data['product_categories']=ProductCategory::all();
+
 
        return view('manage.shop.product.product_view',$data);
    }

@@ -1,9 +1,11 @@
 <?php
 Route::get('/','AAccountController@login');
 Route::get('login','AAccountController@login')->name('login');
+Route::get('login/fb/callback','AAccountController@login_fb_callback');
 
 //Auth
 Route::post('auth','\App\Http\Controllers\Auth\LoginController@login');
+Route::post('auth/facebook','\App\Http\Controllers\Auth\LoginController@login_facebook');
 Route::post('register','\App\Http\Controllers\Auth\LoginController@register');
 Route::get('logout','\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('email/verify','AAccountController@verify_email');

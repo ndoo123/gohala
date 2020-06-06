@@ -25,6 +25,13 @@ Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],funct
     Route::post('products/save','MShopController@product_save');
     Route::get('product/{product_id}','MShopController@product_view');
 
+    //Category
+    Route::get('categories','MShopController@shop_categories');
+    Route::post('categories/update/json','MShopController@shop_categories_update_json');
+    Route::post('categories/get/json','MShopController@shop_categories_get_json');
+    Route::post('categories/delete/json','MShopController@shop_categories_delete_json');
+    Route::post('categories/update/active/json','MShopController@shop_categories_active_json');
+
     
     Route::get('setting_shop', 'MShopController@setting_shop');
     

@@ -16,14 +16,15 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\UserAddress;
 use App\Models\OrderDelivery;
+use App\Models\ShopCategory;
 use LKS;
 use Cart;
 class HomeController extends Controller
 {
     public function home(){
-        $data['categories']=ProductCategory::all();
-        $data['show_menu']=0;
-        return view('web.home.home',$data);
+        // $data['categories']=ProductCategory::all();
+        // $data['show_menu']=0;
+        return view('web.promote');
     }
     public function category(Request $r)
     {
@@ -41,14 +42,17 @@ class HomeController extends Controller
     }
     public function product_single(Request $r)
     {
-      
+        $shop=Shop::where("url",$r->shop_url)->first();
+        if(!$shop)
+        return redirect('error_404');
+
         $slug=ProductSlug::where("shop_id",$r->shop_id)->where("slug",$r->slug)->first();
         if(!$slug)
         return redirect('error_404');
-
+        $data['shop']=$shop;
         $data['product']=Product::where("shop_id",$slug->shop_id)->where("id",$slug->product_id)->first();
-        $data['categories']=ProductCategory::all();
-        $data['category']=ProductCategory::where("id",$data['product']->category_id)->first();
+        $data['categories']=$shop->get_categories(true);
+        // $data['category']=ShopCategory::where("id",$data['product']->category_id)->first();
         
         return view('web.home.single_product',$data);
     }
@@ -58,14 +62,20 @@ class HomeController extends Controller
         if(!$shop)
         return redirect('error_404');
 
-        $cat=\DB::table('category_tb')->where("slug",$r->cat_slug)->first();
+        $cat=ShopCategory::where('shop_id',$shop->id)->where("slug",$r->cat_slug)->first();
 
         $data['shop']=$shop;
-        $data['categories']=ProductCategory::all();
+        $data['categories']=$shop->get_categories(true);
+     
         $data['discount_items']=Product::where("shop_id",$shop->id)->where("is_discount",1)->take(6)->get();
         $data['products']=array();
         if($cat)
-        $data['products']=Product::where("shop_id",$shop->id)->where('category_id',$cat->id)->get();
+        $data['products']=Product::join('shop_category_product_tb','shop_category_product_tb.product_id','product_tb.id')
+                                            ->where('shop_category_product_tb.category_id',$cat->id)
+                                            ->where('shop_category_product_tb.shop_id',$shop->id)
+                                            ->selectRaw('product_tb.*')
+                                            ->get();
+         $data['count_product']=count($data['products']);
          return view('web.home.shop_view',$data);
     }
     public function shop_view(Request $r)
@@ -75,7 +85,8 @@ class HomeController extends Controller
         return redirect('error_404');
 
         $data['shop']=$shop;
-        $data['categories']=ProductCategory::all();
+        $data['categories']=$shop->get_categories(true);
+
         $data['discount_items']=Product::where("shop_id",$shop->id)->where("is_discount",1)->take(6)->get();
 
         $product=Product::where("shop_id",$shop->id);
@@ -140,7 +151,7 @@ class HomeController extends Controller
     }
     public function cart(Request $r)
     {
-         $data['categories']=ProductCategory::all();
+        // $data['categories']=ProductCategory::all();
         $data['cart']=Cart::get_cart();
 
         return view('web.home.cart',$data);
@@ -157,7 +168,7 @@ class HomeController extends Controller
         {
             return redirect('error_404');
         }
-        $data['categories']=ProductCategory::all();
+        $data['categories']=$shop->get_categories(true);
         $data['user_address']=\Auth::user()->address;
         $data['provinces']=Province::all();
    

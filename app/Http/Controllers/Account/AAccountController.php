@@ -8,14 +8,22 @@ use App\Models\User;
 use App\Models\UserAddress;
 use App\Helper\LKS;
 use App\Models\Order;
+use Facebook\Facebook;
+use Facebook\Exceptions\FacebookResponseException;
+use Facebook\Exceptions\FacebookSDKException;
 class AAccountController extends Controller
 {
-  
+   public function login_fb_callback(Request $r)
+   {
+     \Log::info("fb_login");
+   }
    public function login(Request $r){
+
+    
       if(\Auth::check())
       return redirect('profile');
  
-       return view('account.login');
+      return view('account.login');
    }
    public function profile()
    {

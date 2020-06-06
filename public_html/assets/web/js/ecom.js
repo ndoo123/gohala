@@ -77,7 +77,7 @@ function add_to_cart(product_id,qty)
     var obj=new Object();
     obj.product_id=product_id;
     obj.qty=qty;
-    var post=new JPost('body');
+    var post=new JPost('html');
     post.url='/product/add_to_cart';
     post.success=function(res){
         if(res.result==0)

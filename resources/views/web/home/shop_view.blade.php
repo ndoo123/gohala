@@ -36,7 +36,7 @@
                         <div class="icon-sale-label sale-left"><?php echo __('home.discount');?></div>
                         <?php endif;?>
                         <div class="pr-img-area"> 
-                          <a title="<?php echo $product->name;?>" href="<?php echo $product->get_link();?>">
+                          <a title="<?php echo $product->name;?>" href="<?php echo $product->get_link($shop->url);?>">
                             <figure style="background-image:url(<?php echo $product->get_photo();?>)"> 
                               
                             </figure>
@@ -184,9 +184,9 @@
               break;
               ?>
                  <li class="item">
-                  <div class="products-block-left"> <a href="<?php echo $discount_items[$i]->get_link();?>" title="<?php echo $discount_items[$i]->name;?>" class="product-image" ><figure style="background-image:url(<?php echo $discount_items[$i]->get_photo();?>)"></figure></a></div>
+                  <div class="products-block-left"> <a href="<?php echo $discount_items[$i]->get_link($shop->url);?>" title="<?php echo $discount_items[$i]->name;?>" class="product-image" ><figure style="background-image:url(<?php echo $discount_items[$i]->get_photo();?>)"></figure></a></div>
                   <div class="products-block-right">
-                    <p class="product-name"> <a href="<?php echo $discount_items[$i]->get_link();?>"><?php echo $discount_items[$i]->name;?></a> </p>
+                    <p class="product-name"> <a href="<?php echo $discount_items[$i]->get_link($shop->url);?>"><?php echo $discount_items[$i]->name;?></a> </p>
                     <span class="price"><?php echo $discount_items[$i]->get_discount_price(true);?></span>
                   </div>
                 </li>

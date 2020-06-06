@@ -74,7 +74,8 @@ Route::get('login',function(Illuminate\Http\Request $r){
 Route::get('logout',function(){return redirect(LKS::url_subdomain('account','logout'));});
 Route::get('search','HomeController@search');
 Route::get('category/{slug}','HomeController@category');
-Route::get('product/{slug}.{shop_id}','HomeController@product_single');
+// Route::get('product/{slug}.{shop_id}','HomeController@product_single');
+Route::get('{shop_url}/product/{slug}.{shop_id}','HomeController@product_single');
 Route::post('product/add_to_cart','HomeController@product_add_to_cart');
 Route::post('product/remove_cart','HomeController@product_remove_from_cart');
 Route::get('home/get/products','HomeController@get_products');

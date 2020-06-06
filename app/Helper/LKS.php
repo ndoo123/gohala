@@ -81,7 +81,9 @@ class LKS
     }
     public static function convertToSlug($string)
     {
-        return preg_replace('/[^A-Za-z0-9ก-๙\-]/u', '-',str_replace('&', '-and-', $string));
+
+        $s=preg_replace('/[^A-Za-z0-9ก-๙\-]/u', '-',str_replace('&', '-and-', $string));
+        return substr($s,0,255);
     }
     public static function error_404_url()
     {

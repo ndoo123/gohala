@@ -6,7 +6,7 @@
             <div id="sidebar-menu">
                 <!-- Left Menu Start -->
                
-                <ul class="metismenu" id="side-menu">
+                <ul class="metismenu list-unstyled mm-show" id="side-menu">
              
                     
                     <?php if(isset($shop)):?>
@@ -28,10 +28,15 @@
                             <i class="ti-home"></i> <span> <?php echo __('menu.dashboard');?>  </span>
                         </a>
                     </li>
-                    <li>
-                        <a href="<?php echo url($shop->url.'/products');?>" class="waves-effect">
-                            <i class="ti-home"></i> <span> <?php echo __('menu.product');?> </span>
+                    <li class="mm-active">
+                        <a href="javascript: void(0);" class="has-arrow waves-effect mm-active">
+                            <i class="ti-pie-chart"></i>
+                            <span>ข้อมูลสินค้า</span>
                         </a>
+                        <ul class="sub-menu mm-collapse mm-show" aria-expanded="false">
+                            <li><a href="<?php echo url($shop->url.'/products');?>"><?php echo __('menu.product');?></a></li>
+                            <li><a href="<?php echo url($shop->url.'/categories');?>">หมวดหมู่สินค้า</a></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="<?php echo url($shop->url.'/settings');?>" class="waves-effect">

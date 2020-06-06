@@ -83,15 +83,7 @@
          <div class="col-4">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="mt-0 text-primary header-title"><?php echo __('view.product.product_detail');?></h4>
-                    <div class="form-group">
-                        <label><?php echo __('view.product.product_category');?></label>
-                        <select name="category" class="form-control">
-                            <?php foreach($product_categories as $cat):?>
-                                <option <?php echo ($cat->id==$product->category_id?'selected':'');?> value="<?php echo $cat->id;?>"><?php echo $cat->name;?></option>
-                            <?php endforeach;?>
-                        </select>
-                    </div>
+                    <button type="submit" class="btn btn-block btn-primary mb-3"><?php echo __('view.save');?></button>
                      <div class="form-group">
                          <div class="row">
                              <div class="col-md-8">
@@ -131,7 +123,21 @@
                     <div class="form-group">
                         <div class="input-group"><span class="input-group-addon input-group-prepend"><span class="input-group-text"><?php echo __('view.product.price');?></span></span><input type="money" id="product_price_total" disabled value=""  class="form-control"></div>
                     </div>
-                    <button type="submit" class="btn btn-block btn-primary"><?php echo __('view.save');?></button>
+                    
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="mt-0 text-primary header-title">หมวดหมู่</h4>
+                    <?php 
+                    $product_categories=$product->get_categories();
+                    foreach($categories as $cat):?>
+                      <div class="custom-control custom-checkbox">
+                            <input type="checkbox" value="<?php echo $cat->id;?>" <?php if(isset($product) && $product->in_category($cat->id,$product_categories)) echo 'checked';?> name="category[]" class="custom-control-input" id="cat_<?php echo $cat->id;?>">
+                            <label class="custom-control-label" for="cat_<?php echo $cat->id;?>"> <?php echo $cat->name;?></label>
+                        </div>
+                    <?php endforeach;?>
+                      
                 </div>
             </div>
         </div> <!-- end col -->

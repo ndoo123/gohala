@@ -90,13 +90,16 @@
             <div class="col-lg-4 col-sm-4 hidden-xs"> 
               <!-- Default Welcome Message -->
               <div class="welcome-msg "><?php echo __('view.welcome');?> </div>
-              <span class="phone hidden-sm">Call Us: +123.456.789</span> </div>
+              <span class="phone hidden-sm"><?php echo \Auth::user()->name;?></span> </div>
             
             <!-- top links -->
             <div class="headerlinkmenu col-lg-8 col-md-7 col-sm-8 col-xs-12">
               <div class="links">
                   <?php if(\Auth::check()):?>
-                <div class="myaccount"><a title="My Account" href="<?php echo LKS::url_subdomain('account','');?>"><i class="fa fa-user"></i><span class="hidden-xs"><?php echo __('home.my_account');?></span></a></div>
+                <div class="myaccount">
+                <a title="My Account" href="<?php echo LKS::url_subdomain('account','');?>"><i class="fa fa-user"></i><span class="hidden-xs"><?php echo __('home.my_account');?></span></a>
+                <a title="My Shop" href="<?php echo LKS::url_subdomain('manage','shops');?>"><i class="fa fa-home"></i><span class="hidden-xs">ร้านของฉัน</span></a>
+                </div>
                 <div class="login"><a href="<?php echo url('logout');?>"><i class="fa fa-unlock-alt"></i><span class="hidden-xs"><?php echo __('home.logout');?></span></a></div>
                 <?php else:?>
                 <div class="login"><a href="<?php echo url('login');?>"><i class="fa fa-unlock-alt"></i><span class="hidden-xs"><?php echo __('home.login');?></span></a></div>
@@ -203,7 +206,7 @@
               <div class="mega-menu-category" <?php echo (isset($show_menu) &&$show_menu==1?'':'style="display:none"');?>>
                 <ul class="nav">
                     <?php foreach($categories as $cat):?>
-                    <li class="nosub"><a href="<?php echo url('category/'.$cat->slug);?>"><i class="icon fa fa-location-arrow fa-fw"></i> <?php echo $cat->name;?></a></li>
+                    <li class="nosub"><a href="<?php echo url($shop->url.'/cat/'.$cat->slug);?>"><i class="icon fa fa-location-arrow fa-fw"></i> <?php echo $cat->name;?></a></li>
                     <?php endforeach;?>
                   
                 </ul>
@@ -215,7 +218,7 @@
           <div class="mtmegamenu">
             <ul>
                 <li class="mt-root">
-                <div class="mt-root-item"><a href="<?php echo url('');?>">
+                <div class="mt-root-item"><a href="<?php echo url($shop->url);?>">
                   <div class="title title_font"><span class="title-text"><?php echo __('home.home');?></span> </div>
                   </a></div>
               </li>
@@ -225,7 +228,7 @@
                 break;
              ?>
               <li class="mt-root">
-                <div class="mt-root-item"><a href="<?php echo url('category/'.$categories[$i]->slug);?>">
+                <div class="mt-root-item"><a href="<?php echo url($shop->url.'/cat/'.$categories[$i]->slug);?>">
                   <div class="title title_font"><span class="title-text"><?php echo $categories[$i]->name;?></span> </div>
                   </a></div>
               </li>
