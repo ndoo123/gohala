@@ -185,7 +185,7 @@ class PPosController extends Controller
         //dd($rec_no);
         $receipt = Receipt::where('id', $rec_no)->first();
         $order = Order::where('id', $receipt->order_id)->first();
-        $ord_item = \DB::table('order_item_tb')
+        $ord_item = DB::table('order_item_tb')
                     ->leftJoin('product_tb', 'order_item_tb.id', 'product_tb.id')
                     ->select('order_item_tb.*','product_tb.sku')
                     ->where('order_id', $receipt->order_id)
