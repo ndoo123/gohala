@@ -10,6 +10,18 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('testmail',function(){
+   \Mail::send([], [], function ($message){
+
+            
+            $message->from(env('MAIL_USERNAME'),"Gohala" );
+            
+
+            $message->to("scripzero@gmail.com")->subject("ยืนยันอีเมล์")
+            ->setBody('กรุณายืนยันอีเมล์เพื่อใช้งาน<br>','text/html');
+        });
+        
+});
 Route::get('migrate',function(){
   
   if(!isset($_GET["cmd"]))

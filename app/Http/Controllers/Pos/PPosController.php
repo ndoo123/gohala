@@ -32,10 +32,16 @@ class PPosController extends Controller
    {       
         $data['shop']=Shop::where("id",$req->id)->first();
         //$data['pcats']=ProductCategory::get();
+        // $pcats = DB::table('product_tb')
+        //             ->join('category_tb','product_tb.category_id','=','category_tb.id')
+        //             ->select('product_tb.category_id','category_tb.*')
+        //             ->where('product_tb.status','!=','0')
+        //             ->get();
         $pcats = DB::table('product_tb')
-                    ->join('category_tb','product_tb.category_id','=','category_tb.id')
-                    ->select('product_tb.category_id','category_tb.*')
-                    ->where('product_tb.status','!=','0')
+                    ->join('shop_category_product_tb','product_tb.id','=','shop_category_product_tb.product_id')
+                    ->join('shop_category_tb','shop_category_product_tb.category_id','=','shop_category_tb.id')
+                    ->select('shop_category_tb.id AS category_id','shop_category_tb.*')
+                    ->where('product_tb.status','=','1')
                     ->get();
         $data['pcats']= $pcats->unique();
         $data['product']=Product::where("shop_id",$req->id)->get();
@@ -101,6 +107,7 @@ class PPosController extends Controller
                 $od->shipping_id = '0';
                 $od->order_date = $ddate;
                 $od->total = $req->h_total;
+                $od->total_delivery = '0';
                 $od->seller_user_id = Auth::user()->id;
                 $od->qty = array_sum($req->h_num);
                 $od->save();
@@ -178,7 +185,7 @@ class PPosController extends Controller
         //dd($rec_no);
         $receipt = Receipt::where('id', $rec_no)->first();
         $order = Order::where('id', $receipt->order_id)->first();
-        $ord_item = \DB::table('order_item_tb')
+        $ord_item = DB::table('order_item_tb')
                     ->leftJoin('product_tb', 'order_item_tb.id', 'product_tb.id')
                     ->select('order_item_tb.*','product_tb.sku')
                     ->where('order_id', $receipt->order_id)
