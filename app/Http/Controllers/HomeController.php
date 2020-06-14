@@ -106,7 +106,7 @@ class HomeController extends Controller
         $data['products']=$product->get();
         $data['count_product']=count($data['products']);
 
-        return view('web.home.shop_view',$data);
+        return view('web.ecommerce.shop',$data);
     }
     public function product_remove_from_cart(Request $r)
     {
