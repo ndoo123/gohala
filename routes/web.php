@@ -90,13 +90,13 @@ Route::get('category/{slug}','HomeController@category');
 Route::get('{shop_url}/product/{slug}.{shop_id}','HomeController@product_single');
 Route::post('product/add_to_cart','HomeController@product_add_to_cart');
 Route::post('product/remove_cart','HomeController@product_remove_from_cart');
-Route::get('home/get/products','HomeController@get_products');
+Route::get('hoome/get/products','HomeController@get_products');
 Route::get('cart','HomeController@cart');
 Route::post('cart/shop/clear','HomeController@cart_shop_clear');
 Route::post('cart/item/update','HomeController@cart_update_item');
 // Route::get('checkout','HomeController@checkout');
 
-Route::get('/{shop_url}','HomeController@shop_view');
+
 Route::get('/{shop_url}/cat/{cat_slug}','HomeController@shop_category_view');
 Route::get('/', "HomeController@home");
 

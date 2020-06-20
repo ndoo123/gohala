@@ -10,7 +10,7 @@ if ($(window).width() < 600) {
 } else {
 	var slide = changeSlide;
 }
-$(document).ready(function () {
+$(document).ready(function () {	
 	$(".main").owlCarousel({
 		nav: true,
 		items: 1

@@ -5,10 +5,7 @@ function LKS() {
     }
 
     this.sendData = function(obj, method, load_id, data_type,token) {
-        var url=obj.url;
-    
-        
-       
+        var url=obj.url;   
      
         if (load_id != undefined && load_id != "") {
             Load(load_id, true);

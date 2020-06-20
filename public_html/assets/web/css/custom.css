@@ -1,6 +1,12 @@
+/* html,body,main,.mm-slideout,div.container{height:100%} */
+/* #page{ min-height: calc(100% - (103px + 150px)); */
 .grid_item figure img:nth-child(1){
     width: 290px;
     height: 290px;
     object-fit: cover;
     
 }
+.grid_item ul li a{width: 100px;border:1px solid #eee}
+header.version_1 .main_header{background-color: #fff;border:1px solid #eee;color:black;}
+header.version_1 .main-menu > ul > li > a{color:grey}
+header.version_1 .main-menu > ul > li > a:hover{color:black}
