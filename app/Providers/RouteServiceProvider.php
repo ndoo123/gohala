@@ -89,7 +89,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapPosRoutes()
     {
         Route::domain('pos.'.env('APP_DOMAIN'))
-             ->middleware('web')
+             ->middleware(['web','auth'])
              ->namespace("App\Http\Controllers\Pos")
              ->group(base_path('routes/pos.php'));
     }
