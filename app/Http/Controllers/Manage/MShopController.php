@@ -133,7 +133,7 @@ class MShopController extends Controller
         $p->is_discount=0;
   
         if(isset($r->is_discount)){
-            $p->is_discount=1;
+            $p->is_discount=$r->discount_type;
             $p->discount_value=$r->discount_amount;
         }
 

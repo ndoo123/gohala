@@ -40,6 +40,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAccountRoutes();
         $this->mapPosRoutes();
         $this->mapWebRoutes();
+        $this->mapShopRoutes();
 
         //
     }
@@ -71,6 +72,13 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+     protected function mapShopRoutes()
+    {
+        Route::prefix('{shop_url}')
+             ->middleware(['web','shop'])
+             ->namespace("App\Http\Controllers\Shop")
+             ->group(base_path('routes/shop.php'));
     }
     protected function mapManageRoutes()
     {
