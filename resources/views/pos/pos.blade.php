@@ -378,11 +378,11 @@
          <script src="<?php echo url('assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/login/js/app.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
-        <script src="<?php echo url('assets/js/pos.js');?>"></script>
         <script>
         var app=new LKS();
         app.url='<?php echo url('');?>';
         </script>
+        <script src="<?php echo url('assets/js/pos.js');?>"></script>
     </body>
 
 </html>
