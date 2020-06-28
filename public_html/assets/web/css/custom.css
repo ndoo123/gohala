@@ -1,5 +1,6 @@
 /* html,body,main,.mm-slideout,div.container{height:100%} */
 /* #page{ min-height: calc(100% - (103px + 150px)); */
+header .main_header{z-index: 999;}
 .grid_item figure img:nth-child(1){
     width: 290px;
     height: 290px;
@@ -10,3 +11,34 @@
 header.version_1 .main_header{background-color: #fff;border:1px solid #eee;color:black;}
 header.version_1 .main-menu > ul > li > a{color:grey}
 header.version_1 .main-menu > ul > li > a:hover{color:black}
+#cart_top ul li.title{margin-bottom: 5px;background-color: #eee;padding: 3px;}
+.dropdown-cart .dropdown-menu ul li a strong span{display: inline;}
+a.btn_2,.btn_2{
+    border: none;
+    color: #fff;
+    background: #FFC107;
+    outline: none;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    padding: 12px 25px;
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+    font-size: 14px;
+    font-size: 0.875rem;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    border-radius: 3px;
+    line-height: normal;
+}
+.btn_1:hover {
+  background-color: #004dda;
+  color: #fff !important;
+}

@@ -24,7 +24,7 @@
     <!-- BASE CSS -->
     <link href="<?php echo url('');?>/assets/web/css/bootstrap.custom.min.css" rel="stylesheet">
     <link href="<?php echo url('');?>/assets/web/css/style.css" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/js/plugins/toastr/toastr.min.css');?>"></link>
 	<!-- SPECIFIC CSS -->
     <link href="<?php echo url('');?>/assets/web/css/home_1.css" rel="stylesheet">
     @yield('css')
@@ -35,7 +35,8 @@
 </head>
 
 <body>
-	
+	<?php if(isset($shop)):?>
+	<input type="hidden" id="shop_url" value="<?php echo url($shop->url);?>">
 	<div id="page" current_page="" last_page="" next_page_url="<?php echo url($shop->url);?>/get/prooduct/json">
 	<header class="version_1">
 		<div class="layer"></div><!-- Mobile menu overlay mask -->
@@ -44,7 +45,7 @@
 				<div class="row small-gutters">
 					<div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
 						<div id="logo">
-							<a href="index.html"><img src="<?php echo url('');?>/assets/images/logo-dark.png" alt=""  height="35"></a>
+							<a href="<?php echo url($shop->url);?>"><img src="<?php echo url('');?>/assets/images/logo-dark.png" alt=""  height="35"></a>
 						</div>
 					</div>
 					<nav class="col-xl-6 col-lg-7">
@@ -58,7 +59,7 @@
 						<!-- Mobile menu button -->
 						<div class="main-menu">
 							<div id="header_menu">
-								<a href="index.html"><img src="<?php echo url('');?>/assets/images/logo-dark.png" alt="" height="35"></a>
+								<a href="<?php echo url($shop->url);?>"><img src="<?php echo url('');?>/assets/images/logo-dark.png" alt="" height="35"></a>
 								<a href="#" class="open_close" id="close_in"><i class="ti-close"></i></a>
 							</div>
 							<ul>
@@ -117,37 +118,46 @@
 						</div>
 					</div>
 					<div class="col-xl-3 col-lg-2 col-md-3">
-						<ul class="top_tools">
+                        <?php
+                         $html='';
+                            $qty=0;
+                            $total=0;
+                            $count_item=0;
+                            $basket=\Cart::get_cart();
+                        
+                            foreach($basket as $b)
+                            {
+                                $count_item+=count($b['items']);
+                            $html.='<ul shop_id="'.$b['shop_id'].'"><li class="title">'.$b['name'].'</li>';
+                            foreach($b['items'] as $item){
+                                $qty+=$item['qty'];
+                                $total+=$item['qty']*$item['price'];
+                                $html.='<li class="item" product_id="'.$item['product_id'].'">';
+									$html.='<a href="'.$item['link'].'">';
+									$html.='<figure><img src="'.$item['img'].'" data-src="'.$item['img'].'" alt="" width="50" height="50" class="lazy"></figure>';
+									$html.='<strong><span class="price" price="'.$item['price'].'"><span class="qty">'.$item['qty'].'</span>x '.$item['name'].'</span> '.number_format($item['price'],2).'</strong>';
+									$html.='</a>';
+									$html.='<a href="javascript:;" onclick="remove_from_cart('.$item['product_id'].','.$b['shop_id'].')" class="action"><i class="ti-trash"></i></a>';
+									$html.='</li>';
+                            }
+                            $html.='</ul>';
+                            }?>
+						<ul id="cart_top" class="top_tools">
 							<li>
 								<div class="dropdown dropdown-cart">
-									<a href="cart.html" class="cart_bt"><strong>2</strong></a>
+									<a href="javascript:;" class="cart_bt"><strong style="display:<?php echo $count_item>0?'block':'none';?>"><?php echo $count_item;?></strong></a>
 									<div class="dropdown-menu">
-										<ul>
-											<li>
-												<a href="product-detail-1.html">
-													<figure><img src="<?php echo url('assets/web');?>/img/products/product_placeholder_square_small.jpg" data-src="img/products/shoes/thumb/1.jpg" alt="" width="50" height="50" class="lazy"></figure>
-													<strong><span>1x Armor Air x Fear</span>$90.00</strong>
-												</a>
-												<a href="#0" class="action"><i class="ti-trash"></i></a>
-											</li>
-											<li>
-												<a href="product-detail-1.html">
-													<figure><img src="<?php echo url('assets/web');?>img/products/product_placeholder_square_small.jpg" data-src="img/products/shoes/thumb/2.jpg" alt="" width="50" height="50" class="lazy"></figure>
-													<strong><span>1x Armor Okwahn II</span>$110.00</strong>
-												</a>
-												<a href="0" class="action"><i class="ti-trash"></i></a>
-											</li>
-										</ul>
+                                        	<?php echo $html;?>
 										<div class="total_drop">
-											<div class="clearfix"><strong>Total</strong><span>$200.00</span></div>
-											<a href="cart.html" class="btn_1 outline">View Cart</a><a href="checkout.html" class="btn_1">Checkout</a>
+											<div class="clearfix"><strong>รวม</strong><span class="total"><?php echo number_format($total,2);?></span></div>
+											<a href="<?php echo url('cart');?>" class="btn_1 outline">ดูตระกร้า</a><a href="checkout.html" class="btn_1">ชำระเงิน</a>
 										</div>
 									</div>
 								</div>
 								<!-- /dropdown-cart-->
 							</li>
 							<li>
-								<a href="#0" class="wishlist"><span>Wishlist</span></a>
+								<!-- <a href="#0" class="wishlist"><span>Wishlist</span></a> -->
 							</li>
 							<li>
 								<div class="dropdown dropdown-access">
@@ -199,7 +209,7 @@
 		<!-- /main_nav -->
 	</header>
 	<!-- /header -->
-		
+	<?php endif;?>
 	<main>
 		<div class="container pt-3">
             @yield('content')
@@ -256,7 +266,12 @@
     <script src="<?php echo url('');?>/assets/web/js/common_scripts.min.js"></script>
     <script src="<?php echo url('');?>/assets/web/js/main.js"></script>
     <script src="<?php echo url('');?>/assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.js"></script>
+    <script src="<?php echo url('');?>/assets/web/js/plugins/toastr/toastr.min.js"></script>
+    <script src="<?php echo url('');?>/assets/js/plugins/currency.min.js"></script>
+    <script src="<?php echo url('');?>/assets/js/plugins/blockUI.js"></script>
     <script src="<?php echo url('');?>/assets/js/lks.js"></script>
+
+    <script src="<?php echo url('');?>/assets/web/js/cart.js"></script>
 
   
     <script>

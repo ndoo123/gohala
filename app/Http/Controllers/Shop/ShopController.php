@@ -18,6 +18,7 @@ use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Cart;
 use LKS;
 class ShopController extends Controller
 {
@@ -38,50 +39,15 @@ class ShopController extends Controller
 
         return view('web.ecommerce.product',$data);
     }
-
-    public function product_remove_from_cart(Request $r)
+    public function cart(Request $r)
     {
-        $resp=Cart::remove_item($r->shop_id,$r->product_id);
-        return \LKS::o(1,$resp);
+        return view('web.ecommerce.cart');
     }
-    public function cart_shop_clear(Request $r)
-    {
-        $resp=Cart::clear_shop($r->shop_id);
-        return \LKS::o(1,$resp);
-    }
-    public function cart_update_item(Request $r)
-    {
-        $resp=Cart::update_item($r->shop_id,$r->product_id,$r->qty);
-        return \LKS::o(1,$resp);
-    }
-    public function product_add_to_cart(Request $r)
-    {
-        $p=Product::where("id",$r->product_id)->first();
-        if(!$p)
-        return \LKS::o(0,"ไม่พบสินค้า");
-
-        if($p->shop==null)
-        return \LKS::o(0,"ไม่พบข้อมูลร้านค้า");
 
 
-        if(!is_numeric($p->p_price))
-            $p->p_price=0;
-            
-             $basket_item=array(
-                'product_id'=>$p->id,
-                'shop_id'=>$p->shop_id,
-                'url'=>$p->shop->url,
-                'name'=>$p->name,
-                'qty'=>$r->qty,
-                'price'=>$p->get_discount_price(),
-                'link'=>$p->get_link(),
-                'img'=>$p->get_photo()
-                );
-            $resp=Cart::add_to_cart($basket_item,$p->shop);
-            return \LKS::o(1,$resp);
-    }
 
     //JSON
+  
     public function get_product_json(Request $r)
     {
         $collection=Product::where("shop_id",$r->data['shop']->id)->paginate(30);

@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="btn_add_to_cart"><a href="#0" class="btn_1">Add to Cart</a></div>
+                    <div class="btn_add_to_cart"><a href="javascript:;" onclick="add_to_cart(<?php echo $product->id.',1';?>)" class="btn_1">หยิบลงตระกร้า</a></div>
                 </div>
             </div>
         </div>
