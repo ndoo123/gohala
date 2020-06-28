@@ -40,6 +40,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAccountRoutes();
         $this->mapPosRoutes();
         $this->mapWebRoutes();
+        $this->mapShopRoutes();
 
         //
     }
@@ -72,6 +73,13 @@ class RouteServiceProvider extends ServiceProvider
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
     }
+     protected function mapShopRoutes()
+    {
+        Route::prefix('{shop_url}')
+             ->middleware(['web','shop'])
+             ->namespace("App\Http\Controllers\Shop")
+             ->group(base_path('routes/shop.php'));
+    }
     protected function mapManageRoutes()
     {
         Route::domain('manage.'.env('APP_DOMAIN'))
@@ -89,7 +97,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapPosRoutes()
     {
         Route::domain('pos.'.env('APP_DOMAIN'))
-             ->middleware('web')
+             ->middleware(['web','auth'])
              ->namespace("App\Http\Controllers\Pos")
              ->group(base_path('routes/pos.php'));
     }

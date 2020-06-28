@@ -5,10 +5,7 @@ function LKS() {
     }
 
     this.sendData = function(obj, method, load_id, data_type,token) {
-        var url=obj.url;
-    
-        
-       
+        var url=obj.url;   
      
         if (load_id != undefined && load_id != "") {
             Load(load_id, true);
@@ -85,6 +82,8 @@ function LKS() {
             complete: function() {
 
                 if (load_id != undefined && load_id != "") {
+                    console.log("unlkoad");
+                    
                     Load(load_id, false);
                 }
 
@@ -176,11 +175,12 @@ function Load(element_ID, isload) {
             '-moz-border-radius': '10px', 
             opacity: .5, 
             color: '#fff',
+            'z-index':99999
            
         } });
        
     } else {
-
+        $('div.layer-is-visible').removeClass('layer-is-visible');
         $(element_ID).unblock();
     }
 }
