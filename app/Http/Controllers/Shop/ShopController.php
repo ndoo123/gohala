@@ -24,8 +24,13 @@ class ShopController extends Controller
 {
     public function home(Request $r)
     {
-   
-        return view('web.ecommerce.shop',$r->data);
+        $output['search'] = !empty($r->search)?$r->search:null;
+        foreach($r->data as $key => $data)
+        {
+            $output[$key] = $data;
+        }
+        // dd($output,1);
+        return view('web.ecommerce.shop',$output);
     }
     public function product_view(Request $r)
     {
@@ -50,7 +55,20 @@ class ShopController extends Controller
   
     public function get_product_json(Request $r)
     {
-        $collection=Product::where("shop_id",$r->data['shop']->id)->paginate(30);
+        // dd($r->all());
+        $collection = Product::
+        where("shop_id",$r->data['shop']->id);
+        if(!empty($r->search_product))
+        {
+            $search = '%'.$r->search_product.'%';
+            $collection = $collection
+            ->where('name','like',$search)
+            ->orWhere('info_short','like',$search)
+            ->orWhere('info_full','like',$search);
+        }
+        // dd($collection->get());
+        $collection = $collection->paginate(30);
+
         $collection->getCollection()->transform(function ($p) use($r) {
             // Your code here
             return [
@@ -64,7 +82,8 @@ class ShopController extends Controller
                 "discount_price"=>$p->get_discount_price(true),
                 "photo"=>$p->get_photo(),
                 "is_discount"=>$p->is_discount,
-                "link"=>$p->get_link($r->data['shop']->url)
+                "link"=>$p->get_link($r->data['shop']->url),
+                'search' => $r->all(),
             ];
         });
         

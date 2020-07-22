@@ -105,11 +105,10 @@ class LoginController extends Controller
 
 
         \Auth::login($u);
-
-   
         if(isset($r->redirect))
         return LKS::o(1,array('redirect'=>$r->redirect));
 
+        // dd(\Auth::user(),\Auth::check());
         return LKS::o(1,array('redirect'=>url('profile')));
     }
     public function register(Request $r)

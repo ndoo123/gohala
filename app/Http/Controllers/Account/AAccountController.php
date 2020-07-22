@@ -19,7 +19,7 @@ class AAccountController extends Controller
    }
    public function login(Request $r){
 
-    
+    // dd(\Hash::make('asdfasdf'),\Auth::check());
       if(\Auth::check())
       return redirect('profile');
  

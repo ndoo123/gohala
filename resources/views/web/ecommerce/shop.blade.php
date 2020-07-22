@@ -3,6 +3,7 @@
 <div class="main_title">
 	<h2><?php echo $shop->name;?></h2>
 </div>
+<input type="hidden" name="rest_url" id="rest_url" value="{{ $shop->url }}">
 <div id="product_list" class="row small-gutters">
 	<?php 
 	if(isset($products)):

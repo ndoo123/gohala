@@ -25,7 +25,6 @@ class Shop
         $data['shop']=$shop;
         $data['categories']=$shop->get_categories(true);
         $r->merge(["data"=>$data]);
-
         return $next($r);
     }
 }

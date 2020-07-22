@@ -15,6 +15,7 @@ class ShopManageCheck
      */
     public function handle($r, Closure $next)
     {
+        // dd(1);
         if(!isset($r->shop_id))
         return redirect()->back()->with('error',__('view.shop_id_not_found'));
 

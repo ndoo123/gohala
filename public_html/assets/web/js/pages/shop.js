@@ -1,8 +1,16 @@
+get_product();
+$(document).on('click','#btn_search',function(){
+    var url = location.origin+'/'+$("#rest_url").val()+'?search='+$("#search_product").val();
+    window.open(url,'_blank');
+});
 function get_product(){
     var page=$("#page");
     if(parseInt(page.attr("current_page"))>=parseInt(page.attr("last_page")))
     return;
  
+    var obj = new Object();
+    obj.search_product = $("#search_product").val();
+    console.log(obj);
     var post=new JPost('');
     post.url=page.attr("next_page_url");
     post.success=function(r){
@@ -49,6 +57,5 @@ function get_product(){
 
 
     }
-    post.send({});
+    post.send(obj);
 }
-get_product();
