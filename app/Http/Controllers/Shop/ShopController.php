@@ -46,6 +46,7 @@ class ShopController extends Controller
     }
     public function cart(Request $r)
     {
+        // dd(\Cart::get_cart());
         return view('web.ecommerce.cart');
     }
 

@@ -17,5 +17,9 @@ class UserAddress extends Model
        
         return $address;
     }
+    public function only_address()
+    {
+        return $this->name_address.' '.$this->address;
+    }
 
 }
