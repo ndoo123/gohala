@@ -292,7 +292,6 @@ class MShopController extends Controller
             "product"=>\DB::table('product_tb')->where('shop_id',$r->shop->id)->count(),
             "profit"=>0
        );
-    
        return view('manage.shop.shop_manage',$data);
    }
    public function shop_categories(Request $r)

@@ -1,20 +1,4 @@
-$(document).on('submit',"#new_shop_form",function(e){
-    e.preventDefault();
-   
-    var post=new PostForm('div.modal-content');
-    post.success=function(r){
-        if(r.result==0)
-        {
-            alert(r.msg);
-            return;
-        }
-       $("#new_shop_modal").modal('hide');
-       Load('html');
-      location.reload(true);
-        
-    }
-    post.send($("#new_shop_form"));
-});
+
 // order detail
 $(document).on('click','.order_detail',function(){
     var modal = $("#modal_order_detail");
@@ -24,6 +8,7 @@ $(document).on('click','.order_detail',function(){
     // console.log(location);
     // console.log(order_id);
     var url = location.origin+'/order_detail';
+    console.log(url);
     var obj = new Object();
     obj._token = $('meta[name=csrf-token]').attr('content');
     obj.order_id = order_id;

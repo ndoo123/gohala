@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'cookie' => 'gohala_session_cookie',
+    'cookie' => 'gohala_sessions_cookie',
 
     /*
     |--------------------------------------------------------------------------

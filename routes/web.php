@@ -73,6 +73,10 @@ Route::get('images/product/{shop_id}/{product_id}.{photo_name}.jpg',function($sh
   return $response;
 
 });
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    return "Cache is cleared";
+});
 Route::get('clear-cart',function(){
   \Cart::clear();
 });

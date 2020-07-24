@@ -236,7 +236,7 @@
                                                 
                                             </div>
                                             <div class="tab-pane p-3" id="order" role="tabpanel">
-                                                <table class="table">
+                                                <table class="table table-hover">
                                                     <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -249,10 +249,10 @@
                                                     <tbody>
                                                         <?php foreach($orders as $order):?>
                                                         <tr>
-                                                            <td><?php echo $order->id;?></td>
-                                                            <td><?php echo date('d/m/Y H:i:s',strtotime($order->order_date));?></td>
-                                                            <td><?php echo $order->total+$order->total_delivery;?></td>
-                                                            <td><?php echo $order->get_user_status_badge();?></td>
+                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->id;?></td>
+                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo date('d/m/Y H:i:s',strtotime($order->order_date));?></td>
+                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->total+$order->total_delivery;?></td>
+                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->get_user_status_badge();?></td>
                                                             <td></td>
                                                         </tr>
                                                         <?php endforeach;?>
@@ -358,6 +358,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
+@include('modal.order_detail')
         <!-- jQuery  -->
         <script src="<?php echo url('assets/manage/login/js/jquery.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/login/js/bootstrap.bundle.min.js');?>"></script>
@@ -373,6 +374,7 @@
         app.url='<?php echo url('');?>';
         </script>
         <script src="<?php echo url('assets/account/js/account.js');?>"></script>
+        <script src="<?php echo url('assets/modal/order_detail.js');?>"></script>
     </body>
 
 </html>

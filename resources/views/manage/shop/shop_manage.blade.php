@@ -66,11 +66,11 @@
                     
                     @foreach($orders as $ord)
                     <tr>
-                        <td>{{ $ord->id }}</td>
-                        <td>{{ $ord->order_date }}</td>
-                        <td>{{ $ord->buyer_user_id }}</td>
-                        <td>{{ $ord->qty }}</td>
-                        <td>{{ $ord->total }}</td>
+                        <td class="order_detail" order_id="{{ $ord->id }}">{{ $ord->id }}</td>
+                        <td class="order_detail" order_id="{{ $ord->id }}">{{ $ord->order_date }}</td>
+                        <td class="order_detail" order_id="{{ $ord->id }}">{{ $ord->buyer_user_id }}</td>
+                        <td class="order_detail" order_id="{{ $ord->id }}">{{ $ord->qty }}</td>
+                        <td class="order_detail" order_id="{{ $ord->id }}">{{ $ord->total }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -82,7 +82,9 @@
     </div>
 </div>
 
+@include('modal.order_detail')
 @stop
 @section('js')
  <script src="<?php echo url('assets/manage/js/pages/shop/shop.js');?>"></script>
+<script src="<?php echo url('assets/modal/order_detail.js');?>"></script>
 @stop

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use App\Models\UserAddress;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -33,6 +33,10 @@ class User extends Authenticatable
     }
     public function get_photo(){
         return env('APP_URL').'/profile/image/'.$this->id;
+    }
+    public function address_default()
+    {
+        return UserAddress::where('user_id',$this->id)->where('is_default',1)->first();
     }
 
 }

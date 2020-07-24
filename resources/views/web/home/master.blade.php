@@ -23,18 +23,33 @@
     </style>
     <!-- BASE CSS -->
     <link href="<?php echo url('');?>/assets/web/css/bootstrap.custom.min.css" rel="stylesheet">
-    <link href="<?php echo url('');?>/assets/web/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/js/plugins/toastr/toastr.min.css');?>"></link>
+    <link href=" {{ url('assets/web/css/style.css') }}" rel="stylesheet">
+    <link href=" {{ url('assets/js/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url('assets/web/js/plugins/toastr/toastr.min.css') }}">
 	<!-- SPECIFIC CSS -->
     <link href="<?php echo url('');?>/assets/web/css/home_1.css" rel="stylesheet">
+    <link href=" {{ url('assets/web/css/fonts/themify.eot') }}" rel="stylesheet">
+    <link href=" {{ url('assets/web/css/fonts/themify.woff') }}" rel="stylesheet">
+    <style>
+        
+        @font-face {
+            font-family: 'themify';
+            src: url("assets/web/css/fonts/themify.woff");
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+    <link href="<?php echo url('');?>/assets/web/css/checkout.css" rel="stylesheet">
+    
     @yield('css')
-
+    
     <!-- YOUR CUSTOM CSS -->
     <link href="<?php echo url('');?>/assets/web/css/custom.css" rel="stylesheet">
 
 </head>
 
-<body>
+<body style="background: none">
 	<?php if(isset($shop)):?>
 	<input type="hidden" id="shop_url" value="<?php echo url($shop->url);?>">
 	<div id="page" current_page="" last_page="" next_page_url="<?php echo url($shop->url);?>/get/prooduct/json">
@@ -210,7 +225,7 @@
 	</header>
 	<!-- /header -->
 	<?php endif;?>
-	<main>
+	<main class="bg_gray mb-5">
 		<div class="container pt-3">
             @yield('content')
 		</div>
@@ -220,7 +235,7 @@
 	</main>
 	<!-- /main -->
 		
-			<footer class="revealed">
+    <footer class="revealed mt-5">
 		<div class="container">
 			<div class="row ">
 				<div class="col-lg-6">
@@ -269,6 +284,7 @@
     <script src="<?php echo url('');?>/assets/web/js/plugins/toastr/toastr.min.js"></script>
     <script src="<?php echo url('');?>/assets/js/plugins/currency.min.js"></script>
     <script src="<?php echo url('');?>/assets/js/plugins/blockUI.js"></script>
+    <script src="<?php echo url('');?>/assets/js/plugins/select2/js/select2.min.js"></script>
     <script src="<?php echo url('');?>/assets/js/lks.js"></script>
 
     <script src="<?php echo url('');?>/assets/web/js/cart.js"></script>
