@@ -13,9 +13,13 @@ function get_product(){
     console.log(obj);
     var post=new JPost('');
     var url = $("#shop_url").val()+'/get/prooduct/json';
+<<<<<<< HEAD
     // var url = location.origin+'/'+$("#shop_url").val()+'/get/prooduct/json';
     post.url=url;
     console.log(url);
+=======
+    post.url=url;
+>>>>>>> bert
     // post.url=page.attr("next_page_url");
     post.success=function(r){
         if(r.result==0)
