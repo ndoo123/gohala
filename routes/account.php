@@ -22,4 +22,5 @@ Route::middleware(['auth'])->group(function(){
 
     Route::post('profile/update/profile_image','AAccountController@profile_upload_photo');
     
+    Route::get('order_detail','AOrderController@order_detail');
 });
