@@ -14,7 +14,6 @@ function get_product(){
     var post=new JPost('');
     //
     var url = $("#shop_url").val()+'/get/prooduct/json';
-    // var url = location.origin+'/'+$("#shop_url").val()+'/get/prooduct/json';
     post.url=url;
     // console.log(url);
     // post.url=page.attr("next_page_url");
