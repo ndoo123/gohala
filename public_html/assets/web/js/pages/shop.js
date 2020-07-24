@@ -12,7 +12,8 @@ function get_product(){
     obj.search_product = $("#search_product").val();
     console.log(obj);
     var post=new JPost('');
-    post.url=location.origin+'/'+$("#shop_url").val()+'/get/prooduct/json';
+    var url = $("#shop_url").val()+'/get/prooduct/json';
+    post.url=url;
     // post.url=page.attr("next_page_url");
     post.success=function(r){
         if(r.result==0)
