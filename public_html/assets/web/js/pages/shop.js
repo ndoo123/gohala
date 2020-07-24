@@ -14,13 +14,9 @@ function get_product(){
     var post=new JPost('');
     //
     var url = $("#shop_url").val()+'/get/prooduct/json';
-<<<<<<< HEAD
     // var url = location.origin+'/'+$("#shop_url").val()+'/get/prooduct/json';
     post.url=url;
-    console.log(url);
-=======
-    post.url=url;
->>>>>>> bert
+    // console.log(url);
     // post.url=page.attr("next_page_url");
     post.success=function(r){
         if(r.result==0)
