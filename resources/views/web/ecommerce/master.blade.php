@@ -32,6 +32,17 @@
     <!-- YOUR CUSTOM CSS -->
     <link href="<?php echo url('');?>/assets/web/css/custom.css" rel="stylesheet">
 
+	<?php
+
+	$url = url('');
+	$arr_url = explode('.',$url);
+	$extend = end($arr_url);
+	// dd($url,$arr_url,$extend);
+	if($extend == 'com')
+	{
+		echo '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">';
+	}
+	?>
 </head>
 
 <body>

@@ -23,13 +23,13 @@
     </style>
     <!-- BASE CSS -->
     <link href="<?php echo url('');?>/assets/web/css/bootstrap.custom.min.css" rel="stylesheet">
-    <link href=" {{ url('assets/web/css/style.css') }}" rel="stylesheet">
-    <link href=" {{ url('assets/js/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ url('assets/web/js/plugins/toastr/toastr.min.css') }}">
+    <link href="<?php echo url('');?>/assets/js/plugins/select2/css/select2.min.css" rel="stylesheet">
+    <link href="<?php echo url('');?>/assets/web/css/style.css" rel="stylesheet">
+    <link href="<?php echo url('');?>/assets/web/js/plugins/toastr/toastr.min.css" rel="stylesheet">
 	<!-- SPECIFIC CSS -->
     <link href="<?php echo url('');?>/assets/web/css/home_1.css" rel="stylesheet">
-    <link href=" {{ url('assets/web/css/fonts/themify.eot') }}" rel="stylesheet">
-    <link href=" {{ url('assets/web/css/fonts/themify.woff') }}" rel="stylesheet">
+    <link href="<?php echo url('');?>/assets/web/css/fonts/themify.eot" rel="stylesheet">
+    <link href="<?php echo url('');?>/assets/web/css/fonts/themify.woff" rel="stylesheet">
     <style>
         
         @font-face {
@@ -47,6 +47,17 @@
     <!-- YOUR CUSTOM CSS -->
     <link href="<?php echo url('');?>/assets/web/css/custom.css" rel="stylesheet">
 
+	<?php
+
+	$url = url('');
+	$arr_url = explode('.',$url);
+	$extend = end($arr_url);
+	// dd($url,$arr_url,$extend);
+	if($extend == 'com')
+	{
+		echo '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">';
+	}
+	?>
 </head>
 
 <body style="background: none">
