@@ -176,6 +176,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
 
     ],
 
@@ -227,7 +228,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'LKS' => \App\Helper\LKS::class,
         'Cart' => \App\Helper\Cart::class,
-
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 
     ],
 

@@ -1,4 +1,5 @@
 
+var table_order = $('#table_order').DataTable();
 // order detail
 $(document).on('click','.order_detail',function(){
     var modal = $("#modal_order_detail");

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\OrderDelivery;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -18,6 +19,9 @@ class Order extends Model
     }
     public function items(){
         return $this->hasMany('\App\Models\OrderItem','order_id');
+    }
+    public function buyer(){
+        return $this->belongsTo('\App\Models\User','buyer_user_id');
     }
     public function get_status_badge(){
         if($this->status==1)
@@ -61,5 +65,26 @@ class Order extends Model
             return '<span class="badge badge-success">เสร็จสิ้น</span>';
         else
             return '<span class="badge badge-danger">ยกเลิก</span>';
+    }
+    public function delivery_update()
+    {
+        // dd($this->delivery,$this);
+        $field = '';
+        $today = date("Y-m-d H:i:s");
+        if($this->status == 2)
+        {
+            $field = 'confirm_date';
+        }
+        else if($this->status == 3)
+        {
+            $field = 'delivery_date';
+        }
+        else if($this->status == 4)
+        {
+            $field = 'received_date';
+        }
+        $delivery = OrderDelivery::where('order_id',$this->id)->first();
+        $delivery->$field = $today;
+        $delivery->save();
     }
 }

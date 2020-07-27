@@ -15,6 +15,17 @@ use Illuminate\Http\Request;
 use LKS;
 class MShopController extends Controller
 {
+    protected $url;
+    private function url($r)
+    {
+        if(!empty($r))
+        {
+            $this->url = url($r->shop->url);
+            // dd($r)
+            // dd(1,$r->shop->url,$this->url);
+            return $this->url;
+        }
+    }
    public function shops(Request $r)
    {
        
@@ -292,7 +303,23 @@ class MShopController extends Controller
             "product"=>\DB::table('product_tb')->where('shop_id',$r->shop->id)->count(),
             "profit"=>0
        );
+       $data['url'] = $url = self::url($r);
+       $data['remote_url'] = $url.'/order_datatables';
+    //    dd($data);
        return view('manage.shop.shop_manage',$data);
+   }
+   public function shop_manage_all(Request $r)
+   {
+        $data['shop']=$r->shop;
+        $data['summary']=(object)array(
+            "order"=>\DB::table('order_tb')->where('shop_id',$r->shop->id)->count(),
+            "product"=>\DB::table('product_tb')->where('shop_id',$r->shop->id)->count(),
+            "profit"=>0
+       );
+       $data['url'] = $url = self::url($r);
+       $data['remote_url'] = $url.'/order_datatables';
+
+       return view('manage.shop.shop_all_manage',$data);
    }
    public function shop_categories(Request $r)
    {

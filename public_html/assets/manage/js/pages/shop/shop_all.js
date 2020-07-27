@@ -9,7 +9,7 @@ var table_order = $('#table_order').DataTable({
     // order: [[ 1, "asc" ]],
     ajax: {
         url: $('#table_order').attr('remote_url'),
-        data: {},
+        data: { all : "all" },
     },
     columns: [
         { data: 'id', name: 'id', class: 'text-center order_detail' },
@@ -37,20 +37,20 @@ var table_order = $('#table_order').DataTable({
         });
     }
 });
-$(document).on('submit',"#new_shop_form",function(e){
-    e.preventDefault();
+// $(document).on('submit',"#new_shop_form",function(e){
+//     e.preventDefault();
    
-    var post=new PostForm('div.modal-content');
-    post.success=function(r){
-        if(r.result==0)
-        {
-            alert(r.msg);
-            return;
-        }
-       $("#new_shop_modal").modal('hide');
-       Load('html');
-      location.reload(true);
+//     var post=new PostForm('div.modal-content');
+//     post.success=function(r){
+//         if(r.result==0)
+//         {
+//             alert(r.msg);
+//             return;
+//         }
+//        $("#new_shop_modal").modal('hide');
+//        Load('html');
+//       location.reload(true);
         
-    }
-    post.send($("#new_shop_form"));
-});
+//     }
+//     post.send($("#new_shop_form"));
+// });

@@ -3,6 +3,7 @@
 สรุปผลรวมของร้าน | <span style="color:blue"><?php echo $shop->name;?></span>
 @stop
 @section('content')
+<input type="hidden" name="url" id="url" value="{{ $url }}">
 <div class="row">
     <div class="col-md-12">
     <?php LKS::has_alert();?>
@@ -48,10 +49,10 @@
     <div class="card">
     <div class="card-body">
         <h4 class="mt-0 header-title"><?php echo __('view.order_list');?>
-        <button class="btn btn-sm btn-primary float-right" style="margin-top:-10px"><?php echo __('view.order_all');?></button>
+        <a href="{{ $url.'/all' }}" class="btn btn-sm btn-primary float-right" style="margin-top:-10px"><?php echo __('view.order_all');?></a>
         </h4>
         <div class="table-responsive">
-            <table class="table table-hover mb-0 bg-light">
+            <table class="table table-hover mb-0 bg-light" id="table_order" remote_url="{{ $remote_url }}">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -59,21 +60,10 @@
                         <th><?php echo __('view.order_by');?></th>
                         <th><?php echo __('view.qty');?></th>
                         <th><?php echo __('view.total');?></th>
+                        <th><?php echo __('view.status');?></th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    
-                    @foreach($orders as $ord)
-                    <tr>
-                        <td class="order_detail" order_id="{{ $ord->id }}">{{ $ord->id }}</td>
-                        <td class="order_detail" order_id="{{ $ord->id }}">{{ $ord->order_date }}</td>
-                        <td class="order_detail" order_id="{{ $ord->id }}">{{ $ord->buyer_user_id }}</td>
-                        <td class="order_detail" order_id="{{ $ord->id }}">{{ $ord->qty }}</td>
-                        <td class="order_detail" order_id="{{ $ord->id }}">{{ $ord->total }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
             </table>
         </div>
 
@@ -83,8 +73,18 @@
 </div>
 
 @include('modal.order_detail')
+@include('modal.order_cancel')
+@include('modal.order_send')
 @stop
 @section('js')
+ <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
+ <script src="<?php echo url('assets/js/plugins/sweet-alert2/sweetalert2.all.min.js');?>"></script>
  <script src="<?php echo url('assets/manage/js/pages/shop/shop.js');?>"></script>
 <script src="<?php echo url('assets/modal/order_detail.js');?>"></script>
+<script src="<?php echo url('assets/modal/order_send.js');?>"></script>
+<script src="<?php echo url('assets/modal/order_cancel.js');?>"></script>
+@stop
+@section('css')
+<link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
+<link href="<?php echo url('assets/js/plugins/sweet-alert2/sweetalert2.min.css');?>" rel="stylesheet" type="text/css">
 @stop
