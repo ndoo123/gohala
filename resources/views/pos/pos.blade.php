@@ -8,8 +8,8 @@
         <title>Gohala - ข้อมูลผู้ใช้</title>
         <meta content="Responsive admin theme build on top of Bootstrap 4" name="description" />
         <meta content="Themesbrand" name="author" />
-        <link rel="shortcut icon" href="{{ url('favicon.ico') }}">
-        <meta name="csrf-token" content="{{ csrf_token() }}" />
+        <link rel="shortcut icon" href="<?php echo  url('favicon.ico') ; ?>">
+        <meta name="csrf-token" content="<?php echo  csrf_token() ; ?>" />
         <link href="<?php echo url('assets/manage/login/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/login/css/icons.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/login/css/style.css');?>" rel="stylesheet" type="text/css">
@@ -76,7 +76,7 @@
                         <div class="page-title-box">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h4 class="page-title">{{ $shop->name }}</h4>
+                                    <h4 class="page-title"><?php echo  $shop->name ; ?></h4>
                                 </div>
                                 <div class="col-sm-6">
 
@@ -148,7 +148,7 @@
                                     <div class="col-sm-8">
                                                                    
                                         <form name="frm_barcode" id="frm_barcode">
-                                            <input type="hidden" id="shopid" value="{{$shop->id}}">
+                                            <input type="hidden" id="shopid" value="<?php echo $shop->id; ?>">
                                         <div class="input-group mb-2">
                                             <input type="text" class="typeahead form-control clear_end" id="t_search" name="t_search" placeholder="บาร์โค้ด" autofocus>
                                             <div class="input-group-append">
@@ -162,8 +162,8 @@
                                 
                                 <div class="table-responsive">
 
-                                        <form name="frm_save" id="frm_save" method="POST" action="{{ url($shop->url.'/pos/save') }}">
-                                            {{ csrf_field() }}
+                                        <form name="frm_save" id="frm_save" method="POST" action="<?php echo  url($shop->url.'/pos/save') ; ?>">
+                                            <?php echo  csrf_field() ; ?>
                                             <input type="hidden" name="h_total" id="h_total" value="">
                                             <input type="hidden" name="h_amount" id="h_amount" value="">
                                     <table class="table table-striped mb-0">
@@ -202,9 +202,9 @@
                                 <div class="card">
                                     <div class="card-body">
                                     
-                                        <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat0" get_cat="{{ URL::to('pos/read-data/0/'.$shop->id) }}" onclick="click_cat(0)">ทั้งหมด</button>
+                                        <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat0" get_cat="<?php echo  URL::to('pos/read-data/0/'.$shop->id) ; ?>" onclick="click_cat(0)">ทั้งหมด</button>
                                         @foreach($pcats as $pcat)
-                                            <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat{{ $pcat->id }}" get_cat="{{ URL::to('pos/read-data/'.$pcat->id.'/'.$shop->id) }}" onclick="click_cat({{ $pcat->id }})">{{ $pcat->name }}</button>
+                                            <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat<?php echo  $pcat->id ; ?>" get_cat="<?php echo  URL::to('pos/read-data/'.$pcat->id.'/'.$shop->id) ; ?>" onclick="click_cat(<?php echo  $pcat->id ; ?>)"><?php echo  $pcat->name ; ?></button>
                                         @endforeach
 
                                     </div>
@@ -339,7 +339,7 @@
                         
                         <div class="row">
                             <div class="col-12">
-                                <button type="button" class="btn btn-primary btn-block pull-right" id="btn-save" disabled="" onclick="pay()" txt="{{ URL('save_print') }}">
+                                <button type="button" class="btn btn-primary btn-block pull-right" id="btn-save" disabled="" onclick="pay()" txt="<?php echo  URL('save_print') ; ?>">
                                     <i class="fa fa-print"></i>
                                     บันทึก / พิมพ์
                                 </button>

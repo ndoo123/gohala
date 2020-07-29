@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="<?php echo  app()->getLocale() ; ?>">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo  csrf_token() ; ?>">
 
     <title></title>
 
@@ -16,18 +16,18 @@
 <table width="300"  border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td colspan="2" align="center">
-    	<b>{{ $shop->name }}</b><br>
-        {{ $shop->address }} {{ $shop->phone}}<br>
+    	<b><?php echo  $shop->name ; ?></b><br>
+        <?php echo  $shop->address ; ?> <?php echo  $shop->phone; ?><br>
         TAX INVOICE (ABB.)<br>
-        TAX ID : {{ $shop->tax_id }}<br>
+        TAX ID : <?php echo  $shop->tax_id ; ?><br>
         ใบเสร็จรับเงิน/ใบกำกับภาษีอย่างย่อ
     </td>
   </tr>
   <tr>
     <td colspan="2" align="left">
-    	Date : {{ $receipt->created_at }}<br>
-        Receipt No : {{ $receipt->id }}<br>
-        CASHIER : {{ $seller->name }}
+    	Date : <?php echo  $receipt->created_at ; ?><br>
+        Receipt No : <?php echo  $receipt->id ; ?><br>
+        CASHIER : <?php echo  $seller->name ; ?>
     </td>
   </tr>
   <tr>
@@ -47,10 +47,10 @@
         ?>
 
           <tr>
-            <td align="left">{{ $item->sku }}  {{ $item->product_name }}</td>
+            <td align="left"><?php echo  $item->sku ; ?>  <?php echo  $item->product_name ; ?></td>
           </tr>
           <tr>
-            <td align="left">({{ $item->qty }} x {{ number_format($item->price,2,'.',',') }})</td>
+            <td align="left">(<?php echo  $item->qty ; ?> x <?php echo  number_format($item->price,2,'.',',') ; ?>)</td>
             <td align="right"><?=number_format(($item->price * $item->qty),2,'.',',');?></td>
           </tr>
                    
@@ -64,25 +64,25 @@
   <? $vat = ($sum * 7) / 107; ?>
 
   <tr>
-    <td align="left">Sub Total</td><td align="right">{{ number_format($sum,2,'.',',') }}</td>
+    <td align="left">Sub Total</td><td align="right"><?php echo  number_format($sum,2,'.',',') ; ?></td>
   </tr>
   <tr>
-    <td align="left"><b>TOTAL</b></td><td align="right"><b>{{ number_format($sum,2,'.',',') }}</b></td>
+    <td align="left"><b>TOTAL</b></td><td align="right"><b><?php echo  number_format($sum,2,'.',',') ; ?></b></td>
   </tr>
   <tr>
-    <td align="left">Before VAT</td><td align="right">{{ number_format($sum - $vat,2,'.',',') }}</td>
+    <td align="left">Before VAT</td><td align="right"><?php echo  number_format($sum - $vat,2,'.',',') ; ?></td>
   </tr>
   <tr>
-    <td align="left">VAT 7%</td><td align="right">{{ number_format($vat,2,'.',',') }}</td>
+    <td align="left">VAT 7%</td><td align="right"><?php echo  number_format($vat,2,'.',',') ; ?></td>
   </tr>
   <tr>
-    <td align="left">Total Item</td><td align="right">{{ $num }}</td>
+    <td align="left">Total Item</td><td align="right"><?php echo  $num ; ?></td>
   </tr>
   <tr>
-    <td align="left">Pay Cash</td><td align="right">{{ number_format($payment->amount,2,'.',',') }}</td>
+    <td align="left">Pay Cash</td><td align="right"><?php echo  number_format($payment->amount,2,'.',',') ; ?></td>
   </tr>
   <tr>
-    <td align="left">Change</td><td align="right">{{ number_format($payment->amount - $sum,2,'.',',') }}</td>
+    <td align="left">Change</td><td align="right"><?php echo  number_format($payment->amount - $sum,2,'.',',') ; ?></td>
   </tr>
   <tr>
   	<td colspan="2" align="center">
