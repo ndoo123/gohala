@@ -156,6 +156,8 @@
                                 $count_item+=count($b['items']);
                             $html.='<ul shop_id="'.$b['shop_id'].'"><li class="title">'.$b['name'].'</li>';
                             foreach($b['items'] as $item){
+								$item['qty'] = (int)$item['qty'];
+								$item['price'] = (float)$item['price'];
                                 $qty+=$item['qty'];
                                 $total+=$item['qty']*$item['price'];
                                 $html.='<li class="item" product_id="'.$item['product_id'].'">';
@@ -175,8 +177,14 @@
 									<div class="dropdown-menu">
                                         	<?php echo $html;?>
 										<div class="total_drop">
-											<div class="clearfix"><strong>รวม</strong><span class="total"><?php echo number_format($total,2);?></span></div>
-											<a href="<?php echo url('cart');?>" class="btn_1 outline">ดูตระกร้า</a><a href="checkout.html" class="btn_1">ชำระเงิน</a>
+											<div class="clearfix">
+												<strong>รวม</strong>
+												<span class="total">
+													<?php echo number_format($total,2);?>
+												</span>
+											</div>
+											<a href="<?= url('cart') ?>" class="btn_1 outline">ดูตระกร้า</a>
+											{{-- <a href="checkout.html" class="btn_1">ชำระเงิน</a> --}}
 										</div>
 									</div>
 								</div>

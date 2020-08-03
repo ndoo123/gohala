@@ -16,6 +16,17 @@
         <link href="<?php echo url('assets/manage/css/style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/vertical.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/custom.css');?>" rel="stylesheet" type="text/css">
+        <?php
+
+        $url = url('');
+        $arr_url = explode('.',$url);
+        $extend = end($arr_url);
+        // dd($url,$arr_url,$extend);
+        if($extend == 'com')
+        {
+            echo '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">';
+        }
+        ?>
     </head>
 
     <body>

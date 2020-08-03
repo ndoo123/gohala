@@ -29,7 +29,7 @@ class ShopController extends Controller
         {
             $output[$key] = $data;
         }
-        // dd($output,1);
+        // dd($output,\Cart::get_cart(),Auth::user());
         return view('web.ecommerce.shop',$output);
     }
     public function product_view(Request $r)
@@ -41,7 +41,7 @@ class ShopController extends Controller
         }
        $data= $r->data;
        $data['product']=$product;
-
+        // dd($data);
         return view('web.ecommerce.product',$data);
     }
     public function cart(Request $r)

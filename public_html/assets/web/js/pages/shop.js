@@ -48,7 +48,7 @@ function get_product(){
                         items+='<span class="old_price">'+p.price_format+' ฿</span>';
                     items+='</div>';
                     items+='<ul>';
-                        items+='<li><a href="#0" class="tooltip-1" data-toggle="tooltip" data-placement="left" title="ซื้อสินค้า"><i class="ti-shopping-cart"></i><span>ซื้อสินค้า</span></a></li>';
+                        items+='<li><a href="'+p.link+'" class="tooltip-1" data-toggle="tooltip" data-placement="left" title="ซื้อสินค้า"><i class="ti-shopping-cart"></i><span>ซื้อสินค้า</span></a></li>';
                     items+='</ul>';
                 items+='</div>';
             items+='</div>';

@@ -3,10 +3,13 @@ function calculate_cart_item(){
         var qty=0;
         var total=0;
         $('#cart_top div.dropdown-menu li.item').each(function(){
-            console.log("x");
+            // console.log('x1x');
+            qty = parseInt($(this).find('span.qty').text());
+            total += parseFloat($(this).find('span.price').attr("price"))*qty;
+            // console.log(qty);
+            // console.log(total);
+            // console.log('x2x');
             
-            qty+=parseInt($(this).find('span.qty').text());
-            total+=parseFloat($(this).find('span.price').attr("price"))*qty;
         });
         $('#cart_top .total').html(ToMoney(total));
         $('#cart_top a.cart_bt strong').html($('#cart_top div.dropdown-menu li.item').length);

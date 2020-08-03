@@ -22,6 +22,10 @@ Route::get('testmail',function(){
     });
         
 });
+Route::get('/db/migrate', function() {
+  Artisan::call('migrate');
+    return "migrate!";
+});
 Route::get('migrate',function(){
   
   if(!isset($_GET["cmd"]))

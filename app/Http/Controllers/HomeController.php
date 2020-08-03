@@ -179,7 +179,7 @@ class HomeController extends Controller
         $data['url_current'] = $data['url'].'/checkout';
         $data['url_submit'] = $data['url'].'/checkout/process';
         // dd($data);
-        // dd($data['categories']);
+        // dd($data['user_address'],$data['address_default']);
         return view('web.home.checkout',$data);
     }
     public function shop_checkout_process(Request $r)

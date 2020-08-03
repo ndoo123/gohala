@@ -28,7 +28,12 @@
 				<?php endif;?>
 			</div>
 			<ul>
-				<li><a href="#0" class="tooltip-1" data-toggle="tooltip" data-placement="left" title="ซื้อสินค้า"><i class="ti-shopping-cart"></i><span>ซื้อสินค้า</span></a></li>
+				<li>
+					<a href="<?php echo $product->get_link($shop->url);?>" class="tooltip-1" data-toggle="tooltip" data-placement="left" title="ซื้อสินค้า">
+						<i class="ti-shopping-cart"></i>
+						<span>ซื้อสินค้า</span>
+					</a>
+				</li>
 			</ul>
 		</div>
 

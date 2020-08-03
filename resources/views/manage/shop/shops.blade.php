@@ -26,8 +26,8 @@
                     <div class="media-body">
                         <h5 class="mt-0 font-16"><?php echo $s->name;?> <span class="badge badge-pill badge-primary"><a class="text-white" href="<?php echo $s->get_url();?>"><i class="fas fa-share-square"></i> <?php echo $s->get_url();?></a></span></h5>
                         <div class="button-items">
-                            <button type="button" class="btn btn-secondary btn-sm waves-effect">สินค้า <?php echo $s->count_product();?></button>
-                            <button type="button" class="btn btn-secondary btn-sm waves-effect">สั่งซื้อ <?php echo $s->count_order();?></button>
+                            <a href="<?php echo url($s->url).'/products'; ?>" class="btn btn-secondary btn-sm waves-effect">สินค้า <?php echo $s->count_product();?></a>
+                            <a href="<?php echo url($s->url).'/all'; ?>" class="btn btn-secondary btn-sm waves-effect">สั่งซื้อ <?php echo $s->count_order();?></a>
                            
                         </div>
                         

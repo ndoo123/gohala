@@ -29,37 +29,32 @@
         <form class="row" action="{{ $url_submit }}" method="post">
         {{ csrf_field() }}
             <div class="col-lg-4 col-md-6">
-                <div class="step first">
+                <div class="step first justify-content-between">
                     <h3>1. User Info and Billing address</h3>
                     <ul class="nav nav-tabs" id="tab_checkout" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#tab_1" role="tab" aria-controls="tab_1" aria-selected="true">Info</a>
+                        </li>
+                        <li class="nav-item ml-auto">
+                            <a class="nav-link" id="address-tab" data-toggle="tab" href="#tab_2" role="tab" aria-controls="tab_1" aria-selected="true">Address</a>
                         </li>
                         {{-- <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#tab_2" role="tab" aria-controls="tab_2" aria-selected="false">Login</a>
                         </li> --}}
                     </ul>
                     <div class="tab-content checkout">
-                        <div class="tab-pane fade show active" id="tab_1" role="tabpanel" aria-labelledby="tab_1">
-                            {{-- <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Email" value="{{ !empty($user->email)?$user->email:'' }}" required>
-                            </div> --}}
-                            {{-- <hr> --}}
+                        <div class="tab-pane fade show active input_change" id="tab_1" role="tabpanel" aria-labelledby="tab_1">
                             <div class="row no-gutters">
                                 <div class="col-12 form-group pr-1">
                                     <input type="text" class="form-control" placeholder="Name Contact" name="name_contact" id="name_contact" value="{{ !empty($address_default->name_contact)?$address_default->name_contact:'' }}" required>
                                 </div>
                             </div>
-                                <!-- /row -->
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Name Address" name="name_address" id="name_address" value="{{ !empty($address_default->name_address)?$address_default->name_address:'' }}" required>
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Full Address" name="address" id="address" value="{{ !empty($address_default->address)?$address_default->address:'' }}" required>
                             </div>
-                            {{-- <div class="row no-gutters">
-                            </div> --}}
-                                <!-- /row -->
                             <div class="row no-gutters">
 
                                 <div class="col-6 form-group pr-1">
@@ -87,16 +82,66 @@
                                     {{-- </div> --}}
                                 </div>
                             </div>
-                                <!-- /row -->
                             <hr>
-                            <div class="form-group">
-                                <label class="container_check" id="other_addr">Other billing address
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
+                        </div>
+                        <div class="tab-pane fade show" id="tab_2" role="tabpanel" aria-labelledby="tab_2">
+                            <div class="row no-gutters">
+                            @if(!empty($user_address))
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                #
+                                            </th>
+                                            <th>
+                                                ชื่อตึก
+                                            </th>
+                                            <th>
+                                                ที่อยู่
+                                            </th>
+                                            {{-- <th>
+                                                ชื่อ-สกุล
+                                            </th> --}}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($user_address as $addr)
+                                        <?php
+                                        $province = 'App\Models\Province'::where('id',$addr->province_id)->first();
+                                        // dd($province);
+                                        $check = '';
+                                        if($addr->is_default == 1)
+                                            $check = 'checked';
+                                        ?>
+                                        <tr>
+                                            <td width="5%">
+                                                <input type="radio" class="user_address" name="user_address" 
+                                                address_id="{{ $addr->id }}"
+                                                name_address='{{ $addr->name_address }}' 
+                                                address='{{ $addr->address }}'
+                                                name_contact='{{ $addr->name_contact }}' 
+                                                province_id='{{ $addr->province_id }}' 
+                                                zipcode='{{ $addr->zipcode }}' 
+                                                phone='{{ $addr->phone }}'
+                                                {{ $check }}>
+                                            </td>
+                                            <td width="25%">
+                                                {{ $addr->name_address }}
+                                            </td>
+                                            <td width="70%">
+                                                {{ $addr->address.' '.$province->name.' '.$addr->zipcode }}
+                                            </td>
+                                            {{-- <td width="40%">
+                                                {{ $addr->name_contact }}
+                                            </td> --}}
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                No Data
+                            @endif
                             </div>
-                            <!-- /other_addr_c -->
-                            <hr>
                         </div>
                     </div>
                 </div>
@@ -156,7 +201,7 @@
                             {{-- <li class="clearfix"><em>2x Armor Air Zoom Alpha</em> <span>$115.00</span></li> --}}
                         </ul>
                         <ul>
-                            <li class="clearfix"><em><strong>Subtotal</strong></em>  <span id="total_price">{{ number_format($totally,2) }}</span></li>
+                            <li class="clearfix"><em><strong>Subtotal</strong></em>  <span id="total_price" price="{{ $totally }}">{{ number_format($totally,2) }}</span></li>
                             <li class="clearfix"><em><strong>Shipping</strong></em> <span id="total_shipping">{{ number_format($shipping,2) }}</span></li>
                             
                         </ul>
@@ -198,12 +243,29 @@
 $('.select2').select2();
 $(document).on('change','input[name="ship_method_id"]',function(){
     var ship = parseInt($(this).attr('price'));
-    var price = parseInt($("#total_price").html());
+    var price = parseInt($("#total_price").attr('price'));
     var grand_total = ship + price;
     // console.log(ship);
     // console.log(price);
     $("#total_shipping").html( ship.toFixed(2) );
     $("#grand_total").html( grand_total.toFixed(2) );
+});
+$(document).on('change',".user_address",function(){
+    var obj = new Object();
+    obj.name_address = $(this).attr('name_address');
+    obj.address = $(this).attr('address');
+    obj.name_contact = $(this).attr('name_contact');
+    obj.province_id = $(this).attr('province_id');
+    obj.zipcode = $(this).attr('zipcode');
+    obj.phone = $(this).attr('phone');
+    console.log(obj);
+    Object.keys(obj).map(function(key, index){
+        // console.log(key);
+        // console.log(obj[key]);
+        $(".input_change #"+key).val(obj[key]);
+    });
+    $("#province_id").change();
+    $("#home-tab").click();
 });
 console.log($(document).height());
 console.log($(window).height());

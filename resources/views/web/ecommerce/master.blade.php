@@ -141,6 +141,8 @@
                                 $count_item+=count($b['items']);
                             $html.='<ul shop_id="'.$b['shop_id'].'"><li class="title">'.$b['name'].'</li>';
                             foreach($b['items'] as $item){
+								$item['qty'] = (int)$item['qty'];
+								$item['price'] = (float)$item['price'];
                                 $qty+=$item['qty'];
                                 $total+=$item['qty']*$item['price'];
                                 $html.='<li class="item" product_id="'.$item['product_id'].'">';
@@ -172,10 +174,19 @@
 							</li>
 							<li>
 								<div class="dropdown dropdown-access">
-									<a href="account.html" class="access_link"><span>Account</span></a>
+									<a href="#" class="access_link"><span>Account</span></a>
 									<div class="dropdown-menu">
-										<a href="account.html" class="btn_1">Sign In or Sign Up</a>
-										<ul>
+										{{-- <a href="account.html" class="btn_1">Sign In or Sign Up</a> --}}
+										<ul style="margin-top:0px">
+											<li>
+												<a href="{{ LKS::url_subdomain('account','') }}" class="">
+
+													<i class="ti-user"></i>
+													{{  \Auth::user()->name }}
+													{{-- <img src="{{ \Auth::user()->get_photo() }}" alt="" class="rounded-circle" style="height: 36px;width: 36px;"> --}}
+													
+												</a>
+											</li>
 											<li>
 												<a href="track-order.html"><i class="ti-truck"></i>Track your Order</a>
 											</li>
@@ -183,10 +194,16 @@
 												<a href="account.html"><i class="ti-package"></i>My Orders</a>
 											</li>
 											<li>
-												<a href="account.html"><i class="ti-user"></i>My Profile</a>
+												{{-- <a href="account.html"><i class="ti-user"></i>My Profile</a> --}}
 											</li>
 											<li>
 												<a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>
+											</li>
+											<li>
+												<a href="{{ LKS::url_subdomain('account','logout') }}" class="">
+													<i class="fas fa-sign-in-alt"></i>
+													Logout
+												</a>
 											</li>
 										</ul>
 									</div>
@@ -280,6 +297,7 @@
     <script src="<?php echo url('');?>/assets/web/js/plugins/toastr/toastr.min.js"></script>
     <script src="<?php echo url('');?>/assets/js/plugins/currency.min.js"></script>
     <script src="<?php echo url('');?>/assets/js/plugins/blockUI.js"></script>
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script src="<?php echo url('');?>/assets/js/lks.js"></script>
 
     <script src="<?php echo url('');?>/assets/web/js/cart.js"></script>
