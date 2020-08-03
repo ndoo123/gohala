@@ -15,6 +15,7 @@ Route::post('user/reset_password/process','AAccountController@reset_password_pro
 Route::middleware(['auth'])->group(function(){
     Route::get('profile','AAccountController@profile');
     Route::post('profile/save','AAccountController@profile_save');
+    Route::post('profile/address/default_change','AAccountController@default_change');
     Route::post('profile/address/get','AAccountController@profile_address_get');
     Route::post('profile/address/update','AAccountController@profile_address_save');
     Route::post('profile/address/delete','AAccountController@profile_address_delete');

@@ -11,6 +11,8 @@ use App\Models\Order;
 use Facebook\Facebook;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
+use DB;
+
 class AAccountController extends Controller
 {
    public function login_fb_callback(Request $r)
@@ -266,5 +268,38 @@ class AAccountController extends Controller
 
       return LKS::o(1,"");
 
+   }
+   public function default_change(Request $r)
+   {
+    //  dd($r->all(),$r->address_id,\Auth::user());
+      // dd(UserAddress::where('user_id',\Auth::user()->id)->get());
+      DB::beginTransaction();
+      try{
+        $address_id = (int)$r->address_id;
+        if(!\Auth::check())
+          throw new \Exception('กรุณาล็อคอิน');
+        $user_address = UserAddress::where('user_id',\Auth::user()->id)->get();
+        foreach($user_address as $addr)
+        {
+          // dd($user_address,$addr->id,$address_id);
+          if($addr->id == $address_id)
+          {   
+            $addr->is_default = 1;
+          }
+          else
+          {
+            $addr->is_default = 0;
+          }
+          $addr->save();
+        }
+        DB::commit();
+        $return = ['result' => 1, 'msg'=> 'บันทึกเรียบร้อย' ];
+      }
+      catch(\Exception $e)
+      {
+        DB::rollback();
+        $return = ['result' => 0, 'msg'=> $e->getMessage() ];
+      }
+      return json_encode($return);
    }
 }

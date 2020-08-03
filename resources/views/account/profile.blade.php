@@ -13,6 +13,7 @@
         <link href="<?php echo url('assets/manage/login/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/login/css/icons.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/login/css/style.css');?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
     </head>
 
     <body>
@@ -220,7 +221,14 @@
                                                     <div user_address_id="<?php echo $addr->id;?>" class="card card_user_address p-10" style="border:1px solid #bdbcbc">
                                                         <div class="card-body m-b-0">
                                                             <div class="address_action float-right text-center">
-                                                                <button address_default="<?php $addr->is_default;?>" type="button" style="margin-bottom:5px" class="btn btn-sm btn-success waves-effect waves-light"><i class="fas fa-check"></i> ที่อยู่หลัก</button>
+                                                            <?php
+                                                            $addr_class = 'btn-outline-success';
+                                                            if($addr->is_default == 1)
+                                                            {
+                                                                $addr_class = 'btn-success';
+                                                            }
+                                                            ?>
+                                                                <button address_id="{{ $addr->id }}" address_default="{{ $addr->is_default }}" type="button" style="margin-bottom:5px" class="btn btn-sm  waves-effect waves-light {{ $addr_class }} default_addr"><i class="fas fa-check"></i> ที่อยู่หลัก</button>
                                                                 <br>
                                                                 <button type="button" class="btn btn-sm btn-outline-danger delete_user_address"><i class="far fa-trash-alt"></i> ลบ</button>
                                                                 <button type="button" class="btn btn-sm btn-outline-info edit_user_address"><i class="far fa-edit"></i> แก้ไข</button>
@@ -373,6 +381,7 @@
         var app=new LKS();
         app.url='<?php echo url('');?>';
         </script>
+        <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
         <script src="<?php echo url('assets/account/js/account.js');?>"></script>
         <script src="<?php echo url('assets/modal/order_detail.js');?>"></script>
     </body>
