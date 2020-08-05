@@ -2,6 +2,7 @@
 Route::get('/','AAccountController@login');
 Route::get('login','AAccountController@login')->name('login');
 Route::get('login/fb/callback','AAccountController@login_fb_callback');
+Route::get('login/fb','AAccountController@login_fb');
 
 //Auth
 Route::post('auth','\App\Http\Controllers\Auth\LoginController@login');

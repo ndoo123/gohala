@@ -110,8 +110,6 @@ Route::post('cart/shop/clear','HomeController@cart_shop_clear');
 // Route::post('cart/item/update','HomeController@cart_update_item');
 // Route::get('checkout','HomeController@checkout');
 
-
-
 Route::get('/{shop_url}/cat/{cat_slug}','HomeController@shop_category_view');
 Route::get('/', "HomeController@home");
 

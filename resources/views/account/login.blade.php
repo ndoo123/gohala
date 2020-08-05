@@ -17,10 +17,10 @@
         <script>
             window.fbAsyncInit = function() {
                 FB.init({
-                appId      : '2934897193194069',
+                appId      : '151912162083124',
                 cookie     : true,
                 xfbml      : true,
-                version    : 'v7.0'
+                version    : 'v8.0'
                 });
                 
                 FB.AppEvents.logPageView();   
@@ -34,13 +34,13 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
         </script>
-       
         <div class="home-btn d-none d-sm-block">
             <a href="<?php echo env('APP_URL');?>" class="text-white"><i class="fas fa-home h2"></i></a>
         </div>
         
         <!-- Begin page -->
         <div class="accountbg"></div>
+        <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
 
         <div class="wrapper-page account-page-full">
 
@@ -53,6 +53,7 @@
 
                     <div class="p-3 p-b-0">
                        
+                             {{-- <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width="">FF</div> --}}
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#login" role="tab">
@@ -132,7 +133,9 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-center">
-                             <div class="fb-login-button" onlogin="checkLoginState()" data-size="medium" data-button-type="login_with" data-layout="default"  data-width=""></div>
+                             {{-- <div class="fb-login-button" onlogin="checkLoginState()" data-size="medium" data-button-type="login_with" data-layout="default"  data-width="">BB</div> --}}
+                             {{-- <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width="">FF</div> --}}
+                             {{-- <button onclick="checkLoginState();">Login with Facebook</button> --}}
                             </div>
                         </div>
                     </div>
@@ -150,26 +153,26 @@
         <!-- end wrapper-page -->
 
         <div class="modal" id="forgot_pass_modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">ลืมรหัสผ่าน</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group input_email">
-                    <label for="register_email">ระบุ Email ที่ได้ทำการลงทะเบียนไว้</label>
-                    <input type="text" class="form-control register_email"  placeholder="">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">ลืมรหัสผ่าน</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group input_email">
+                            <label for="register_email">ระบุ Email ที่ได้ทำการลงทะเบียนไว้</label>
+                            <input type="text" class="form-control register_email"  placeholder="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="reset_password_btn" class="btn btn-primary">Reset รหัสผ่าน</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                    </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" id="reset_password_btn" class="btn btn-primary">Reset รหัสผ่าน</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-            </div>
-            </div>
-        </div>
         </div>
        <!-- jQuery  -->
         <script src="<?php echo url('assets/manage/js/jquery.min.js');?>"></script>
@@ -186,18 +189,20 @@
         var app=new LKS();
         app.url='<?php echo url('');?>';
         </script>
+        
     </body>
 
 </html>
 
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/th_TH/sdk.js#xfbml=1&version=v8.0&appId=151912162083124&autoLogAppEvents=1" nonce="0UV7apiD"></script>
 <script>
 
 
 function checkLoginState() {
-    
+    console.log(123);
     
   FB.getLoginStatus(function(response) {
-
+      console.log(response);
       if(response.status=="connected")
       {
           var uid=response.authResponse.userID;

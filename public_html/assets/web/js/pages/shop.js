@@ -10,11 +10,11 @@ function get_product(){
  
     var obj = new Object();
     obj.search_product = $("#search_product").val();
+    obj.cat = $("#cat").val();
     console.log(obj);
     var post=new JPost('');
-    //
     var url = $("#shop_url").val()+'/get/prooduct/json';
-    post.url=url;
+    post.url = url;
     // console.log(url);
     // post.url=page.attr("next_page_url");
     post.success=function(r){
@@ -24,7 +24,7 @@ function get_product(){
             
             return;
         }
-    console.log(r);
+        console.log(r);
     
         var items='';
         for(var i=0;i<r.data.data.length;i++)

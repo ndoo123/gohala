@@ -13,6 +13,7 @@ use App\Models\ProductPhoto;
 use App\Models\ProductCategory;
 use App\Models\Receipt;
 use App\Models\User;
+use App\Models\ShopCat;
 use Exception;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
@@ -59,7 +60,13 @@ class ShopController extends Controller
         // dd($r->all());
         $collection = Product::
         where("shop_id",$r->data['shop']->id);
-        if(!empty($r->search_product))
+        if(!empty($r->cat))
+        {
+            $collection = ShopCat::where('shop_id',$r->data['shop']->id)
+            ->where('category_id',$r->cat);
+            // dd($r->all(),$collection->get());
+        }
+        else if(!empty($r->search_product))
         {
             $search = '%'.$r->search_product.'%';
             $collection = $collection
@@ -69,25 +76,50 @@ class ShopController extends Controller
         }
         // dd($collection->get());
         $collection = $collection->paginate(30);
-
-        $collection->getCollection()->transform(function ($p) use($r) {
-            // Your code here
-            return [
-                "product_id"=>$p->id,
-                "name"=>$p->name,
-                "price"=>$p->price,
-                "price_format"=>number_format($p->price,2),
-                "sku"=>$p->sku,
-                "info_short"=>$p->info_short,
-                "discount_value"=>$p->discount_value,
-                "discount_price"=>$p->get_discount_price(true),
-                "photo"=>$p->get_photo(),
-                "is_discount"=>$p->is_discount,
-                "link"=>$p->get_link($r->data['shop']->url),
-                'search' => $r->all(),
-            ];
-        });
-        
+        // dd($r->all(),!empty($r->cat));
+        if(!empty($r->cat))
+        {
+            $collection->getCollection()->transform(function ($p) use($r) {
+                // Your code here
+                // dd($p->product);
+                return [
+                    "product_id"=>$p->product->id,
+                    "name"=>$p->product->name,
+                    "price"=>$p->product->price,
+                    "price_format"=>number_format($p->product->price,2),
+                    "sku"=>$p->product->sku,
+                    "info_short"=>$p->product->info_short,
+                    "discount_value"=>$p->product->discount_value,
+                    "discount_price"=>$p->product->get_discount_price(true),
+                    "photo"=>$p->product->get_photo(),
+                    "is_discount"=>$p->product->is_discount,
+                    "link"=>$p->product->get_link($r->data['shop']->url),
+                    'search' => $r->all(),
+                ];
+            });
+        }
+        else
+        {
+            $collection->getCollection()->transform(function ($p) use($r) {
+                // Your code here
+                // dd($p,$p->get_photo());
+                return [
+                    "product_id"=>$p->id,
+                    "name"=>$p->name,
+                    "price"=>$p->price,
+                    "price_format"=>number_format($p->price,2),
+                    "sku"=>$p->sku,
+                    "info_short"=>$p->info_short,
+                    "discount_value"=>$p->discount_value,
+                    "discount_price"=>$p->get_discount_price(true),
+                    "photo"=>$p->get_photo(),
+                    "is_discount"=>$p->is_discount,
+                    "link"=>$p->get_link($r->data['shop']->url),
+                    'search' => $r->all(),
+                ];
+            });
+        }
+        // dd($collection);
         return LKS::o(1,$collection);
     }
 

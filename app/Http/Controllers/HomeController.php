@@ -56,7 +56,7 @@ class HomeController extends Controller
         
         return view('web.home.single_product',$data);
     }
-    public function shop_category_view(Request $r)
+    public function shop_category_view(Request $r,$shop_url,$cat_slug)
     {
         $shop=Shop::where("url",$r->shop_url)->first();
         if(!$shop)
@@ -76,6 +76,15 @@ class HomeController extends Controller
                                             ->selectRaw('product_tb.*')
                                             ->get();
          $data['count_product']=count($data['products']);
+         $data['cat'] = $cat_slug;
+         foreach($data['categories'] as $key => $value)
+         {
+             if($value->id == (int)$data['cat'])
+             {
+                 $data['cat_data'] = $value;
+             }
+         }
+        //  dd($data);
          return view('web.home.shop_view',$data);
     }
     public function shop_view(Request $r)

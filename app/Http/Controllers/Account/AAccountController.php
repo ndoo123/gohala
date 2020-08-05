@@ -27,14 +27,16 @@ class AAccountController extends Controller
  
       return view('account.login');
    }
-   public function profile()
+   public function profile(Request $r)
    {
      
       $data['user']=\Auth::user();
       $data['address']=\Auth::user()->address;
       $data['provinces']=\DB::table('province_tb')->get();
       $data['orders']=Order::where("buyer_user_id",\Auth::user()->id)->get();
-      // dd($data);
+      
+      $data['op'] = !empty($r->op)?$r->op:null;
+      // dd($data,$r->all());
       return view('account.profile',$data);
    }
    public function profile_address_get(Request $r)

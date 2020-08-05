@@ -187,18 +187,18 @@
 													
 												</a>
 											</li>
-											<li>
+											{{-- <li>
 												<a href="track-order.html"><i class="ti-truck"></i>Track your Order</a>
-											</li>
+											</li> --}}
 											<li>
-												<a href="account.html"><i class="ti-package"></i>My Orders</a>
+												<a href="{{ LKS::url_subdomain('account','profile?op=myorder') }}"><i class="ti-package"></i>My Orders</a>
 											</li>
 											<li>
 												{{-- <a href="account.html"><i class="ti-user"></i>My Profile</a> --}}
 											</li>
-											<li>
+											{{-- <li>
 												<a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>
-											</li>
+											</li> --}}
 											<li>
 												<a href="{{ LKS::url_subdomain('account','logout') }}" class="">
 													<i class="fas fa-sign-in-alt"></i>

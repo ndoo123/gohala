@@ -129,7 +129,7 @@
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs " role="tablist">
                                             <li class="nav-item">
-                                                <a class="nav-link active" data-toggle="tab" href="#profile" role="tab">
+                                                <a class="nav-link <?=($op != "myorder")?'active':null?>" data-toggle="tab" href="#profile" role="tab">
                                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
                                                     <span class="d-none d-sm-block"><?php echo __('view.profile');?></span> 
                                                 </a>
@@ -141,7 +141,7 @@
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab" href="#order" role="tab">
+                                                <a class="nav-link <?=($op == "myorder")?'active':null?>" data-toggle="tab" href="#order" role="tab">
                                                     <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                                                     <span class="d-none d-sm-block"><?php echo __('view.order_list');?></span>   
                                                 </a>
@@ -150,7 +150,7 @@
         
                                         <!-- Tab panes -->
                                         <div class="tab-content">
-                                            <div class="tab-pane active p-3" id="profile" role="tabpanel">
+                                            <div class="tab-pane p-3 <?=($op != "myorder")?'active':null?>" id="profile" role="tabpanel">
                                                 <form method="post" action="<?php echo url('profile/save');?>">
                                                     <?php echo csrf_field();?>
                                                     <input type="hidden" name="user_id" value="<?php echo $user->id;?>">
@@ -243,7 +243,7 @@
                                                    <button type="button" id="add_new_address_btn" class="btn btn-primary">+ <?php echo __('view.address');?></button>
                                                 
                                             </div>
-                                            <div class="tab-pane p-3" id="order" role="tabpanel">
+                                            <div class="tab-pane p-3 <?=($op == "myorder")?'active':null?>" id="order" role="tabpanel">
                                                 <table class="table table-hover">
                                                     <thead>
                                                     <tr>

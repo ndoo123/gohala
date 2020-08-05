@@ -1,10 +1,25 @@
 @extends('web.ecommerce.master')
 @section('content')
 <div class="main_title">
-	<h2><?php echo $shop->name;?></h2>
+	<h2>
+        <?php
+        $shop_name = '';
+        if(!empty($shop->name))
+        {
+            $shop_name .= $shop->name;
+        }
+        if(!empty($cat_data->name))
+        {
+            $shop_name .= " [ ".$cat_data->name." ]";
+        }
+        echo $shop_name;
+        ?>
+    </h2>
 </div>
 <input type="hidden" name="rest_url" id="rest_url" value="{{ $shop->url }}">
-<input type="hidden" name="cat" id="cat" value="{{ !empty($cat)?$cat:'' }}">
+@if(!empty($cat))
+<input type="hidden" name="cat" id="cat" value="{{ $cat }}">
+@endif
 <div id="product_list" class="row small-gutters">
 	<?php 
 	if(isset($products)):
