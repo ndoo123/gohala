@@ -34,22 +34,23 @@ class Controller extends BaseController
         $detail['ค่าจัดส่ง'] = $order->total_delivery;
         $detail['ราคารวมทั้งหมด'] = number_format(((float)$order->total + (float)$order->total_delivery),2);
         $detail['สถานะออเดอร์'] = $order->get_status_show();
-
-        $cus['ชื่อ'] = !empty($order->delivery->name)?$order->delivery->name:null;
-        $cus['เบอร์ติดต่อ'] = !empty($order->delivery->phone)?$order->delivery->phone:null;
-        $cus['ที่อยู่'] = !empty($order->delivery->address)?$order->delivery->address:null;
-        $cus['จังหวัด'] = Province::find($order->delivery->province_id)->name;
-        $cus['รหัสไปรษณีย์'] = !empty($order->delivery->zipcode)?$order->delivery->zipcode:null;
-
-        $rest['ชื่อ'] = !empty($order->shop->name)?$order->shop->name:null;
-        $rest['เลขผู้เสียภาษี'] = !empty($order->shop->tax_id)?$order->shop->tax_id:null;
-        $rest['เบอร์ติดต่อ'] = !empty($order->shop->phone)?$order->shop->phone:null;
-        $rest['ที่อยู่'] = !empty($order->shop->address)?$order->shop->address:null;
-        $rest['จังหวัด'] = Province::find($order->shop->province_id)->name;
-        $rest['รหัสไปรษณีย์'] = !empty($order->shop->zipcode)?$order->shop->zipcode:null;
-        $rest['อีเมล'] = !empty($order->shop->email)?$order->shop->email:null;
-        $rest['Facebook'] = !empty($order->shop->facebook)?$order->shop->facebook:null;
-        $rest['Line'] = !empty($order->shop->line)?$order->shop->line:null;
+        // dd($order,$order->delivery);
+        $cus['ชื่อ'] = !empty($order->delivery) && !empty($order->delivery->name)?$order->delivery->name:null;
+        $cus['เบอร์ติดต่อ'] = !empty($order->delivery) && !empty($order->delivery->phone)?$order->delivery->phone:null;
+        $cus['ที่อยู่'] = !empty($order->delivery) && !empty($order->delivery->address)?$order->delivery->address:null;
+        $cus['จังหวัด'] = !empty($order->delivery) && !empty($order->delivery->province_id )? Province::find($order->delivery->province_id)->name : null;
+        $cus['รหัสไปรษณีย์'] = !empty($order->delivery) && !empty($order->delivery->zipcode)?$order->delivery->zipcode:null;
+        // dd($order,$order->shop);
+        $rest = [];
+        $rest['ชื่อ'] = !empty($order->shop) && !empty($order->shop->name)?$order->shop->name:'ไม่พบชื่อร้าน';
+        $rest['เลขผู้เสียภาษี'] = !empty($order->shop) && !empty($order->shop->tax_id)?$order->shop->tax_id:null;
+        $rest['เบอร์ติดต่อ'] = !empty($order->shop) && !empty($order->shop->phone)?$order->shop->phone:null;
+        $rest['ที่อยู่'] = !empty($order->shop) && !empty($order->shop->address)?$order->shop->address:'ไม่พบที่อยู่';
+        $rest['จังหวัด'] = !empty($order->shop) && !empty($order->shop->province_id) ? Province::find($order->shop->province_id)->name : 'ไม่พบจังหวัด';
+        $rest['รหัสไปรษณีย์'] = !empty($order->shop) && !empty($order->shop->zipcode)?$order->shop->zipcode:'ไม่พบรหัสไปรษณีย์';
+        $rest['อีเมล'] = !empty($order->shop) && !empty($order->shop->email)?$order->shop->email:null;
+        $rest['Facebook'] = !empty($order->shop) && !empty($order->shop->facebook)?$order->shop->facebook:null;
+        $rest['Line'] = !empty($order->shop) && !empty($order->shop->line)?$order->shop->line:null;
         return json_encode(
             [
                 // 'delivery' => $order->delivery,
@@ -74,7 +75,8 @@ class Controller extends BaseController
         $orders = $orders->orderBy('created_at', 'desc')->get();
         return \Datatables::of($orders)
         ->addColumn('delivery_name',function($order){
-            return $order->delivery->name;
+            return !empty($order->delivery) && !empty($order->delivery->name) ? $order->delivery->name : 'ไม่พบข้อมูล';
+            // return $order->delivery->name ? $order->delivery->name : null;
         })
         ->addColumn('actions',function($order){
             $action = '';

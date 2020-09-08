@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\UserAddress;
 use App\Helper\LKS;
 use App\Models\Order;
+use App\Models\Shop;
 use Facebook\Facebook;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
@@ -36,6 +37,9 @@ class AAccountController extends Controller
       $data['orders']=Order::where("buyer_user_id",\Auth::user()->id)->get();
       
       $data['op'] = !empty($r->op)?$r->op:null;
+      // $data['asdf'] = \Auth::user();
+      $data['shop'] = Shop::where('user_id',$data['user']->id)->get();
+      $data['shop_count'] = $data['shop']->count();
       // dd($data,$r->all());
       return view('account.profile',$data);
    }

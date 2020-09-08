@@ -90,7 +90,18 @@
                 
                 <div class="card">
                     <div class="card-body">
-                        คุณยังไม่มีร้านใดๆ เริ่มสร้างร้านได้เลย <a href="<?php echo  LKS::url_subdomain('manage','shops');?>" class="btn btn-sm btn-primary">สร้างร้านค้า</a>
+                        <?php
+                            $button = '<a href="'.LKS::url_subdomain('manage','shops').'" class="btn btn-sm btn-primary">ร้านค้า</a>';
+                            if($shop_count<1) 
+                            {
+                                echo "คุณยังไม่มีร้านใดๆ เริ่มสร้าง ".$button." ได้เลย";
+                            }  
+                            else
+                            {
+                                echo "ไปที่ ".$button." ของคุณ";
+                            }
+                        ?>
+                        
                     </div>
                 </div>  
                <div class="row">
