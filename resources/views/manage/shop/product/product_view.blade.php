@@ -60,6 +60,7 @@
                     </div>
                 </div>
             </div>
+
              <div class="card">
                 <div class="card-body">
                     <h4 class="mt-0 text-primary header-title"><?php echo __('view.product.product_image');?></h4>
@@ -79,6 +80,7 @@
                     <br><br><span class="text-muted">กดที่รูป <i class="fas fa-star"></i> เพื่อตั้งค่าให้เป็นรูปหลัก</span>
                 </div>
             </div>
+            
         </div> <!-- end col -->
          <div class="col-4">
             <div class="card">
@@ -133,7 +135,11 @@
                     $product_categories=$product->get_categories();
                     foreach($categories as $cat):?>
                       <div class="custom-control custom-checkbox">
-                            <input type="checkbox" value="<?php echo $cat->id;?>" <?php if(isset($product) && $product->in_category($cat->id,$product_categories)) echo 'checked';?> name="category[]" class="custom-control-input" id="cat_<?php echo $cat->id;?>">
+                            <input type="radio" 
+                            value="<?php echo $cat->id;?>" 
+                            <?php if(isset($product) && $product->in_category($cat->id,$product_categories)) echo 'checked';?> name="category[]" 
+                            class="custom-control-input" 
+                            id="cat_<?php echo $cat->id;?>">
                             <label class="custom-control-label" for="cat_<?php echo $cat->id;?>"> <?php echo $cat->name;?></label>
                         </div>
                     <?php endforeach;?>

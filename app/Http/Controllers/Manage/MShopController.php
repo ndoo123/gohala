@@ -388,6 +388,7 @@ class MShopController extends Controller
    {
         $data['shop']=$r->shop;
         $data['products']=Product::where("shop_id",$r->shop->id)->get();
+        // dd($data);
        return view('manage.shop.product.product_list',$data);
    }
    public function product_view(Request $r)

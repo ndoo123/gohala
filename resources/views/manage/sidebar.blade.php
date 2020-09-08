@@ -9,7 +9,7 @@
                     <li class="menu-title">จัดการ</li>
                     <li>
                         <a href="<?php echo url('dashboard');?>" class="waves-effect">
-                            <i class="ti-home"></i> <span> แผงควบคุม </span>
+                            <i class="ti-home"></i> <span> แผงควบคุมหลัก </span>
                         </a>
                     </li>
                     <li>

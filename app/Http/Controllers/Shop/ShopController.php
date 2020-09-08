@@ -30,7 +30,7 @@ class ShopController extends Controller
         {
             $output[$key] = $data;
         }
-        // dd($output,\Cart::get_cart(),Auth::user());
+        // dd($output);
         return view('web.ecommerce.shop',$output);
     }
     public function product_view(Request $r)
@@ -75,7 +75,8 @@ class ShopController extends Controller
             ->orWhere('info_full','like',$search);
         }
         // dd($collection->get());
-        $collection = $collection->paginate(30);
+        $collection = $collection->get();
+        // $collection = $collection->paginate(30);
         // dd($r->all(),!empty($r->cat));
         if(!empty($r->cat))
         {

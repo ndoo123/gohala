@@ -47,7 +47,7 @@
                                         }
                              
                                         if($cats!='')
-                                        $cats=substr($cats,0,2);
+                                        $cats=mb_substr($cats,0,2);
                                         echo '<span class="text-muted">'.$cats.'</span>';
                                         ?>
                                     </td>
