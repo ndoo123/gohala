@@ -141,8 +141,8 @@ class HomeController extends Controller
         $data['user']=\Auth::user();
         $data['user_address']=\Auth::user()->address;
         $data['address_default']=\Auth::user()->address_default();
-        $data['provinces']=Province::all();
-   
+        $data['provinces']=Province::orderBy('name','asc')->get();
+        // dd($data);
         $data['shop']=$shop;
         $data['delivery_methods']= ShopDelivery::where("shop_id",$shop->id)
         ->leftJoin('ship_method_tb','ship_method_tb.id','shop_shipping_tb.shipping_id')

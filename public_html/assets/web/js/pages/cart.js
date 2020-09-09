@@ -24,20 +24,24 @@ $(document).on('click','button.remove_shop_from_cart',function(){
 });
 $(document).on('click','div.button_inc',function(){
     var tr=$(this).closest('tr');
+    console.log(tr);
     var qty=parseInt(tr.find('input.qty').val());
   
-    
+    var tabler = tr;
     var obj=new Object();
     obj.product_id=tr.attr("product_id");
     obj.shop_id=tr.attr("shop_id");
     obj.qty=tr.find('input.qty').val();
+    console.log(obj);
     var post=new JPost('#page');
     post.url='/product/update_cart';
     post.success=function(res){
         console.log(res);
+        console.log(qty);
         if(qty<=0)
         {
-            tr.remove();
+            console.log(tabler);
+            tabler.remove();
         }
         if(res.result==0)
         {
@@ -56,6 +60,7 @@ $(document).on('click','div.button_inc',function(){
             $("table").each(function(index , table){
                 // console.log(index);
                 var sum_res = 0;
+                var count = 0;
                 console.log(typeof(sum_res));
                 console.log(table);
                 var tr = $(table).find('tbody tr');
@@ -65,16 +70,18 @@ $(document).on('click','div.button_inc',function(){
                     // console.log($(t).attr('product_id') !== undefined);
                     if($(t).attr('product_id') !== undefined)
                     {
-                        // console.log(t);
-                        sum_res += parseFloat($(t).find('.sum_product').html());
-                        console.log(parseFloat($(t).find('.sum_product').html()));
+                        count += 1;
+                        var price = ($(t).find('.sum_product').html().replace(",", ""));
+                        sum_res += parseFloat(price);
+                        // console.log(parseFloat($(t).find('.sum_product').html()));
                         // console.log(sum_res);
                         // console.log(t_index);
                     }
                     else
                     {
-                        console.log(sum_res);
-                        $(t).find('.sum_res').html(sum_res.toFixed(2));
+                        $(t).find('.sum_res').html(sum_res.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                        if(count<1)
+                            $(t).closest('.card').remove();
                     }
                 });
             });

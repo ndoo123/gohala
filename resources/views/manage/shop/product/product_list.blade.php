@@ -5,6 +5,9 @@
    <a href="<?php echo url($shop->url.'/products/create');?>" class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light">
         <i class="mdi mdi-plus mr-2"></i> เพิ่มสินค้า
     </a>
+   <a href="<?php echo url($shop->url.'/products/create');?>" class="btn btn-success dropdown-toggle arrow-none waves-effect waves-light">
+        <i class="ti-list mr-2"></i> จัดเรียง
+    </a>
 </div>
 @stop
 @section('content')

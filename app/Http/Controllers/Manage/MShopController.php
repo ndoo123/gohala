@@ -391,7 +391,7 @@ class MShopController extends Controller
         $data['shop']=$r->shop;
         $data['products']=Product::where("shop_id",$r->shop->id)->get();
        $data['categories']=ShopCategory::where("shop_id",$r->shop->id)->get();
-        // dd($data); 
+        // dd($data,DB::table('product_tb')->get(),Product::all()); 
        return view('manage.shop.product.product_list',$data);
    }
     public function product_datatables(Request $r)
