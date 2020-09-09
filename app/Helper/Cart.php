@@ -5,6 +5,7 @@ class Cart{
     
     public static function add_to_cart($p,$shop)
     {
+        // dd($p,$shop);
         $cart=array();
         if(Session::get('cart'))
         $cart=Session::get('cart');

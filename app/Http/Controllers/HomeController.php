@@ -361,6 +361,7 @@ class HomeController extends Controller
     }
     public function product_add_to_cart(Request $r)
     {
+        // dd($r->all());
         $p=Product::where("id",$r->product_id)->first();
         if(!$p)
         return \LKS::o(0,"ไม่พบสินค้า");
@@ -379,7 +380,7 @@ class HomeController extends Controller
                 'name'=>$p->name,
                 'qty'=>$r->qty,
                 'price'=>$p->get_discount_price(),
-                'link'=>$p->get_link(),
+                'link'=>$p->get_link($r->shop_url),
                 'img'=>$p->get_photo()
                 );
             $resp=Cart::add_to_cart($basket_item,$p->shop);

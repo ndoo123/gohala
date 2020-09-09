@@ -11,8 +11,10 @@ use App\Models\ProductSlug;
 use App\Models\ProductPhoto;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
-
+use Datatables;
 use LKS;
+use DB;
+
 class MShopController extends Controller
 {
     protected $url;
@@ -328,7 +330,7 @@ class MShopController extends Controller
        
        ->selectRaw('shop_category_tb.*,(select count(product_id) from shop_category_product_tb where shop_category_product_tb.category_id=shop_category_tb.id and shop_category_product_tb.shop_id="'.$r->shop->id.'" ) as product_count')
        ->get();
-
+        // dd($data);
        return view('manage.shop.shop_category',$data);
    }
    public function shop_categories_active_json(Request $r)
@@ -388,9 +390,59 @@ class MShopController extends Controller
    {
         $data['shop']=$r->shop;
         $data['products']=Product::where("shop_id",$r->shop->id)->get();
-        // dd($data);
+       $data['categories']=ShopCategory::where("shop_id",$r->shop->id)->get();
+        // dd($data); 
        return view('manage.shop.product.product_list',$data);
    }
+    public function product_datatables(Request $r)
+    {
+        // dd($r->all());
+        $data['shop']=$r->shop;
+        $products =  
+            DB::table('product_tb as p')
+            ->leftJoin('shop_category_product_tb as m', 'm.product_id', '=', 'p.id')
+            ->leftJoin('shop_category_tb as c', 'c.id', '=', 'm.category_id')
+            ->select('p.*', 'c.*', 'm.*','c.name as c_name','p.name as p_name','p.id as p_id')
+            ->groupBy('p_id')
+            ->where('p.shop_id',$r->shop->id);
+            // ->get();
+
+        if(!empty($r->p_id))
+        {
+            $products = $products->where('m.category_id',$r->p_id);
+        }
+        $products = $products->get();
+            // dd($products);
+        // $products = Product::where("shop_id",$r->shop->id)->get();
+        $data['products'] = $products;
+        $data['categories'] = ShopCategory::where("shop_id",$r->shop->id)->get();
+        // dd($data);
+        return Datatables::of($products)
+        ->editColumn('name',function($products){
+            $cats=mb_substr($products->c_name,0,2);
+            $name = $products->p_name;
+            $str = '<span class="text-muted">'.$cats.'</span>';
+            return $name.'<br>'.$str;
+        })
+        ->addColumn('img',function($products){
+            $img = env('APP_URL').'/assets/images/no_image_available.jpeg';
+            if($products->default_photo!="")
+            {
+                $img = env('APP_URL').'/images/product/'.$products->shop_id.'/'.$products->p_id.'.'.$products->default_photo.'.jpg';
+            }
+
+            return '<img src="'.$img.'" alt="" class="rounded thumb-lg">';
+            // return '<img src="'.$products->get_photo().'" alt="" class="rounded thumb-lg">';
+        })
+        ->editColumn('price',function($products){
+            return number_format($products->price,2);
+        })
+        ->addColumn('edit',function($products) use ($data){
+            return '<a class="btn btn-sm btn-primary" href="'.url($data['shop']->url.'/product/'.$products->p_id).'">
+            '.__('view.product.edit_product').'</a>';
+        })
+        ->make(true);
+    }
    public function product_view(Request $r)
    {
        $data['shop']=$r->shop;

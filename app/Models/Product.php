@@ -43,12 +43,15 @@ class Product extends Model
         return false;
     }
     public function photos(){
-        return $this->hasMany('\App\Models\ProductPhoto','product_id','id');
+        return $this->hasMany('\App\Models\ProductPhoto','product_id','id')
+        ->orderBy('is_default','desc')
+        ->orderBy('created_at','asc');
     }
     public function shop(){
         return $this->hasOne('\App\Models\Shop','id','shop_id');
     }
     public function get_link($shop_url=''){
+        // dd($shop_url,2);
        if($shop_url!='')
        $shop_url='/'.$shop_url;
         // if($this->slug!="")

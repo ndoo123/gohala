@@ -42,6 +42,7 @@ class ShopController extends Controller
         }
        $data= $r->data;
        $data['product']=$product;
+       $data['link'] = $data['product']->id.',1,"'.$data['shop']->url.'"';
         // dd($data);
         return view('web.ecommerce.product',$data);
     }
@@ -75,9 +76,11 @@ class ShopController extends Controller
             ->orWhere('info_full','like',$search);
         }
         // dd($collection->get());
-        $collection = $collection->get();
+        $count = $collection->count();
+        $collection = $collection->paginate($count);
         // $collection = $collection->paginate(30);
         // dd($r->all(),!empty($r->cat));
+        // dd($r->cat,$count,$collection);
         if(!empty($r->cat))
         {
             $collection->getCollection()->transform(function ($p) use($r) {

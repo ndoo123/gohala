@@ -15,48 +15,28 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    <select class="form-control mb-3 filter_cate">
+                            <option value="">--- หมวดหมู่ทั้งหมด ---</option>
+                        @foreach ($categories as $c)
+                            <option value="{{ $c->id }}">{{ $c->name }}</option>
+                        @endforeach
+                    </select>
                     <div class="table-rep-plugin bg-light">
                         <div class="table-responsive mb-0"  data-pattern="priority-columns">
-                            <table id="products_table" class="table table-striped">
+                            <table id="products_table" class="table table-hover" 
+                            remote_url="<?=url($shop->url.'/products/datatables')?>">
                                 <thead class="thead-light">
                                 <tr>
-                                    <th width="100"></th>
+                                    <th width="100">ลำดับ</th>
+                                    <th width="100">รูปภาพ</th>
                                     <th width="150">#SKU</th>
                                     <th><?php echo __('view.product.product_name');?></th>
                                     <th class="text-right"><?php echo __('view.product.price');?></th>
                                     <th class="text-center"><?php echo __('view.product.qty');?></th>
-                                    <th width="1"></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <?php if(count($products)==0):?>
-                                <tr><td colspan="6"><p class="text-center"><?php echo __('view.product.no_products');?></p></td></tr>
-                                <?php endif;?>
-                                <?php foreach($products as $product):?>
-                                <tr>
-                                    <td>
-                                        <img src="<?php echo $product->get_photo();?>" alt="" class="rounded thumb-lg">
-                                    </td>
-                                    <td><?php echo $product->sku;?></td>
-                                    <td><?php echo $product->name;?><br>
-                                        <?php 
-                                        $categories=$product->get_categories();
-                                        $cats='';
-                                        foreach($categories as $c){
-                                            $cats.=$c->name.',';
-                                        }
-                             
-                                        if($cats!='')
-                                        $cats=mb_substr($cats,0,2);
-                                        echo '<span class="text-muted">'.$cats.'</span>';
-                                        ?>
-                                    </td>
-                                    <td class="text-right"><?php echo number_format($product->price,2);?></td>
-                                    <td class="text-center"><?php echo $product->qty;?></td>
-                                    <td><a class="btn btn-sm btn-primary" href="<?php echo url($shop->url.'/product/'.$product->id);?>"><?php echo __('view.product.edit_product');?></a></td>
-                                </tr>
-                                <?php endforeach;?>
-                                </tbody>
+                                
                             </table>
                         </div>
 
@@ -74,10 +54,13 @@
 @stop
 @section('css')
 <link href="<?php echo url('assets/js/plugins/RWD-Table-Patterns/dist/css/rwd-table.min.css');?>" rel="stylesheet" type="text/css" media="screen">
+<link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
 @stop
 @section('js')
 <!-- Responsive-table-->
+<script src="<?php echo url('assets/js/plugins/sweet-alert2/sweetalert2.all.min.js');?>"></script>
 <script src="<?php echo url('assets/js/plugins/RWD-Table-Patterns/dist/js/rwd-table.min.js');?>"></script>
+ <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
 
 <script src="<?php echo url('assets/manage/js/pages/shop/product/product.js');?>"></script>
 @stop

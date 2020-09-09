@@ -51,7 +51,9 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="btn_add_to_cart"><a href="javascript:;" onclick="add_to_cart(<?php echo $product->id.',1';?>)" class="btn_1">หยิบลงตระกร้า</a></div>
+                    <div class="btn_add_to_cart"><a href="javascript:;" 
+                    onclick="add_to_cart({{ $link }})" class="btn_1">หยิบลงตระกร้า</a></div>
+                    {{-- onclick="add_to_cart({{ $product->id.',1' }})" class="btn_1">หยิบลงตระกร้า</a></div> --}}
                 </div>
             </div>
         </div>

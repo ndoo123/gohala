@@ -49,11 +49,13 @@ function remove_from_cart(product_id,shop_id)
     }
     post.send(obj);
 }
-function add_to_cart(product_id,qty)
+function add_to_cart(product_id,qty,shop_url)
 {
     var obj=new Object();
     obj.product_id=product_id;
     obj.qty=qty;
+    obj.shop_url=shop_url;
+    // console.log(obj);
     var post=new JPost('#page');
     post.url='/product/add_to_cart';
     post.success=function(res){
