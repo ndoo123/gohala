@@ -372,7 +372,7 @@ class HomeController extends Controller
         if($p->shop==null)
         return \LKS::o(0,"ไม่พบข้อมูลร้านค้า");
 
-
+        // dd($p,$r->all(),!is_numeric($p->p_price));
         if(!is_numeric($p->p_price))
             $p->p_price=0;
             

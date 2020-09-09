@@ -5,11 +5,11 @@ class Cart{
     
     public static function add_to_cart($p,$shop)
     {
-        // dd($p,$shop);
         $cart=array();
         if(Session::get('cart'))
         $cart=Session::get('cart');
         
+        // dd($p,$shop,$cart);
         if(!isset($cart[$p['shop_id']]))
         {
             
@@ -17,9 +17,17 @@ class Cart{
         }
 
         if(!isset($cart[$p['shop_id']]['items'][$p['product_id']]))
-        $cart[$p['shop_id']]['items'][$p['product_id']]=$p;
+        {
+            $cart[$p['shop_id']]['items'][$p['product_id']]=$p;
+        }
         else
-        $cart[$p['shop_id']]['items'][$p['product_id']]['qty']+=$p['qty'];
+        {
+            // $qty = $p['qty'];
+            $old_qty = $cart[$p['shop_id']]['items'][$p['product_id']]['qty'];
+            $cart[$p['shop_id']]['items'][$p['product_id']]=$p;
+            $cart[$p['shop_id']]['items'][$p['product_id']]['qty']+=$old_qty;
+            // $cart[$p['shop_id']]['items'][$p['product_id']]['qty']+=$p['qty'];
+        }
 
         Session::put('cart',$cart);
 

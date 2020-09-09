@@ -3,7 +3,7 @@
 <?php
 
   $basket=\Cart::get_cart();
-
+// dd($basket);
   ?>
 <div style="margin-bottom:20px">
 <a href="<?php echo url()->previous();?>">< กลับไปยังร้านก่อนหน้า</a>
@@ -45,6 +45,8 @@ foreach($basket as $b):?>
     
         $shop_total=0;
         foreach($b['items'] as $item):
+            if(!isset($item['price']))
+                continue;
         $total=$item['price']*$item['qty'];
         $shop_total+=$total;
         ?>
@@ -68,7 +70,7 @@ foreach($basket as $b):?>
             </td>
 
             <td class='text-right'>
-                <strong ><?php echo number_format($total,2);?></strong>
+                <strong class="sum_product"><?php echo number_format($total,2);?></strong>
             </td>
 
             <td class="options">
@@ -79,7 +81,7 @@ foreach($basket as $b):?>
         <?php endforeach;?>
         <tr>
             <td colspan="3" class="text-right">รวม:</td>
-            <td class='text-right' ><?php echo number_format($shop_total,2);?></td>
+            <td class='text-right sum_res' ><?php echo number_format($shop_total,2);?></td>
             <td></td>
         </tr>
     </tbody>

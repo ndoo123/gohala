@@ -34,14 +34,50 @@ $(document).on('click','div.button_inc',function(){
     var post=new JPost('#page');
     post.url='/product/update_cart';
     post.success=function(res){
+        console.log(res);
+        if(qty<=0)
+        {
+            tr.remove();
+        }
         if(res.result==0)
         {
             alert(res.msg);
             return;
         }
-         if(qty<=0)
+        else
         {
-            tr.remove();
+            for(index in res.data.items)
+            {
+                obj = res.data.items[index];
+                // console.log(obj['product_id']);
+                var tr = $("table tr[product_id='" + obj['product_id'] + "']");
+                tr.find('.sum_product').html((parseInt(obj['price']) * parseInt(obj['qty'])).toFixed(2));
+            }
+            $("table").each(function(index , table){
+                // console.log(index);
+                var sum_res = 0;
+                console.log(typeof(sum_res));
+                console.log(table);
+                var tr = $(table).find('tbody tr');
+                tr.each(function(t_index, t){
+                    // console.log(t);
+                    // console.log($(t).attr('product_id'));
+                    // console.log($(t).attr('product_id') !== undefined);
+                    if($(t).attr('product_id') !== undefined)
+                    {
+                        // console.log(t);
+                        sum_res += parseFloat($(t).find('.sum_product').html());
+                        console.log(parseFloat($(t).find('.sum_product').html()));
+                        // console.log(sum_res);
+                        // console.log(t_index);
+                    }
+                    else
+                    {
+                        console.log(sum_res);
+                        $(t).find('.sum_res').html(sum_res.toFixed(2));
+                    }
+                });
+            });
         }
         
     }

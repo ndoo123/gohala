@@ -172,3 +172,9 @@ function add_to_cart(product_id,qty,shop_url)
     }
     post.send(obj);
 }
+// $(document).on('change','.inc.button_inc',function(){
+//     console.log($(this));
+// });
+// $(document).on('change','.dec.button_inc',function(){
+//     console.log($(this));
+// });
