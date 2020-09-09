@@ -46,28 +46,28 @@
                         <div class="tab-pane fade show active input_change" id="tab_1" role="tabpanel" aria-labelledby="tab_1">
                             <div class="row no-gutters">
                                 <div class="col-12 form-group pr-1">
-                                    <input type="text" class="form-control" placeholder="Name Contact" name="name_contact" id="name_contact" value="{{ !empty($address_default->name_contact)?$address_default->name_contact:'' }}" required>
+                                    <input type="text" class="form-control" placeholder="ชื่อ-สกุล" name="name_contact" id="name_contact" value="{{ !empty($address_default->name_contact)?$address_default->name_contact:'' }}" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Name Address" name="name_address" id="name_address" value="{{ !empty($address_default->name_address)?$address_default->name_address:'' }}" required>
+                                <input type="text" class="form-control" placeholder="ชื่ออาคาร" name="name_address" id="name_address" value="{{ !empty($address_default->name_address)?$address_default->name_address:'' }}" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Full Address" name="address" id="address" value="{{ !empty($address_default->address)?$address_default->address:'' }}" required>
+                                <input type="text" class="form-control" placeholder="ที่อยู่" name="address" id="address" value="{{ !empty($address_default->address)?$address_default->address:'' }}" required>
                             </div>
                             <div class="row no-gutters">
 
                                 <div class="col-6 form-group pr-1">
-                                    <input type="text" class="form-control" placeholder="Telephone" id="phone" name="phone" value="{{ !empty($address_default->phone)?$address_default->phone:'' }}" required>
+                                    <input type="text" class="form-control" placeholder="โทรศัพท์" id="phone" name="phone" value="{{ !empty($address_default->phone)?$address_default->phone:'' }}" required>
                                 </div>
                                 <div class="col-6 form-group pl-1">
-                                    <input type="text" class="form-control" placeholder="Postal code" id="zipcode" name="zipcode" value="{{ !empty($address_default->zipcode)?$address_default->zipcode:'' }}" required>
+                                    <input type="text" class="form-control" placeholder="รหัสไปรษณีย์" id="zipcode" name="zipcode" value="{{ !empty($address_default->zipcode)?$address_default->zipcode:'' }}" required>
                                 </div>
 
                                 <div class="col-12 form-group">
                                     {{-- <div class="custom-select-form"> --}}
                                         <select class="select2 wide add_bottom_15 custom-select-form form-control" name="province_id" id="province_id" required>
-                                            <option value="" >Country</option>
+                                            <option value="" >จังหวัด</option>
                                             @if(!empty($provinces))
                                                 @foreach($provinces as $p)
                                                 <?php

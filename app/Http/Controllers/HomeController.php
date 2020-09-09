@@ -209,22 +209,6 @@ class HomeController extends Controller
 
         if(!$r->name_contact || !$r->name_address || !$r->address || !$r->phone || !$r->zipcode || !$r->province_id)
             return redirect()->back()->with('error','กรุณากรอกข้อมูลให้ครบ');
-        $order=new Order();
-        $order->id=crc32($shop->id.$shop->name.time().rand(10,99));
-        $order->shop_id=$shop->id;
-        $order->channel_id=1;
-        $order->status=1;
-        $delivery=ShopDelivery::where("shipping_id",$r->ship_method_id)->where("shop_id",$shop->id)->first();
-        if(!$delivery)
-        return redirect()->back()->with('error','ดำเนินการไม่สำเร็จ ไม่พบข้อมูลการชำระเงิน');
-
-        $order->shipping_id=$delivery->shipping_id;
-        $order->order_date=date('Y-m-d H:i:s');
-        $order->total=0;
-        $order->total_delivery=0;
-        $order->buyer_user_id=\Auth::user()->id;
-        $order->payment_type=$r->payment;
-        $order->save();
         // $address=UserAddress::where("id",$r->address_id)->first();
         // if(!$address)
         // return redirect()->back()->with('error','ไม่พบข้อมูลจัดส่ง');
@@ -233,6 +217,24 @@ class HomeController extends Controller
         try
         {
             \DB::beginTransaction();
+
+            $order=new Order();
+            $order->id=crc32($shop->id.$shop->name.time().rand(10,99));
+            $order->shop_id=$shop->id;
+            $order->channel_id=1;
+            $order->status=1;
+            $delivery=ShopDelivery::where("shipping_id",$r->ship_method_id)->where("shop_id",$shop->id)->first();
+            if(!$delivery)
+            return redirect()->back()->with('error','ดำเนินการไม่สำเร็จ ไม่พบข้อมูลการชำระเงิน');
+
+            $order->shipping_id=$delivery->shipping_id;
+            $order->order_date=date('Y-m-d H:i:s');
+            $order->total=0;
+            $order->total_delivery=0;
+            $order->buyer_user_id=\Auth::user()->id;
+            $order->payment_type=$r->payment;
+            $order->save();
+            // dd(crc32($shop->id.$shop->name.time().rand(10,99)),$shop->id,$shop->name,time(),rand(10,99));
             $delivery_cost=0;
             $qty=0;
             foreach($cart['items'] as $index=>$it)
@@ -248,6 +250,7 @@ class HomeController extends Controller
                 $item->total=intval($it['qty'])*floatval($it['price']);
                 $item->status=1;
                 $item->remark="";
+                // dd($order,$item);
                 $item->save();
                 $order->total+=$item->total;
             }

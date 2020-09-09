@@ -55,21 +55,26 @@ foreach($basket as $b):?>
                 </div>
                 <span class="item_cart"><?php echo $item['name'];?></span>
             </td>
+
             <td>
                 <strong price="<?php echo $item['price'];?>"><?php echo number_format($item['price'],2);?></strong>
             </td>
+
             <td>
                 <div class="numbers-row">
                     <input type="text" value="<?php echo $item['qty'];?>" id="quantity_<?php echo $item['product_id'];?>" class="qty2 qty" name="quantity_<?php echo $item['product_id'];?>">
                   
                 </div>
             </td>
+
             <td class='text-right'>
                 <strong ><?php echo number_format($total,2);?></strong>
             </td>
+
             <td class="options">
                 <a href="javascript:;"><i class="ti-trash"></i></a>
             </td>
+            
         </tr>
         <?php endforeach;?>
         <tr>
