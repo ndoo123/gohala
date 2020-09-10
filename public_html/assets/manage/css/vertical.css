@@ -28,3 +28,9 @@ body[data-sidebar=dark] #sidebar-menu ul li ul.sub-menu li a
     -webkit-transition: all .4s;
     transition: all .4s;
 }
+#sidebar-menu ul li ul li.mm-active{
+    background-color: #3e4200;
+}
+#sidebar-menu ul li ul li.mm-active a{
+    color: white;
+}
