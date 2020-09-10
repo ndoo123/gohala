@@ -38,6 +38,7 @@ var table_order = $('#table_order').DataTable({
     }
 });
 $(document).on('submit',"#new_shop_form",function(e){
+    // alert(1);
     e.preventDefault();
    
     var post=new PostForm('div.modal-content');

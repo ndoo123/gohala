@@ -50,7 +50,7 @@
 <div id="new_shop_modal" class="modal fade show" tabindex="-1" role="dialog" aria-modal="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="new_shop_form" method="post" action="<?php echo url('shops/create');?>">
+            <form id="new_shop_form" method="post" action="<?php echo url('shops/create');?>" onsubmit="return false">
             <?php echo csrf_field();?>
                 <div class="modal-header">
                     <h5 class="modal-title mt-0">ข้อมูลร้านใหม่</h5>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">ยกเลิก</button>
-                    <button type="submit" class="btn btn-primary waves-effect waves-light">เพิ่มรา้นใหม่!</button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light">เพิ่มร้านใหม่!</button>
                 </div>
             </form>
         </div><!-- /.modal-content -->

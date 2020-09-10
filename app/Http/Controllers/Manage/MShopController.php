@@ -466,11 +466,10 @@ class MShopController extends Controller
                 $style_down = "style='visibility:hidden'";
             $input .= '<i class="ti-arrow-circle-down p_position_down font-24 text-danger" type="button" '.$style_down.'></i>';
 
-            // $input = '';
-            // if(!empty($r->position))
-            // {
-            //     $input = $products->position;
-            // }
+            if(empty($r->position))
+            {
+                $input = '';
+            }
             return $input;
         })
         ->addColumn('p_sort',function($products) use ($r,$p_count){

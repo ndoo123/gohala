@@ -43,7 +43,7 @@
                                     <th class="text-right"><?php echo __('view.product.price');?></th>
                                     <th class="text-center"><?php echo __('view.product.qty');?></th>
                                     <th></th>
-                                    <th></th>
+                                    <th width="150px"></th>
                                 </tr>
                                 </thead>
                                 
