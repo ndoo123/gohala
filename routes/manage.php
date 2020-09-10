@@ -36,6 +36,7 @@ Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],funct
 
     //Category
     Route::get('categories','MShopController@shop_categories');
+    Route::post('categories/update_position','MShopController@shop_categories_update_position');
     Route::get('categories/datatables','MShopController@shop_categories_datatables');
     Route::post('categories/update/json','MShopController@shop_categories_update_json');
     Route::post('categories/get/json','MShopController@shop_categories_get_json');

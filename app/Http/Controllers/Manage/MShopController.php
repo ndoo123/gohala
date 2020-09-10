@@ -347,6 +347,7 @@ class MShopController extends Controller
        ->selectRaw('shop_category_tb.*,(select count(product_id) from shop_category_product_tb where shop_category_product_tb.category_id=shop_category_tb.id and shop_category_product_tb.shop_id="'.$r->shop->id.'" ) as product_count')
        ->orderBy('position','asc')
        ->get();
+
         // dd($model);
         return Datatables::of($model)
         ->addColumn('p_position',function($model) use ($r,$c_count){
@@ -396,6 +397,73 @@ class MShopController extends Controller
         // ->rawColumns(['is_active'])
         ->make(true);
    }
+   public function shop_categories_update_position(Request $r)
+   {
+    //    dd($r->all());
+        // dd($r->all());
+        DB::beginTransaction();
+        if(empty($r->shop))
+            throw new \Exception('ไม่พบร้านค้า');
+        try
+        {
+            if($r->current_p < $r->current_v) // เมื่อย้ายจากตำแหน่งน้อยกว่า ไปสูงกว่า เช่น จาก 1 ไป 4
+            {
+                $model = ShopCategory::where('shop_id',$r->shop->id)
+                ->where('position','>=',$r->current_p)
+                ->where('position','<=',$r->current_v)
+                ->orderBy('position','asc')
+                ->get();
+                foreach($model as $p)
+                {
+                    $position = $p->position - 1;
+                    
+                    if($p->position == $r->current_p)
+                    {
+                        $p->position = $r->current_v;
+                        // dd($r->all(),$p->position,$position,'$r->current_p',$r->current_p,'$r->current_v',$r->current_v,$p);
+                        // dd();
+                    }
+                    else
+                    {
+                        $p->position = $position;
+                    }
+                    $p->save();
+                }
+            }
+            else // เมื่อย้ายจากตำแหน่งสูงกว่า ไปน้อยกว่า เช่น จาก 4 ไป 1
+            {
+                $model = ShopCategory::where('shop_id',$r->shop->id)
+                ->where('position','>=',$r->current_v)
+                ->where('position','<=',$r->current_p)
+                ->orderBy('position','asc')
+                ->get();
+                foreach($model as $p)
+                {
+                    $position = $p->position + 1;
+
+                    if($p->position == $r->current_p)
+                    {
+                        $p->position = $r->current_v;
+                    }
+                    else
+                    {
+                        $p->position = $position;
+                    }
+                    $p->save();
+                }
+            }
+            // dd($model);
+            $result = ['result' => 1, 'msg' => 'บันทึกสำเร็จ'];
+            DB::commit();
+        }
+        catch(\Excpetion $e)
+        {
+            DB::rollBack();
+            $result = ['result' => 0, 'msg' => $e->getMessage()];
+        }
+        // dd($product);
+        return json_encode($result);
+   }
    public function shop_categories_active_json(Request $r)
    {
         $c=ShopCategory::where("id",$r->category_id)->where("shop_id",$r->shop->id)->first();
@@ -437,10 +505,14 @@ class MShopController extends Controller
             if(!$c)
             return LKS::o(0,"ไม่พบข้อมูลหมวดหมู่");
         }
-        if($c==null){
+        if($c==null)
+        {
+            $count = ShopCategory::where('shop_id',$r->shop->id)->get()->count()+1;
+            // dd($r->all(),$count);
              $c=new ShopCategory();
              $c->user_id=\Auth::user()->id;
              $c->shop_id=$r->shop->id;
+             $c->position=$count;
         }
       
        $c->name=$r->name;
