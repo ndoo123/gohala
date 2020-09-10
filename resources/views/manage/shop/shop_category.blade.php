@@ -16,12 +16,14 @@
         <button class="btn btn-sm btn-primary float-right" id="add_shop_category_btn" style="margin-top:-10px">เพิ่มหมวดหมู่</button>
         </h4>
         <div class="table-responsive">
-            <table id="shop_category_table" class="table table-hover mb-0 bg-light">
+            <table id="shop_category_table" class="table table-hover mb-0 bg-light" remote_url="{{ $current_url.'/datatables' }}">
                 <thead>
                     <tr>
+                       <th>ลำดับ</th>
                        <th>ชื่อ</th>
                        <th>จำนวนสินค้า</th>
                        <th>สถานะ</th>
+                       <th></th>
                        <th></th>
                     </tr>
                 </thead>
@@ -69,5 +71,9 @@
 </div>
 @stop
 @section('js')
+ <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
  <script src="<?php echo url('assets/manage/js/pages/shop/shop_category.js');?>"></script>
+@stop
+@section('css')
+<link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
 @stop

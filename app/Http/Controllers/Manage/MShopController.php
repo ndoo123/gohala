@@ -332,8 +332,69 @@ class MShopController extends Controller
        
        ->selectRaw('shop_category_tb.*,(select count(product_id) from shop_category_product_tb where shop_category_product_tb.category_id=shop_category_tb.id and shop_category_product_tb.shop_id="'.$r->shop->id.'" ) as product_count')
        ->get();
+       $data['url'] = url($data['shop']->url);
+       $data['current_url'] = $data['url'].'/categories';
         // dd($data);
        return view('manage.shop.shop_category',$data);
+   }
+   public function shop_categories_datatables(Request $r)
+   {
+    //    dd($r->all());
+       
+        $c_count = ShopCategory::where('shop_id',$r->shop->id)->count();
+       $model = ShopCategory::where("shop_id",$r->shop->id)
+       
+       ->selectRaw('shop_category_tb.*,(select count(product_id) from shop_category_product_tb where shop_category_product_tb.category_id=shop_category_tb.id and shop_category_product_tb.shop_id="'.$r->shop->id.'" ) as product_count')
+       ->orderBy('position','asc')
+       ->get();
+        // dd($model);
+        return Datatables::of($model)
+        ->addColumn('p_position',function($model) use ($r,$c_count){
+            //i up
+            $style_up = '';
+            if($model->position == 1)
+                $style_up = "style='visibility:hidden'";
+            $input = '<i class="ti-arrow-circle-up font-24 text-success p_position_up"  type="button" '.$style_up.'></i>';
+
+            //select
+            $input .= '<select class="form-control p_position mx-3" current_p="'.$model->position.'" style="width:auto;display:inline-block">';
+            for($i=1;$i<=$c_count;$i++)
+            {
+                $check = '';
+                if($i == $model->position)
+                    $check = 'selected';
+                $input .= '<option value="' . $i . '" '.$check.'>'.$i.'</option>';
+            }
+            $input .= '</select>';
+            
+            // i down
+            $style_down = '';
+            if($c_count == $model->position)
+                $style_down = "style='visibility:hidden'";
+            $input .= '<i class="ti-arrow-circle-down p_position_down font-24 text-danger" type="button" '.$style_down.'></i>';
+
+            // if(empty($r->position))
+            // {
+            //     $input = '';
+            // }
+            return $input;
+        })
+        ->editColumn('is_active',function($model){
+            // $input = '<input type="checkbox" class="category_active" '.($model->is_active==1?'checked':'').' data-width="90" data-on="แสดง" data-off="ไม่แสดง" data-toggle="toggle" data-offstyle="light">';
+            $input = '
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input category_active" data-width="90" data-on="แสดง" data-off="ไม่แสดง" data-toggle="toggle" data-offstyle="light" id="switch_active_'.$model->id.'" '.($model->is_active==1?'checked':'').'>
+                    <label class="custom-control-label" for="switch_active_'.$model->id.'"></label>
+                </div>';
+            return $input;
+        })
+        ->addColumn('edit_del',function($model){
+            $input = '<button type="button" class="btn btn-sm btn-primary edit_category">แก้ไข</button> 
+            <button type="button" class="btn btn-sm btn-danger delete_category">ลบออก</button>';
+            return $input;
+        })
+        // ->rawColumns(['is_active'])
+        ->make(true);
    }
    public function shop_categories_active_json(Request $r)
    {
@@ -341,9 +402,10 @@ class MShopController extends Controller
        if(!$c)
        return LKS::o(0,"ไม่พบข้อมูลหมวดหมู่");
 
-       $c->is_active=$r->is_active?1:0;
+       $c->is_active = $r->is_active == "true" ? 1 : 0;
        $c->save();
-
+        
+        // dd($c,$r->is_active, $r->is_active == "true" ? 1 : 0);
        return LKS::o(1,"");
    }
    public function shop_categories_get_json(Request $r)
@@ -404,7 +466,7 @@ class MShopController extends Controller
             DB::table('product_tb as p')
             ->leftJoin('shop_category_product_tb as m', 'm.product_id', '=', 'p.id')
             ->leftJoin('shop_category_tb as c', 'c.id', '=', 'm.category_id')
-            ->select('p.*', 'c.*', 'm.*','c.name as c_name','p.name as p_name','p.id as p_id','p.position as p_position')
+            ->select('p.*', 'c.*', 'm.*','c.name as c_name','p.name as p_name','p.id as p_id','p.position as p_position','c.position as c_position')
             ->groupBy('p_id')
             ->where('p.shop_id',$r->shop->id);
             // ->get();
@@ -445,16 +507,16 @@ class MShopController extends Controller
         ->editColumn('p_position',function($products) use ($r,$p_count){
             //i up
             $style_up = '';
-            if($products->position == 1)
+            if($products->p_position == 1)
                 $style_up = "style='visibility:hidden'";
             $input = '<i class="ti-arrow-circle-up font-24 text-success p_position_up"  type="button" '.$style_up.'></i>';
 
             //select
-            $input .= '<select class="form-control p_position mx-3" current_p="'.$products->position.'" style="width:auto;display:inline-block">';
+            $input .= '<select class="form-control p_position mx-3" current_p="'.$products->p_position.'" style="width:auto;display:inline-block">';
             for($i=1;$i<=$p_count;$i++)
             {
                 $check = '';
-                if($i == $products->position)
+                if($i == $products->p_position)
                     $check = 'selected';
                 $input .= '<option value="' . $i . '" '.$check.'>'.$i.'</option>';
             }
@@ -462,7 +524,7 @@ class MShopController extends Controller
             
             // i down
             $style_down = '';
-            if($p_count == $products->position)
+            if($p_count == $products->p_position)
                 $style_down = "style='visibility:hidden'";
             $input .= '<i class="ti-arrow-circle-down p_position_down font-24 text-danger" type="button" '.$style_down.'></i>';
 
@@ -473,7 +535,7 @@ class MShopController extends Controller
             return $input;
         })
         ->addColumn('p_sort',function($products) use ($r,$p_count){
-            $input = $products->position;
+            $input = $products->p_position;
             return $input;
         })
         ->make(true);

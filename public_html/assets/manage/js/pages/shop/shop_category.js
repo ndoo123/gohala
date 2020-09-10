@@ -1,3 +1,38 @@
+$(document).ready(function(){
+    datatables();
+});
+function datatables()
+{
+    var shop_category_table = $('#shop_category_table').DataTable({
+        serverSide: true,
+        processing: true,
+        destroy: true,
+        // order: [[ 1, "asc" ]],
+        ajax: {
+            url: $('#shop_category_table').attr('remote_url'),
+            data: {},
+        },
+        columns: [
+            { data: 'position', name: 'position', class: 'text-center' },
+            { data: 'name', name: 'name', class: 'text-center' },
+            { data: 'product_count', name: 'product_count', class: 'text-center' },
+            { data: 'is_active', name: 'is_active', class: 'text-center' },
+            { data: 'edit_del', name: 'edit_del', class: 'text-center' },
+            { data: 'p_position', name: 'p_position', class: 'text-center' },
+        ],
+        createdRow: function( row, data, dataIndex ) {
+            $.each($('td',row),function(index){
+                if(index == 0)
+                {
+                    // $(this)
+                    $(this).attr('category_id', data.id);
+                }
+            });
+            // console.log(data);
+            $(row).attr('category_id', data.id);
+        },
+    });
+}
 $(document).on('click','#add_shop_category_btn',function(){
     $('#save_category_btn').html("เพิ่ม");
     $('#shop_category_modal').modal('show');
@@ -91,7 +126,7 @@ $(document).on('change','#shop_category_table .category_active',function(){
     var obj=new Object();
     obj.category_id=tr.attr("category_id");
     obj.is_active=$(this).is(':checked');
-
+    console.log(obj);
     var post=new JPost('html');
     post.url='/'+$("#shop_url").val()+'/categories/update/active/json';
     post.success=function(r){
@@ -99,6 +134,9 @@ $(document).on('change','#shop_category_table .category_active',function(){
         {
             alert(r.msg);
             return;
+        }
+        else{
+            // alert('suc');
         }
 
     }
