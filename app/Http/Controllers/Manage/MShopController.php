@@ -114,6 +114,8 @@ class MShopController extends Controller
             return LKS::o(0,"Barcode มีอยู่ในระบบแล้ว");
 
 
+            $position=Product::where('shop_id',$r->shop->id)->get()->count() + 1;
+            // dd($position);
             $p=new Product();
             
             $p->rate=0;
@@ -122,7 +124,7 @@ class MShopController extends Controller
             $p->sku=$r->sku;
             $p->shop_id=$r->shop->id;
             $p->cost=0;
-           
+            $p->position = $position;
            
         }
 
@@ -402,21 +404,20 @@ class MShopController extends Controller
             DB::table('product_tb as p')
             ->leftJoin('shop_category_product_tb as m', 'm.product_id', '=', 'p.id')
             ->leftJoin('shop_category_tb as c', 'c.id', '=', 'm.category_id')
-            ->select('p.*', 'c.*', 'm.*','c.name as c_name','p.name as p_name','p.id as p_id')
+            ->select('p.*', 'c.*', 'm.*','c.name as c_name','p.name as p_name','p.id as p_id','p.position as p_position')
             ->groupBy('p_id')
             ->where('p.shop_id',$r->shop->id);
             // ->get();
-
+        $p_count = Product::where('shop_id',$r->shop->id)->count();
+        // dd($p_count);
         if(!empty($r->p_id))
         {
             $products = $products->where('m.category_id',$r->p_id);
         }
-        $products = $products->get();
-            // dd($products);
-        // $products = Product::where("shop_id",$r->shop->id)->get();
-        $data['products'] = $products;
-        $data['categories'] = ShopCategory::where("shop_id",$r->shop->id)->get();
-        // dd($data);
+        $products = $products
+            ->orderBy('p_position','asc')
+            ->get();
+        // dd($products);
         return Datatables::of($products)
         ->editColumn('name',function($products){
             $cats=mb_substr($products->c_name,0,2);
@@ -441,7 +442,108 @@ class MShopController extends Controller
             return '<a class="btn btn-sm btn-primary" href="'.url($data['shop']->url.'/product/'.$products->p_id).'">
             '.__('view.product.edit_product').'</a>';
         })
+        ->editColumn('p_position',function($products) use ($r,$p_count){
+            //i up
+            $style_up = '';
+            if($products->position == 1)
+                $style_up = "style='visibility:hidden'";
+            $input = '<i class="ti-arrow-circle-up font-24 text-success p_position_up"  type="button" '.$style_up.'></i>';
+
+            //select
+            $input .= '<select class="form-control p_position mx-3" current_p="'.$products->position.'" style="width:auto;display:inline-block">';
+            for($i=1;$i<=$p_count;$i++)
+            {
+                $check = '';
+                if($i == $products->position)
+                    $check = 'selected';
+                $input .= '<option value="' . $i . '" '.$check.'>'.$i.'</option>';
+            }
+            $input .= '</select>';
+            
+            // i down
+            $style_down = '';
+            if($p_count == $products->position)
+                $style_down = "style='visibility:hidden'";
+            $input .= '<i class="ti-arrow-circle-down p_position_down font-24 text-danger" type="button" '.$style_down.'></i>';
+
+            // $input = '';
+            // if(!empty($r->position))
+            // {
+            //     $input = $products->position;
+            // }
+            return $input;
+        })
+        ->addColumn('p_sort',function($products) use ($r,$p_count){
+            $input = $products->position;
+            return $input;
+        })
         ->make(true);
+    }
+    public function product_update_position(Request $r)
+    {
+        // dd($r->all());
+        DB::beginTransaction();
+        if(empty($r->shop))
+            throw new \Exception('ไม่พบร้านค้า');
+        try
+        {
+            if($r->current_p < $r->current_v) // เมื่อย้ายจากตำแหน่งน้อยกว่า ไปสูงกว่า เช่น จาก 1 ไป 4
+            {
+                $product = Product::where('shop_id',$r->shop->id)
+                ->where('position','>=',$r->current_p)
+                ->where('position','<=',$r->current_v)
+                ->orderBy('position','asc')
+                ->get();
+                foreach($product as $p)
+                {
+                    $position = $p->position - 1;
+                    
+                    if($p->position == $r->current_p)
+                    {
+                        $p->position = $r->current_v;
+                        // dd($r->all(),$p->position,$position,'$r->current_p',$r->current_p,'$r->current_v',$r->current_v,$p);
+                        // dd();
+                    }
+                    else
+                    {
+                        $p->position = $position;
+                    }
+                    $p->save();
+                }
+            }
+            else // เมื่อย้ายจากตำแหน่งสูงกว่า ไปน้อยกว่า เช่น จาก 4 ไป 1
+            {
+                $product = Product::where('shop_id',$r->shop->id)
+                ->where('position','>=',$r->current_v)
+                ->where('position','<=',$r->current_p)
+                ->orderBy('position','asc')
+                ->get();
+                foreach($product as $p)
+                {
+                    $position = $p->position + 1;
+
+                    if($p->position == $r->current_p)
+                    {
+                        $p->position = $r->current_v;
+                    }
+                    else
+                    {
+                        $p->position = $position;
+                    }
+                    $p->save();
+                }
+            }
+            // dd($product);
+            $result = ['result' => 1, 'msg' => 'บันทึกสำเร็จ'];
+            DB::commit();
+        }
+        catch(\Excpetion $e)
+        {
+            DB::rollBack();
+            $result = ['result' => 0, 'msg' => $e->getMessage()];
+        }
+        // dd($product);
+        return json_encode($result);
     }
    public function product_view(Request $r)
    {
@@ -457,8 +559,6 @@ class MShopController extends Controller
 
        }
        $data['categories']=ShopCategory::where("shop_id",$r->shop->id)->get();
-
-
 
        return view('manage.shop.product.product_view',$data);
    }

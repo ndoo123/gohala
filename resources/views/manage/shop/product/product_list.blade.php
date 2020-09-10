@@ -5,12 +5,18 @@
    <a href="<?php echo url($shop->url.'/products/create');?>" class="btn btn-primary dropdown-toggle arrow-none waves-effect waves-light">
         <i class="mdi mdi-plus mr-2"></i> เพิ่มสินค้า
     </a>
-   <a href="<?php echo url($shop->url.'/products/create');?>" class="btn btn-success dropdown-toggle arrow-none waves-effect waves-light">
+    <input type="hidden" id="position" value="0">
+   <button type="button" class="btn btn-success dropdown-toggle arrow-none waves-effect waves-light btn_sort">
         <i class="ti-list mr-2"></i> จัดเรียง
-    </a>
+    </button>
+   {{-- <button type="button" class="btn btn-success dropdown-toggle arrow-none waves-effect waves-light btn_sort">
+        <i class="ti-list mr-2"></i> จัดเรียง
+    </button> --}}
 </div>
 @stop
 @section('content')
+<input type="hidden" id="rest_url" value="<?= $shop->url ?>">
+<input type="hidden" id="current_url" value="<?= url($shop->url.'/products') ?>">
 <div class="row">
     <div class="col-md-12">
     <?php LKS::has_alert();?>
@@ -36,6 +42,7 @@
                                     <th><?php echo __('view.product.product_name');?></th>
                                     <th class="text-right"><?php echo __('view.product.price');?></th>
                                     <th class="text-center"><?php echo __('view.product.qty');?></th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 </thead>
