@@ -108,7 +108,8 @@
                         <li class="dropdown notification-list list-inline-item">
                             <div class="dropdown notification-list nav-pro-img">
                                 <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                    <img src="<?php echo \Auth::user()->get_photo();?>" alt="user" class="rounded-circle">
+                                    <img src="{{ Auth::user()->get_photo() }}" alt="user" class="rounded-circle">
+                                    {{-- <img src="{{ !empty($shop)?$shop->get_photo():(\Auth::user()->get_photo()?\Auth::user()->get_photo():null) }}" alt="user" class="rounded-circle"> --}}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                     <!-- item-->

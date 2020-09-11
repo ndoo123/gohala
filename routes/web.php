@@ -96,6 +96,22 @@ Route::get('profile/image/{user_id}',function($user_id){
   
   return $response;
 });
+Route::get('shop_profile/image/{shop_id}',function($shop_id){
+  $path=storage_path('app/uploads/shop_profile/'.$shop_id);
+  if(!file_exists($path))
+  $path=public_path('assets/images/shop_icon.png');
+  // $path=public_path('assets/images/no_user.png');
+
+  $file = File::get($path);
+
+  $type = File::mimeType($path);
+
+  $response = Response::make($file, 200);
+
+  $response->header("Content-Type", $type);
+  
+  return $response;
+});
 Route::get('images/product/{shop_id}/{product_id}.{photo_name}.jpg',function($shop_id,$product_id,$photo_name){
   // $photo=\App\Models\ProductPhoto::where("product_id",$product_id)->where("id",$image_id)->first();
   // if(!$photo)

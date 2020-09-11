@@ -3,6 +3,22 @@
 ตั้งค่าร้าน | <span class="shop_name"><?php echo $shop->name;?></span>
 @stop
 @section('content')
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<?php LKS::has_alert();?>
+<form action="{{ $current_url.'/change_profile' }}" method="post" class="form_change_profile" enctype="multipart/form-data">
+    {{ csrf_field() }}
+    <input type="file" name="profile_image" id="profile_image" style="display:none"  accept="image/*">
+</form>
 <div id="setting_card" class="card">
     <div class="card-body">
         <ul class="nav nav-tabs" role="tablist">
@@ -48,3 +64,15 @@
     </div>
 </div>
 @stop
+@section('js')
+<script>
+$(document).on('click','#change_profile_image',function(){
+    $("#profile_image").click();
+});
+$(document).on('change','#profile_image',function(){
+    // alert(1);
+    // console.log($(this).closest('.form_change_profile'));
+    $(this).closest('.form_change_profile').submit();
+});
+</script>
+@endsection

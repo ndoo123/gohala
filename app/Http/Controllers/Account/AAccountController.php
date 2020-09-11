@@ -30,7 +30,6 @@ class AAccountController extends Controller
    }
    public function profile(Request $r)
    {
-     
       $data['user']=\Auth::user();
       $data['address']=\Auth::user()->address;
       $data['provinces']=\DB::table('province_tb')->get();
@@ -139,6 +138,7 @@ class AAccountController extends Controller
 
 
       $path=storage_path('app/uploads/profile');
+      // dd($path);
       if(!\File::exists($path))
       \File::makeDirectory($path, $mode = 0755, true);
 

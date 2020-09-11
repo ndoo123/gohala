@@ -147,7 +147,8 @@ function readURL(input) {
 }
 $(document).on('change','#profile_image',function(){
     Load('body',true);
-  $(this).closest('form').submit();
+  console.log($(this).closest('form').submit());
+//   console.log($(this).closest('form'));
 });
 $(document).on('click','#change_profile_image',function(){
     $('#profile_image').click();

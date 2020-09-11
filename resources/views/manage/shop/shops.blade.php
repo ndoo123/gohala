@@ -22,7 +22,10 @@
          <div shop_id="<?php echo $s->id;?>" class="card card_shop">
             <div class="card-body">
                <div class="media m-b-10">
-                    <img class="d-flex mr-3 rounded-circle" src="<?php echo url('assets/images/shop_icon.png');?>" alt="<?php echo $s->name;?>" height="64">
+                    <img class="d-flex mr-3 rounded-circle" src="{{ $s->get_photo() }}" 
+                    alt="{{ $s->name }}" height="64" width="64">
+                    {{-- <img class="d-flex mr-3 rounded-circle" src="{{ url('assets/images/shop_icon.png') }}" 
+                    alt="{{ $s->name }}" height="64"> --}}
                     <div class="media-body">
                         <h5 class="mt-0 font-16"><?php echo $s->name;?> <span class="badge badge-pill badge-primary"><a class="text-white" href="<?php echo $s->get_url();?>"><i class="fas fa-share-square"></i> <?php echo $s->get_url();?></a></span></h5>
                         <div class="button-items">

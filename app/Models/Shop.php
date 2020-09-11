@@ -21,6 +21,10 @@ class Shop extends Model
     public function user(){
         return $this->hasOne('App\Models\User','id','user_id');
     }
+
+    public function get_photo(){
+        return env('APP_URL').'/shop_profile/image/'.$this->id;
+    }
     public function get_logo(){
         if($this->logo=="")
         return url('assets/images/no_image_available.jpeg');

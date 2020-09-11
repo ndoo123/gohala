@@ -3,7 +3,7 @@
 <?php echo csrf_field();?>
 <button type="submit" class="btn btn-success form-submit-action"><i class="fas fa-save"></i> บันทึกข้อมูล</button>
 <div class="table-responsive">
-    <table class="table mb-0">
+    <table class="table mb-0 table-hover">
         <thead>
             <tr>
                 <th>ชื่อ</th>
