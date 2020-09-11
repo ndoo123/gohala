@@ -201,11 +201,12 @@ class HomeController extends Controller
 
         $shop=Shop::where("url",$r->shop_url)->first();
         if(!$shop)
-        return redirect()->back()->with('error','ไม่พบข้อมูลร้าน');
+            return redirect()->back()->with('error','ไม่พบข้อมูลร้าน');
+            
         $cart=Cart::get_cart($shop->id);
         // dd($cart);
-        if($cart==null ||!$cart)
-        return redirect()->back()->with('error','ไม่พบข้อมูลสินค้า');
+        if(!$cart || $cart==null)
+            return redirect()->back()->with('error','ไม่พบข้อมูลสินค้า');
 
         if(!$r->name_contact || !$r->name_address || !$r->address || !$r->phone || !$r->zipcode || !$r->province_id)
             return redirect()->back()->with('error','กรุณากรอกข้อมูลให้ครบ');
