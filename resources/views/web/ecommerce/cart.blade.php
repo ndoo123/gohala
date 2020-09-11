@@ -74,7 +74,7 @@ foreach($basket as $b):?>
             </td>
 
             <td class="options">
-                <a href="javascript:;"><i class="ti-trash"></i></a>
+                <a href="javascript:;" class="qty_remove"><i class="ti-trash"></i></a>
             </td>
             
         </tr>
