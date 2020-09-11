@@ -248,8 +248,8 @@
 
 $('.select2').select2();
 $(document).on('change','input[name="ship_method_id"]',function(){
-    var ship = parseInt($(this).attr('price'));
-    var price = parseInt($("#total_price").attr('price'));
+    var ship = parseFloat($(this).attr('price'));
+    var price = parseFloat($("#total_price").attr('price'));
     var grand_total = ship + price;
     // console.log(ship);
     // console.log(price);

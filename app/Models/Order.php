@@ -58,9 +58,9 @@ class Order extends Model
         if($this->status == 1)
             return '<span class="badge badge-info">สั่งซื้อ</span>';
         else if($this->status == 2)
-            return '<span class="badge badge-info">ยืนยัน</span>';
+            return '<span class="badge badge-primary">ยืนยัน</span>';
         else if($this->status == 3)
-            return '<span class="badge badge-info">จัดส่ง</span>';
+            return '<span class="badge badge-warning">จัดส่ง</span>';
         else if($this->status == 4)
             return '<span class="badge badge-success">เสร็จสิ้น</span>';
         else

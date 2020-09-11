@@ -65,14 +65,17 @@ class Controller extends BaseController
     }
     public function order_datatables(Request $r)
     {
+        // dd(url()->full());
         $orders = Order::where('shop_id', $r->shop->id);
         // dd($r->shop->id,$r->all());
+        $orderBy = 'desc';
         if(empty($r->all))
         {
             $orders = $orders->whereNotIn('status',[ 0,4 ]);
+            $orderBy = 'asc';
         }
         // $orders = $orders->orderBy('created_at', 'desc')->get();
-        $orders = $orders->orderBy('order_date', 'asc')->get();
+        $orders = $orders->orderBy('order_date', $orderBy);
         // dd($orders);
         return \Datatables::of($orders)
         ->addColumn('delivery_name',function($order){
