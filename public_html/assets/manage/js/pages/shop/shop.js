@@ -1,12 +1,12 @@
-// console.log($('#table_order').attr('remote_url'));
 $(document).ready(function(){
     // table_order;
 });
+
 var table_order = $('#table_order').DataTable({
     serverSide: true,
     processing: true,
     destroy: true,
-    // order: [[ 1, "asc" ]],
+    order: [[ 1, "asc" ]],
     ajax: {
         url: $('#table_order').attr('remote_url'),
         data: {},
@@ -21,18 +21,11 @@ var table_order = $('#table_order').DataTable({
         { data: 'actions', name: 'actions', class: 'text-center' },
     ],
     createdRow: function( row, data, dataIndex ) {
-        // Set the data-status attribute, and add a class
         var length = $(row).children().length - 1;
-        // console.log(length);
         $.each($('td', row), function (colIndex) {
-            // console.log(colIndex);
-            
             if(colIndex != length)
             {
                 $(this).attr('order_id', data.id); 
-                // $(this).attr('data-toggle', 'modal'); 
-                // $(this).attr('data-target', '#modal_order_item'); 
-                // <td class="order_detail" order_id="{{ $ord->id }}">{{ $ord->id }}</td>
             }
         });
     }

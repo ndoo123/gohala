@@ -72,7 +72,7 @@ class Controller extends BaseController
             $orders = $orders->whereNotIn('status',[ 0,4 ]);
         }
         // $orders = $orders->orderBy('created_at', 'desc')->get();
-        $orders = $orders->orderBy('order_date', 'desc')->get();
+        $orders = $orders->orderBy('order_date', 'asc')->get();
         // dd($orders);
         return \Datatables::of($orders)
         ->addColumn('delivery_name',function($order){
