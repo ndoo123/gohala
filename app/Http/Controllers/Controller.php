@@ -153,7 +153,7 @@ class Controller extends BaseController
             $order->status = 3;
             $order->delivery_update();
             $order->save();
-            dd($order,$order->buyer->email);
+            // dd($order,$order->buyer->email);
             \Mail::send([], [], function ($message) use ($order) {
 
                 $message->from(env('MAIL_USERNAME'),"Gohala" );

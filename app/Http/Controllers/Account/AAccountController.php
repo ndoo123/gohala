@@ -123,7 +123,7 @@ class AAccountController extends Controller
             
 
             $message->to($user->email)->subject("ยืนยันอีเมล์")
-            ->setBody('กรุณายืนยันอีเมล์เพื่อใช้งาน<br><a href="'.LKS::url_subdomain('account','').'/email/verify?email='.$user->email.'&code='.$user->email_verify_code.'">ยืนยัน</a>','text/html');
+            ->setBody('กรุณายืนยันอีเมล์เพื่อใช้งาน ณ '.date('วันที่ d เดือน m ปี Y เวลา H:i:s').'<br><a href="'.LKS::url_subdomain('account','').'/email/verify?email='.$user->email.'&code='.$user->email_verify_code.'">ยืนยัน</a>','text/html');
         });
 
         return redirect()->back()->with('success','ส่งยืนยัน Email ไปเรียบร้อยแล้ว');
