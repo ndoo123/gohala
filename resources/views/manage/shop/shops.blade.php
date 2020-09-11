@@ -69,7 +69,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">ยกเลิก</button>
-                    <button type="submit" class="btn btn-primary waves-effect waves-light">เพิ่มร้านใหม่!</button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light new_shop_sm">เพิ่มร้านใหม่!</button>
                 </div>
             </form>
         </div><!-- /.modal-content -->
@@ -78,5 +78,24 @@
 
 @stop
 @section('js')
- <script src="<?php echo url('assets/manage/js/pages/shop/shop.js');?>"></script>
+ {{-- <script src="{{ url('assets/manage/js/pages/shop/shop.js') }}"></script> --}}
+ <script>
+
+    $(document).on('submit',"#new_shop_form",function(event){
+        event.preventDefault();
+        var post=new PostForm('div.modal-content');
+        post.success=function(r){
+            if(r.result==0)
+            {
+                alert(r.msg);
+                return;
+            }
+           $("#new_shop_modal").modal('hide');
+           Load('html');
+          location.reload(true);
+            
+        }
+        post.send($("#new_shop_form"));
+    });
+</script>
 @stop

@@ -30,21 +30,27 @@ var table_order = $('#table_order').DataTable({
         });
     }
 });
-$(document).on('submit',"#new_shop_form",function(e){
-    // alert(1);
-    e.preventDefault();
-   
-    var post=new PostForm('div.modal-content');
-    post.success=function(r){
-        if(r.result==0)
-        {
-            alert(r.msg);
-            return;
-        }
-       $("#new_shop_modal").modal('hide');
-       Load('html');
-      location.reload(true);
+
+$(document).on('click',".new_shop_sm",function(event){
+    alert(2);
+});
+
+$(document).on('submit',"#new_shop_form",function(event){
+    alert(1);
+    // event.preventDefault();
+    event.preventDefault();
+    console.log(event.preventDefault());
+    // var post=new PostForm('div.modal-content');
+    // post.success=function(r){
+    //     if(r.result==0)
+    //     {
+    //         alert(r.msg);
+    //         return;
+    //     }
+    //    $("#new_shop_modal").modal('hide');
+    //    Load('html');
+    //   location.reload(true);
         
-    }
-    post.send($("#new_shop_form"));
+    // }
+    // post.send($("#new_shop_form"));
 });
