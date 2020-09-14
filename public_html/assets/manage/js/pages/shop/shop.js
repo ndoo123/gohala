@@ -46,7 +46,7 @@ function profit(){
         dataType: 'json',
         data: obj,
         success: function(res){
-            console.log(res);
+            // console.log(res);
             if(res.result == 1)
             {
                 // $("#profit").html(res.data);
