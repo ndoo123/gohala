@@ -3,6 +3,9 @@
 จัดการหมวดหมู่สินค้า | <span style="color:blue"><?php echo $shop->name;?></span>
 @stop
 @section('content')
+<input type="hidden" id="rest_url" value="<?= $shop->url ?>">
+<input type="hidden" id="current_url" value="<?= url($shop->url.'/categories') ?>">
+<input type="hidden" id="position" value="0">
 <div class="row">
     <div class="col-md-12">
     <?php LKS::has_alert();?>
@@ -13,15 +16,23 @@
     <div class="card">
     <div class="card-body">
         <h4 class="mt-0 header-title">รายการหมวดหมู่
-        <button class="btn btn-sm btn-primary float-right" id="add_shop_category_btn" style="margin-top:-10px">เพิ่มหมวดหมู่</button>
+            <span class="float-right" style="margin-top:-10px">
+                <button class="btn btn-sm btn-primary" id="add_shop_category_btn">เพิ่มหมวดหมู่</button>
+
+                <button type="button" class="btn btn-success btn-sm dropdown-toggle arrow-none waves-effect waves-light btn_sort">
+                    <i class="ti-list mr-2"></i> จัดเรียง
+                </button>
+            </span>
         </h4>
         <div class="table-responsive">
-            <table id="shop_category_table" class="table table-hover mb-0 bg-light">
+            <table id="shop_category_table" class="table table-hover mb-0 bg-light" remote_url="{{ $current_url.'/datatables' }}">
                 <thead>
                     <tr>
-                       <th>ชื่อ</th>
-                       <th>จำนวนสินค้า</th>
-                       <th>สถานะ</th>
+                       <th width="100">ลำดับ</th>
+                       <th width="30%">ชื่อ</th>
+                       <th width="50">จำนวนสินค้า</th>
+                       <th width="100">สถานะ</th>
+                       <th></th>
                        <th></th>
                     </tr>
                 </thead>
@@ -69,5 +80,9 @@
 </div>
 @stop
 @section('js')
+ <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
  <script src="<?php echo url('assets/manage/js/pages/shop/shop_category.js');?>"></script>
+@stop
+@section('css')
+<link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
 @stop

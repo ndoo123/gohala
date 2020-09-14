@@ -24,11 +24,29 @@ class MSettingController extends Controller
        $data['provinces']=Province::all();
        $data['ship_method_tb']=\DB::table('ship_method_tb')->get();
        $data['shop_shippings']=ShopDelivery::where("shop_id",$r->shop->id)->get();
-       $data['payment_methods']=\DB::table('payment_method_tb')->get();
+       $data['payment_methods']=\DB::table('payment_method_tb')->where('id','!=',1)->get();
        $data['shop_payment_methods']=ShopPayment::where("shop_id",$r->shop->id)->get();
-
-
+        $data['url'] = url($r->shop->url);
+        $data['current_url'] = $data['url'].'/settings';
+        // dd($data);
        return view('manage.shop.setting.settings',$data);
+   }
+   public function settings_change_profile(Request $r)
+   {
+    //    dd($r->all(),$r->profile_image,$r->profile_image->getClientOriginalName());
+        // dd($r->all(),storage_path('app/uploads/shop_profile'),storage_path('app/uploads/shop_profile'));
+        $vali = $this->validate($r,[
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        if(!empty($r->profile_image))
+        {
+            $path=storage_path('app/uploads/shop_profile');
+            $name = $r->shop->id;
+            $r->profile_image->move($path,$name);
+            // dd(1);
+        }
+            // dd(1,2);
+        return redirect()->back()->with('success','เปลี่ยนรูปโปรไฟล์ร้านสำเร็จ');
    }
    public function setting_info_save_json(Request $r){
      

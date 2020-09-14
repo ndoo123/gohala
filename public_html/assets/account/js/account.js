@@ -147,7 +147,8 @@ function readURL(input) {
 }
 $(document).on('change','#profile_image',function(){
     Load('body',true);
-  $(this).closest('form').submit();
+  console.log($(this).closest('form').submit());
+//   console.log($(this).closest('form'));
 });
 $(document).on('click','#change_profile_image',function(){
     $('#profile_image').click();
@@ -174,4 +175,35 @@ $(document).on('click','#reset_password_btn',function(){
         $('#forgot_pass_modal').modal('hide');
     }
     post.send(obj);
+});
+$(document).on('click','.default_addr',function(){
+    var btn = $(this);
+    var address_id = $(this).attr('address_id');
+    var address_default = $(this).attr('address_default');
+    // console.log(address_id);
+
+    var url = location.origin+'/profile/address/default_change';
+    // console.log(url);
+    // return;
+    var obj = new Object();
+    obj.address_id = address_id;
+    obj._token = $('meta[name=csrf-token]').attr('content');
+    // console.log(obj);
+    $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'json',
+        data: obj,
+        success: function(res){
+            // console.log(res);
+            $(".default_addr").addClass('btn-outline-success');
+            $(".default_addr").removeClass('btn-success');
+            // $(".default_addr").addClass('btn-success');
+            if(res.result == 1)
+            {
+                btn.removeClass('btn-outline-success');
+                btn.addClass('btn-success');
+            }
+        }
+    });
 });

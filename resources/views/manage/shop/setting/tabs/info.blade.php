@@ -1,9 +1,19 @@
+
 <form action="<?php echo url($shop->url.'/setting/info/save/json');?>" method="post">
 <?php echo csrf_field();?>
 <div class="row justify-content-md-center">
     <button type="submit" class="btn btn-success form-submit-action"><i class="fas fa-save"></i> บันทึกข้อมูล</button>
-    <div class="col-md-2 text-right">
-        <img src="<?php echo $shop->get_logo();?>" width="150" height="150">
+    <div class="col-md-2 text-center">
+        <div>
+            <img src="{{ $shop->get_photo() }}" width="150" height="150" class="rounded-circle">
+            {{-- <img src="{{ $shop->get_logo() }}" width="150" height="150" class="rounded-circle"> --}}
+        </div>
+        <div class="mt-3">
+            {{-- {{ dd($current_ur  l.'/change_profile') }} --}}
+            <button type="button" id="change_profile_image" class="btn btn-sm btn-primary" style="margin-left:10px">
+                เปลี่ยนรูป
+            </button>
+        </div>
     </div>
      <div class="col-md-1"></div>
     <div class="col-md-6">

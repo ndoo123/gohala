@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
-  <title>Avilon Bootstrap Template</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Avilon Bootstrap Template</title>
+  <meta content="" name="descriptison">
   <meta content="" name="keywords">
-  <meta content="" name="description">
 
   <!-- Favicons -->
   <link href="<?php echo url('');?>/assets/web/promote/img/favicon.png" rel="icon">
@@ -14,64 +16,74 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Open+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
 
-  <!-- Bootstrap CSS File -->
-  <link href="<?php echo url('');?>/assets/web/promote/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Vendor CSS Files -->
+  <link href="<?php echo url('');?>/assets/web/promote/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<?php echo url('');?>/assets/web/promote/vendor/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="<?php echo url('');?>/assets/web/promote/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="<?php echo url('');?>/assets/web/promote/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="<?php echo url('');?>/assets/web/promote/vendor/venobox/venobox.css" rel="stylesheet">
 
-  <!-- Libraries CSS Files -->
-  <link href="<?php echo url('');?>/assets/web/promote/lib/animate/animate.min.css" rel="stylesheet">
-  <link href="<?php echo url('');?>/assets/web/promote/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="<?php echo url('');?>/assets/web/promote/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-  <link href="<?php echo url('');?>/assets/web/promote/lib/magnific-popup/magnific-popup.css" rel="stylesheet">
-
-  <!-- Main Stylesheet File -->
+  <!-- Template Main CSS File -->
   <link href="<?php echo url('');?>/assets/web/promote/css/style.css" rel="stylesheet">
 
   <!-- =======================================================
-    Theme Name: Avilon
-    Theme URL: https://bootstrapmade.com/avilon-bootstrap-landing-page-template/
-    Author: BootstrapMade.com
-    License: https://bootstrapmade.com/license/
-  ======================================================= -->
+  * Template Name: Avilon - v2.1.0
+  * Template URL: https://bootstrapmade.com/avilon-bootstrap-landing-page-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
 
 <body>
 
-  <!--==========================
-    Header
-  ============================-->
-  <header id="header">
+  <!-- ======= Header ======= -->
+  <header id="header" class="header-transparent">
     <div class="container">
 
       <div id="logo" class="pull-left">
-        <h1><a href="#intro" class="scrollto">Gohala</a></h1>
+        <h1><a href="index.html" class="scrollto">Gohala</a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <a href="#intro"><img src="img/logo.png" alt="" title=""></a> -->
+        <!-- <a href="index.html"><img src="assets/img/logo.png" alt=""></a> -->
       </div>
 
       <nav id="nav-menu-container">
         <ul class="nav-menu">
-         
-          <li><a href="#about">เกี่ยวกับเรา</a></li>
-          <li><a href="#features">ฟรีระบบขายสินค้า</a></li>
-          <li><a href="#pricing">ราคา</a></li>
-          <li><a href="#team">ทีมงาน</a></li>
-          <li><a href="#gallery">รูปภาพ</a></li>
-
-          <li><a href="#contact">ติดต่อเรา</a></li>
+          <li class="menu-active"><a href="index.html">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#team">Team</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li class="menu-has-children"><a href="">Drop Down</a>
+            <ul>
+              <li><a href="#">Drop Down 1</a></li>
+              <li class="menu-has-children"><a href="#">Drop Down 2</a>
+                <ul>
+                  <li><a href="#">Deep Drop Down 1</a></li>
+                  <li><a href="#">Deep Drop Down 2</a></li>
+                  <li><a href="#">Deep Drop Down 3</a></li>
+                  <li><a href="#">Deep Drop Down 4</a></li>
+                  <li><a href="#">Deep Drop Down 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Drop Down 3</a></li>
+              <li><a href="#">Drop Down 4</a></li>
+              <li><a href="#">Drop Down 5</a></li>
+            </ul>
+          </li>
+          <li><a href="#contact">Contact Us</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
     </div>
-  </header><!-- #header -->
+  </header><!-- End Header -->
 
-  <!--==========================
-    Intro Section
-  ============================-->
+  <!-- ======= Intro Section ======= -->
   <section id="intro">
 
     <div class="intro-text">
-      <h2>ระบบร้านขายสินค้าออนไลน์</h2>
-      <p>ใช้งานง่าย ฟรี ตลอดชีพ</p>
-      <a href="<?php echo LKS::url_subdomain('account','');?>" class="btn-get-started scrollto">เปิดร้าน</a>
+      <h2>Welcome to Gohala</h2>
+      <p>We are team of talanted designers making websites with Bootstrap</p>
+      <a href="<?php echo LKS::url_subdomain('manage','');?>" class="btn-get-started scrollto">เปิดร้าน</a>
     </div>
 
     <div class="product-screens">
@@ -90,13 +102,11 @@
 
     </div>
 
-  </section><!-- #intro -->
+  </section><!-- End Intro Section -->
 
   <main id="main">
 
-    <!--==========================
-      About Us Section
-    ============================-->
+    <!-- ======= About Section ======= -->
     <section id="about" class="section-bg">
       <div class="container-fluid">
         <div class="section-header">
@@ -110,7 +120,7 @@
 
         <div class="row">
           <div class="col-lg-6 about-img wow fadeInLeft">
-            <img src="<?php echo url('');?>/assets/web/promote/img/about-img.jpg" alt="">
+            <img src="assets/img/about-img.jpg" alt="">
           </div>
 
           <div class="col-lg-6 content wow fadeInRight">
@@ -133,11 +143,9 @@
         </div>
 
       </div>
-    </section><!-- #about -->
+    </section><!-- End About Section -->
 
-    <!--==========================
-      Product Featuress Section
-    ============================-->
+    <!-- ======= Featuress Section ======= -->
     <section id="features">
       <div class="container">
 
@@ -186,11 +194,9 @@
 
       </div>
 
-    </section><!-- #features -->
+    </section><!-- End Featuress Section -->
 
-    <!--==========================
-      Product Advanced Featuress Section
-    ============================-->
+    <!-- ======= Advanced Featuress Section ======= -->
     <section id="advanced-features">
 
       <div class="features-row section-bg">
@@ -232,7 +238,7 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <img class="advanced-feature-img-right wow fadeInRight" src="img/advanced-feature-3.jpg" alt="">
+              <img class="advanced-feature-img-right wow fadeInRight" src="<?php echo url('');?>/assets/web/promote/img/advanced-feature-3.jpg" alt="">
               <div class="wow fadeInLeft">
                 <h2>Duis aute irure dolor in reprehenderit in voluptate velit esse</h2>
                 <h3>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
@@ -244,11 +250,9 @@
           </div>
         </div>
       </div>
-    </section><!-- #advanced-features -->
+    </section><!-- End Advanced Featuress Section -->
 
-    <!--==========================
-      Call To Action Section
-    ============================-->
+    <!-- ======= Call To Action Section ======= -->
     <section id="call-to-action">
       <div class="container">
         <div class="row">
@@ -262,11 +266,9 @@
         </div>
 
       </div>
-    </section><!-- #call-to-action -->
+    </section><!-- End Call To Action Section -->
 
-    <!--==========================
-      More Features Section
-    ============================-->
+    <!-- ======= More Features Section ======= -->
     <section id="more-features" class="section-bg">
       <div class="container">
 
@@ -312,11 +314,9 @@
 
         </div>
       </div>
-    </section><!-- #more-features -->
+    </section><!-- End More Features Section -->
 
-    <!--==========================
-      Clients
-    ============================-->
+    <!-- ======= Clients Section ======= -->
     <section id="clients">
       <div class="container">
 
@@ -348,11 +348,9 @@
 
         </div>
       </div>
-    </section><!-- #more-features -->
+    </section><!-- End Clients Section -->
 
-    <!--==========================
-      Pricing Section
-    ============================-->
+    <!-- ======= Pricing Section ======= -->
     <section id="pricing" class="section-bg">
       <div class="container">
 
@@ -375,7 +373,7 @@
                 <li><i class="ion-android-checkmark-circle"></i> Pharetra massa massa ultricies</li>
                 <li><i class="ion-android-checkmark-circle"></i> Massa ultricies mi quis hendrerit</li>
               </ul>
-              <a href="#" class="get-started-btn">Get Started</a>
+              <a href="#" class="get-started-btn">เปิดร้าน</a>
             </div>
           </div>
 
@@ -390,7 +388,7 @@
                 <li><i class="ion-android-checkmark-circle"></i> Pharetra massa massa ultricies</li>
                 <li><i class="ion-android-checkmark-circle"></i> Massa ultricies mi quis hendrerit</li>
               </ul>
-              <a href="#" class="get-started-btn">Get Started</a>
+              <a href="#" class="get-started-btn">เปิดร้าน</a>
             </div>
           </div>
 
@@ -405,18 +403,15 @@
                 <li><i class="ion-android-checkmark-circle"></i> Pharetra massa massa ultricies</li>
                 <li><i class="ion-android-checkmark-circle"></i> Massa ultricies mi quis hendrerit</li>
               </ul>
-              <a href="#" class="get-started-btn">Get Started</a>
+              <a href="#" class="get-started-btn">เปิดร้าน</a>
             </div>
           </div>
 
         </div>
       </div>
-    </section><!-- #pricing -->
+    </section><!-- End Pricing Section -->
 
-
-    <!--==========================
-      Frequently Asked Questions Section
-    ============================-->
+    <!-- ======= Frequently Asked Questions Section ======= -->
     <section id="faq">
       <div class="container">
 
@@ -484,11 +479,9 @@
         </ul>
 
       </div>
-    </section><!-- #faq -->
+    </section><!-- End Frequently Asked Questions Section -->
 
-    <!--==========================
-      Our Team Section
-    ============================-->
+    <!-- ======= Team Section ======= -->
     <section id="team" class="section-bg">
       <div class="container">
         <div class="section-header">
@@ -555,11 +548,9 @@
         </div>
 
       </div>
-    </section><!-- #team -->
+    </section><!-- End Team Section -->
 
-    <!--==========================
-      Gallery Section
-    ============================-->
+    <!-- ======= Gallery Section ======= -->
     <section id="gallery">
       <div class="container-fluid">
         <div class="section-header">
@@ -572,7 +563,7 @@
 
           <div class="col-lg-4 col-md-6">
             <div class="gallery-item wow fadeInUp">
-              <a href="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-1.jpg" class="gallery-popup">
+              <a href="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-1.jpg" data-gall="portfolioGallery" class="venobox">
                 <img src="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-1.jpg" alt="">
               </a>
             </div>
@@ -580,7 +571,7 @@
 
           <div class="col-lg-4 col-md-6">
             <div class="gallery-item wow fadeInUp">
-              <a href="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-2.jpg" class="gallery-popup">
+              <a href="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-2.jpg" data-gall="portfolioGallery" class="venobox">
                 <img src="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-2.jpg" alt="">
               </a>
             </div>
@@ -588,7 +579,7 @@
 
           <div class="col-lg-4 col-md-6">
             <div class="gallery-item wow fadeInUp">
-              <a href="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-3.jpg" class="gallery-popup">
+              <a href="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-3.jpg" data-gall="portfolioGallery" class="venobox">
                 <img src="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-3.jpg" alt="">
               </a>
             </div>
@@ -596,7 +587,7 @@
 
           <div class="col-lg-4 col-md-6">
             <div class="gallery-item wow fadeInUp">
-              <a href="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-4.jpg" class="gallery-popup">
+              <a href="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-4.jpg" data-gall="portfolioGallery" class="venobox">
                 <img src="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-4.jpg" alt="">
               </a>
             </div>
@@ -604,7 +595,7 @@
 
           <div class="col-lg-4 col-md-6">
             <div class="gallery-item wow fadeInUp">
-              <a href="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-5.jpg" class="gallery-popup">
+              <a href="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-5.jpg" data-gall="portfolioGallery" class="venobox">
                 <img src="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-5.jpg" alt="">
               </a>
             </div>
@@ -612,7 +603,7 @@
 
           <div class="col-lg-4 col-md-6">
             <div class="gallery-item wow fadeInUp">
-              <a href="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-6.jpg" class="gallery-popup">
+              <a href="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-6.jpg" data-gall="portfolioGallery" class="venobox">
                 <img src="<?php echo url('');?>/assets/web/promote/img/gallery/gallery-6.jpg" alt="">
               </a>
             </div>
@@ -621,11 +612,9 @@
         </div>
 
       </div>
-    </section><!-- #gallery -->
+    </section><!-- End Gallery Section -->
 
-    <!--==========================
-      Contact Section
-    ============================-->
+    <!-- ======= Contact Section ======= -->
     <section id="contact">
       <div class="container">
         <div class="row wow fadeInUp">
@@ -666,26 +655,29 @@
 
           <div class="col-lg-5 col-md-8">
             <div class="form">
-              <div id="sendmessage">Your message has been sent. Thank you!</div>
-              <div id="errormessage"></div>
-              <form action="" method="post" role="form" class="contactForm">
+              <form action="forms/contact.php" method="post" role="form" class="php-email-form">
                 <div class="form-row">
                   <div class="form-group col-lg-6">
-                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                    <div class="validation"></div>
+                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                    <div class="validate"></div>
                   </div>
                   <div class="form-group col-lg-6">
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
-                    <div class="validation"></div>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
+                    <div class="validate"></div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                  <div class="validation"></div>
+                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject">
+                  <div class="validate"></div>
                 </div>
                 <div class="form-group">
                   <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
-                  <div class="validation"></div>
+                  <div class="validate"></div>
+                </div>
+                <div class="mb-3">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
                 </div>
                 <div class="text-center"><button type="submit" title="Send Message">Send Message</button></div>
               </form>
@@ -695,13 +687,11 @@
         </div>
 
       </div>
-    </section><!-- #contact -->
+    </section><!-- End Contact Section -->
 
-  </main>
+  </main><!-- End #main -->
 
-  <!--==========================
-    Footer
-  ============================-->
+  <!-- ======= Footer ======= -->
   <footer id="footer">
     <div class="container">
       <div class="row">
@@ -711,11 +701,11 @@
           </div>
           <div class="credits">
             <!--
-              All the links in the footer should remain intact.
-              You can delete the links only if you purchased the pro version.
-              Licensing information: https://bootstrapmade.com/license/
-              Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Avilon
-            -->
+            All the links in the footer should remain intact.
+            You can delete the links only if you purchased the pro version.
+            Licensing information: https://bootstrapmade.com/license/
+            Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Avilon
+          -->
             Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
           </div>
         </div>
@@ -729,25 +719,23 @@
         </div>
       </div>
     </div>
-  </footer><!-- #footer -->
+  </footer><!-- End  Footer -->
 
   <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
-  <!-- JavaScript Libraries -->
-  <script src="<?php echo url('');?>/assets/web/promote/lib/jquery/jquery.min.js"></script>
-  <script src="<?php echo url('');?>/assets/web/promote/lib/jquery/jquery-migrate.min.js"></script>
-  <script src="<?php echo url('');?>/assets/web/promote/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="<?php echo url('');?>/assets/web/promote/lib/easing/easing.min.js"></script>
-  <script src="<?php echo url('');?>/assets/web/promote/lib/wow/wow.min.js"></script>
-  <script src="<?php echo url('');?>/assets/web/promote/lib/superfish/hoverIntent.js"></script>
-  <script src="<?php echo url('');?>/assets/web/promote/lib/superfish/superfish.min.js"></script>
-  <script src="<?php echo url('');?>/assets/web/promote/lib/magnific-popup/magnific-popup.min.js"></script>
+  <!-- Vendor JS Files -->
+  <script src="<?php echo url('');?>/assets/web/promote/vendor/jquery/jquery.min.js"></script>
+  <script src="<?php echo url('');?>/assets/web/promote/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<?php echo url('');?>/assets/web/promote/vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="<?php echo url('');?>/assets/web/promote/vendor/php-email-form/validate.js"></script>
+  <script src="<?php echo url('');?>/assets/web/promote/vendor/wow/wow.min.js"></script>
+  <script src="<?php echo url('');?>/assets/web/promote/vendor/venobox/venobox.min.js"></script>
+  <script src="<?php echo url('');?>/assets/web/promote/vendor/superfish/superfish.min.js"></script>
+  <script src="<?php echo url('');?>/assets/web/promote/vendor/hoverIntent/hoverIntent.js"></script>
 
-  <!-- Contact Form JavaScript File -->
-  <script src="<?php echo url('');?>/assets/web/promote/contactform/contactform.js"></script>
-
-  <!-- Template Main Javascript File -->
+  <!-- Template Main JS File -->
   <script src="<?php echo url('');?>/assets/web/promote/js/main.js"></script>
 
 </body>
+
 </html>

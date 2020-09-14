@@ -2,6 +2,7 @@
 Route::get('/','AAccountController@login');
 Route::get('login','AAccountController@login')->name('login');
 Route::get('login/fb/callback','AAccountController@login_fb_callback');
+Route::get('login/fb','AAccountController@login_fb');
 
 //Auth
 Route::post('auth','\App\Http\Controllers\Auth\LoginController@login');
@@ -15,6 +16,7 @@ Route::post('user/reset_password/process','AAccountController@reset_password_pro
 Route::middleware(['auth'])->group(function(){
     Route::get('profile','AAccountController@profile');
     Route::post('profile/save','AAccountController@profile_save');
+    Route::post('profile/address/default_change','AAccountController@default_change');
     Route::post('profile/address/get','AAccountController@profile_address_get');
     Route::post('profile/address/update','AAccountController@profile_address_save');
     Route::post('profile/address/delete','AAccountController@profile_address_delete');
@@ -22,4 +24,5 @@ Route::middleware(['auth'])->group(function(){
 
     Route::post('profile/update/profile_image','AAccountController@profile_upload_photo');
     
+    Route::get('order_detail','AOrderController@order_detail');
 });

@@ -11,7 +11,23 @@ class LKS
 
         return redirect($to_url);
     }
+    public static function redirect_subdomain2($sub,$url)
+    {
+        $to_url=$_SERVER['REQUEST_SCHEME']."://".$sub.'.'.env('APP_DOMAIN');
+        if($url!="")
+        $to_url.='/'.$url;
+
+        return redirect($to_url);
+    }
     public static function url_subdomain($sub,$url)
+    {
+        $to_url=$_SERVER['REQUEST_SCHEME']."://".$sub.'.'.env('APP_DOMAIN');
+        if($url!="")
+        $to_url.='/'.$url;
+
+        return $to_url;
+    }
+    public static function url_subdomain2($sub,$url)
     {
         $to_url="http://".$sub.'.'.env('APP_DOMAIN');
         if($url!="")

@@ -13,6 +13,7 @@
         <link href="<?php echo url('assets/manage/login/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/login/css/icons.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/login/css/style.css');?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
     </head>
 
     <body>
@@ -89,7 +90,18 @@
                 
                 <div class="card">
                     <div class="card-body">
-                        คุณยังไม่มีร้านใดๆ เริ่มสร้างร้านได้เลย <a href="<?php echo  LKS::url_subdomain('manage','shops');?>" class="btn btn-sm btn-primary">สร้างร้านค้า</a>
+                        <?php
+                            $button = '<a href="'.LKS::url_subdomain('manage','shops').'" class="btn btn-sm btn-primary">ร้านค้า</a>';
+                            if($shop_count<1) 
+                            {
+                                echo "คุณยังไม่มีร้านใดๆ เริ่มสร้าง ".$button." ได้เลย";
+                            }  
+                            else
+                            {
+                                echo "ไปที่ ".$button." ของคุณ";
+                            }
+                        ?>
+                        
                     </div>
                 </div>  
                <div class="row">
@@ -128,7 +140,7 @@
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs " role="tablist">
                                             <li class="nav-item">
-                                                <a class="nav-link active" data-toggle="tab" href="#profile" role="tab">
+                                                <a class="nav-link <?=($op != "myorder")?'active':null?>" data-toggle="tab" href="#profile" role="tab">
                                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
                                                     <span class="d-none d-sm-block"><?php echo __('view.profile');?></span> 
                                                 </a>
@@ -140,7 +152,7 @@
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab" href="#order" role="tab">
+                                                <a class="nav-link <?=($op == "myorder")?'active':null?>" data-toggle="tab" href="#order" role="tab">
                                                     <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                                                     <span class="d-none d-sm-block"><?php echo __('view.order_list');?></span>   
                                                 </a>
@@ -149,7 +161,7 @@
         
                                         <!-- Tab panes -->
                                         <div class="tab-content">
-                                            <div class="tab-pane active p-3" id="profile" role="tabpanel">
+                                            <div class="tab-pane p-3 <?=($op != "myorder")?'active':null?>" id="profile" role="tabpanel">
                                                 <form method="post" action="<?php echo url('profile/save');?>">
                                                     <?php echo csrf_field();?>
                                                     <input type="hidden" name="user_id" value="<?php echo $user->id;?>">
@@ -220,7 +232,14 @@
                                                     <div user_address_id="<?php echo $addr->id;?>" class="card card_user_address p-10" style="border:1px solid #bdbcbc">
                                                         <div class="card-body m-b-0">
                                                             <div class="address_action float-right text-center">
-                                                                <button address_default="<?php $addr->is_default;?>" type="button" style="margin-bottom:5px" class="btn btn-sm btn-success waves-effect waves-light"><i class="fas fa-check"></i> ที่อยู่หลัก</button>
+                                                            <?php
+                                                            $addr_class = 'btn-outline-success';
+                                                            if($addr->is_default == 1)
+                                                            {
+                                                                $addr_class = 'btn-success';
+                                                            }
+                                                            ?>
+                                                                <button address_id="{{ $addr->id }}" address_default="{{ $addr->is_default }}" type="button" style="margin-bottom:5px" class="btn btn-sm  waves-effect waves-light {{ $addr_class }} default_addr"><i class="fas fa-check"></i> ที่อยู่หลัก</button>
                                                                 <br>
                                                                 <button type="button" class="btn btn-sm btn-outline-danger delete_user_address"><i class="far fa-trash-alt"></i> ลบ</button>
                                                                 <button type="button" class="btn btn-sm btn-outline-info edit_user_address"><i class="far fa-edit"></i> แก้ไข</button>
@@ -235,8 +254,8 @@
                                                    <button type="button" id="add_new_address_btn" class="btn btn-primary">+ <?php echo __('view.address');?></button>
                                                 
                                             </div>
-                                            <div class="tab-pane p-3" id="order" role="tabpanel">
-                                                <table class="table">
+                                            <div class="tab-pane p-3 <?=($op == "myorder")?'active':null?>" id="order" role="tabpanel">
+                                                <table class="table table-hover">
                                                     <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -249,10 +268,10 @@
                                                     <tbody>
                                                         <?php foreach($orders as $order):?>
                                                         <tr>
-                                                            <td><?php echo $order->id;?></td>
-                                                            <td><?php echo date('d/m/Y H:i:s',strtotime($order->order_date));?></td>
-                                                            <td><?php echo $order->total+$order->total_delivery;?></td>
-                                                            <td><?php echo $order->get_user_status_badge();?></td>
+                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->id;?></td>
+                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo date('d/m/Y H:i:s',strtotime($order->order_date));?></td>
+                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->total+$order->total_delivery;?></td>
+                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->get_user_status_badge();?></td>
                                                             <td></td>
                                                         </tr>
                                                         <?php endforeach;?>
@@ -358,6 +377,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
+@include('modal.order_detail')
         <!-- jQuery  -->
         <script src="<?php echo url('assets/manage/login/js/jquery.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/login/js/bootstrap.bundle.min.js');?>"></script>
@@ -372,7 +392,9 @@
         var app=new LKS();
         app.url='<?php echo url('');?>';
         </script>
+        <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
         <script src="<?php echo url('assets/account/js/account.js');?>"></script>
+        <script src="<?php echo url('assets/modal/order_detail.js');?>"></script>
     </body>
 
 </html>

@@ -20,5 +20,8 @@ class ShopPayment extends Model
             ->where('method_id', '=', $this->getAttribute('method_id'));
         return $query;
     }
-
+    public static function get_payment($shop_id,$check = 0)
+    {
+        return ShopPayment::where('shop_id',$shop_id)->where('is_checked',$check)->get();
+    }
 }

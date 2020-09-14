@@ -8,9 +8,12 @@ use App\Models\User;
 use App\Models\UserAddress;
 use App\Helper\LKS;
 use App\Models\Order;
+use App\Models\Shop;
 use Facebook\Facebook;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
+use DB;
+
 class AAccountController extends Controller
 {
    public function login_fb_callback(Request $r)
@@ -19,19 +22,24 @@ class AAccountController extends Controller
    }
    public function login(Request $r){
 
-    
+    // dd(\Hash::make('asdfasdf'),\Auth::check());
       if(\Auth::check())
       return redirect('profile');
  
       return view('account.login');
    }
-   public function profile()
+   public function profile(Request $r)
    {
-     
       $data['user']=\Auth::user();
       $data['address']=\Auth::user()->address;
       $data['provinces']=\DB::table('province_tb')->get();
       $data['orders']=Order::where("buyer_user_id",\Auth::user()->id)->get();
+      
+      $data['op'] = !empty($r->op)?$r->op:null;
+      // $data['asdf'] = \Auth::user();
+      $data['shop'] = Shop::where('user_id',$data['user']->id)->get();
+      $data['shop_count'] = $data['shop']->count();
+      // dd($data,$r->all());
       return view('account.profile',$data);
    }
    public function profile_address_get(Request $r)
@@ -114,7 +122,7 @@ class AAccountController extends Controller
             
 
             $message->to($user->email)->subject("ยืนยันอีเมล์")
-            ->setBody('กรุณายืนยันอีเมล์เพื่อใช้งาน<br><a href="'.LKS::url_subdomain('account','').'/email/verify?email='.$user->email.'&code='.$user->email_verify_code.'">ยืนยัน</a>','text/html');
+            ->setBody('กรุณายืนยันอีเมล์เพื่อใช้งาน ณ '.date('วันที่ d เดือน m ปี Y เวลา H:i:s').'<br><a href="'.LKS::url_subdomain('account','').'/email/verify?email='.$user->email.'&code='.$user->email_verify_code.'">ยืนยัน</a>','text/html');
         });
 
         return redirect()->back()->with('success','ส่งยืนยัน Email ไปเรียบร้อยแล้ว');
@@ -130,6 +138,7 @@ class AAccountController extends Controller
 
 
       $path=storage_path('app/uploads/profile');
+      // dd($path);
       if(!\File::exists($path))
       \File::makeDirectory($path, $mode = 0755, true);
 
@@ -265,5 +274,38 @@ class AAccountController extends Controller
 
       return LKS::o(1,"");
 
+   }
+   public function default_change(Request $r)
+   {
+    //  dd($r->all(),$r->address_id,\Auth::user());
+      // dd(UserAddress::where('user_id',\Auth::user()->id)->get());
+      DB::beginTransaction();
+      try{
+        $address_id = (int)$r->address_id;
+        if(!\Auth::check())
+          throw new \Exception('กรุณาล็อคอิน');
+        $user_address = UserAddress::where('user_id',\Auth::user()->id)->get();
+        foreach($user_address as $addr)
+        {
+          // dd($user_address,$addr->id,$address_id);
+          if($addr->id == $address_id)
+          {   
+            $addr->is_default = 1;
+          }
+          else
+          {
+            $addr->is_default = 0;
+          }
+          $addr->save();
+        }
+        DB::commit();
+        $return = ['result' => 1, 'msg'=> 'บันทึกเรียบร้อย' ];
+      }
+      catch(\Exception $e)
+      {
+        DB::rollback();
+        $return = ['result' => 0, 'msg'=> $e->getMessage() ];
+      }
+      return json_encode($return);
    }
 }

@@ -22,12 +22,15 @@
          <div shop_id="<?php echo $s->id;?>" class="card card_shop">
             <div class="card-body">
                <div class="media m-b-10">
-                    <img class="d-flex mr-3 rounded-circle" src="<?php echo url('assets/images/shop_icon.png');?>" alt="<?php echo $s->name;?>" height="64">
+                    <img class="d-flex mr-3 rounded-circle" src="{{ $s->get_photo() }}" 
+                    alt="{{ $s->name }}" height="64" width="64">
+                    {{-- <img class="d-flex mr-3 rounded-circle" src="{{ url('assets/images/shop_icon.png') }}" 
+                    alt="{{ $s->name }}" height="64"> --}}
                     <div class="media-body">
                         <h5 class="mt-0 font-16"><?php echo $s->name;?> <span class="badge badge-pill badge-primary"><a class="text-white" href="<?php echo $s->get_url();?>"><i class="fas fa-share-square"></i> <?php echo $s->get_url();?></a></span></h5>
                         <div class="button-items">
-                            <button type="button" class="btn btn-secondary btn-sm waves-effect">สินค้า <?php echo $s->count_product();?></button>
-                            <button type="button" class="btn btn-secondary btn-sm waves-effect">สั่งซื้อ <?php echo $s->count_order();?></button>
+                            <a href="<?php echo url($s->url).'/products'; ?>" class="btn btn-secondary btn-sm waves-effect">สินค้า <?php echo $s->count_product();?></a>
+                            <a href="<?php echo url($s->url).'/all'; ?>" class="btn btn-secondary btn-sm waves-effect">สั่งซื้อ <?php echo $s->count_order();?></a>
                            
                         </div>
                         
@@ -50,7 +53,7 @@
 <div id="new_shop_modal" class="modal fade show" tabindex="-1" role="dialog" aria-modal="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="new_shop_form" method="post" action="<?php echo url('shops/create');?>">
+            <form id="new_shop_form" method="post" action="<?php echo url('shops/create');?>" onsubmit="return false">
             <?php echo csrf_field();?>
                 <div class="modal-header">
                     <h5 class="modal-title mt-0">ข้อมูลร้านใหม่</h5>
@@ -69,7 +72,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">ยกเลิก</button>
-                    <button type="submit" class="btn btn-primary waves-effect waves-light">เพิ่มรา้นใหม่!</button>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light new_shop_sm">เพิ่มร้านใหม่!</button>
                 </div>
             </form>
         </div><!-- /.modal-content -->
@@ -78,5 +81,24 @@
 
 @stop
 @section('js')
- <script src="<?php echo url('assets/manage/js/pages/shop/shop.js');?>"></script>
+ {{-- <script src="{{ url('assets/manage/js/pages/shop/shop.js') }}"></script> --}}
+ <script>
+
+    $(document).on('submit',"#new_shop_form",function(event){
+        event.preventDefault();
+        var post=new PostForm('div.modal-content');
+        post.success=function(r){
+            if(r.result==0)
+            {
+                alert(r.msg);
+                return;
+            }
+           $("#new_shop_modal").modal('hide');
+           Load('html');
+          location.reload(true);
+            
+        }
+        post.send($("#new_shop_form"));
+    });
+</script>
 @stop

@@ -16,6 +16,17 @@
         <link href="<?php echo url('assets/manage/css/style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/vertical.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/custom.css');?>" rel="stylesheet" type="text/css">
+        <?php
+
+        $url = url('');
+        $arr_url = explode('.',$url);
+        $extend = end($arr_url);
+        // dd($url,$arr_url,$extend);
+        if($extend == 'com')
+        {
+            echo '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">';
+        }
+        ?>
     </head>
 
     <body>
@@ -51,7 +62,7 @@
                         </li>
 
                         <!-- notification -->
-                        <li class="dropdown notification-list list-inline-item">
+                        {{-- <li class="dropdown notification-list list-inline-item">
                             <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <i class="mdi mdi-bell-outline noti-icon"></i>
                                 <span class="badge badge-pill badge-danger noti-icon-badge">3</span>
@@ -93,11 +104,12 @@
                                         View all <i class="fi-arrow-right"></i>
                                     </a>
                             </div>
-                        </li>
+                        </li> --}}
                         <li class="dropdown notification-list list-inline-item">
                             <div class="dropdown notification-list nav-pro-img">
                                 <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                    <img src="<?php echo \Auth::user()->get_photo();?>" alt="user" class="rounded-circle">
+                                    <img src="{{ Auth::user()->get_photo() }}" alt="user" class="rounded-circle">
+                                    {{-- <img src="{{ !empty($shop)?$shop->get_photo():(\Auth::user()->get_photo()?\Auth::user()->get_photo():null) }}" alt="user" class="rounded-circle"> --}}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                     <!-- item-->

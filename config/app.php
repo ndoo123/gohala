@@ -1,5 +1,15 @@
 <?php
 
+$url = url('');
+$arr_url = explode('.',$url);
+$extend = end($arr_url);
+// dd($url,$arr_url,$extend);
+$ssl = false;
+if($extend == 'com')
+{
+    $ssl = true;
+    // echo '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">';
+}
 return [
 
     /*
@@ -13,6 +23,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'ssl' => $ssl,
 
     /*
     |--------------------------------------------------------------------------
@@ -176,6 +187,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
 
     ],
 
@@ -227,7 +239,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'LKS' => \App\Helper\LKS::class,
         'Cart' => \App\Helper\Cart::class,
-
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 
     ],
 
