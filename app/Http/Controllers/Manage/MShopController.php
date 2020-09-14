@@ -312,6 +312,32 @@ class MShopController extends Controller
     //    dd($data);
        return view('manage.shop.shop_manage',$data);
    }
+   public function shop_profit(Request $r)
+   {
+    //    dd($r->all(),
+    //    Order::where('shop_id',$r->shop->id)
+    //    ->whereDate('order_date',date('Y-m-d'))
+    //    ->where('status',4)
+    //    ->select(DB::raw('total + total_delivery as sum_total,total,total_delivery'))
+    //    ->sum(DB::raw('total + total_delivery'))
+    //    ->get()
+    //     );
+    
+       $order = Order::where('shop_id',$r->shop->id)
+       ->whereDate('order_date',date('Y-m-d'))
+       ->where('status',4)
+       ->select(DB::raw('total + total_delivery as sum_total,total,total_delivery'))
+       ->sum(DB::raw('total + total_delivery')); // ราคาขาย รวมราคาส่ง
+    //    ->sum('total'); // เฉพาะราคาขาย
+    //    ->get();
+        // dd($order);
+        if(!$order)
+            $return = ['result' => 0, 'msg' => 'ไม่พบข้อมูล'];
+       
+        $return = ['result' => 1, 'data' => $order];
+        // $return = ['result' => 1, 'data' => floatval($order)];
+        return $return;
+   }
    public function shop_manage_all(Request $r)
    {
         $data['shop']=$r->shop;

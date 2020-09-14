@@ -39,7 +39,7 @@
                     <i class="dripicons-tags bg-soft-primary text-primary float-right h4"></i>
                 </div>
                 <h6 class="text-uppercase mb-3 mt-0"><?php echo __('view.profit');?></h6>
-                <h5 class="mb-3"><?php echo $summary->profit;?> <?php echo __('view.currency');?></h5>
+                <h5 class="mb-3"><span id="profit"><?php echo $summary->profit;?></span> <?php echo __('view.currency');?></h5>
             </div>
         </div>
     </div>
@@ -55,13 +55,13 @@
             <table class="table table-hover mb-0 bg-light" id="table_order" remote_url="{{ $remote_url }}">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th><?php echo __('view.order_date');?></th>
+                        <th width="100px">#</th>
+                        <th width="200px"><?php echo __('view.order_date');?></th>
                         <th><?php echo __('view.order_by');?></th>
-                        <th><?php echo __('view.qty');?></th>
-                        <th><?php echo __('view.total');?></th>
-                        <th><?php echo __('view.status');?></th>
-                        <th></th>
+                        <th width="50px"><?php echo __('view.qty');?></th>
+                        <th width="100px"><?php echo __('view.total');?></th>
+                        <th width="100px"><?php echo __('view.status');?></th>
+                        <th width="400px"></th>
                     </tr>
                 </thead>
             </table>

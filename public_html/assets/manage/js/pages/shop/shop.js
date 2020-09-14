@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    // table_order;
+    profit();
 });
 
 var table_order = $('#table_order').DataTable({
@@ -30,27 +30,36 @@ var table_order = $('#table_order').DataTable({
         });
     }
 });
-
-$(document).on('click',".new_shop_sm",function(event){
-    alert(2);
-});
-
-$(document).on('submit',"#new_shop_form",function(event){
-    alert(1);
-    // event.preventDefault();
-    event.preventDefault();
-    console.log(event.preventDefault());
-    // var post=new PostForm('div.modal-content');
-    // post.success=function(r){
-    //     if(r.result==0)
-    //     {
-    //         alert(r.msg);
-    //         return;
-    //     }
-    //    $("#new_shop_modal").modal('hide');
-    //    Load('html');
-    //   location.reload(true);
-        
-    // }
-    // post.send($("#new_shop_form"));
-});
+function datatables()
+{
+    table_order.ajax.reload();
+}
+function profit(){
+    var url = $("#url").val()+'/profit';
+    // var url = location.origin;
+    var obj = new Object();
+    obj._token = $('meta[name=csrf-token]').attr('content');
+    // console.log(obj);
+    $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'json',
+        data: obj,
+        success: function(res){
+            console.log(res);
+            if(res.result == 1)
+            {
+                // $("#profit").html(res.data);
+                $("#profit").text(res.data);
+            }
+            else
+            {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: res.msg,
+                })
+            }
+        }
+    });
+}
