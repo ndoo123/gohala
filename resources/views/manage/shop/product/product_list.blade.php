@@ -40,8 +40,8 @@
                                     <th width="100">รูปภาพ</th>
                                     <th width="150">#SKU</th>
                                     <th><?php echo __('view.product.product_name');?></th>
-                                    <th class="text-right"><?php echo __('view.product.price');?></th>
-                                    <th class="text-center"><?php echo __('view.product.qty');?></th>
+                                    <th width="100" class="text-right"><?php echo __('view.product.price');?></th>
+                                    <th width="50" class="text-center"><?php echo __('view.product.qty');?></th>
                                     <th></th>
                                     <th width="150px"></th>
                                 </tr>

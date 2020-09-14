@@ -374,7 +374,7 @@ class MShopController extends Controller
        ->orderBy('position','asc')
        ->get();
 
-        // dd($model);
+        // dd($model,$r->all(),$r->position);
         return Datatables::of($model)
         ->addColumn('p_position',function($model) use ($r,$c_count){
             //i up
@@ -400,10 +400,10 @@ class MShopController extends Controller
                 $style_down = "style='visibility:hidden'";
             $input .= '<i class="ti-arrow-circle-down p_position_down font-24 text-danger" type="button" '.$style_down.'></i>';
 
-            // if(empty($r->position))
-            // {
-            //     $input = '';
-            // }
+            if(empty($r->position))
+            {
+                $input = '';
+            }
             return $input;
         })
         ->editColumn('is_active',function($model){

@@ -10,7 +10,9 @@ function datatables()
         // order: [[ 1, "asc" ]],
         ajax: {
             url: $('#shop_category_table').attr('remote_url'),
-            data: {},
+            data: {
+                position : $("#position").val()
+            },
         },
         columns: [
             { data: 'position', name: 'position', class: 'text-center' },
@@ -170,7 +172,8 @@ $(document).on('change','.p_position',function(){
     obj._token = $('meta[name=csrf-token]').attr('content');
     obj.current_p = parseInt($(this).attr('current_p'));
     obj.current_v = parseInt($(this).val());
-    console.log(obj);
+    // obj.position = $("#position").val();
+    // console.log(obj);
     $.ajax({
         url: url,
         type: 'post',

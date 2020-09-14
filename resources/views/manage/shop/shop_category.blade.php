@@ -28,10 +28,10 @@
             <table id="shop_category_table" class="table table-hover mb-0 bg-light" remote_url="{{ $current_url.'/datatables' }}">
                 <thead>
                     <tr>
-                       <th>ลำดับ</th>
-                       <th>ชื่อ</th>
-                       <th>จำนวนสินค้า</th>
-                       <th>สถานะ</th>
+                       <th width="100">ลำดับ</th>
+                       <th width="30%">ชื่อ</th>
+                       <th width="50">จำนวนสินค้า</th>
+                       <th width="100">สถานะ</th>
                        <th></th>
                        <th></th>
                     </tr>
