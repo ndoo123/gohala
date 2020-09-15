@@ -76,7 +76,9 @@
                         <div class="page-title-box">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h4 class="page-title">{{ $shop->name }}</h4>
+                                    <h4 class="page-title">
+                                    <img src="<?php echo \Auth::user()->get_photo();?>" alt="user" class="rounded-circle" height="50">
+                                    <?php echo $shop->name ;?></h4>
                                 </div>
                                 <div class="col-sm-6">
 
@@ -93,7 +95,7 @@
                                         <li class="dropdown notification-list list-inline-item">
                                             <div class="dropdown notification-list nav-pro-img">
                                                 <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                                    <img src="<?php echo url('assets/manage/images/users/user-4.jpg');?>" alt="user" class="rounded-circle">
+                                                <img src="<?php echo \Auth::user()->get_photo();?>" alt="user" class="rounded-circle">
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                                     <!-- item-->
