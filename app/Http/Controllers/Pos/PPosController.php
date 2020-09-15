@@ -48,10 +48,26 @@ class PPosController extends Controller
     // jquery
     public function read_barcode($sku,$shopid)
     {
+        if(strpos($sku, "*")){
+            $idx = explode("*",$id);
+            $sku = $idx[0];
+            $num = $idx[1];
+        }else{
+            $num = 1;
+        }
+
         //$pro = TbProduct::where('p_id',$id)->first();
         $pro = Product::where('shop_id','=',$shopid)
                 ->where('sku',$sku)
+                ->where('status','1')
                 ->first();
+
+        if(!$pro){
+            $pro = Product::where('shop_id','=',$shopid)
+                ->where('barcode',$sku)
+                ->where('status','1')
+                ->first();
+        }
 
         if($pro->is_discount == '0'){
             $price = $pro->price;
@@ -65,9 +81,9 @@ class PPosController extends Controller
         <input type="hidden" name="h_id[]" value="'.$pro->id.'">
         <input type="hidden" name="h_name[]" value="'.$pro->name.'">
         <input type="hidden" name="h_price[]" value="'.$price.'">
-        <input type="hidden" id="h_num'.$pro->id.'" name="h_num[]" value="1">
+        <input type="hidden" id="h_num'.$pro->id.'" name="h_num[]" value="'.$num.'">
         <td class="text-left" title="'. $pro->name . ' | ราคา '.number_format($pro->price,2,'.',',').'">'. $pro->name .'</td>
-        <td class="text-center" id="num'.$pro->id.'">1</td>
+        <td class="text-center" id="num'.$pro->id.'">'.$num.'</td>
         <td class="text-center" id="price'.$pro->id.'">'. number_format($price,2,'.',',') .'</td>
         <td class="text-center">
             <a class="btn-del" pId="'.$pro->id.'" onclick="del_one('.$pro->id.')"><i class="fa fa-trash text-danger"></i></a>
@@ -228,6 +244,14 @@ class PPosController extends Controller
 
     public function check_barcode($shopid,$id)
     {
+        if(strpos($id, "*")){
+            $idx = explode("*",$id);
+            $id = $idx[0];
+            $num = $idx[1];
+        }else{
+            $num = 1;
+        }
+
         $pro = Product::select('id','qty')
                 ->where('shop_id','=',$shopid)
                 ->where('sku',$id)
@@ -242,7 +266,7 @@ class PPosController extends Controller
                 ->first();
         }
         
-        return [$pro->qty, $pro->id];
+        return [$pro->qty, $pro->id, $num];
     }
 
 

@@ -11,19 +11,21 @@
     })
 
 
-    // เพิ่มรายการสินค้าลงตารางขาย โดยคลิกจากภาพสินค้า
-    function click_product(id)
+    // เพิ่มรายการสินค้าลงตารางขาย โดยคลิกจากภาพสินค้า / t_search
+    function click_product(id,pnum)
     {
         //alert(id);
         let pid = $('#pid'+id).attr("get_product");
         let list = $('#list_body').html();
         let search_id = $(list).find('#num'+id).html();
+        let key = $('#t_search').val(); // scan barcode
+        let shopid = $('#shopid').attr('value'); // shop id
         //console.log(search_id);
 
         //let list_prod = $('#list_product').html();
 
         if(search_id){
-            let num = parseInt(search_id) + 1;
+            let num = parseInt(search_id) + parseInt(pnum);
             $('#num'+id).html(num);
             $('#h_num'+id).val(num);
             //alert('เพิ่มสินค้าแล้ว');
@@ -33,17 +35,31 @@
             clear_all();
 
         }else{
-        
-            $.get(pid, function(txt){
-                list += txt;
-                $('#list_body').html(list);
 
-                //alert('เพิ่มสินค้าแล้ว');
-                //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
-                
-                sum_total(id);
-                clear_all();
-            })            
+            if(key){
+                let path = app.url+'/pos/read-barcode/'+key+'/'+shopid;
+                $.get(path, function(txt){
+                    list += txt;
+                    $('#list_body').html(list);
+
+                    sum_total(id);
+                    clear_all();
+                })
+            }else{
+                $.get(pid, function(txt){
+                    list += txt;
+                    $('#list_body').html(list);
+
+                    //alert('เพิ่มสินค้าแล้ว');
+                    //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
+                    
+                    sum_total(id);
+                    clear_all();
+                })
+            }
+
+
+            
         }
 
     }
@@ -128,8 +144,8 @@
         //$.get("{{ URL::to('sale/check-barcode') }}"+'/'+sn, function(num){
         $.get(app.url+"/check-barcode"+'/'+shopid+'/'+key, function(prod){
             console.log(prod[0]);
-            if((prod[0] > 0) || (prod[0] != null)){
-                click_product(prod[1]);
+            if((prod[0] > 0) || (prod[0] != null) || (prod[0] >= prod[2])){
+                click_product(prod[1],prod[2]);
                 clear_all();
             }else{
                 alert('ไม่พบสินค้า');
@@ -342,7 +358,6 @@
         console.log(catid);
     }
 
-    
 
 
     // ปุ่มลบ ของการชำระเงินด้วยเงินสด
