@@ -260,7 +260,7 @@
             }else{
                 // เพิ่มรายละเอียดการชำระ
                 let pay_etc = $(".pay-etc").html();
-                let pay_add = '<tr><td class="text-left">เงินสด</td><td class="text-center" id="text-cash">' + c + '</td><td class="text-center"><a class="btn-del-cash"><i class="fa fa-trash text-danger"></i></a></td></tr>';
+                let pay_add = '<tr><td class="text-left">เงินสด</td><td class="text-center" id="text-cash">' + c + '</td><td class="text-center"><a class="btn-del-cash" onclick="get_clear()"><i class="fa fa-trash text-danger"></i></a></td></tr>';
 
                 $('.pay-etc').empty().html(pay_etc + pay_add);
             }

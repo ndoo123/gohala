@@ -42,6 +42,7 @@ class PPosController extends Controller
                     ->join('shop_category_tb','shop_category_product_tb.category_id','=','shop_category_tb.id')
                     ->select('shop_category_tb.id AS category_id','shop_category_tb.*')
                     ->where('product_tb.status','=','1')
+                    ->where("shop_category_tb.shop_id",$req->id)
                     ->get();
         $data['pcats']= $pcats->unique();
         $data['product']=Product::where("shop_id",$req->id)->get();
