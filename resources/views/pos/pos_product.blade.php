@@ -21,7 +21,7 @@
                                 if($prod->is_discount == '0'){
                                     echo number_format($prod->price,2,'.',',');
                                 }elseif($prod->is_discount == '1'){
-                                    echo number_format($prod->discount_value,2,'.',',') ;
+                                    echo '<font color="red">'.number_format($prod->price - $prod->discount_value,2,'.',',') .'</font>';
                                 }elseif($prod->is_discount == '2'){
                                     echo number_format(\LKS::price_discount($prod->discount_value, $prod->price),2,'.',',') ;
                                 }
