@@ -234,6 +234,14 @@ class PPosController extends Controller
                 ->where('status','1')
                 ->first();
         
+        if(!$pro){
+            $pro = Product::select('id','qty')
+                ->where('shop_id','=',$shopid)
+                ->where('barcode',$id)
+                ->where('status','1')
+                ->first();
+        }
+        
         return [$pro->qty, $pro->id];
     }
 
