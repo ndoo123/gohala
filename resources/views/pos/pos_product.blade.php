@@ -1,7 +1,7 @@
 @foreach($product as $prod)
 
     <div class="col-xl-2 col-md-4 pos-rl">
-        <a id="pid<?php echo  $prod->id ; ?>" get_product="<?php echo  URL::to('pos/read-barcode/'.$prod->sku.'/'.$shop) ; ?>" onclick="click_product(<?php echo  $prod->id ; ?>,1)" title="<?php echo  $prod->name ; ?>">
+        <a id="pid<?php echo  $prod->id ; ?>" get_product="<?php echo  URL::to('pos/read-barcode/'.$prod->sku.'/'.$shop) ; ?>" onclick="click_product(<?php echo  $prod->id ; ?>,1)" title="<?php echo  $prod->name . ' | ราคา ' . number_format($prod->price,2,'.',',') ; ?>">
             <div class="card product-box card-b">
                 <div class="card-body p-1">
                     <div class="product-img">
