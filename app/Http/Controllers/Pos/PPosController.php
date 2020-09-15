@@ -31,18 +31,13 @@ class PPosController extends Controller
    public function pos(Request $req)
    {       
         $data['shop']=Shop::where("id",$req->id)->first();
-        //$data['pcats']=ProductCategory::get();
-        // $pcats = DB::table('product_tb')
-        //             ->join('category_tb','product_tb.category_id','=','category_tb.id')
-        //             ->select('product_tb.category_id','category_tb.*')
-        //             ->where('product_tb.status','!=','0')
-        //             ->get();
         $pcats = DB::table('product_tb')
                     ->join('shop_category_product_tb','product_tb.id','=','shop_category_product_tb.product_id')
                     ->join('shop_category_tb','shop_category_product_tb.category_id','=','shop_category_tb.id')
                     ->select('shop_category_tb.id AS category_id','shop_category_tb.*')
                     ->where('product_tb.status','=','1')
                     ->where("shop_category_tb.shop_id",$req->id)
+                    ->where('shop_category_tb.is_active','=','1')
                     ->get();
         $data['pcats']= $pcats->unique();
         $data['product']=Product::where("shop_id",$req->id)->get();
@@ -61,21 +56,21 @@ class PPosController extends Controller
         if($pro->is_discount == '0'){
             $price = $pro->price;
         }elseif($pro->is_discount == '1'){
-            $price = $pro->discount_value;
+            $price = $pro->price - $pro->discount_value;
         }elseif($pro->is_discount == '2'){
             $price = HelperLKS::price_discount($pro->discount_value, $pro->price);
         }
-
+        
         $txt = '<tr>
         <input type="hidden" name="h_id[]" value="'.$pro->id.'">
         <input type="hidden" name="h_name[]" value="'.$pro->name.'">
         <input type="hidden" name="h_price[]" value="'.$price.'">
         <input type="hidden" id="h_num'.$pro->id.'" name="h_num[]" value="1">
-        <td class="text-left">'. $pro->name .'</td>
+        <td class="text-left" title="'. $pro->name . ' | ราคา '.number_format($pro->price,2,'.',',').'">'. $pro->name .'</td>
         <td class="text-center" id="num'.$pro->id.'">1</td>
         <td class="text-center" id="price'.$pro->id.'">'. number_format($price,2,'.',',') .'</td>
         <td class="text-center">
-            <a  class="btn-del" pId="'.$pro->id.'" onclick="del_one('.$pro->id.')"><i class="fa fa-trash text-danger"></i></a>
+            <a class="btn-del" pId="'.$pro->id.'" onclick="del_one('.$pro->id.')"><i class="fa fa-trash text-danger"></i></a>
         </td></tr>';
 
         
@@ -250,12 +245,22 @@ class PPosController extends Controller
         if($id == '0')
         {
             $data = Product::where("shop_id",$shop)->get();
+            // $data = DB::table('product_tb')
+            //         ->join('shop_category_product_tb','product_tb.id','=','shop_category_product_tb.product_id')
+            //         ->join('shop_category_tb','shop_category_product_tb.category_id','=','shop_category_tb.id')
+            //         ->select('shop_category_tb.id AS category_id','shop_category_tb.*')
+            //         ->where('product_tb.status','=','1')
+            //         ->where('shop_category_tb.shop_id','=',$shop)
+            //         //->where('shop_category_tb.is_active','=','1')
+            //         ->get();
+            //dd($data);
         }
         else
         {
             $data = Product::where("shop_id",$shop)
                             ->where('category_id', $id)
                             ->get();
+            dd($data);
         }       
         
         return view('pos.pos_product',[

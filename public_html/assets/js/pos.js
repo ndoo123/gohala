@@ -1,11 +1,13 @@
     // เปิดหน้ามาโหลดเสร็จแล้วให้แสดงสินค้าทุกหมวดหมู่
     $(document).ready(function(){
-        let path = app.url+'/pos/read-data/0/'+$('#shopid').attr("value");
+        let path = app.url+'/pos/readData/0/'+$('#shopid').attr("value");
+        console.log(path);
         //let path = $(this).attr('data-href');
         $('#btncat0').attr('class','btn btn-primary waves-effect waves-light btn-cat');
         $.get(path, function(data){
             $('#block-product').empty().html(data)                
         })
+
     })
 
 
@@ -147,17 +149,17 @@
     // autocomplete
 
     //let path = app.url+"/shop/"+shopid+'/autocomplete';
-    let path = app.url+'/autocomplete';
-    $('#t_search').autocomplete({
-        source : path,
-        minlenght:1,
-        autoFocus:true,
-        select:function(e,ui){
-            $('#t_search').val(ui.item.value);  // name
-            $('#t_id').val(ui.item.id);  // id
-            $('#t_sku').val(ui.item.id);   // sku       
-        }
-    });
+    // let path = app.url+'/autocomplete';
+    // $('#t_search').autocomplete({
+    //     source : path,
+    //     minlenght:1,
+    //     autoFocus:true,
+    //     select:function(e,ui){
+    //         $('#t_search').val(ui.item.value);  // name
+    //         $('#t_id').val(ui.item.id);  // id
+    //         $('#t_sku').val(ui.item.id);   // sku       
+    //     }
+    // });
 
     function click_pay()
     {
@@ -336,6 +338,8 @@
         $.get(catid, function(data){
             $('#block-product').empty().html(data);
         });
+        
+        console.log(catid);
     }
 
     
