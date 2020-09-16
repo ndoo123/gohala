@@ -10,8 +10,11 @@ Route::get('/pos/read-barcode/{sku}/{shop}','PPosController@read_barcode');
 // autocomplete
 Route::get('/autocomplete', 'PPosConroller@autocomp')->name('autocomp');
 
-// submit form barcode
+// submit form barcode คลิกจากภาพสินค้า
 Route::get('/check-barcode/{shopid}/{id}','PPosController@check_barcode');
+
+// submit form barcode ใส่ช่องบาร์โค้ด
+Route::get('/check-barcode-box/{shopid}/{id}','PPosController@check_barcode_box');
 
 // กดปุ่ม บันทึก/พิมพ์
 //Route::get('save_print','PPosController@check_product');

@@ -46,10 +46,11 @@ class PPosController extends Controller
 
 
     // jquery
+    // จากคลิกภาพสินค้า
     public function read_barcode($sku,$shopid)
     {
         if(strpos($sku, "*")){
-            $idx = explode("*",$id);
+            $idx = explode("*",$sku);
             $sku = $idx[0];
             $num = $idx[1];
         }else{
@@ -76,6 +77,8 @@ class PPosController extends Controller
         }elseif($pro->is_discount == '2'){
             $price = HelperLKS::price_discount($pro->discount_value, $pro->price);
         }
+
+        $sumprice = $price * $num;
         
         $txt = '<tr>
         <input type="hidden" name="h_id[]" value="'.$pro->id.'">
@@ -84,7 +87,7 @@ class PPosController extends Controller
         <input type="hidden" id="h_num'.$pro->id.'" name="h_num[]" value="'.$num.'">
         <td class="text-left" title="'. $pro->name . ' | ราคา '.number_format($pro->price,2,'.',',').'">'. $pro->name .'</td>
         <td class="text-center" id="num'.$pro->id.'">'.$num.'</td>
-        <td class="text-center" real_price="'.number_format($price,2,'.',',').'" id="price'.$pro->id.'">'. number_format($price,2,'.',',') .'</td>
+        <td class="text-center" real_price="'.number_format($price,2,'.',',').'" id="price'.$pro->id.'">'. number_format($sumprice,2,'.',',') .'</td>
         <td class="text-center">
             <a class="btn-del" pId="'.$pro->id.'" onclick="del_one('.$pro->id.')"><i class="fa fa-trash text-danger"></i></a>
         </td></tr>';
@@ -92,6 +95,54 @@ class PPosController extends Controller
         
         return $txt;
     }
+
+    // จากคีย์ barcode
+    // public function read_barcode_box($shopid,$sku)
+    // {
+    //     if(strpos($sku, "*")){
+    //         $idx = explode("*",$sku);
+    //         $sku = $idx[0];
+    //         $num = $idx[1];
+    //     }else{
+    //         $num = 1;
+    //     }
+
+    //     //$pro = TbProduct::where('p_id',$id)->first();
+    //     $pro = Product::where('shop_id','=',$shopid)
+    //             ->where('sku',$sku)
+    //             ->where('status','1')
+    //             ->first();
+
+    //     if(!$pro){
+    //         $pro = Product::where('shop_id','=',$shopid)
+    //             ->where('barcode',$sku)
+    //             ->where('status','1')
+    //             ->first();
+    //     }
+
+    //     if($pro->is_discount == '0'){
+    //         $price = $pro->price;
+    //     }elseif($pro->is_discount == '1'){
+    //         $price = $pro->price - $pro->discount_value;
+    //     }elseif($pro->is_discount == '2'){
+    //         $price = HelperLKS::price_discount($pro->discount_value, $pro->price);
+    //     }
+        
+    //     $txt = '<tr>
+    //     <input type="hidden" name="h_id[]" value="'.$pro->id.'">
+    //     <input type="hidden" name="h_name[]" value="'.$pro->name.'">
+    //     <input type="hidden" id="h_price'.$pro->id.'" name="h_price[]" value="'.number_format($price).'">
+    //     <input type="hidden" id="h_num'.$pro->id.'" name="h_num[]" value="'.$num.'">
+    //     <td class="text-left" title="'. $pro->name . ' | ราคา '.number_format($pro->price,2,'.',',').'">'. $pro->name .'</td>
+    //     <td class="text-center" id="num'.$pro->id.'">'.$num.'</td>
+    //     <td class="text-center" real_price="'.number_format($price,2,'.',',').'" id="price'.$pro->id.'">'. number_format($price,2,'.',',') .'</td>
+    //     <td class="text-center">
+    //         <a class="btn-del" pId="'.$pro->id.'" onclick="del_one('.$pro->id.')"><i class="fa fa-trash text-danger"></i></a>
+    //     </td></tr>';
+
+        
+    //     return $txt;
+    // }
 
     // เมื่อคลิกปุ่ม บันทึก/พิมพ์ หน้า POS
     public function pos_save(Request $req)
@@ -242,7 +293,36 @@ class PPosController extends Controller
     //     return $over;
     // }
 
+    // จาก click ภาพสินค้า
     public function check_barcode($shopid,$id)
+    {
+        if(strpos($id, "*")){
+            $idx = explode("*",$id);
+            $id = $idx[0];
+            $num = $idx[1];
+        }else{
+            $num = 1;
+        }
+
+        $pro = Product::select('id','qty')
+                ->where('shop_id','=',$shopid)
+                ->where('sku',$id)
+                ->where('status','1')
+                ->first();
+        
+        if(!$pro){
+            $pro = Product::select('id','qty')
+                ->where('shop_id','=',$shopid)
+                ->where('barcode',$id)
+                ->where('status','1')
+                ->first();
+        }
+        
+        return [$pro->qty, $pro->id, $num];
+    }
+
+    // จาก submit ช่อง barcode
+    public function check_barcode_box($shopid,$id)
     {
         if(strpos($id, "*")){
             $idx = explode("*",$id);

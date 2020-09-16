@@ -57,6 +57,7 @@
 
     }
 
+
     // เพิ่มรายการสินค้าลงตารางขาย โดยคลิกจากภาพสินค้า / t_search
     // function click_product(id,pnum)
     // {
@@ -196,6 +197,8 @@
     // })
 
 
+    // รับข้อมูลจากช่อง barcode
+
     $('#frm_barcode').on('submit',function(e){
         e.preventDefault(); 
         
@@ -203,10 +206,12 @@
         let shopid = $('#shopid').val(); // shop_id
 
         //$.get("{{ URL::to('sale/check-barcode') }}"+'/'+sn, function(num){
-        $.get(app.url+"/check-barcode"+'/'+shopid+'/'+key, function(prod){
+        $.get(app.url+"/check-barcode-box"+'/'+shopid+'/'+key, function(prod){
             console.log(prod[0]);
+            console.log(prod[1]);
+            console.log(prod[2]);
             if((prod[0] > 0) || (prod[0] != null) || (prod[0] >= prod[2])){
-                click_product(prod[1],prod[2]);
+                click_product_barcode(prod[1],prod[2]);
                 clear_all();
             }else{
                 alert('ไม่พบสินค้า');
@@ -216,6 +221,59 @@
         })
 
     })
+
+
+    // เพิ่มรายการสินค้าลงตารางขาย คีย์ข้อมูลจากช่อง barcode
+    function click_product_barcode(id, barcode_num)
+    {
+        //alert(id);
+        let pid = $('#pid'+id).attr("get_product");
+        let list = $('#list_body').html();
+        let search_id = $(list).find('#num'+id).html();
+
+        console.log(search_id);
+        console.log(id);
+        console.log(barcode_num);
+
+        //let list_prod = $('#list_product').html();
+
+        if(search_id){
+            let real_price = $('#price'+id).attr("real_price").replace(",", ""); // ราคาสินค้า
+            let o_num = parseInt(search_id);
+            let num = parseInt(search_id) + parseInt(barcode_num);
+            let o_price = parseFloat(o_num) * parseFloat(real_price);
+            let n_price = parseFloat(num) * parseFloat(real_price);
+
+            $('#num'+id).html(num);
+            $('#h_num'+id).val(num);
+
+            $('#price'+id).html(addCommas(n_price.toFixed(2)));
+            $('#h_price'+id).val(n_price);
+
+            //alert('เพิ่มสินค้าแล้ว');
+            //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
+                
+            sum_total_new(id, o_price, n_price);
+            clear_all();
+
+        }else{
+            let key = $('#t_search').val(); // p_barcode
+            let shopid = $('#shopid').attr('value'); // shop id
+            let path = app.url+'/pos/read-barcode/'+key+'/'+shopid;
+            console.log(path);
+            $.get(path, function(txt){
+                list += txt;
+                $('#list_body').html(list);
+
+                //alert('เพิ่มสินค้าแล้ว');
+                //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
+                
+                sum_total(id);
+                clear_all();
+            })            
+        }
+
+    }
 
     
     function clear_all(){
