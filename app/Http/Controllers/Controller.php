@@ -93,20 +93,20 @@ class Controller extends BaseController
             $status = $order->status<4?$order->status+1:'';
             if($order->status == 1)
             {
-                $button = '<button type="button" class="btn btn-primary btn_order" order_id="'.$order->id.'" status="'.$status.'">'.__('view.confirm').'</button>';
+                $button = '<button type="button" class="btn btn-sm btn-primary btn_order" order_id="'.$order->id.'" status="'.$status.'">'.__('view.confirm').'</button>';
                 
             }
             else if($order->status == 2)
             {
-                $button = '<button type="button" class="btn btn-info btn_order" order_id="'.$order->id.'" status="'.$status.'">'.__('view.order_send').'</button>';
+                $button = '<button type="button" class="btn btn-sm btn-info btn_order" order_id="'.$order->id.'" status="'.$status.'">'.__('view.order_send').'</button>';
             }
             else if($order->status == 3)
             {
-                $button = '<button type="button" class="btn btn-success btn_order" order_id="'.$order->id.'" status="'.$status.'">'.__('view.order_success').'</button>';
+                $button = '<button type="button" class="btn btn-sm btn-success btn_order" order_id="'.$order->id.'" status="'.$status.'">'.__('view.order_success').'</button>';
             }
 
             if(in_array($order->status,[1,5,6]))
-                $button .= '&nbsp;<button type="button" class="btn btn-danger btn_order_cancel" order_id="'.$order->id.'" status="'.$status.'">'.__('view.order_cancel').'</button>';
+                $button .= '&nbsp;<button type="button" class="btn btn-sm btn-danger btn_order_cancel" order_id="'.$order->id.'" status="'.$status.'">'.__('view.order_cancel').'</button>';
             return $button;
         })
         ->editColumn('status',function($order){

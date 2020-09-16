@@ -167,6 +167,7 @@ Route::post('cart/shop/clear','HomeController@cart_shop_clear');
 
 Route::get('/{shop_url}/cat/{cat_slug}','HomeController@shop_category_view');
 Route::get('/', "HomeController@home");
+Route::get('/email_admin', "HomeController@email_admin");
 
 Route::get('/{shop_url}/checkout','HomeController@shop_checkout');
 Route::group(['middleware'=>'auth'],function(){

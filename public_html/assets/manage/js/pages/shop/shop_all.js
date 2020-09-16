@@ -1,10 +1,13 @@
 // console.log($('#table_order').attr('remote_url'));
 $(document).ready(function(){
-    // table_order;
+    setInterval(function(){ 
+        // alert("Hello"); 
+        table_order.ajax.reload(null, false);
+    }, 5000);
 });
 var table_order = $('#table_order').DataTable({
     serverSide: true,
-    processing: true,
+    processing: false,
     destroy: true,
     // order: [[ 1, "asc" ]],
     ajax: {

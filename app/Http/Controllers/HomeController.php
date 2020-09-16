@@ -26,6 +26,11 @@ class HomeController extends Controller
         // $data['show_menu']=0;
         return view('web.promote');
     }
+    public function email_admin(){
+        // $data['categories']=ProductCategory::all();
+        // $data['show_menu']=0;
+        return view('web.home.email_admin');
+    }
     public function category(Request $r)
     {
         $cat=\DB::table('category_tb')->where("slug",$r->slug)->first();

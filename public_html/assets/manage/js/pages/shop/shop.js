@@ -1,10 +1,11 @@
 $(document).ready(function(){
     profit();
+    datatables();
 });
 
 var table_order = $('#table_order').DataTable({
     serverSide: true,
-    processing: true,
+    processing: false,
     destroy: true,
     order: [[ 1, "asc" ]],
     ajax: {
@@ -32,7 +33,11 @@ var table_order = $('#table_order').DataTable({
 });
 function datatables()
 {
-    table_order.ajax.reload();
+    setInterval(function(){ 
+        // alert("Hello"); 
+        table_order.ajax.reload(null, false);
+    }, 5000);
+    // table_order.ajax.reload();
 }
 function profit(){
     var url = $("#url").val()+'/profit';
