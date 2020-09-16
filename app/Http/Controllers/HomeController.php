@@ -222,8 +222,9 @@ class HomeController extends Controller
             $order=new Order();
             $order->id=crc32($shop->id.$shop->name.time().rand(10,99));
             $order->shop_id=$shop->id;
-            $order->channel_id=1;
-            $order->status=1;
+            $order->channel_id = 1;
+            $order->status = $r->payment != 2 ? 1 : 5;
+            $order->payment_type = $r->payment;
             $delivery=ShopDelivery::where("shipping_id",$r->ship_method_id)->where("shop_id",$shop->id)->first();
             if(!$delivery)
             return redirect()->back()->with('error','ดำเนินการไม่สำเร็จ ไม่พบข้อมูลการชำระเงิน');
@@ -233,7 +234,6 @@ class HomeController extends Controller
             $order->total=0;
             $order->total_delivery=0;
             $order->buyer_user_id=\Auth::user()->id;
-            $order->payment_type=$r->payment;
             $order->save();
             // dd(crc32($shop->id.$shop->name.time().rand(10,99)),$shop->id,$shop->name,time(),rand(10,99));
             $delivery_cost=0;

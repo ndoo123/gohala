@@ -34,6 +34,8 @@ class Controller extends BaseController
         $detail['ค่าจัดส่ง'] = $order->total_delivery;
         $detail['ราคารวมทั้งหมด'] = number_format(((float)$order->total + (float)$order->total_delivery),2);
         $detail['สถานะออเดอร์'] = $order->get_status_show();
+        if(!empty($order->cancel_by))
+            $detail['เหตุผลที่ยกเลิก'] = $order->cancel_remark ? '<span class="font-14">'.$order->cancel_remark.'</span>' : '';
         // dd($order,$order->delivery);
         $cus['ชื่อ'] = !empty($order->delivery) && !empty($order->delivery->name)?$order->delivery->name:null;
         $cus['เบอร์ติดต่อ'] = !empty($order->delivery) && !empty($order->delivery->phone)?$order->delivery->phone:null;
@@ -92,7 +94,7 @@ class Controller extends BaseController
             if($order->status == 1)
             {
                 $button = '<button type="button" class="btn btn-primary btn_order" order_id="'.$order->id.'" status="'.$status.'">'.__('view.confirm').'</button>';
-                $button .= '&nbsp;<button type="button" class="btn btn-danger btn_order_cancel" order_id="'.$order->id.'" status="'.$status.'">'.__('view.order_cancel').'</button>';
+                
             }
             else if($order->status == 2)
             {
@@ -102,6 +104,9 @@ class Controller extends BaseController
             {
                 $button = '<button type="button" class="btn btn-success btn_order" order_id="'.$order->id.'" status="'.$status.'">'.__('view.order_success').'</button>';
             }
+
+            if(in_array($order->status,[1,5,6]))
+                $button .= '&nbsp;<button type="button" class="btn btn-danger btn_order_cancel" order_id="'.$order->id.'" status="'.$status.'">'.__('view.order_cancel').'</button>';
             return $button;
         })
         ->editColumn('status',function($order){
