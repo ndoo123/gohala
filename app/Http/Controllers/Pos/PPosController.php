@@ -80,11 +80,11 @@ class PPosController extends Controller
         $txt = '<tr>
         <input type="hidden" name="h_id[]" value="'.$pro->id.'">
         <input type="hidden" name="h_name[]" value="'.$pro->name.'">
-        <input type="hidden" name="h_price[]" value="'.$price.'">
+        <input type="hidden" id="h_price'.$pro->id.'" name="h_price[]" value="'.number_format($price).'">
         <input type="hidden" id="h_num'.$pro->id.'" name="h_num[]" value="'.$num.'">
         <td class="text-left" title="'. $pro->name . ' | ราคา '.number_format($pro->price,2,'.',',').'">'. $pro->name .'</td>
         <td class="text-center" id="num'.$pro->id.'">'.$num.'</td>
-        <td class="text-center" id="price'.$pro->id.'">'. number_format($price,2,'.',',') .'</td>
+        <td class="text-center" real_price="'.number_format($price,2,'.',',').'" id="price'.$pro->id.'">'. number_format($price,2,'.',',') .'</td>
         <td class="text-center">
             <a class="btn-del" pId="'.$pro->id.'" onclick="del_one('.$pro->id.')"><i class="fa fa-trash text-danger"></i></a>
         </td></tr>';

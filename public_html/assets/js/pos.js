@@ -11,58 +11,110 @@
     })
 
 
-    // เพิ่มรายการสินค้าลงตารางขาย โดยคลิกจากภาพสินค้า / t_search
-    function click_product(id,pnum)
+    // เพิ่มรายการสินค้าลงตารางขาย โดยคลิกจากภาพสินค้า
+    function click_product(id)
     {
         //alert(id);
         let pid = $('#pid'+id).attr("get_product");
         let list = $('#list_body').html();
         let search_id = $(list).find('#num'+id).html();
-        let key = $('#t_search').val(); // scan barcode
-        let shopid = $('#shopid').attr('value'); // shop id
         //console.log(search_id);
 
         //let list_prod = $('#list_product').html();
 
         if(search_id){
-            let num = parseInt(search_id) + parseInt(pnum);
+            let real_price = $('#price'+id).attr("real_price").replace(",", ""); // ราคาสินค้า
+            let o_num = parseInt(search_id);
+            let num = parseInt(search_id) + 1;
+            let o_price = parseFloat(o_num) * parseFloat(real_price);
+            let n_price = parseFloat(num) * parseFloat(real_price);
+
             $('#num'+id).html(num);
             $('#h_num'+id).val(num);
+
+            $('#price'+id).html(addCommas(n_price.toFixed(2)));
+            $('#h_price'+id).val(n_price);
+
             //alert('เพิ่มสินค้าแล้ว');
             //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
                 
-            sum_total(id);
+            sum_total_new(id, o_price, n_price);
             clear_all();
 
         }else{
+        
+            $.get(pid, function(txt){
+                list += txt;
+                $('#list_body').html(list);
 
-            if(key){
-                let path = app.url+'/pos/read-barcode/'+key+'/'+shopid;
-                $.get(path, function(txt){
-                    list += txt;
-                    $('#list_body').html(list);
-
-                    sum_total(id);
-                    clear_all();
-                })
-            }else{
-                $.get(pid, function(txt){
-                    list += txt;
-                    $('#list_body').html(list);
-
-                    //alert('เพิ่มสินค้าแล้ว');
-                    //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
-                    
-                    sum_total(id);
-                    clear_all();
-                })
-            }
-
-
-            
+                //alert('เพิ่มสินค้าแล้ว');
+                //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
+                
+                sum_total(id);
+                clear_all();
+            })            
         }
 
     }
+
+    // เพิ่มรายการสินค้าลงตารางขาย โดยคลิกจากภาพสินค้า / t_search
+    // function click_product(id,pnum)
+    // {
+    //     //alert(id);
+    //     let pid = $('#pid'+id).attr("get_product");
+    //     let list = $('#list_body').html();
+    //     let search_id = $(list).find('#num'+id).html();
+    //     let key = $('#t_search').val(); // scan barcode
+    //     let shopid = $('#shopid').attr('value'); // shop id
+    //     let real_price = $('#price'+id).attr("real_price");
+    //     //console.log(search_id);
+
+    //     //let list_prod = $('#list_product').html();
+
+    //     if(search_id){
+    //         let num = parseInt(search_id) + parseInt(pnum);
+    //         let sum_p = parseFloat(real_price.replace(",", "")) * parseInt(num);
+
+    //         $('#price'+id).html(addCommas(sum_p));
+    //         $('#h_price'+id).val(sum_p);
+    //         $('#num'+id).html(num);
+    //         $('#h_num'+id).val(num);
+    //         //alert('เพิ่มสินค้าแล้ว');
+    //         //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
+                
+    //         sum_total(id);
+    //         clear_all();
+
+    //     }else{
+
+    //         if(key){
+    //             let path = app.url+'/pos/read-barcode/'+key+'/'+shopid;
+    //             let pp = path.toString();
+    //             $.get(pp, function(txt){
+    //                 list += txt;
+    //                 $('#list_body').html(list);
+
+    //                 sum_total(id);
+    //                 clear_all();
+    //             })
+    //         }else{
+    //             $.get(pid, function(txt){
+    //                 list += txt;
+    //                 $('#list_body').html(list);
+
+    //                 //alert('เพิ่มสินค้าแล้ว');
+    //                 //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
+                    
+    //                 sum_total(id);
+    //                 clear_all();
+    //             })
+    //         }
+
+
+            
+    //     }
+
+    // }
 
     // รวมเงิน
     function sum_total(id)
@@ -70,7 +122,16 @@
         let sumcash = $('#sum_cash').html().replace(",", "");
         let price = $('#price'+id).html().replace(",", "");
         let total = parseFloat(sumcash) + parseFloat(price);
-        $('.sum_cash').html(addCommas(total));
+        $('.sum_cash').html(addCommas(total.toFixed(2)));
+    }
+
+    // รวมเงินเพิ่มใหม่
+    function sum_total_new(id, oprice, nprice)
+    {
+        let sumcash = $('#sum_cash').html().replace(",", "");
+        //let price = $('#price'+id).html().replace(",", "");
+        let total = parseFloat((sumcash - oprice) + nprice);
+        $('.sum_cash').html(addCommas(total.toFixed(2)));
     }
 
     // เพิ่มคอมม่าในจำนวนเงิน
@@ -104,11 +165,11 @@
     function del_one(pssn)
     {
         if(confirm('ยืนยันการลบ')){
-            let pnum = $('#num'+pssn).html();
-            let pprice = $('#price'+pssn).html();
-            let sumcash = $('#sum_cash').html().replace(",","");
-            let total = parseFloat(sumcash) - (parseFloat(pnum) * parseFloat(pprice));
-            $('.sum_cash').html(addCommas(total));
+            let pnum = $('#num'+pssn).html();  //  จำนวนของรายการที่จะลบ
+            let pprice = $('#price'+pssn).html().replace(",","");  //  ราคาของรายการที่จะลบ
+            let sumcash = $('#sum_cash').html().replace(",","");  //  จำนวนเงินรวม
+            let total = parseFloat(sumcash) - parseFloat(pprice);
+            $('.sum_cash').html(addCommas(total.toFixed(2)));
             //console.log(pnum);
 
             let tr = $('#num'+pssn).closest('tr');
