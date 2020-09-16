@@ -11,6 +11,25 @@ class Order extends Model
     //protected $primaryKey = ['id', 'shop_id'];
     public $timestamps =false;
     public $incrementing=false;
+
+    protected static $label_status = [
+        0 => 'ยกเลิก',
+        1 => 'สั่งซื้อ',
+        2 => 'ยืนยันคำสั่งซื้อ',
+        3 => 'ดำเนินการจัดส่ง',
+        4 => 'จัดส่งเรียบร้อย',
+        5 => 'รอการโอนเงิน',
+        6 => 'รอตรวจสอบการโอนเงิน',
+    ];
+    protected static $color_status = [
+        0 => 'danger',
+        1 => 'info',
+        2 => 'primary',
+        3 => 'warning',
+        4 => 'success',
+        5 => 'secondary',
+        6 => 'primary',
+    ];
     public function shop(){
         return $this->hasOne('\App\Models\Shop','id','shop_id');
     }
@@ -31,6 +50,7 @@ class Order extends Model
             
             return '<span class="badge badge-info">รอยืนยันการสั่งซื้อ</span>';
         }
+        // return $label_status[$this->status];
     }
     // public function items(){
     //     return $this->hasMany('\App\Models\OrderItem','order_id','id');
@@ -44,27 +64,13 @@ class Order extends Model
         return $delivery;
     }
     public function get_user_status_badge(){
-        if($this->status==1)
-        {
-            if($this->payment_type==2)
-            return '<span class="badge badge-secondary">รอการโอนเงิน</span>';
-            
-            return '<span class="badge badge-info">รอยืนยันการสั่งซื้อ</span>';
-        }
+        
+        return self::$label_status[$this->status];
     }
     public function get_status_show()
     {
         // dd($r->all());
-        if($this->status == 1)
-            return '<span class="badge badge-info">สั่งซื้อ</span>';
-        else if($this->status == 2)
-            return '<span class="badge badge-primary">ยืนยัน</span>';
-        else if($this->status == 3)
-            return '<span class="badge badge-warning">จัดส่ง</span>';
-        else if($this->status == 4)
-            return '<span class="badge badge-success">เสร็จสิ้น</span>';
-        else
-            return '<span class="badge badge-danger">ยกเลิก</span>';
+        return '<span class="badge badge-'.self::$color_status[$this->status].'">'.self::$label_status[$this->status].'</span>';
     }
     public function delivery_update()
     {

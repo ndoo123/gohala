@@ -33,7 +33,7 @@ class AAccountController extends Controller
       $data['user']=\Auth::user();
       $data['address']=\Auth::user()->address;
       $data['provinces']=\DB::table('province_tb')->get();
-      $data['orders']=Order::where("buyer_user_id",\Auth::user()->id)->get();
+      $data['orders']=Order::where("buyer_user_id",\Auth::user()->id)->orderBy('order_date','desc')->get();
       
       $data['op'] = !empty($r->op)?$r->op:null;
       // $data['asdf'] = \Auth::user();

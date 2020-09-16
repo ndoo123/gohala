@@ -255,7 +255,7 @@
                                                 
                                             </div>
                                             <div class="tab-pane p-3 <?=($op == "myorder")?'active':null?>" id="order" role="tabpanel">
-                                                <table class="table table-hover">
+                                                <table class="table table-hover" id="order_table">
                                                     <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -270,8 +270,8 @@
                                                         <tr>
                                                             <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->id;?></td>
                                                             <td class="order_detail" order_id="{{ $order->id }}"><?php echo date('d/m/Y H:i:s',strtotime($order->order_date));?></td>
-                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->total+$order->total_delivery;?></td>
-                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->get_user_status_badge();?></td>
+                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo number_format($order->total+$order->total_delivery,2);?></td>
+                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->get_status_show();?></td>
                                                             <td></td>
                                                         </tr>
                                                         <?php endforeach;?>
@@ -395,6 +395,14 @@
         <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
         <script src="<?php echo url('assets/account/js/account.js');?>"></script>
         <script src="<?php echo url('assets/modal/order_detail.js');?>"></script>
+        <script>
+            $("#order_table").DataTable({
+                order: [[1, 'desc']],
+                "columnDefs": [
+                { "type": "date-de", targets: 1 }
+                ],
+            });
+        </script>
     </body>
 
 </html>

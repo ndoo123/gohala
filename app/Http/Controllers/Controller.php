@@ -82,6 +82,9 @@ class Controller extends BaseController
             return !empty($order->delivery) && !empty($order->delivery->name) ? $order->delivery->name : 'ไม่พบข้อมูล';
             // return $order->delivery->name ? $order->delivery->name : null;
         })
+        ->editColumn('total',function($order){
+            return number_format($order->total+$order->total_delivery,2);
+        })
         ->addColumn('actions',function($order){
             $action = '';
             $button = '';
