@@ -168,6 +168,7 @@
                                             <?php echo  csrf_field() ; ?>
                                             <input type="hidden" name="h_total" id="h_total" value="">
                                             <input type="hidden" name="h_amount" id="h_amount" value="">
+                                            <input type="hidden" name="h_discount" id="h_discount" value="">
                                     <table class="table table-striped mb-0">
 
                                         <thead>
@@ -250,6 +251,20 @@
                                     <div class="col-6">
 
                                         <div class="form-group row">
+                                            <label class="col-sm-6 col-form-label" >ยอดเงินรวม</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control sum_cash text-right text-primary" value="" readonly id="sumprice" name="sumprice" >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-6 col-form-label" >ส่วนลด</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control sum_cash text-right text-primary" value="0" readonly id="discounttotal" name="discounttotal" >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
                                             <label class="col-sm-6 col-form-label" >ยอดเงินที่ต้องชำระ</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control sum_cash text-right text-primary" value="" readonly id="pricetotal" name="pricetotal" >
@@ -290,6 +305,10 @@
                                     </div>
                                     <div class="col-6">
 
+                                        <div class="form-group">
+                                            <label for="getdiscount">ส่วนลด</label>
+                                            <input type="decimal" class="form-control getmoney text-right" onkeyup="discount()"  id="discount" name="discount" maxlength="11" value="0">
+                                        </div>
 
                                         <div class="form-group mb-2">
                                             <label for="">ชำระโดยเงินสด</label>

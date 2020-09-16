@@ -58,64 +58,6 @@
     }
 
 
-    // เพิ่มรายการสินค้าลงตารางขาย โดยคลิกจากภาพสินค้า / t_search
-    // function click_product(id,pnum)
-    // {
-    //     //alert(id);
-    //     let pid = $('#pid'+id).attr("get_product");
-    //     let list = $('#list_body').html();
-    //     let search_id = $(list).find('#num'+id).html();
-    //     let key = $('#t_search').val(); // scan barcode
-    //     let shopid = $('#shopid').attr('value'); // shop id
-    //     let real_price = $('#price'+id).attr("real_price");
-    //     //console.log(search_id);
-
-    //     //let list_prod = $('#list_product').html();
-
-    //     if(search_id){
-    //         let num = parseInt(search_id) + parseInt(pnum);
-    //         let sum_p = parseFloat(real_price.replace(",", "")) * parseInt(num);
-
-    //         $('#price'+id).html(addCommas(sum_p));
-    //         $('#h_price'+id).val(sum_p);
-    //         $('#num'+id).html(num);
-    //         $('#h_num'+id).val(num);
-    //         //alert('เพิ่มสินค้าแล้ว');
-    //         //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
-                
-    //         sum_total(id);
-    //         clear_all();
-
-    //     }else{
-
-    //         if(key){
-    //             let path = app.url+'/pos/read-barcode/'+key+'/'+shopid;
-    //             let pp = path.toString();
-    //             $.get(pp, function(txt){
-    //                 list += txt;
-    //                 $('#list_body').html(list);
-
-    //                 sum_total(id);
-    //                 clear_all();
-    //             })
-    //         }else{
-    //             $.get(pid, function(txt){
-    //                 list += txt;
-    //                 $('#list_body').html(list);
-
-    //                 //alert('เพิ่มสินค้าแล้ว');
-    //                 //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
-                    
-    //                 sum_total(id);
-    //                 clear_all();
-    //             })
-    //         }
-
-
-            
-    //     }
-
-    // }
 
     // รวมเงิน
     function sum_total(id)
@@ -187,14 +129,6 @@
             clear_all();
         }
     })
-
-    // $('#t_search').on('keydown',function(e){
-    //     if(e.which == 8){
-    //         console.log('ลบ');
-    //         $('#t_sku').val(''); 
-    //         $('#t_pid').val('');
-    //     }
-    // })
 
 
     // รับข้อมูลจากช่อง barcode
@@ -302,6 +236,7 @@
 
         // รวมเงิน
         $('#pricetotal').val(total_pay);
+        $('#sumprice').val(total_pay);
 
         // รวมเงินที่ต้องชำระ
         $("#pricetotal_all").val(addCommas(total_pay));
@@ -346,6 +281,24 @@
 
         let total = parseFloat(pay) + parseFloat(freepay);
         $('#t_credit_total').val(total);
+    }
+
+    function discount()
+    {
+        let disc = $("#discount").val(); // ใส่จำนวนส่วนลด
+
+        $("#discounttotal").val(addCommas(disc));
+        $("#h_discount").val(disc);
+        real_total();
+    }
+
+    function real_total()
+    {
+        let disc = $("#discounttotal").val().replace(",", ""); // ส่วนลด
+        let price = $("#sumprice").val().replace(",", "");  // ยอดเงินรวม
+        let sumprice = parseFloat(price) - parseFloat(disc);
+
+        $("#pricetotal").val(addCommas(sumprice));
     }
 
     function torn()
@@ -468,13 +421,18 @@
     function click_cat(id)
     {
         let catid = $('#btncat'+id).attr("get_cat");
+        // let shopid = $('#shopid').attr('value'); // shop id
+        // let path = app.url+'/pos/readData/'+id+'/'+shopid;
+
+        console.log(catid);
+
         $('.btn-cat').attr('class','btn btn-outline-primary waves-effect waves-light btn-cat');
         $('#btncat'+id).attr('class','btn btn-primary waves-effect waves-light btn-cat');
+
         $.get(catid, function(data){
             $('#block-product').empty().html(data);
         });
         
-        console.log(catid);
     }
 
 
