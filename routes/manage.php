@@ -28,6 +28,8 @@ Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],funct
     Route::post('/order_cancel', "MShopController@order_cancel");
     Route::post('/update_order_status', "MShopController@update_order_status");
     Route::post('/update_trace', "MShopController@update_trace");
+
+    // Product
     Route::get('products', "MShopController@product_list");
     Route::get('products/datatables', "MShopController@product_datatables");
     Route::post('products/update_position', "MShopController@product_update_position");

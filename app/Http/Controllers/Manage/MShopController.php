@@ -580,7 +580,8 @@ class MShopController extends Controller
         // dd($products);
         return Datatables::of($products)
         ->editColumn('name',function($products){
-            $cats=mb_substr($products->c_name,0,2);
+            $cats=$products->c_name;
+            // $cats=mb_substr($products->c_name,0,2);
             $name = $products->p_name;
             $str = '<span class="text-muted">'.$cats.'</span>';
             return $name.'<br>'.$str;
