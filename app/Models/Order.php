@@ -42,6 +42,9 @@ class Order extends Model
     public function buyer(){
         return $this->belongsTo('\App\Models\User','buyer_user_id');
     }
+    public function payment(){
+        return $this->belongsTo('\App\Models\Payment','payment_type');
+    }
     public function get_status_badge(){
         if($this->status==1)
         {

@@ -77,7 +77,7 @@
 					</div>
 					<div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
 						<div class="custom-search-input">
-							<input type="text" id="search_product" name="search_product" placeholder="Search over 10.000 products" value="{{ !empty($search)?$search:null }}">
+							<input type="text" id="search_product" name="search_product" placeholder="Search products" value="{{ !empty($search)?$search:null }}">
 							<button type="submit" id="btn_search"><i class="header-icon_search_custom"></i></button>
 						</div>
 					</div>

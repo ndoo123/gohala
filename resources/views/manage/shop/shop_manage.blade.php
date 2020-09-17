@@ -1,6 +1,6 @@
 @extends('manage.master_manage')
 @section('title')
-สรุปผลรวมของร้าน | <span style="color:blue"><?php echo $shop->name;?></span>
+รายการประจำวันของร้าน | <span style="color:blue"><?php echo $shop->name;?></span>
 @stop
 @section('content')
 <input type="hidden" name="url" id="url" value="{{ $url }}">

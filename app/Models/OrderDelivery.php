@@ -11,7 +11,9 @@ class OrderDelivery extends Model
     public $timestamps =false;
     public $incrementing=false;
 
-
+    public function province(){
+        return $this->belongsTo('\App\Models\Province','province_id');
+    }
     // protected function setKeysForSaveQuery(Builder $query)
     // {
     //     $query

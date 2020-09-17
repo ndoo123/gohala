@@ -114,7 +114,7 @@ class Cart{
         if(Session::get('cart')){
             
             $cart=Session::get('cart');
-
+            // dd($cart);
             if($shop_id!=null)
             {
                 if(isset($cart[$shop_id]))

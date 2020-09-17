@@ -12,6 +12,8 @@
 
 <?php
 foreach($basket as $b):?>
+{{-- {{ dd($b) }} --}}
+
 <div class="card" style="margin-bottom:15px;margin-top:15px">
     <div class="card-body">
      <h3 style="margin-bottom:15px"><?php echo $b['name'];?>
@@ -55,6 +57,7 @@ foreach($basket as $b):?>
                 <div class="thumb_cart">
                     <img src="<?php echo $item['img'];?>" data-src="<?php echo $item['img'];?>" class="lazy" alt="<?php echo $item['name'];?>">
                 </div>
+                
                 <span class="item_cart"><?php echo $item['name'];?></span>
             </td>
 

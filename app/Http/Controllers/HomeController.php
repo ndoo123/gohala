@@ -26,9 +26,7 @@ class HomeController extends Controller
         // $data['show_menu']=0;
         return view('web.promote');
     }
-    public function email_admin(){
-        // $data['categories']=ProductCategory::all();
-        // $data['show_menu']=0;
+    public function email_admin(Request $r){
         return view('web.home.email_admin');
     }
     public function category(Request $r)
@@ -281,6 +279,27 @@ class HomeController extends Controller
             $deli->phone=$r->phone;
             $deli->save();
 
+            $shop = Shop::find($order->shop_id);
+            $owner = $shop->user;
+            $items = OrderItem::where('order_id',$order->id)->get();
+            $mail = [];
+            $mail['order'] = $order; 
+            $mail['shop'] = $shop;
+            $mail['deli'] = $deli;
+            $mail['owner'] = $owner;
+            $mail['items'] = $items;
+            // dd('order',$order->toArray(),'shop',$shop->toArray(),'deli',$deli->toArray(),'owner',$owner,'items',$items->toArray(),\LKS::url_subdomain2('manage',$shop->url));
+            // return view('email.order_admin',$mail);
+            // dd($mail,$mail['owner']->email);
+            \Mail::send('email.order_admin', $mail , function($message) use ($mail)
+            {
+                $message->from(env('MAIL_USERNAME'),"Gohala Order" );
+                $message->to($mail['owner']->email, 'M&M')->subject('You have New Order!');
+
+            });
+
+            
+
             \DB::commit();
 
             Cart::clear_shop($order->shop_id);
@@ -295,8 +314,6 @@ class HomeController extends Controller
             \DB::rollback();
             return redirect()->back()->with('error',$e->getMessage());
         }
-
-        // dd($order->toArray());
         return redirect('/order/status')->with('order',$order->toArray());
 
 

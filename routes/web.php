@@ -11,43 +11,40 @@
 |
 */
 
-Route::get('bert',function(){
-  try {
-    // dd(env('MAIL_HOST'),env('MAIL_USERNAME'),env('MAIL_PASSWORD'));
-    $email = "bot_laster@hotmail.com";
-            $mail = new \PHPMailer(true);
-            $mail->isSMTP(true); // tell to use smtp
-            $mail->CharSet = "utf-8"; // set charset to utf8
-            $mail->SMTPAuth = true; // use smpt auth
-            $mail->IsHTML(true);
-            $mail->SMTPSecure = "tsl"; // or ssl
-            $mail->Host = env('MAIL_HOST');
-            $mail->Port = "25";
-            $mail->Username = env('MAIL_USERNAME');
-            $mail->Password = env('MAIL_PASSWORD');
-            $mail->setFrom(env('MAIL_USERNAME'), 'Programmer /bert');
-            $mail->Subject = 'Test Send mail';
-            $mail->SMTPOptions = array(
-                'ssl' => array(
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                )
-            );
-            // $mail->MsgHTML($template);
-            $mail->addAddress($email);
-            $mail->Body = $email;
-            $mail->send();
-        // } catch (phpmailerException $e) {
-        //     \Log::info('phpmailer:Exception:' . json_encode($e->getMessage()));
-        //     dd(1,$e);
-        } catch (Exception $e) {
-            \Log::info('mail:Exception:' . json_encode($e->getMessage()));
-            dd(2,$e);
-        }
-        dd(123);
-        return true; 
-});
+// Route::get('bert',function(){
+//   try {
+//     // dd(env('MAIL_HOST'),env('MAIL_USERNAME'),env('MAIL_PASSWORD'));
+//     $email = "bot_laster@hotmail.com";
+//             $mail = new \PHPMailer(true);
+//             $mail->isSMTP(true); // tell to use smtp
+//             $mail->CharSet = "utf-8"; // set charset to utf8
+//             $mail->SMTPAuth = true; // use smpt auth
+//             $mail->IsHTML(true);
+//             $mail->SMTPSecure = "tsl"; // or ssl
+//             $mail->Host = env('MAIL_HOST');
+//             $mail->Port = "25";
+//             $mail->Username = env('MAIL_USERNAME');
+//             $mail->Password = env('MAIL_PASSWORD');
+//             $mail->setFrom(env('MAIL_USERNAME'), 'Programmer /bert');
+//             $mail->Subject = 'Test Send mail';
+//             $mail->SMTPOptions = array(
+//                 'ssl' => array(
+//                     'verify_peer' => false,
+//                     'verify_peer_name' => false,
+//                     'allow_self_signed' => true
+//                 )
+//             );
+//             // $mail->MsgHTML($template);
+//             $mail->addAddress($email);
+//             $mail->Body = $email;
+//             $mail->send();
+//         } catch (Exception $e) {
+//             \Log::info('mail:Exception:' . json_encode($e->getMessage()));
+//             dd(2,$e);
+//         }
+//         dd(123);
+//         return true; 
+// });
 Route::get('testmail',function(){
    \Mail::send([], [], function ($message){
 

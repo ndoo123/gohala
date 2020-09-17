@@ -29,7 +29,16 @@ var table_order = $('#table_order').DataTable({
                 $(this).attr('order_id', data.id); 
             }
         });
-    }
+    },
+    // "drawCallback": function( settings ) {
+        // console.log(settings);
+        // var api = this.api();
+ 
+        // Output the data for the visible rows to the browser's console
+        // console.log( api.rows( {page:'current'} ).data() );
+        // console.log( api.rows( {page:'current'} ).data()[0] );
+
+    // },
 });
 function datatables()
 {
