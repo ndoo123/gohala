@@ -25,8 +25,15 @@ $(document).on('click','button.remove_shop_from_cart',function(){
 $(document).on('click','a.qty_remove',function(){
     $(this).closest('tr').find('input.qty2.qty').val(0).change();
 });
-$(document).on('click','div.button_inc',function(){
-   $(this).closest('div.numbers-row').find('input.qty2.qty').change();
+$(document).on('click','div.button_inc',function(event){
+    var input = $(this).closest('div.numbers-row').find('input.qty2.qty');
+    if(input.val() == 0)
+    {
+        input.val(1);
+        // alert('ฟหกด');
+    }
+    $(this).closest('div.numbers-row').find('input.qty2.qty').change();
+   
 //    console.log($(this));
 });
 $(document).on('change','input.qty2.qty',function(){
