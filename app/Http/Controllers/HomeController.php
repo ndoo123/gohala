@@ -284,13 +284,30 @@ class HomeController extends Controller
             $items = OrderItem::where('order_id',$order->id)->get();
             $mail = [];
             $mail['order'] = $order; 
+            $mail['buyer'] = $order->buyer;
             $mail['shop'] = $shop;
             $mail['deli'] = $deli;
             $mail['owner'] = $owner;
             $mail['items'] = $items;
-            // dd('order',$order->toArray(),'shop',$shop->toArray(),'deli',$deli->toArray(),'owner',$owner,'items',$items->toArray(),\LKS::url_subdomain2('manage',$shop->url));
+            $mail['payment'] = 
+            \DB::table('shop_payment_tb as cat')
+            ->join('shop_tb as s', 's.id','=','cat.shop_id')
+            ->join('payment_method_tb as m','m.id','=','cat.method_id')
+            ->where('shop_id',$mail['shop']->id)
+            ->where('method_id',$order->payment->id)
+            ->where('is_checked',1)
+            ->first();
+            $mail['payment_data'] = $mail['payment']->payment_data ? json_decode(json_decode($mail['payment']->payment_data)) : null;
+            // dd('order',$order->toArray(),'shop',$shop->toArray(),'deli',$deli->toArray(),'owner',$owner->toArray(),'buyer',$mail['buyer']->toArray(),'items',$items->toArray(),\LKS::url_subdomain2('manage',$shop->url),$mail['payment_data']);
+            // return view('email.order_customer',$mail);
             // return view('email.order_admin',$mail);
             // dd($mail,$mail['owner']->email);
+            \Mail::send('email.order_customer', $mail , function($message) use ($mail)
+            {
+                $message->from(env('MAIL_USERNAME'),"Gohala Order" );
+                $message->to($mail['buyer']->email, 'M&M')->subject('You have New Order!');
+            });
+
             \Mail::send('email.order_admin', $mail , function($message) use ($mail)
             {
                 $message->from(env('MAIL_USERNAME'),"Gohala Order" );

@@ -323,8 +323,61 @@
                                                     <!--[if mso]></td></tr></table><![endif]-->
                                                 </td>
                                             </tr>
+                                            @if ($order->payment->id == 2)
+                                            <tr>
+                                                <td class="esd-structure es-p15t es-p10b es-p10r es-p10l" style="background-color: #f8f8f8;" esd-general-paddings-checked="false" bgcolor="#eeeeee" align="left">
+                                                    <table width="100%" cellspacing="0" cellpadding="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="esd-container-frame" width="580" valign="top" align="center">
+                                                                    <table width="100%" cellspacing="0" cellpadding="0">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="esd-block-text" align="center">
+                                                                                    <h2 style="color: #191919;">
+                                                                                        วิธีชำระเงินโดยการโอน
+                                                                                    </h2>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
                                             <tr>
                                                 <td class="esd-structure es-p25t es-p30b es-p20r es-p20l" esd-general-paddings-checked="false" style="background-color: #f8f8f8;" bgcolor="#f8f8f8" align="left">
+                                                    
+                                                    <table class="es-center" cellspacing="0" cellpadding="0" align="center">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="esd-container-frame" width="100%" align="left">
+                                                                    <table width="100%" cellspacing="0" cellpadding="0" style="padding: 0px 10px;text-align:center">
+                                                                        <tbody>
+                                                                            @if ($payment_data)
+                                                                                @foreach ($payment_data as $p)
+                                                                            <tr>
+                                                                                <td class="esd-block-text" align="left">
+                                                                                    <p><strong>ธนาคาร: </strong>{{ $p->bank_name }}</p>
+                                                                                    <p><strong>ชื่อบัญชี: </strong>{{ $p->account_name }}</p>
+                                                                                    <p><strong>หมายเลขบัญชี: </strong>{{ $p->account_no }}</p>
+                                                                                </td>
+                                                                            </tr>
+                                                                                @endforeach
+                                                                            @endif
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </td>
+                                            </tr>
+                                            @endif
+                                            <tr>
+                                                <td class="esd-structure es-p25t es-p30b es-p20r es-p20l" esd-general-paddings-checked="false" style="background-color: #eeeeee;" bgcolor="#f8f8f8" align="left">
                                                     <!--[if mso]><table width="560" cellpadding="0" cellspacing="0"><tr><td width="270" valign="top"><![endif]-->
                                                     <table class="es-left" cellspacing="0" cellpadding="0" align="left">
                                                         <tbody>
