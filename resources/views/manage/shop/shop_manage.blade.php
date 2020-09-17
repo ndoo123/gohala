@@ -46,29 +46,29 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-    <div class="card">
-    <div class="card-body">
-        <h4 class="mt-0 header-title"><?php echo __('view.order_list');?>
-        <a href="{{ $url.'/all' }}" class="btn btn-sm btn-primary float-right" style="margin-top:-10px"><?php echo __('view.order_all');?></a>
-        </h4>
-        <div class="table-responsive">
-            <table class="table table-hover mb-0 bg-light" id="table_order" remote_url="{{ $remote_url }}">
-                <thead>
-                    <tr>
-                        <th width="100px">#</th>
-                        <th width="200px"><?php echo __('view.order_date');?></th>
-                        <th><?php echo __('view.order_by');?></th>
-                        <th width="50px"><?php echo __('view.qty');?></th>
-                        <th width="100px"><?php echo __('view.total');?></th>
-                        <th width="100px"><?php echo __('view.status');?></th>
-                        <th width="400px"></th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="mt-0 header-title"><?php echo __('view.order_list');?>
+                <a href="{{ $url.'/all' }}" class="btn btn-sm btn-primary float-right" style="margin-top:-10px"><?php echo __('view.order_all');?></a>
+                </h4>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 bg-light" id="table_order" remote_url="{{ $remote_url }}">
+                        <thead>
+                            <tr>
+                                <th width="100px">#</th>
+                                <th width="200px"><?php echo __('view.order_date');?></th>
+                                <th><?php echo __('view.order_by');?></th>
+                                <th width="50px"><?php echo __('view.qty');?></th>
+                                <th width="100px"><?php echo __('view.total');?></th>
+                                <th width="100px"><?php echo __('view.status');?></th>
+                                <th width="400px"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
 
-    </div>
-</div>
+            </div>
+        </div>
     </div>
 </div>
 

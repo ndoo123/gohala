@@ -303,7 +303,7 @@ class MShopController extends Controller
                     ->orderBy('created_at', 'desc')
                     ->get();
         $data['summary']=(object)array(
-            "order"=>\DB::table('order_tb')->where('shop_id',$r->shop->id)->count(),
+            "order"=>\DB::table('order_tb')->where('shop_id',$r->shop->id)->whereNotIn('status',[0,4])->count(),
             "product"=>\DB::table('product_tb')->where('shop_id',$r->shop->id)->count(),
             "profit"=>0
        );
@@ -325,7 +325,8 @@ class MShopController extends Controller
     
        $order = Order::where('shop_id',$r->shop->id)
        ->whereDate('order_date',date('Y-m-d'))
-       ->where('status',4)
+       ->where('status','!=',0)
+    //    ->where('status',4)
        ->select(DB::raw('total + total_delivery as sum_total,total,total_delivery'))
        ->sum(DB::raw('total + total_delivery')); // ราคาขาย รวมราคาส่ง
     //    ->sum('total'); // เฉพาะราคาขาย

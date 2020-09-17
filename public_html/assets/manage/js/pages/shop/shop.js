@@ -35,21 +35,16 @@ var table_order = $('#table_order').DataTable({
             }
         });
     },
-    // "drawCallback": function( settings ) {
-        // console.log(settings);
-        // var api = this.api();
- 
-        // Output the data for the visible rows to the browser's console
-        // console.log( api.rows( {page:'current'} ).data() );
-        // console.log( api.rows( {page:'current'} ).data()[0] );
-
-    // },
+    "drawCallback": function( settings ) {
+        profit();
+    },
 });
 function datatables()
 {
     setInterval(function(){ 
         // alert("Hello"); 
         table_order.ajax.reload(null, false);
+
     }, 5000);
     // table_order.ajax.reload();
 }
