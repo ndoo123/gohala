@@ -11,7 +11,7 @@
 </div>
 <div class="row">
     <div class="col-lg-4">
-        <div class="card mini-stat bg-pattern">
+        <div class="card mini-stat bg-pattern goto" type="button" goto="{{ $url.'/products' }}">
             <div class="card-body mini-stat-img">
                 <div class="mini-stat-icon">
                     <i class="dripicons-broadcast bg-soft-primary text-primary float-right h4"></i>
@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="card mini-stat bg-pattern">
+        <div class="card mini-stat bg-pattern goto" type="button" goto="{{ $url.'/all' }}">
             <div class="card-body mini-stat-img">
                 <div class="mini-stat-icon">
                     <i class="dripicons-box bg-soft-primary text-primary float-right h4"></i>
@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="card mini-stat bg-pattern">
+        <div class="card mini-stat bg-pattern" type="button">
             <div class="card-body mini-stat-img">
                 <div class="mini-stat-icon">
                     <i class="dripicons-tags bg-soft-primary text-primary float-right h4"></i>

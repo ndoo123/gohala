@@ -2,7 +2,12 @@ $(document).ready(function(){
     profit();
     datatables();
 });
-
+$(document).on('click','.goto',function(){
+    if($(this).attr('goto') !== undefined)
+    {
+        location.href = $(this).attr('goto');
+    }
+});
 var table_order = $('#table_order').DataTable({
     serverSide: true,
     processing: false,
