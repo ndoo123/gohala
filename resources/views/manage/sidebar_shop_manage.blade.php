@@ -21,21 +21,55 @@
                     </li>
                     <li class="menu-title">จัดการ</li>
                     
-                 
+                    <?php
+                        // $last = explode("/",url()->current());
+                        // $last = end($last);
+                    ?>
+                    {{-- {{ dd(url()->full(),url()->current()) }} --}}
                     <!-- <li class="menu-title">จัดการ</li> -->
+                    {{-- {{ request()->is("$last/products") || request()->is("$last/categories") ? 'mm-active' : '' }} --}}
                     <li>
                         <a href="<?php echo url($shop->url);?>" class="waves-effect">
                             <i class="ti-home"></i> <span> <?php echo __('menu.dashboard');?>  </span>
                         </a>
                     </li>
-                    <li class="mm-active">
-                        <a href="javascript: void(0);" class="has-arrow waves-effect mm-active">
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect ">
                             <i class="ti-pie-chart"></i>
                             <span>ข้อมูลสินค้า</span>
                         </a>
-                        <ul class="sub-menu mm-collapse mm-show" aria-expanded="false">
-                            <li><a href="<?php echo url($shop->url.'/products');?>"><?php echo __('menu.product');?></a></li>
-                            <li><a href="<?php echo url($shop->url.'/categories');?>">หมวดหมู่สินค้า</a></li>
+                        <ul class="sub-menu mm-collapse" aria-expanded="false">
+                            <li >
+                                <a 
+                                href="<?php echo url($shop->url.'/products');?>">
+                                    <?php echo __('menu.product');?>
+                                </a>
+                            </li>
+                            <li >
+                                <a href="<?php echo url($shop->url.'/categories');?>">
+                                    หมวดหมู่สินค้า
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect ">
+                            <i class="ti-package"></i>
+                            <span>จัดการการสั่งซื้อ</span>
+                        </a>
+                        <ul class="sub-menu mm-collapse" aria-expanded="false">
+                            <li >
+                                <a href="<?php echo url($shop->url.'/order');?>">
+                                    ทั้งหมด
+                                </a>
+                            </li>
+                            @foreach(App\Models\Order::$label_status as $l_key => $l)
+                            <li >
+                                <a href="{{ url($shop->url.'/order/'.$l_key) }}">
+                                    {{ $l }}
+                                </a>
+                            </li>
+                            @endforeach
                         </ul>
                     </li>
                     <li>
@@ -49,7 +83,6 @@
             </div>
             <!-- Sidebar -->
             <div class="clearfix"></div>
-
         </div>
         <!-- Sidebar -left -->
 

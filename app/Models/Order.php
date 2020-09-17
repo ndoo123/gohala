@@ -12,7 +12,7 @@ class Order extends Model
     public $timestamps =false;
     public $incrementing=false;
 
-    protected static $label_status = [
+    public static $label_status = [
         0 => 'ยกเลิก',
         1 => 'สั่งซื้อ',
         2 => 'ยืนยันคำสั่งซื้อ',

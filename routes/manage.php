@@ -46,6 +46,9 @@ Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],funct
     Route::post('categories/delete/json','MShopController@shop_categories_delete_json');
     Route::post('categories/update/active/json','MShopController@shop_categories_active_json');
 
+    // Order
+    Route::get('order','MOrderController@index');
+    Route::get('order/{order_status}','MOrderController@index');
     
     Route::get('setting_shop', 'MShopController@setting_shop');
     

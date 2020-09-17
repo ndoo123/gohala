@@ -68,16 +68,22 @@ class MShopController extends Controller
    //SHOP MAnage
     public function product_save(Request $r)
     {
-       
+        /* dd(preg_match('/[\/\'^£$%&*()}{@#~?><>"\\\.!,|=_+¬-]/', $r->sku) , 
+        preg_match('/[\/\'^£$%&*()}{@#~?><>"\\\.!,|=_+¬-]/', $r->barcode)); */
         if(!isset($r->name)||$r->name==""||!isset($r->price)||!isset($r->qty)||!isset($r->sku)||$r->sku=="")
         return LKS::o(0,__('view.require_data'));
 
+        if(preg_match('/[\/\'^£$%&*()}{@#~?><>"\\\.!,|=_+¬-]/', $r->sku) || preg_match('/[\/\'^£$%&*()}{@#~?><>"\\\.!,|=_+¬-]/', $r->barcode))
+            return LKS::o(0,'ห้ามมีอักขระพิเศษ');
+            
+        if(!preg_match('/^[a-z0-9]+$/i',$r->sku) || !preg_match('/^[a-z0-9]+$/i', $r->barcode))
+            return LKS::o(0,'ห้ามเป็นภาษาไทย');
         $r->price=str_replace(',','',$r->price);
         $r->qty=str_replace(',','',$r->qty);
         $r->discount_amount=str_replace(',','',$r->discount_amount);
         $r->name=trim($r->name);
 
-     
+
         if(isset($r->product_id))//Update Product
         {
             $p=Product::where("id",$r->product_id)->first();

@@ -1,6 +1,7 @@
 @extends('manage.master_manage')
 @section('title')
-ออเดอร์ทั้งหมดของร้าน | <span style="color:blue"><?php echo $shop->name;?></span>
+{{-- ออเดอร์ทั้งหมดของร้าน | <span style="color:blue">{{ $shop->name }}</span> --}}
+<?php echo $label ?>
 @stop
 @section('content')
 <input type="hidden" name="url" id="url" value="{{ $url }}">
