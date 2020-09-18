@@ -63,6 +63,11 @@
 				<div class="col-lg-6">
 					<ul class="footer-selector clearfix">
 						<li>
+							<a href="{{ $shop->get_url() }}">
+								<img src="{{ url('').'/assets/images/logo-dark.png' }}" data-src="{{ url('').'/assets/images/logo-dark.png' }}" alt="" height="50" class="lazy" style="background: white;border-radius: 5px">
+							</a>
+						</li>
+						<li>
 							<div class="styled-select lang-selector">
 								<select>
 									<option value="English" selected>English</option>
@@ -80,7 +85,7 @@
 								</select>
 							</div>
 						</li>
-						<li><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="img/cards_all.svg" alt="" width="198" height="30" class="lazy"></li>
+						{{-- <li><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="img/cards_all.svg" alt="" width="198" height="30" class="lazy"></li> --}}
 					</ul>
 				</div>
 				<div class="col-lg-6">

@@ -255,15 +255,15 @@
                                                 
                                             </div>
                                             <div class="tab-pane p-3 <?=($op == "myorder")?'active':null?>" id="order" role="tabpanel">
-                                                <table class="table table-hover" id="order_table">
+                                                <table class="table table-hover" id="table_order" remote_url="{{ $url.'/user_order_datatables' }}">
                                                     <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>วันที่สั่งซื้อ</th>
-                                                        <th>ยอดรวม</th>
-                                                        <th>สถานะ</th>
-                                                        <th></th>
-                                                    </tr>
+                                                        <tr>
+                                                            <th>{{ __('view.order_id') }}</th>
+                                                            <th>วันที่สั่งซื้อ</th>
+                                                            <th>ยอดรวม</th>
+                                                            <th>สถานะ</th>
+                                                            <th></th>
+                                                        </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php foreach($orders as $order):?>
@@ -272,7 +272,17 @@
                                                             <td class="order_detail" order_id="{{ $order->id }}"><?php echo date('d/m/Y H:i:s',strtotime($order->order_date));?></td>
                                                             <td class="order_detail" order_id="{{ $order->id }}"><?php echo number_format($order->total+$order->total_delivery,2);?></td>
                                                             <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->get_status_show();?></td>
-                                                            <td></td>
+                                                            <td>
+                                                                <?php
+                                                                $button = '';
+                                                                if($order->status == 5)
+                                                                {
+                                                                    $button = '<button type="button" class="btn btn-sm btn-primary">แจ้งโอนเงิน</button>';
+                                                                }
+                                                                
+                                                                echo $button;
+                                                                ?>
+                                                            </td>
                                                         </tr>
                                                         <?php endforeach;?>
                                                     </tbody>

@@ -39,9 +39,14 @@ class AAccountController extends Controller
       // $data['asdf'] = \Auth::user();
       $data['shop'] = Shop::where('user_id',$data['user']->id)->get();
       $data['shop_count'] = $data['shop']->count();
+      $data['url'] = url()->current();
       // dd($data,$r->all());
       return view('account.profile',$data);
    }
+  //  public function user_order_datatables(Request $r)
+  //  {
+  //    dd($r->all());
+  //  }
    public function profile_address_get(Request $r)
    {
      $addr=UserAddress::where("user_id",\Auth::user()->id)->where("id",$r->address_id)->first();
