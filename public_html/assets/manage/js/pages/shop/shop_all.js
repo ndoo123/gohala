@@ -4,7 +4,16 @@ $(document).ready(function(){
         // alert("Hello"); 
         table_order.ajax.reload(null, false);
     }, 5000);
+    // }, 100000);
 });
+
+var order_obj = {};
+if($('#table_order').attr('order_status') !== undefined && $('#table_order').attr('order_status') != "")
+{
+    // alert();
+    order_obj['order_status'] = $('#table_order').attr('order_status');
+}
+console.log(order_obj);
 var table_order = $('#table_order').DataTable({
     serverSide: true,
     processing: false,
@@ -12,7 +21,7 @@ var table_order = $('#table_order').DataTable({
     // order: [[ 1, "asc" ]],
     ajax: {
         url: $('#table_order').attr('remote_url'),
-        data: { all : "all" },
+        data: order_obj,
     },
     columns: [
         { data: 'id', name: 'id', class: 'text-center order_detail' },

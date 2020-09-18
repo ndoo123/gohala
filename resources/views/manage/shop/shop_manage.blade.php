@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="card mini-stat bg-pattern goto" type="button" goto="{{ $url.'/all' }}">
+        <div class="card mini-stat bg-pattern goto" type="button" goto="{{ $url.'/order' }}">
             <div class="card-body mini-stat-img">
                 <div class="mini-stat-icon">
                     <i class="dripicons-box bg-soft-primary text-primary float-right h4"></i>
@@ -44,7 +44,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
@@ -70,19 +70,19 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
-@include('modal.order_detail')
+{{-- @include('modal.order_detail')
 @include('modal.order_cancel')
-@include('modal.order_send')
+@include('modal.order_send') --}}
 @stop
 @section('js')
  <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
  <script src="<?php echo url('assets/js/plugins/sweet-alert2/sweetalert2.all.min.js');?>"></script>
  <script src="<?php echo url('assets/manage/js/pages/shop/shop.js');?>"></script>
-<script src="<?php echo url('assets/modal/order_detail.js');?>"></script>
-<script src="<?php echo url('assets/modal/order_send.js');?>"></script>
-<script src="<?php echo url('assets/modal/order_cancel.js');?>"></script>
+{{-- <script src="{{ url('assets/modal/order_detail.js') }}"></script>
+<script src="{{ url('assets/modal/order_send.js') }}"></script>
+<script src="{{ url('assets/modal/order_cancel.js') }}"></script> --}}
 @stop
 @section('css')
 <link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">

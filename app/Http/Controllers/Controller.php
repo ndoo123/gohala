@@ -71,14 +71,19 @@ class Controller extends BaseController
         $orders = Order::where('shop_id', $r->shop->id);
         // dd($r->shop->id,$r->all());
         $orderBy = 'desc';
-        if(empty($r->all))
+        // if(empty($r->all))
+        // {
+        //     $orders = $orders->whereNotIn('status',[ 0,4 ]);
+        //     $orderBy = 'asc';
+        // }
+        if(isset($r->order_status))
         {
-            $orders = $orders->whereNotIn('status',[ 0,4 ]);
-            $orderBy = 'asc';
+            $orders = $orders->where('status',$r->order_status);
+            // $orderBy = 'asc';
         }
         // $orders = $orders->orderBy('created_at', 'desc')->get();
         $orders = $orders->orderBy('order_date', $orderBy);
-        // dd($orders);
+        // dd($r->order_status,$r->shop->id,$orders->get());
         return \Datatables::of($orders)
         ->addColumn('delivery_name',function($order){
             return !empty($order->delivery) && !empty($order->delivery->name) ? $order->delivery->name : 'ไม่พบข้อมูล';
@@ -90,7 +95,7 @@ class Controller extends BaseController
         ->addColumn('actions',function($order){
             $action = '';
             $button = '';
-            $status = $order->status<4?$order->status+1:'';
+            $status = $order->status < 4 ? $order->status + 1 : '';
             if($order->status == 1)
             {
                 $button = '<button type="button" class="btn btn-sm btn-primary btn_order" order_id="'.$order->id.'" status="'.$status.'">'.__('view.confirm').'</button>';
