@@ -1,5 +1,6 @@
 // order_send
 var table_order = $('#table_order').DataTable();
+// console.log($("h5 span#profit").length);
 $(document).on('click','.btn_order',function(){
     var order_id = $(this).attr('order_id');
     var status = $(this).attr('status');
@@ -43,9 +44,12 @@ $(document).on('click','.btn_order',function(){
                     })
                 }
                 table_order.ajax.reload();
+                if($("h5 span#profit").length > 0)
+                    profit();
             }
         });
     }
+    // console.log($("#profit").length());
 });
 $(document).on('click','.sm_order_send',function(){
     // var modal = $("#modal_order_send");

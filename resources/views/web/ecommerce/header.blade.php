@@ -8,7 +8,11 @@
 				<div class="row small-gutters">
 					<div class="col-xl-3 col-lg-3 d-lg-flex align-items-center">
 						<div id="logo">
-							<a href="<?php echo url($shop->url);?>"><img src="<?php echo url('');?>/assets/images/logo-dark.png" alt=""  height="35"></a>
+							{{-- <a href="{{ url($shop->url) }}"><img src="{{ url('')./assets/images/logo-dark.png }}" alt=""  height="35"></a> --}}
+							<a href="{{ url($shop->url) }}">
+								<img src="{{ $shop->get_photo() }}" alt=""  height="50" style="border-radius: 25%;">
+								{{ $shop->name }}
+							</a>
 						</div>
 					</div>
 					<nav class="col-xl-6 col-lg-7">
@@ -30,9 +34,9 @@
 								<li>
 									<a href="<?php echo url($shop->url);?>">หน้าแรก</a>
 								</li>
-								<li>
+								{{-- <li>
 									<a href="#0">ติดต่อเรา</a>
-								</li>
+								</li> --}}
 							</ul>
 						</div>
 						<!--/main-menu -->
@@ -77,7 +81,7 @@
 					</div>
 					<div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
 						<div class="custom-search-input">
-							<input type="text" id="search_product" name="search_product" placeholder="Search over 10.000 products" value="{{ !empty($search)?$search:null }}">
+							<input type="text" id="search_product" name="search_product" placeholder="Search products" value="{{ !empty($search)?$search:null }}">
 							<button type="submit" id="btn_search"><i class="header-icon_search_custom"></i></button>
 						</div>
 					</div>

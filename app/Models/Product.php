@@ -14,8 +14,16 @@ class Product extends Model
         {
            return env('APP_URL').'/images/product/'.$this->shop_id.'/'.$this->id.'.'.$this->default_photo.'.jpg';
         }
+        else if(!empty($this->photos->first()))
+        {
+            // dd($this->photos);
+           return env('APP_URL').'/images/product/'.$this->shop_id.'/'.$this->id.'.'.$this->photos->first()->name.'.jpg';
+        }
 
         return env('APP_URL').'/assets/images/no_image_available.jpeg';
+    }
+    public function get_direct_product(){
+        return \LKS::url_subdomain2('manage',Shop::find($this->shop_id)->url).'/product/'.$this->id;
     }
     public function get_category(){
         return ShopCategory::join('shop_category_product_tb','shop_category_tb.id','shop_category_product_tb.category_id')

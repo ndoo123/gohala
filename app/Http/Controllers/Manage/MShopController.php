@@ -68,16 +68,22 @@ class MShopController extends Controller
    //SHOP MAnage
     public function product_save(Request $r)
     {
-       
+        /* dd(preg_match('/[\/\'^£$%&*()}{@#~?><>"\\\.!,|=_+¬-]/', $r->sku) , 
+        preg_match('/[\/\'^£$%&*()}{@#~?><>"\\\.!,|=_+¬-]/', $r->barcode)); */
         if(!isset($r->name)||$r->name==""||!isset($r->price)||!isset($r->qty)||!isset($r->sku)||$r->sku=="")
         return LKS::o(0,__('view.require_data'));
 
+        if(preg_match('/[\/\'^£$%&*()}{@#~?><>"\\\.!,|=_+¬-]/', $r->sku) || preg_match('/[\/\'^£$%&*()}{@#~?><>"\\\.!,|=_+¬-]/', $r->barcode))
+            return LKS::o(0,'ห้ามมีอักขระพิเศษ');
+            
+        if(!preg_match('/^[a-z0-9]+$/i',$r->sku) || !preg_match('/^[a-z0-9]+$/i', $r->barcode))
+            return LKS::o(0,'ห้ามเป็นภาษาไทย');
         $r->price=str_replace(',','',$r->price);
         $r->qty=str_replace(',','',$r->qty);
         $r->discount_amount=str_replace(',','',$r->discount_amount);
         $r->name=trim($r->name);
 
-     
+
         if(isset($r->product_id))//Update Product
         {
             $p=Product::where("id",$r->product_id)->first();
@@ -303,7 +309,7 @@ class MShopController extends Controller
                     ->orderBy('created_at', 'desc')
                     ->get();
         $data['summary']=(object)array(
-            "order"=>\DB::table('order_tb')->where('shop_id',$r->shop->id)->count(),
+            "order"=>\DB::table('order_tb')->where('shop_id',$r->shop->id)->whereNotIn('status',[0,4])->count(),
             "product"=>\DB::table('product_tb')->where('shop_id',$r->shop->id)->count(),
             "profit"=>0
        );
@@ -325,7 +331,8 @@ class MShopController extends Controller
     
        $order = Order::where('shop_id',$r->shop->id)
        ->whereDate('order_date',date('Y-m-d'))
-       ->where('status',4)
+       ->where('status','!=',0)
+    //    ->where('status',4)
        ->select(DB::raw('total + total_delivery as sum_total,total,total_delivery'))
        ->sum(DB::raw('total + total_delivery')); // ราคาขาย รวมราคาส่ง
     //    ->sum('total'); // เฉพาะราคาขาย
@@ -580,7 +587,8 @@ class MShopController extends Controller
         // dd($products);
         return Datatables::of($products)
         ->editColumn('name',function($products){
-            $cats=mb_substr($products->c_name,0,2);
+            $cats=$products->c_name;
+            // $cats=mb_substr($products->c_name,0,2);
             $name = $products->p_name;
             $str = '<span class="text-muted">'.$cats.'</span>';
             return $name.'<br>'.$str;

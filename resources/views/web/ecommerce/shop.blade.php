@@ -16,7 +16,8 @@
 			<?php endif;?>
 			<figure>
 				<a href="<?php echo $product->get_link($shop->url);?>">
-					<img class="img-fluid lazy" src="<?php echo $product->get_photo();?>" data-src="<?php echo $product->get_photo();?>" alt="">
+					<img class="img-fluid lazy" src="<?php echo $shop->get_photo();?>" data-src="<?php echo $shop->get_photo();?>" alt="">
+					{{-- <img class="img-fluid lazy" src="{{ $product->get_photo() }}" data-src="{{ $product->get_photo() }}" alt=""> --}}
 				</a>
 			</figure>
 			<a href="<?php echo $product->get_link($shop->url);?>">

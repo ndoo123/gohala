@@ -26,6 +26,9 @@ class HomeController extends Controller
         // $data['show_menu']=0;
         return view('web.promote');
     }
+    public function email_admin(Request $r){
+        return view('web.home.email_admin');
+    }
     public function category(Request $r)
     {
         $cat=\DB::table('category_tb')->where("slug",$r->slug)->first();
@@ -222,8 +225,9 @@ class HomeController extends Controller
             $order=new Order();
             $order->id=crc32($shop->id.$shop->name.time().rand(10,99));
             $order->shop_id=$shop->id;
-            $order->channel_id=1;
-            $order->status=1;
+            $order->channel_id = 1;
+            $order->status = $r->payment != 2 ? 1 : 5;
+            $order->payment_type = $r->payment;
             $delivery=ShopDelivery::where("shipping_id",$r->ship_method_id)->where("shop_id",$shop->id)->first();
             if(!$delivery)
             return redirect()->back()->with('error','ดำเนินการไม่สำเร็จ ไม่พบข้อมูลการชำระเงิน');
@@ -233,7 +237,6 @@ class HomeController extends Controller
             $order->total=0;
             $order->total_delivery=0;
             $order->buyer_user_id=\Auth::user()->id;
-            $order->payment_type=$r->payment;
             $order->save();
             // dd(crc32($shop->id.$shop->name.time().rand(10,99)),$shop->id,$shop->name,time(),rand(10,99));
             $delivery_cost=0;
@@ -276,6 +279,44 @@ class HomeController extends Controller
             $deli->phone=$r->phone;
             $deli->save();
 
+            $shop = Shop::find($order->shop_id);
+            $owner = $shop->user;
+            $items = OrderItem::where('order_id',$order->id)->get();
+            $mail = [];
+            $mail['order'] = $order; 
+            $mail['buyer'] = $order->buyer;
+            $mail['shop'] = $shop;
+            $mail['deli'] = $deli;
+            $mail['owner'] = $owner;
+            $mail['items'] = $items;
+            $mail['payment'] = 
+            \DB::table('shop_payment_tb as cat')
+            ->join('shop_tb as s', 's.id','=','cat.shop_id')
+            ->join('payment_method_tb as m','m.id','=','cat.method_id')
+            ->where('shop_id',$mail['shop']->id)
+            ->where('method_id',$order->payment->id)
+            ->where('is_checked',1)
+            ->first();
+            $mail['payment_data'] = $mail['payment']->payment_data ? json_decode(json_decode($mail['payment']->payment_data)) : null;
+            // dd('order',$order->toArray(),'shop',$shop->toArray(),'deli',$deli->toArray(),'owner',$owner->toArray(),'buyer',$mail['buyer']->toArray(),'items',$items->toArray(),\LKS::url_subdomain2('manage',$shop->url),$mail['payment_data']);
+            // return view('email.order_customer',$mail);
+            // return view('email.order_admin',$mail);
+            // dd($mail,$mail['owner']->email);
+            \Mail::send('email.order_customer', $mail , function($message) use ($mail)
+            {
+                $message->from(env('MAIL_USERNAME'),"Gohala Order" );
+                $message->to($mail['buyer']->email, 'M&M')->subject('You have New Order!');
+            });
+
+            \Mail::send('email.order_admin', $mail , function($message) use ($mail)
+            {
+                $message->from(env('MAIL_USERNAME'),"Gohala Order" );
+                $message->to($mail['owner']->email, 'M&M')->subject('You have New Order!');
+
+            });
+
+            
+
             \DB::commit();
 
             Cart::clear_shop($order->shop_id);
@@ -290,8 +331,6 @@ class HomeController extends Controller
             \DB::rollback();
             return redirect()->back()->with('error',$e->getMessage());
         }
-
-        // dd($order->toArray());
         return redirect('/order/status')->with('order',$order->toArray());
 
 
@@ -389,5 +428,8 @@ class HomeController extends Controller
                 );
             $resp=Cart::add_to_cart($basket_item,$p->shop);
             return \LKS::o(1,$resp);
+    }
+    public function dropzone(){
+        return view('dropzone.test');
     }
 }

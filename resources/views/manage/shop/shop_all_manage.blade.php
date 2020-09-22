@@ -1,6 +1,7 @@
 @extends('manage.master_manage')
 @section('title')
-ออเดอร์ทั้งหมดของร้าน | <span style="color:blue"><?php echo $shop->name;?></span>
+{{-- ออเดอร์ทั้งหมดของร้าน | <span style="color:blue">{{ $shop->name }}</span> --}}
+<?php echo $label ?>
 @stop
 @section('content')
 <input type="hidden" name="url" id="url" value="{{ $url }}">
@@ -16,10 +17,10 @@
         <h4 class="mt-0 header-title"><?php echo __('view.order_list_all');?>
         </h4>
         <div class="table-responsive">
-            <table class="table table-hover mb-0 bg-light" id="table_order" remote_url="{{ $remote_url }}">
+            <table class="table table-hover mb-0 bg-light" id="table_order" remote_url="{{ $remote_url }}" order_status="{{ $order_status }}">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th><?php echo __('view.order_id');?></th>
                         <th><?php echo __('view.order_date');?></th>
                         <th><?php echo __('view.order_by');?></th>
                         <th><?php echo __('view.qty');?></th>
@@ -36,9 +37,7 @@
     </div>
 </div>
 
-@include('modal.order_detail')
-@include('modal.order_cancel')
-@include('modal.order_send')
+@include('modal.master_admin')
 @stop
 @section('js')
  <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>

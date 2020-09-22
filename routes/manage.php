@@ -28,6 +28,8 @@ Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],funct
     Route::post('/order_cancel', "MShopController@order_cancel");
     Route::post('/update_order_status', "MShopController@update_order_status");
     Route::post('/update_trace', "MShopController@update_trace");
+
+    // Product
     Route::get('products', "MShopController@product_list");
     Route::get('products/datatables', "MShopController@product_datatables");
     Route::post('products/update_position', "MShopController@product_update_position");
@@ -44,6 +46,9 @@ Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],funct
     Route::post('categories/delete/json','MShopController@shop_categories_delete_json');
     Route::post('categories/update/active/json','MShopController@shop_categories_active_json');
 
+    // Order
+    Route::get('order','MOrderController@index');
+    Route::get('order/{order_status}','MOrderController@index');
     
     Route::get('setting_shop', 'MShopController@setting_shop');
     

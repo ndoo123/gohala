@@ -203,10 +203,13 @@ function checkLoginState() {
           var uid=response.authResponse.userID;
           var accessToken=response.authResponse.accessToken;
         
-         
+         console.log('uid');
+         console.log(uid);
+         console.log(accessToken);
+         console.log('accessToken');
         FB.api('/'+uid+"?fields=name,email", function(response) {
           
-           
+           console.log(response);
             Load('div.accountbg',true)
             var obj=new Object();
             obj.fb_login=1;

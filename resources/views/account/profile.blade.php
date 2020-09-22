@@ -14,6 +14,15 @@
         <link href="<?php echo url('assets/manage/login/css/icons.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/login/css/style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+        <style>
+            *{
+                font-family: 'Kanit'
+            }
+            .flatpickr{
+                background-color: #e9ecef;
+            }
+        </style>
     </head>
 
     <body>
@@ -255,24 +264,43 @@
                                                 
                                             </div>
                                             <div class="tab-pane p-3 <?=($op == "myorder")?'active':null?>" id="order" role="tabpanel">
-                                                <table class="table table-hover">
+                                                <table class="table table-hover" id="table_order" remote_url="{{ $url.'/user_order_datatables' }}">
                                                     <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>วันที่สั่งซื้อ</th>
-                                                        <th>ยอดรวม</th>
-                                                        <th>สถานะ</th>
-                                                        <th></th>
-                                                    </tr>
+                                                        <tr>
+                                                            <th>{{ __('view.order_id') }}</th>
+                                                            <th>วันที่สั่งซื้อ</th>
+                                                            <th>ยอดรวม</th>
+                                                            <th>สถานะ</th>
+                                                            <th></th>
+                                                        </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php foreach($orders as $order):?>
                                                         <tr>
                                                             <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->id;?></td>
                                                             <td class="order_detail" order_id="{{ $order->id }}"><?php echo date('d/m/Y H:i:s',strtotime($order->order_date));?></td>
-                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->total+$order->total_delivery;?></td>
-                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->get_user_status_badge();?></td>
-                                                            <td></td>
+                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo number_format($order->total+$order->total_delivery,2);?></td>
+                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->get_status_show();?></td>
+                                                            <td order_id="{{ $order->id }}" }}>
+                                                                <?php
+                                                                // $shop_payment = ShopPayment::get_payment($order->shop_id,1);
+                                                                $shop_payment = $order->shop_payment_transfer;
+                                                                // dd($shop_payment,$shop_payment->payment_data);
+                                                                $price = $order->get_sold_price(true);
+                                                                $attr = ' 
+                                                                order_id="'.$order->id.'" 
+                                                                price="'.$price.'"
+                                                                payment=\''.$shop_payment->payment_data.'\' 
+                                                                ';
+                                                                $button = '';
+                                                                if($order->status == 5)
+                                                                {
+                                                                    $button = '<button type="button" class="btn btn-sm btn-primary btn_order_payment"'.$attr.'>แจ้งโอนเงิน</button>';
+                                                                }
+                                                                
+                                                                echo $button;
+                                                                ?>
+                                                            </td>
                                                         </tr>
                                                         <?php endforeach;?>
                                                     </tbody>
@@ -306,78 +334,6 @@
         </footer>
         <!-- End Footer -->
 
-<div id="new_address_modal" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="new_address_modal" aria-modal="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="address_info_form" method="post" action="<?php echo url('profile/address/update');?>">
-            <?php echo csrf_field();?>
-            <input type="hidden" name="user_id" value="<?php echo $user->id;?>">
-            <input type="hidden" name="address_id" class="input_address" value="">
-            <div class="modal-header">
-                <h5 class="modal-title mt-0">ข้อมูลที่อยู่</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label><?php echo __('view.contact_name');?> <span class="text-danger">*</span></label>
-                            <input type="text" name="contact_name" class="form-control input_address" value="">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                         <div class="form-group">
-                            <label><?php echo __('view.address_name');?> <span class="text-danger">*</span></label>
-                            <input type="text" name="name" class="form-control input_address" value="">
-                        </div>
-                       
-                    </div>
-                        <div class="col-md-6">
-                        <div class="form-group">
-                            <label><?php echo __('view.contact_phone');?> <span class="text-danger">*</span></label>
-                            <input type="text" name="contact_phone" class="form-control input_address" value="">
-                        </div>
-                    </div>
-                </div>
-                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label><?php echo __('view.address');?> <span class="text-danger">*</span></label>
-                            <input type="text" name="address" class="form-control input_address" value="">
-                        </div>
-                    </div>
-                      
-                </div>
-                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label><?php echo __('view.province');?> <span class="text-danger">*</span></label>
-                            <select name="province" class="form-control select_address">
-                                <?php foreach($provinces as $province):?>
-                                <option value="<?php echo $province->id;?>"><?php echo $province->name;?></option>
-                                <?php endforeach;?>
-                            </select>
-                        </div>
-                    </div>
-                        <div class="col-md-6">
-                        <div class="form-group">
-                            <label><?php echo __('view.zipcode');?> <span class="text-danger">*</span></label>
-                            <input type="text" name="zipcode" class="form-control input_address" value="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">ยกเลิก</button>
-                <button type="button" id="save_address_btn" class="btn btn-primary waves-effect waves-light">บันทึกที่อยู่</button>
-            </div>
-        </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-@include('modal.order_detail')
         <!-- jQuery  -->
         <script src="<?php echo url('assets/manage/login/js/jquery.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/login/js/bootstrap.bundle.min.js');?>"></script>
@@ -393,8 +349,19 @@
         app.url='<?php echo url('');?>';
         </script>
         <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
+        <script>
+            $("#order_table").DataTable({
+                order: [[1, 'desc']],
+                "columnDefs": [
+                { "type": "date-de", targets: 1 }
+                ],
+            });
+        </script>
+
+    {{-- <script src="js/jquery-ui.js"></script> --}}
+
+        @include('modal.master_user')
         <script src="<?php echo url('assets/account/js/account.js');?>"></script>
-        <script src="<?php echo url('assets/modal/order_detail.js');?>"></script>
     </body>
 
 </html>

@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Http\Controllers\Manage;
+
+use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Shop;
+use App\Models\ShopCategory;
+use App\Models\Product;
+use App\Models\ProductSlug;
+use App\Models\ProductPhoto;
+use App\Models\ProductCategory;
+use Illuminate\Http\Request;
+use Datatables;
+use LKS;
+use DB;
+
+class MOrderController extends Controller
+{
+    protected $url;
+    private function url($r)
+    {
+        if(!empty($r))
+        {
+            $this->url = url($r->shop->url);
+            // dd($r)
+            // dd(1,$r->shop->url,$this->url);
+            return $this->url;
+        }
+    }
+	public function index(Request $r)
+	{
+		// dd(intval($r->order_status));
+        $data['shop']=$r->shop;
+        $data['summary']=(object)array(
+            "order"=>\DB::table('order_tb')->where('shop_id',$r->shop->id)->count(),
+            "product"=>\DB::table('product_tb')->where('shop_id',$r->shop->id)->count(),
+            "profit"=>0
+		);
+		$order_status = null;
+		$data['order_status'] = '';
+		$label = 'ทั้งหมด';
+		if(isset($r->order_status))
+		{
+			$order_label = Order::$label_status;
+			// $status_size = sizeof($order_label)-1;
+			$order_status = intval($r->order_status);
+			// if($order_status <= $status_size)
+			// dd($order_status);
+			if(array_key_exists($order_status,$order_label))
+			{
+				$data['order_status'] = $order_status;
+				$label = $order_label[$order_status];
+			}
+		}
+		// $data['label'] = $label;
+		$data['label'] = "ออเดอร์ $label ของร้าน | <span style='color:blue'>".$data['shop']->name."</span>";
+		$data['url'] = $url = self::url($r);
+		$data['remote_url'] = $url.'/order_datatables';
+		// dd($data);
+		return view('manage.shop.shop_all_manage',$data);
+	}
+}
