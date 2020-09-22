@@ -14,6 +14,15 @@
         <link href="<?php echo url('assets/manage/login/css/icons.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/login/css/style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+        <style>
+            *{
+                font-family: 'Kanit'
+            }
+            .flatpickr{
+                background-color: #e9ecef;
+            }
+        </style>
     </head>
 
     <body>
@@ -272,12 +281,21 @@
                                                             <td class="order_detail" order_id="{{ $order->id }}"><?php echo date('d/m/Y H:i:s',strtotime($order->order_date));?></td>
                                                             <td class="order_detail" order_id="{{ $order->id }}"><?php echo number_format($order->total+$order->total_delivery,2);?></td>
                                                             <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->get_status_show();?></td>
-                                                            <td>
+                                                            <td order_id="{{ $order->id }}" }}>
                                                                 <?php
+                                                                // $shop_payment = ShopPayment::get_payment($order->shop_id,1);
+                                                                $shop_payment = $order->shop_payment_transfer;
+                                                                // dd($shop_payment,$shop_payment->payment_data);
+                                                                $price = $order->get_sold_price(true);
+                                                                $attr = ' 
+                                                                order_id="'.$order->id.'" 
+                                                                price="'.$price.'"
+                                                                payment=\''.$shop_payment->payment_data.'\' 
+                                                                ';
                                                                 $button = '';
                                                                 if($order->status == 5)
                                                                 {
-                                                                    $button = '<button type="button" class="btn btn-sm btn-primary">แจ้งโอนเงิน</button>';
+                                                                    $button = '<button type="button" class="btn btn-sm btn-primary btn_order_payment"'.$attr.'>แจ้งโอนเงิน</button>';
                                                                 }
                                                                 
                                                                 echo $button;
@@ -316,7 +334,6 @@
         </footer>
         <!-- End Footer -->
 
-@include('modal.master_user')
         <!-- jQuery  -->
         <script src="<?php echo url('assets/manage/login/js/jquery.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/login/js/bootstrap.bundle.min.js');?>"></script>
@@ -332,8 +349,6 @@
         app.url='<?php echo url('');?>';
         </script>
         <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
-        <script src="<?php echo url('assets/account/js/account.js');?>"></script>
-        <script src="<?php echo url('assets/modal/order_detail.js');?>"></script>
         <script>
             $("#order_table").DataTable({
                 order: [[1, 'desc']],
@@ -342,6 +357,11 @@
                 ],
             });
         </script>
+
+    {{-- <script src="js/jquery-ui.js"></script> --}}
+
+        @include('modal.master_user')
+        <script src="<?php echo url('assets/account/js/account.js');?>"></script>
     </body>
 
 </html>

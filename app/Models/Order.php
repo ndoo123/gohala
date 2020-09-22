@@ -45,6 +45,12 @@ class Order extends Model
     public function payment(){
         return $this->belongsTo('\App\Models\Payment','payment_type');
     }
+    public function shop_payment(){
+        return $this->hasMany('\App\Models\ShopPayment','shop_id','shop_id');
+    }
+    public function shop_payment_transfer(){
+        return $this->hasOne('\App\Models\ShopPayment','shop_id','shop_id')->where('method_id',2);
+    }
     public function get_status_badge(){
         if($this->status==1)
         {
@@ -95,5 +101,13 @@ class Order extends Model
         $delivery = OrderDelivery::where('order_id',$this->id)->first();
         $delivery->$field = $today;
         $delivery->save();
+    }
+    public function get_sold_price($bool = false)
+    {
+        if($bool == true)
+        {
+            return number_format($this->total + $this->total_delivery,2);
+        }
+        return $this->total + $this->total_delivery;
     }
 }

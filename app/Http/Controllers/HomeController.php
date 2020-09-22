@@ -429,4 +429,7 @@ class HomeController extends Controller
             $resp=Cart::add_to_cart($basket_item,$p->shop);
             return \LKS::o(1,$resp);
     }
+    public function dropzone(){
+        return view('dropzone.test');
+    }
 }
