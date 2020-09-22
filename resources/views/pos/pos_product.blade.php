@@ -1,7 +1,7 @@
 @foreach($product as $prod)
 
     <div class="col-xl-2 col-md-4 pos-rl">
-        <a id="pid<?php echo  $prod->id ; ?>" get_product="<?php echo  URL::to('pos/read-barcode/'.$prod->sku.'/'.$shop) ; ?>" onclick="click_product(<?php echo  $prod->id ; ?>)" title="<?php echo  $prod->name ; ?>">
+        <a id="pid<?php echo  $prod->id ; ?>" get_product="<?php echo  URL::to('pos/read-barcode/'.$prod->sku.'/'.$shop) ; ?>" onclick="click_product(<?php echo  $prod->id ; ?>)" title="<?php echo  $prod->name . ' | ราคา ' . number_format($prod->price,2,'.',',') ; ?>">
             <div class="card product-box card-b">
                 <div class="card-body p-1">
                     <div class="product-img">
@@ -21,7 +21,7 @@
                                 if($prod->is_discount == '0'){
                                     echo number_format($prod->price,2,'.',',');
                                 }elseif($prod->is_discount == '1'){
-                                    echo number_format($prod->discount_value,2,'.',',') ;
+                                    echo '<font color="red">'.number_format($prod->price - $prod->discount_value,2,'.',',') .'</font>';
                                 }elseif($prod->is_discount == '2'){
                                     echo number_format(\LKS::price_discount($prod->discount_value, $prod->price),2,'.',',') ;
                                 }

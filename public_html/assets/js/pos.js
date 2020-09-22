@@ -1,11 +1,13 @@
     // เปิดหน้ามาโหลดเสร็จแล้วให้แสดงสินค้าทุกหมวดหมู่
     $(document).ready(function(){
-        let path = app.url+'/pos/read-data/0/'+$('#shopid').attr("value");
+        let path = app.url+'/pos/readData/0/'+$('#shopid').attr("value");
+        console.log(path);
         //let path = $(this).attr('data-href');
         $('#btncat0').attr('class','btn btn-primary waves-effect waves-light btn-cat');
         $.get(path, function(data){
             $('#block-product').empty().html(data)                
         })
+
     })
 
 
@@ -21,13 +23,22 @@
         //let list_prod = $('#list_product').html();
 
         if(search_id){
+            let real_price = $('#price'+id).attr("real_price").replace(",", ""); // ราคาสินค้า
+            let o_num = parseInt(search_id);
             let num = parseInt(search_id) + 1;
+            let o_price = parseFloat(o_num) * parseFloat(real_price);
+            let n_price = parseFloat(num) * parseFloat(real_price);
+
             $('#num'+id).html(num);
             $('#h_num'+id).val(num);
+
+            $('#price'+id).html(addCommas(n_price.toFixed(2)));
+            $('#h_price'+id).val(n_price);
+
             //alert('เพิ่มสินค้าแล้ว');
             //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
                 
-            sum_total(id);
+            sum_total_new(id, o_price, n_price);
             clear_all();
 
         }else{
@@ -46,13 +57,24 @@
 
     }
 
+
+
     // รวมเงิน
     function sum_total(id)
     {
         let sumcash = $('#sum_cash').html().replace(",", "");
         let price = $('#price'+id).html().replace(",", "");
         let total = parseFloat(sumcash) + parseFloat(price);
-        $('.sum_cash').html(addCommas(total));
+        $('.sum_cash').html(addCommas(total.toFixed(2)));
+    }
+
+    // รวมเงินเพิ่มใหม่
+    function sum_total_new(id, oprice, nprice)
+    {
+        let sumcash = $('#sum_cash').html().replace(",", "");
+        //let price = $('#price'+id).html().replace(",", "");
+        let total = parseFloat((sumcash - oprice) + nprice);
+        $('.sum_cash').html(addCommas(total.toFixed(2)));
     }
 
     // เพิ่มคอมม่าในจำนวนเงิน
@@ -86,11 +108,11 @@
     function del_one(pssn)
     {
         if(confirm('ยืนยันการลบ')){
-            let pnum = $('#num'+pssn).html();
-            let pprice = $('#price'+pssn).html();
-            let sumcash = $('#sum_cash').html().replace(",","");
-            let total = parseFloat(sumcash) - (parseFloat(pnum) * parseFloat(pprice));
-            $('.sum_cash').html(addCommas(total));
+            let pnum = $('#num'+pssn).html();  //  จำนวนของรายการที่จะลบ
+            let pprice = $('#price'+pssn).html().replace(",","");  //  ราคาของรายการที่จะลบ
+            let sumcash = $('#sum_cash').html().replace(",","");  //  จำนวนเงินรวม
+            let total = parseFloat(sumcash) - parseFloat(pprice);
+            $('.sum_cash').html(addCommas(total.toFixed(2)));
             //console.log(pnum);
 
             let tr = $('#num'+pssn).closest('tr');
@@ -108,14 +130,8 @@
         }
     })
 
-    // $('#t_search').on('keydown',function(e){
-    //     if(e.which == 8){
-    //         console.log('ลบ');
-    //         $('#t_sku').val(''); 
-    //         $('#t_pid').val('');
-    //     }
-    // })
 
+    // รับข้อมูลจากช่อง barcode
 
     $('#frm_barcode').on('submit',function(e){
         e.preventDefault(); 
@@ -124,10 +140,12 @@
         let shopid = $('#shopid').val(); // shop_id
 
         //$.get("{{ URL::to('sale/check-barcode') }}"+'/'+sn, function(num){
-        $.get(app.url+"/check-barcode"+'/'+shopid+'/'+key, function(prod){
+        $.get(app.url+"/check-barcode-box"+'/'+shopid+'/'+key, function(prod){
             console.log(prod[0]);
-            if((prod[0] > 0) || (prod[0] != null)){
-                click_product(prod[1]);
+            console.log(prod[1]);
+            console.log(prod[2]);
+            if((prod[0] > 0) || (prod[0] != null) || (prod[0] >= prod[2])){
+                click_product_barcode(prod[1],prod[2]);
                 clear_all();
             }else{
                 alert('ไม่พบสินค้า');
@@ -138,6 +156,59 @@
 
     })
 
+
+    // เพิ่มรายการสินค้าลงตารางขาย คีย์ข้อมูลจากช่อง barcode
+    function click_product_barcode(id, barcode_num)
+    {
+        //alert(id);
+        let pid = $('#pid'+id).attr("get_product");
+        let list = $('#list_body').html();
+        let search_id = $(list).find('#num'+id).html();
+
+        console.log(search_id);
+        console.log(id);
+        console.log(barcode_num);
+
+        //let list_prod = $('#list_product').html();
+
+        if(search_id){
+            let real_price = $('#price'+id).attr("real_price").replace(",", ""); // ราคาสินค้า
+            let o_num = parseInt(search_id);
+            let num = parseInt(search_id) + parseInt(barcode_num);
+            let o_price = parseFloat(o_num) * parseFloat(real_price);
+            let n_price = parseFloat(num) * parseFloat(real_price);
+
+            $('#num'+id).html(num);
+            $('#h_num'+id).val(num);
+
+            $('#price'+id).html(addCommas(n_price.toFixed(2)));
+            $('#h_price'+id).val(n_price);
+
+            //alert('เพิ่มสินค้าแล้ว');
+            //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
+                
+            sum_total_new(id, o_price, n_price);
+            clear_all();
+
+        }else{
+            let key = $('#t_search').val(); // p_barcode
+            let shopid = $('#shopid').attr('value'); // shop id
+            let path = app.url+'/pos/read-barcode/'+key+'/'+shopid;
+            console.log(path);
+            $.get(path, function(txt){
+                list += txt;
+                $('#list_body').html(list);
+
+                //alert('เพิ่มสินค้าแล้ว');
+                //Dashmix.helpers('notify', {type: 'success', icon: 'fa fa-check mr-1', message: 'เพิ่มสินค้าแล้ว'});
+                
+                sum_total(id);
+                clear_all();
+            })            
+        }
+
+    }
+
     
     function clear_all(){
         $('.clear_end').val('');
@@ -147,17 +218,17 @@
     // autocomplete
 
     //let path = app.url+"/shop/"+shopid+'/autocomplete';
-    let path = app.url+'/autocomplete';
-    $('#t_search').autocomplete({
-        source : path,
-        minlenght:1,
-        autoFocus:true,
-        select:function(e,ui){
-            $('#t_search').val(ui.item.value);  // name
-            $('#t_id').val(ui.item.id);  // id
-            $('#t_sku').val(ui.item.id);   // sku       
-        }
-    });
+    // let path = app.url+'/autocomplete';
+    // $('#t_search').autocomplete({
+    //     source : path,
+    //     minlenght:1,
+    //     autoFocus:true,
+    //     select:function(e,ui){
+    //         $('#t_search').val(ui.item.value);  // name
+    //         $('#t_id').val(ui.item.id);  // id
+    //         $('#t_sku').val(ui.item.id);   // sku       
+    //     }
+    // });
 
     function click_pay()
     {
@@ -165,6 +236,7 @@
 
         // รวมเงิน
         $('#pricetotal').val(total_pay);
+        $('#sumprice').val(total_pay);
 
         // รวมเงินที่ต้องชำระ
         $("#pricetotal_all").val(addCommas(total_pay));
@@ -209,6 +281,24 @@
 
         let total = parseFloat(pay) + parseFloat(freepay);
         $('#t_credit_total').val(total);
+    }
+
+    function discount()
+    {
+        let disc = $("#discount").val(); // ใส่จำนวนส่วนลด
+
+        $("#discounttotal").val(addCommas(disc));
+        $("#h_discount").val(disc);
+        real_total();
+    }
+
+    function real_total()
+    {
+        let disc = $("#discounttotal").val().replace(",", ""); // ส่วนลด
+        let price = $("#sumprice").val().replace(",", "");  // ยอดเงินรวม
+        let sumprice = parseFloat(price) - parseFloat(disc);
+
+        $("#pricetotal").val(addCommas(sumprice));
     }
 
     function torn()
@@ -331,14 +421,20 @@
     function click_cat(id)
     {
         let catid = $('#btncat'+id).attr("get_cat");
+        // let shopid = $('#shopid').attr('value'); // shop id
+        // let path = app.url+'/pos/readData/'+id+'/'+shopid;
+
+        console.log(catid);
+
         $('.btn-cat').attr('class','btn btn-outline-primary waves-effect waves-light btn-cat');
         $('#btncat'+id).attr('class','btn btn-primary waves-effect waves-light btn-cat');
+
         $.get(catid, function(data){
             $('#block-product').empty().html(data);
         });
+        
     }
 
-    
 
 
     // ปุ่มลบ ของการชำระเงินด้วยเงินสด
@@ -367,3 +463,7 @@
 
         Dashmix.helpers('notify', {type: 'danger', icon: 'fa fa-times mr-1', message: 'ลบแล้ว'});
     })
+
+    
+    
+    

@@ -76,7 +76,9 @@
                         <div class="page-title-box">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h4 class="page-title"><?php echo  $shop->name ; ?></h4>
+                                    <h4 class="page-title">
+                                    <img src="<?php echo \Auth::user()->get_photo();?>" alt="user" class="rounded-circle" height="45">
+                                    <?php echo $shop->name ;?></h4>
                                 </div>
                                 <div class="col-sm-6">
 
@@ -93,7 +95,7 @@
                                         <li class="dropdown notification-list list-inline-item">
                                             <div class="dropdown notification-list nav-pro-img">
                                                 <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                                    <img src="<?php echo url('assets/manage/images/users/user-4.jpg');?>" alt="user" class="rounded-circle">
+                                                <img src="<?php echo \Auth::user()->get_photo();?>" alt="user" class="rounded-circle">
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                                     <!-- item-->
@@ -166,6 +168,7 @@
                                             <?php echo  csrf_field() ; ?>
                                             <input type="hidden" name="h_total" id="h_total" value="">
                                             <input type="hidden" name="h_amount" id="h_amount" value="">
+                                            <input type="hidden" name="h_discount" id="h_discount" value="">
                                     <table class="table table-striped mb-0">
 
                                         <thead>
@@ -190,8 +193,7 @@
                                 <a href="#" class="text-danger pull-right" onclick="list_del()">
                                     <i class="fa fa-trash"></i> ลบทั้งหมด
                                 </a>
-
-
+                                
                             </div>
                         </div>
                     </div>
@@ -202,9 +204,9 @@
                                 <div class="card">
                                     <div class="card-body">
                                     
-                                        <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat0" get_cat="<?php echo  URL::to('pos/read-data/0/'.$shop->id) ; ?>" onclick="click_cat(0)">ทั้งหมด</button>
+                                        <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat0" get_cat="<?php echo  URL::to('pos/readData/0/'.$shop->id) ; ?>" onclick="click_cat(0)">ทั้งหมด</button>
                                         @foreach($pcats as $pcat)
-                                            <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat<?php echo  $pcat->id ; ?>" get_cat="<?php echo  URL::to('pos/read-data/'.$pcat->id.'/'.$shop->id) ; ?>" onclick="click_cat(<?php echo  $pcat->id ; ?>)"><?php echo  $pcat->name ; ?></button>
+                                            <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat<?php echo  $pcat->id ; ?>" get_cat="<?php echo  URL::to('pos/readData/'.$pcat->id.'/'.$shop->id) ; ?>" onclick="click_cat(<?php echo  $pcat->id ; ?>)"><?php echo  $pcat->name ; ?></button>
                                         @endforeach
 
                                     </div>
@@ -249,6 +251,20 @@
                                     <div class="col-6">
 
                                         <div class="form-group row">
+                                            <label class="col-sm-6 col-form-label" >ยอดเงินรวม</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control sum_cash text-right text-primary" value="" readonly id="sumprice" name="sumprice" >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-6 col-form-label" >ส่วนลด</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control sum_cash text-right text-primary" value="0" readonly id="discounttotal" name="discounttotal" >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
                                             <label class="col-sm-6 col-form-label" >ยอดเงินที่ต้องชำระ</label>
                                             <div class="col-sm-6">
                                                 <input type="text" class="form-control sum_cash text-right text-primary" value="" readonly id="pricetotal" name="pricetotal" >
@@ -289,6 +305,10 @@
                                     </div>
                                     <div class="col-6">
 
+                                        <div class="form-group">
+                                            <label for="getdiscount">ส่วนลด</label>
+                                            <input type="decimal" class="form-control getmoney text-right" onkeyup="discount()"  id="discount" name="discount" maxlength="11" value="0">
+                                        </div>
 
                                         <div class="form-group mb-2">
                                             <label for="">ชำระโดยเงินสด</label>
