@@ -26,7 +26,7 @@
     </head>
 
     <body>
-
+        <input type="hidden" id="url" value="{{ $url }}">
         <div class="header-bg">
             <!-- Navigation Bar-->
             <header id="topnav" style="background-color:white">
@@ -344,6 +344,7 @@
          <script src="<?php echo url('assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/login/js/app.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
+        <script src="<?php echo url('assets/js/Met.js');?>"></script>
         <script>
         var app=new LKS();
         app.url='<?php echo url('');?>';

@@ -43,10 +43,11 @@ class AAccountController extends Controller
       // dd($data,$r->all());
       return view('account.profile',$data);
    }
-  //  public function user_order_datatables(Request $r)
-  //  {
-  //    dd($r->all());
-  //  }
+   public function user_payment(Request $r)
+   {
+     return json_encode($r->input());
+     dd($r->all(),isset($r->file)?gettype($r->file):null);
+   }
    public function profile_address_get(Request $r)
    {
      $addr=UserAddress::where("user_id",\Auth::user()->id)->where("id",$r->address_id)->first();

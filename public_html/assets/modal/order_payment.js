@@ -2,48 +2,125 @@
 Dropzone.autoDiscover = false;
 window.onload = function () {
 
+    var table_order = $('#table_order').DataTable();
+    
     var dropzoneOptions = {
-        url: "/file/post",
+        url: $("#url").val()+'/user_payment',
         addRemoveLinks: true,
         autoProcessQueue : false,
+        uploadMultiple:true,
         acceptedFiles: ".jpeg,.jpg,.png,.gif",
         maxFiles: 5,
         parallelUploads: 5,
         dictDefaultMessage: 'ไฟล์รูปการชำระเงิน',
         paramName: "file",
+
+		dictRemoveFile : "Remove", // ชื่อ ปุ่ม remove
+        dictCancelUpload : "Cancel", // ชื่อ ปุ่ม ยกเลิก
+        
+		dictFileTooBig : "ไม่อนุญาตให้อัพโหลดไฟล์เกิน 2 MB", //ข้อความแสดงเมื่อเลือกไฟล์ขนาดเกินที่กำหนด	
         maxFilesize: 10,
         init : function() {
             var submitButton = document.querySelector(".sm_order_payment")
             myDropzone = this;
-
             $("#modal_user_payment").on('hidden.bs.modal',function(){
                 $("#form_user_payment input").val('');
                 $("#form_user_payment textarea").val('');
+                $("#form_user_payment").removeClass('was-validated');
+                
                 myDropzone.removeAllFiles();
             });
-            submitButton.addEventListener("click", function() {
-                if(myDropzone.files.length < 1)
-                {
-                    alert('กรุณาเพิ่มไฟล์รูปการชำระเงิน');
-                    return;
-                }
-                
-                // myDropzone.processQueue();  // Tell Dropzone to process all queued files.
-            }); 
             this.on("addedfile", function(file) {
                 var _this = this;
                 if ($.inArray(file.type, ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']) == -1) {
                     _this.removeFile(file);
-                }
+                }                
             });
             this.on("complete",function(file){
                 $(file._removeLink).fadeOut();
+            });
+            this.on('sendingmultiple', function(data, xhr, formData) {
+                // console.log(data);
+                // console.log(xhr);
+                // console.log(formData);
+                var form = $('#form_user_payment');
+                var inputs = $("#form_user_payment input,textarea").not("input[type='radio']");
+                var radio = form.find('input[type="radio"]:checked');
+                // console.log(radio);
+                // console.log(inputs);
+                inputs.each(function(index,input){
+                    formData.append($(input).attr('name'),$(input).val());
+                });
+                if(radio !== undefined)
+                    formData.append(radio.attr('name'),radio.val());
+            });
+            // this.on('success',function(file, response){
+            //     console.log(file);
+            //     console.log(response);
+            //     // $("#modal_user_payment").modal('hide');
+            // });
+            this.on('successmultiple',function(file, response){
+                console.log(file);
+                console.log(JSON.parse(response));
+                // $("#modal_user_payment").modal('hide');
             });
         }
     };
     var uploader = document.querySelector('#modal_user_payment .dropzone');
     var newDropzone = new Dropzone(uploader, dropzoneOptions);
 
+    $(document).on('submit','#form_user_payment',function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        // var form = $("#form_user_payment");
+        // var el = $("#form_user_payment input[name='payment_data'][required]:checked");
+        // console.log(el);
+        if(newDropzone.files.length < 1)
+        {
+            alert('กรุณาเพิ่มไฟล์รูปการชำระเงิน');
+            return;
+        }
+        // var modal = $("#modal_user_payment");
+        // var modal = $(this).closest('.modal');
+        // var order_id = modal.attr('order_id');
+        // var url = $("#url").val()+'/user_payment';
+        // var obj = new Object();
+        // obj._token = $('meta[name=csrf-token]').attr('content');
+        // obj.order_id = order_id;
+        // obj.trace = modal.find('#order_send').val();
+        // // console.log(obj);
+        // $.ajax({
+        //     url: url,
+        //     type: 'post',
+        //     dataType: 'json',
+        //     data: obj,
+        //     success: function(res){
+        //         console.log(res);
+        //         if(res.status == 1)
+        //         {
+        //             Swal.fire({
+        //                 position: 'top-end',
+        //                 icon: 'success',
+        //                 title: 'Your Order has been saved',
+        //                 showConfirmButton: false,
+        //                 timer: 1500
+        //             });
+        //         }
+        //         else
+        //         {
+        //             Swal.fire({
+        //                 icon: 'error',
+        //                 title: 'Oops...',
+        //                 text: res.msg,
+        //             })
+        //         }
+        //         table_order.ajax.reload();
+        //     }
+        // });
+        // modal.modal('hide');
+        newDropzone.processQueue();  // Tell Dropzone to process all queued files.
+    });
     // console.log("Loaded");
 };
 
@@ -55,23 +132,16 @@ $(".dropzone").sortable({
     distance: 20,
     tolerance: 'pointer'
 });
-// $("#modal_user_payment .dropzone").dropzone({ url: "/file/post" });
 $(".flatpickr").flatpickr({
     enableTime: true,
     dateFormat: "Y-m-d H:i",
     time_24hr: true,
     allowInput:true,
+    // static: true,
+    // wrap: true,
     onReady:function(dObj, dStr, fp){
-        // console.log(dObj);
-        // console.log(dStr);
-        // console.log(fp);
-        // console.log($(this));
-        // fp.altInput.required = fp.element.required;
-        // fp.altInput.removeAttribute('readonly');
-        // $(".flatpickr").attr('readonly',false);
     }
 });
-var table_order = $('#table_order').DataTable();
 // console.log($("h5 span#profit").length);
 $(document).on('click','.btn_order_payment',function(){
     var order_id = $(this).attr('order_id');
@@ -126,47 +196,4 @@ $(document).on('click','.btn_order_payment',function(){
 
     modal.modal('show');
     // console.log($("#profit").length());
-});
-$(document).on('submit','#form_user_payment',function(){
-    // var modal = $("#modal_order_send");
-    // var modal = $(this).closest('.modal');
-    // var order_id = modal.attr('order_id');
-    // var val = $('#order_send').val();
-    // if(val == "")
-    //     return alert('กรุณากรอกรหัส');
-    // var url = $("#url").val()+'/update_trace';
-    // var obj = new Object();
-    // obj._token = $('meta[name=csrf-token]').attr('content');
-    // obj.order_id = order_id;
-    // obj.trace = modal.find('#order_send').val();
-    // // console.log(obj);
-    // $.ajax({
-    //     url: url,
-    //     type: 'post',
-    //     dataType: 'json',
-    //     data: obj,
-    //     success: function(res){
-    //         console.log(res);
-    //         if(res.status == 1)
-    //         {
-    //             Swal.fire({
-    //                 position: 'top-end',
-    //                 icon: 'success',
-    //                 title: 'Your Order has been saved',
-    //                 showConfirmButton: false,
-    //                 timer: 1500
-    //             });
-    //         }
-    //         else
-    //         {
-    //             Swal.fire({
-    //                 icon: 'error',
-    //                 title: 'Oops...',
-    //                 text: res.msg,
-    //             })
-    //         }
-    //         table_order.ajax.reload();
-    //     }
-    // });
-    // modal.modal('hide');
 });
