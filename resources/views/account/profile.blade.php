@@ -14,7 +14,7 @@
         <link href="<?php echo url('assets/manage/login/css/icons.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/login/css/style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
-        <link href="<?php echo url('assets/js/plugins/sweet-alert2/sweetalert2.min.css');?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo url('assets/js/plugins/sweetalert2/sweetalert2.min.css');?>" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
         <style>
             *{
@@ -269,11 +269,12 @@
                                                 <table class="table table-hover w-100" id="table_order" remote_url="{{ $url.'/user_order_datatables' }}">
                                                     <thead>
                                                         <tr>
-                                                            <th>{{ __('view.order_id') }}</th>
-                                                            <th>วันที่สั่งซื้อ</th>
-                                                            <th>ยอดรวม</th>
-                                                            <th>สถานะ</th>
-                                                            <th></th>
+                                                            <th width="15%">{{ __('view.order_id') }}</th>
+                                                            <th width="20%">วันที่สั่งซื้อ</th>
+                                                            <th width="20%">ชื่อร้าน</th>
+                                                            <th width="15%">ยอดรวม</th>
+                                                            <th width="15%">สถานะ</th>
+                                                            <th ></th>
                                                         </tr>
                                                     </thead>
                                                 </table>
@@ -315,7 +316,7 @@
         <!-- App js -->
          <script src="<?php echo url('assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/login/js/app.js');?>"></script>
-        <script src="<?php echo url('assets/js/plugins/sweet-alert2/sweetalert2.js');?>"></script>
+        <script src="<?php echo url('assets/js/plugins/sweetalert2/sweetalert2.all.min.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
         <script src="<?php echo url('assets/js/Met.js');?>"></script>
         <script>

@@ -1,10 +1,11 @@
 // user_payment
 Dropzone.autoDiscover = false;
+setInterval(function(){ table_order.ajax.reload(null,false); }, 5000);
 
 
 var table_order = $('#table_order').DataTable({
     serverSide: true,
-    processing: true,
+    processing: false,
     destroy: true,
     // order: [[ 1, "asc" ]],
     ajax: {
@@ -12,30 +13,27 @@ var table_order = $('#table_order').DataTable({
         data: {},
     },
     columns: [
-        { data: 'order_id', name: 'order_id', class: 'text-center' },
+        { data: 'id', name: 'id', class: 'text-center' },
         { data: 'order_date', name: 'order_date', class: 'text-center' },
-        { data: 'get_sold_price', name: 'get_sold_price', class: 'text-center' },
-        { data: 'status', name: 'status', class: 'text-center' },
-        { data: 'action', name: 'action', class: 'text-center' },
+        { data: 'shop_name', name: 'shop_name', class: 'text-center',"orderable": false },
+        { data: 'get_sold_price', name: 'get_sold_price', class: 'text-center',"orderable": false },
+        { data: 'status', name: 'status', class: 'text-center',"orderable": false },
+        { data: 'action', name: 'action', class: 'text-center',"orderable": false },
     ],
     createdRow: function( row, data, dataIndex ) {
+        var td_length = $('td',row).length-1;
         $.each($('td',row),function(index){
-            if(index == 0)
+            if(index != td_length)
             {
                 // $(this).attr('id', 'data');
-                // $(this).addClass('order_detail');
-                // $(this).attr('order_id')
+                $(this).addClass('order_detail');
             }
+            $(this).attr('order_id',data.id);
+            // console.log(td_length);
         });
-        console.log(data);
-        $(row).attr('abc', 'data');
+        // console.log(data);
     },
 });
-// table_order.on( 'order.dt search.dt', function () {
-    // table_order.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-        // cell.innerHTML = i+1;
-    // } );
-// } ).draw();
 
 window.onload = function () {
     var dropzoneOptions = {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\ShopPayment;
 
 class Shop extends Model
 {
@@ -34,6 +35,9 @@ class Shop extends Model
     }
     public function count_order(){
        return Order::where("shop_id",$this->id)->count();
+    }
+    public function shop_payment_tranfer(){
+        return ShopPayment::where('shop_id',$this->id)->where('method_id',2)->first();
     }
     public function get_categories($exclude_not_active=false){
         $builder=ShopCategory::where("shop_id",$this->id)

@@ -79,8 +79,8 @@
 
   <!-- ======= Intro Section ======= -->
   <section id="intro">
-
     <div class="intro-text">
+    {{ LKS::has_alert() }}
       <h2>Welcome to Gohala</h2>
       <p>We are team of talanted designers making websites with Bootstrap</p>
       <a href="<?php echo LKS::url_subdomain('manage','');?>" class="btn-get-started scrollto">เปิดร้าน</a>

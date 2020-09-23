@@ -51,8 +51,49 @@ class AAccountController extends Controller
         // mkdir('upload0777n',777);
         // mkdir('upload0777f', 777, false);
         // mkdir('upload0777t', 777, true);
-      // dd($data,$r->all(),uniqid(),uniqid(),public_path('uploads'));
+      // dd($data,$r->all());
       return view('account.profile',$data);
+   }
+   public function user_order_datatables(Request $r)
+   {
+    //  dd($r->all());
+     $model = Order::where("buyer_user_id",\Auth::user()->id)->orderBy('order_date','desc');
+    //  ->get();
+      return Datatables::of($model)
+      ->addColumn('shop_name',function($model){
+        return $model->shop->name;
+      })
+      ->editColumn('order_date',function($model){
+        return date('d/m/Y H:i:s',strtotime($model->order_date));
+      })
+      ->editColumn('status',function($model){
+        return $model->get_status_show();
+      })
+      ->addColumn('get_sold_price',function($model){
+        return $model->get_sold_price(true);
+      })
+      ->addColumn('action',function($model){
+        $shop_payment = $model->shop_payment_transfer;
+        // dd($shop_payment,$shop_payment->payment_data);
+        $price = $model->get_sold_price(true);
+        $attr = ' 
+        order_id="'.$model->id.'" 
+        price="'.$price.'"
+        payment=\''.$shop_payment->payment_data.'\' 
+        ';
+        $button = '';
+        if($model->status == 5)
+        {
+            $button = '<button type="button" class="btn btn-sm btn-primary btn_order_payment"'.$attr.'>แจ้งโอนเงิน</button>';
+        }
+        if($model->status != 5 && $model->payment_type == 2)
+        {
+            $button = '<button type="button" class="btn btn-sm btn-info btn_order_payment_view"'.$attr.'>ดูการชำระเงิน</button>';
+        }
+        
+        return $button;
+      })
+      ->make(true);
    }
    public function user_payment(Request $r)
    {
@@ -78,6 +119,7 @@ class AAccountController extends Controller
 
         // dd($r->file,1,$orderTranfer);
         $orderTranfer->order_id = $r->order_id;
+        $orderTranfer->shop_id = $order->shop_id;
         $orderTranfer->user_id = \Auth::user()->id;
         $orderTranfer->bank_name = $payment['bank_name'];
         $orderTranfer->account_name = $payment['account_name'];
@@ -106,7 +148,7 @@ class AAccountController extends Controller
         $order->save();
         $orderTranfer->save();
         DB::commit();
-        $result = [ 'result' => 1 , 'msg' => 'บันทึกเรียบร้อย' ];
+        $result = [ 'result' => 1 , 'msg' => 'Payment Success' ];
       }
       catch(\Exception $e)
       {
@@ -115,12 +157,6 @@ class AAccountController extends Controller
       }
       return json_encode($result);
 
-   }
-   public function user_order_datatables(Request $r)
-   {
-     dd($r->all());
-      Datatables::of($model)
-      ->make(true);
    }
    public function profile_address_get(Request $r)
    {
