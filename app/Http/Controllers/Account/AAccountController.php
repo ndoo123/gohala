@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserAddress;
+use App\Models\OrderTranfer;
 use App\Helper\LKS;
 use App\Models\Order;
 use App\Models\Shop;
@@ -13,6 +14,8 @@ use Facebook\Facebook;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use DB;
+use Met;
+use Datatables;
 
 class AAccountController extends Controller
 {
@@ -40,13 +43,84 @@ class AAccountController extends Controller
       $data['shop'] = Shop::where('user_id',$data['user']->id)->get();
       $data['shop_count'] = $data['shop']->count();
       $data['url'] = url()->current();
-      // dd($data,$r->all());
+        // mkdir(storage_path('app/uploads/bank_tranfer'));
+        // mkdir('upload0755n', 755);
+        // mkdir('upload0755t', 755, true);
+        // mkdir('upload0755f', 755, false);
+        // mkdir('upload0777');
+        // mkdir('upload0777n',777);
+        // mkdir('upload0777f', 777, false);
+        // mkdir('upload0777t', 777, true);
+      // dd($data,$r->all(),uniqid(),uniqid(),public_path('uploads'));
       return view('account.profile',$data);
    }
    public function user_payment(Request $r)
    {
-     return json_encode($r->input());
-     dd($r->all(),isset($r->file)?gettype($r->file):null);
+
+      //  return json_encode($r->input());
+      // dd($r->all(),json_decode($r->payment_data),\Auth::user(),isset($r->file)?gettype($r->file):null,uniqid());
+      try{
+        if(empty($r->order_id) && empty($r->price) && empty($r->payment_date) && empty($r->payment_data) && !\Auth::user() && !$r->file)
+          throw new \Exception('ข้อมูลไม่ครบ');
+        
+        $order = Order::find($r->order_id);
+        if(!$order)
+          throw new \Exception('ไม่พบออเดอร์');
+        
+        $r->price = str_replace(',','',$r->price);
+        $payment = json_decode($r->payment_data,true);
+        $orderTranfer = OrderTranfer::where('order_id',$r->order_id)->first();
+        if(!$orderTranfer)
+        {
+          $orderTranfer = new OrderTranfer();
+          $orderTranfer->order_id = $r->order_id;
+        }
+
+        // dd($r->file,1,$orderTranfer);
+        $orderTranfer->order_id = $r->order_id;
+        $orderTranfer->user_id = \Auth::user()->id;
+        $orderTranfer->bank_name = $payment['bank_name'];
+        $orderTranfer->account_name = $payment['account_name'];
+        $orderTranfer->account_no = $payment['account_no'];
+        $orderTranfer->payment_date = $r->payment_date.':00';
+        $orderTranfer->price = $r->price;
+        if($r->payment_remark)
+          $orderTranfer->payment_remark = $r->payment_remark;
+
+        $payment_file = [];
+        foreach($r->file as $file)
+        {
+          $img_name = uniqid();
+          $payment_file = $img_name;
+          // $payment_file[] = $img_name;
+          // $payment_file[] = $img_name.'.'.$file->getClientOriginalExtension();
+          $path = storage_path('app/uploads/bank_tranfer/'.$order->shop_id);
+          // dd($payment_file,Met::make_dir('uploads/shop_tranfer/'.$order->shop_id));
+          Met::make_dir($path);
+          $file->move($path, $img_name);
+        }
+        $orderTranfer->payment_file = $img_name;
+        // $orderTranfer->payment_file = json_encode($img_name);
+        // dd($orderTranfer);
+        $order->status = 6;
+        $order->save();
+        $orderTranfer->save();
+        DB::commit();
+        $result = [ 'result' => 1 , 'msg' => 'บันทึกเรียบร้อย' ];
+      }
+      catch(\Exception $e)
+      {
+        DB::rollback();
+        $result = [ 'result' => 0 , 'msg' => $e->getMessage().' On Line:'.$e->getLine().' On File'.$e->getFile()];
+      }
+      return json_encode($result);
+
+   }
+   public function user_order_datatables(Request $r)
+   {
+     dd($r->all());
+      Datatables::of($model)
+      ->make(true);
    }
    public function profile_address_get(Request $r)
    {

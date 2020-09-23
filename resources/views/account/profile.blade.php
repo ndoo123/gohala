@@ -14,6 +14,7 @@
         <link href="<?php echo url('assets/manage/login/css/icons.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/login/css/style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo url('assets/js/plugins/sweet-alert2/sweetalert2.min.css');?>" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
         <style>
             *{
@@ -118,6 +119,7 @@
                        <div class="card directory-card">
                             <div class="card-body">
                                 <div class="float-left mr-4">
+                                    {{-- {{dd(\Auth::user()->get_photo())}} --}}
                                     <img src="<?php echo \Auth::user()->get_photo();?>" alt="" class="img-fluid img-thumbnail rounded-circle thumb-lg">
                                       <br>
                                       <form action="<?php echo url('profile/update/profile_image');?>" method="post" enctype="multipart/form-data">
@@ -264,7 +266,7 @@
                                                 
                                             </div>
                                             <div class="tab-pane p-3 <?=($op == "myorder")?'active':null?>" id="order" role="tabpanel">
-                                                <table class="table table-hover" id="table_order" remote_url="{{ $url.'/user_order_datatables' }}">
+                                                <table class="table table-hover w-100" id="table_order" remote_url="{{ $url.'/user_order_datatables' }}">
                                                     <thead>
                                                         <tr>
                                                             <th>{{ __('view.order_id') }}</th>
@@ -274,36 +276,6 @@
                                                             <th></th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
-                                                        <?php foreach($orders as $order):?>
-                                                        <tr>
-                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->id;?></td>
-                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo date('d/m/Y H:i:s',strtotime($order->order_date));?></td>
-                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo number_format($order->total+$order->total_delivery,2);?></td>
-                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->get_status_show();?></td>
-                                                            <td order_id="{{ $order->id }}" }}>
-                                                                <?php
-                                                                // $shop_payment = ShopPayment::get_payment($order->shop_id,1);
-                                                                $shop_payment = $order->shop_payment_transfer;
-                                                                // dd($shop_payment,$shop_payment->payment_data);
-                                                                $price = $order->get_sold_price(true);
-                                                                $attr = ' 
-                                                                order_id="'.$order->id.'" 
-                                                                price="'.$price.'"
-                                                                payment=\''.$shop_payment->payment_data.'\' 
-                                                                ';
-                                                                $button = '';
-                                                                if($order->status == 5)
-                                                                {
-                                                                    $button = '<button type="button" class="btn btn-sm btn-primary btn_order_payment"'.$attr.'>แจ้งโอนเงิน</button>';
-                                                                }
-                                                                
-                                                                echo $button;
-                                                                ?>
-                                                            </td>
-                                                        </tr>
-                                                        <?php endforeach;?>
-                                                    </tbody>
                                                 </table>
                                             </div>
                                    
@@ -343,6 +315,7 @@
         <!-- App js -->
          <script src="<?php echo url('assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/login/js/app.js');?>"></script>
+        <script src="<?php echo url('assets/js/plugins/sweet-alert2/sweetalert2.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
         <script src="<?php echo url('assets/js/Met.js');?>"></script>
         <script>

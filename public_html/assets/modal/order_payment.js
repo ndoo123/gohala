@@ -1,17 +1,51 @@
 // user_payment
 Dropzone.autoDiscover = false;
-window.onload = function () {
 
-    var table_order = $('#table_order').DataTable();
-    
+
+var table_order = $('#table_order').DataTable({
+    serverSide: true,
+    processing: true,
+    destroy: true,
+    // order: [[ 1, "asc" ]],
+    ajax: {
+        url: $('#table_order').attr('remote_url'),
+        data: {},
+    },
+    columns: [
+        { data: 'order_id', name: 'order_id', class: 'text-center' },
+        { data: 'order_date', name: 'order_date', class: 'text-center' },
+        { data: 'get_sold_price', name: 'get_sold_price', class: 'text-center' },
+        { data: 'status', name: 'status', class: 'text-center' },
+        { data: 'action', name: 'action', class: 'text-center' },
+    ],
+    createdRow: function( row, data, dataIndex ) {
+        $.each($('td',row),function(index){
+            if(index == 0)
+            {
+                // $(this).attr('id', 'data');
+                // $(this).addClass('order_detail');
+                // $(this).attr('order_id')
+            }
+        });
+        console.log(data);
+        $(row).attr('abc', 'data');
+    },
+});
+// table_order.on( 'order.dt search.dt', function () {
+    // table_order.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+        // cell.innerHTML = i+1;
+    // } );
+// } ).draw();
+
+window.onload = function () {
     var dropzoneOptions = {
         url: $("#url").val()+'/user_payment',
         addRemoveLinks: true,
         autoProcessQueue : false,
         uploadMultiple:true,
         acceptedFiles: ".jpeg,.jpg,.png,.gif",
-        maxFiles: 5,
-        parallelUploads: 5,
+        maxFiles: 1,
+        parallelUploads: 1,
         dictDefaultMessage: 'ไฟล์รูปการชำระเงิน',
         paramName: "file",
 
@@ -24,8 +58,8 @@ window.onload = function () {
             var submitButton = document.querySelector(".sm_order_payment")
             myDropzone = this;
             $("#modal_user_payment").on('hidden.bs.modal',function(){
-                $("#form_user_payment input").val('');
-                $("#form_user_payment textarea").val('');
+                $("#form_user_payment input,textarea").not('input[name="_token"]').val('');
+                // $("#form_user_payment textarea").val('');
                 $("#form_user_payment").removeClass('was-validated');
                 
                 myDropzone.removeAllFiles();
@@ -35,6 +69,11 @@ window.onload = function () {
                 if ($.inArray(file.type, ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']) == -1) {
                     _this.removeFile(file);
                 }                
+            });
+
+            this.on("maxfilesexceeded", function(file) {
+                this.removeAllFiles();
+                this.addFile(file);
             });
             this.on("complete",function(file){
                 $(file._removeLink).fadeOut();
@@ -54,15 +93,30 @@ window.onload = function () {
                 if(radio !== undefined)
                     formData.append(radio.attr('name'),radio.val());
             });
-            // this.on('success',function(file, response){
-            //     console.log(file);
-            //     console.log(response);
-            //     // $("#modal_user_payment").modal('hide');
-            // });
             this.on('successmultiple',function(file, response){
                 console.log(file);
+                console.log(response);
                 console.log(JSON.parse(response));
-                // $("#modal_user_payment").modal('hide');
+                var res = JSON.parse(response);
+                if(res.result != 1)
+                {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: res.msg,
+                    })
+                }
+                else
+                {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: res.msg,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    $("#modal_user_payment").modal('hide');
+                }
             });
         }
     };

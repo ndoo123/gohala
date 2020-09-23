@@ -238,6 +238,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'LKS' => \App\Helper\LKS::class,
+        'Met' => \App\Helper\Met::class,
         'Cart' => \App\Helper\Cart::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 
