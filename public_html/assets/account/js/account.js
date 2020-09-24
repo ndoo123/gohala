@@ -27,6 +27,7 @@ var table_order = $('#table_order').DataTable({
             {
                 // $(this).attr('id', 'data');
                 $(this).addClass('order_detail');
+                $(this).attr('style','cursor: context-menu;');
             }
             $(this).attr('order_id',data.id);
             // console.log(td_length);
