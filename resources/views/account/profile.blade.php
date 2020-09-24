@@ -325,12 +325,12 @@
         </script>
         <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
         <script>
-            $("#order_table").DataTable({
-                order: [[1, 'desc']],
-                "columnDefs": [
-                { "type": "date-de", targets: 1 }
-                ],
-            });
+            // $("#order_table").DataTable({
+            //     order: [[1, 'desc']],
+            //     "columnDefs": [
+            //     { "type": "date-de", targets: 1 }
+            //     ],
+            // });
         </script>
 
     {{-- <script src="js/jquery-ui.js"></script> --}}
