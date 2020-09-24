@@ -28,3 +28,4 @@
     {{-- </form> --}}
 </div>
 <!-- end modal_order_send -->
+<script src="<?php echo url('assets/modal/order_send.js');?>"></script>

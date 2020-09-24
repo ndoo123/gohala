@@ -93,25 +93,36 @@ class Controller extends BaseController
             return number_format($order->total+$order->total_delivery,2);
         })
         ->addColumn('actions',function($order){
+
+            $shop_payment = $order->shop_payment_transfer;
+            // dd($shop_payment,$shop_payment->payment_data);
+            $price = $order->get_sold_price(true);
+            $attr = ' 
+            order_id="'.$order->id.'" 
+            price="'.$price.'"
+            payment=\''.$shop_payment->payment_data.'\' 
+            ';
             $action = '';
             $button = '';
             $status = $order->status < 4 ? $order->status + 1 : '';
             if($order->status == 1)
             {
-                $button = '<button type="button" class="btn btn-sm btn-primary btn_order" order_id="'.$order->id.'" status="'.$status.'">'.__('view.confirm').'</button>';
+                $button = $order->btn_confirm();
                 
             }
             else if($order->status == 2)
             {
-                $button = '<button type="button" class="btn btn-sm btn-info btn_order" order_id="'.$order->id.'" status="'.$status.'">'.__('view.order_send').'</button>';
+                $button = $order->btn_send();
             }
             else if($order->status == 3)
             {
-                $button = '<button type="button" class="btn btn-sm btn-success btn_order" order_id="'.$order->id.'" status="'.$status.'">'.__('view.order_success').'</button>';
+                $button = $order->btn_success();
             }
-
-            if(in_array($order->status,[1,5,6]))
-                $button .= '&nbsp;<button type="button" class="btn btn-sm btn-danger btn_order_cancel" order_id="'.$order->id.'" status="'.$status.'">'.__('view.order_cancel').'</button>';
+                
+            $button .= $order->btn_view_payment(); 
+            $button .= $order->btn_cancel();
+            // ในฟังชั่นจะเช็คว่าตรงกับเงื่อนไขหรือไม่ ถ้าไม่ตรง return '';
+            
             return $button;
         })
         ->editColumn('status',function($order){

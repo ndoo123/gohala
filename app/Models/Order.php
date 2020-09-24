@@ -110,4 +110,54 @@ class Order extends Model
         }
         return $this->total + $this->total_delivery;
     }
+    protected function next_stats(){
+        return $this->status < 4 ? $this->status + 1 : '';
+    }
+    public function btn_cancel()
+    {
+        $button = '';
+        if(in_array($this->status,[1,5,6]))
+            $button = '&nbsp;<button type="button" class="btn btn-sm btn-danger btn_order_cancel" order_id="'.$this->id.'">'.__('view.order_cancel').'</button>';
+        return $button;
+    }
+    public function btn_confirm()
+    {
+        $status = self::next_stats();
+        return '<button type="button" class="btn btn-sm btn-primary btn_order" order_id="'.$this->id.'" status="'.$status.'">'.__('view.confirm').'</button>';
+    }
+    public function btn_send()
+    {
+        $status = self::next_stats();
+        return '<button type="button" class="btn btn-sm btn-warning btn_order" order_id="'.$this->id.'" status="'.$status.'">'.__('view.order_send').'</button>';
+    }
+    public function btn_success()
+    {
+        $status = self::next_stats();
+        return '<button type="button" class="btn btn-sm btn-success btn_order" order_id="'.$this->id.'" status="'.$status.'">'.__('view.order_success').'</button>';
+    }
+    public function btn_view_payment()
+    {
+        if(in_array($this->status,[0,5]) && $this->payment_type == 2)
+            return '';
+            
+        $shop_payment = $this->shop_payment_transfer;
+        $price = $this->get_sold_price(true);
+        $attr = ' 
+        order_id="'.$this->id.'" 
+        price="'.$price.'"
+        payment=\''.$shop_payment->payment_data.'\' 
+        ';
+        return '&nbsp;<button type="button" class="btn btn-sm btn-info btn_order_payment_view"'.$attr.'>ดูการชำระเงิน</button>';
+    }
+    public function btn_payment()
+    {
+        $shop_payment = $this->shop_payment_transfer;
+        $price = $this->get_sold_price(true);
+        $attr = ' 
+        order_id="'.$this->id.'" 
+        price="'.$price.'"
+        payment=\''.$shop_payment->payment_data.'\' 
+        ';
+        return '<button type="button" class="btn btn-sm btn-primary btn_order_payment"'.$attr.'>แจ้งโอนเงิน</button>';
+    }
 }

@@ -91,7 +91,6 @@
     </div>
     </form>
 </div>
-<script src="<?php echo url('assets/modal/order_detail.js');?>"></script>
 <link rel="stylesheet" href="<?php echo url('assets/js/plugins/flatpickr/flatpickr.min.css');?>">
 <link rel="stylesheet" href="<?php echo url('assets/js/plugins/dropzone/dist/dropzone.css');?>">
 <script src="<?php echo url('assets/js/plugins/flatpickr/flatpickr.js');?>"></script>

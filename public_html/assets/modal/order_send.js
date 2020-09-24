@@ -43,7 +43,7 @@ $(document).on('click','.btn_order',function(){
                         text: res.msg,
                     })
                 }
-                table_order.ajax.reload();
+                table_order.ajax.reload( null, false);
                 if($("h5 span#profit").length > 0)
                     profit();
             }
@@ -89,7 +89,7 @@ $(document).on('click','.sm_order_send',function(){
                     text: res.msg,
                 })
             }
-            table_order.ajax.reload();
+            table_order.ajax.reload( null , false );
         }
     });
     modal.modal('hide');

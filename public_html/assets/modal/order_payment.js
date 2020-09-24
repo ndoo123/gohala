@@ -113,6 +113,7 @@ window.onload = function () {
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    table_order.ajax.reload(null,false);
                     $("#modal_user_payment").modal('hide');
                 }
             });

@@ -73,23 +73,13 @@ class AAccountController extends Controller
         return $model->get_sold_price(true);
       })
       ->addColumn('action',function($model){
-        $shop_payment = $model->shop_payment_transfer;
-        // dd($shop_payment,$shop_payment->payment_data);
-        $price = $model->get_sold_price(true);
-        $attr = ' 
-        order_id="'.$model->id.'" 
-        price="'.$price.'"
-        payment=\''.$shop_payment->payment_data.'\' 
-        ';
         $button = '';
         if($model->status == 5)
         {
-            $button = '<button type="button" class="btn btn-sm btn-primary btn_order_payment"'.$attr.'>แจ้งโอนเงิน</button>';
+            $button = $model->btn_payment();
         }
-        if($model->status != 5 && $model->payment_type == 2)
-        {
-            $button = '<button type="button" class="btn btn-sm btn-info btn_order_payment_view"'.$attr.'>ดูการชำระเงิน</button>';
-        }
+
+        $button .= $model->btn_view_payment(); // ดูการชำระเงิน เมื่อไม่ตรงกับเงื่อนไข return '';
         
         return $button;
       })

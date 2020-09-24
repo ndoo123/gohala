@@ -18,7 +18,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
         <style>
             *{
-                font-family: 'Kanit'
+                font-family: 'Kanit';
             }
             .flatpickr{
                 background-color: #e9ecef;
@@ -270,10 +270,10 @@
                                                     <thead>
                                                         <tr>
                                                             <th width="15%">{{ __('view.order_id') }}</th>
-                                                            <th width="20%">วันที่สั่งซื้อ</th>
+                                                            <th width="20%">{{ __('view.order_date') }}</th>
                                                             <th width="20%">ชื่อร้าน</th>
-                                                            <th width="15%">ยอดรวม</th>
-                                                            <th width="15%">สถานะ</th>
+                                                            <th width="15%">{{ __('view.total') }}</th>
+                                                            <th width="15%">{{ __('view.status') }}</th>
                                                             <th ></th>
                                                         </tr>
                                                     </thead>

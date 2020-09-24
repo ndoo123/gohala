@@ -16,6 +16,18 @@
         <link href="<?php echo url('assets/manage/css/style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/vertical.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/custom.css');?>" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+        <style>
+            *{
+                font-family: 'Kanit';
+            }
+            .flatpickr{
+                background-color: #e9ecef;
+            }
+            #sidebar-menu ul li a{
+                font-family: 'Kanit';
+            }
+        </style>
         <?php
 
         $url = url('');
@@ -184,11 +196,12 @@
         <script src="<?php echo url('assets/js/plugins/currency.min.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
 
+        <script>
+        var app=new LKS();
+        app.url='<?php echo (isset($shop)?url($shop->url):url(''));?>';
+        </script>
+        @yield('js')
+
     </body>
 
 </html>
-<script>
-var app=new LKS();
-app.url='<?php echo (isset($shop)?url($shop->url):url(''));?>';
-</script>
-@yield('js')

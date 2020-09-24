@@ -44,7 +44,7 @@ $(document).on('click','.sm_order_cancel',function(){
                     text: res.msg,
                 })
             }
-            table_order.ajax.reload();
+            table_order.ajax.reload( null , false );
         }
     });
     input.val('');
