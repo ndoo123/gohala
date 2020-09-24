@@ -45,13 +45,6 @@
                     <div class="form-group col-12 ">
                             <label for="price">วันที่ <span class="text-danger">*</span></label>
                             <input type="text" id="payment_date" name="payment_date" class="form-control flatpickr" required data-input>
-                            {{-- <a class="input-button" title="toggle" data-toggle>
-                                <i class="ti-arrow-circle-down"></i>
-                            </a>
-
-                            <a class="input-button" title="clear" data-clear>
-                                <i class="ti-arrow-circle-down"></i>
-                            </a> --}}
                     </div>
                     {{-- <div class="form-group col-4">
                         <label for="price">ชั่วโมง <span class="text-danger">*</span></label>
@@ -73,10 +66,6 @@
                         <label for="price">หมายเหตุ <span class="text-danger"></span></label>
                         <textarea row=3 id="payment_remark" name="payment_remark" class="form-control"></textarea>
                     </div>
-                    {{-- <div class="form-group col-12">
-                        <label for="price">ไฟล์หลักฐานการชำระเงิน <span class="text-danger">*</span></label>
-                        <input type="file" id="payment_file" name="payment_file" accept="image/*" class="form-control" required>
-                    </div> --}}
 
                     <div class="form-group col-12">
                         <div class="dropzone dropzone-previews w-100" id="my-awesome-dropzone"></div>
@@ -97,5 +86,4 @@
 <script src="{{ url('assets/js/plugins/dropzone/dist/dropzone.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="<?php echo url('assets/modal/order_payment.js');?>"></script>
-{{-- <script></script> --}}
 <!-- end modal_user_payment -->

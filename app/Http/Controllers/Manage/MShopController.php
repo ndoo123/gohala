@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Shop;
 use App\Models\ShopCategory;
+use App\Models\OrderTranfer;
 use App\Models\Product;
 use App\Models\ProductSlug;
 use App\Models\ProductPhoto;
@@ -30,7 +31,6 @@ class MShopController extends Controller
     }
    public function shops(Request $r)
    {
-       
        $data['shops']=Shop::where("user_id",\Auth::user()->id)->get();
        return view('manage.shop.shops',$data);
    }

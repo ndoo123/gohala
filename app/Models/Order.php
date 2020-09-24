@@ -46,7 +46,7 @@ class Order extends Model
         return $this->belongsTo('\App\Models\Payment','payment_type');
     }
     public function shop_payment(){
-        return $this->hasMany('\App\Models\ShopPayment','shop_id','shop_id');
+        return $this->belongsTo('\App\Models\OrderTranfer','id','order_id');
     }
     public function shop_payment_transfer(){
         return $this->hasOne('\App\Models\ShopPayment','shop_id','shop_id')->where('method_id',2);
@@ -71,6 +71,9 @@ class Order extends Model
         ->selectRaw('shop_shipping_tb.*,ship_method_tb.name')
         ->first();
         return $delivery;
+    }
+    public function get_payment_method_name(){
+        return $this->payment->name;
     }
     public function get_user_status_badge(){
         
@@ -137,21 +140,23 @@ class Order extends Model
     }
     public function btn_view_payment()
     {
-        if(in_array($this->status,[0,5]) && $this->payment_type == 2)
+        if(in_array($this->status,[0,5]) || $this->payment_type != 2)
             return '';
             
-        $shop_payment = $this->shop_payment_transfer;
+        $shop_payment = $this->shop_payment;
         $price = $this->get_sold_price(true);
         $attr = ' 
         order_id="'.$this->id.'" 
         price="'.$price.'"
-        payment=\''.$shop_payment->payment_data.'\' 
+        payment=\''.$shop_payment.'\' 
         ';
+        // payment=\''.$shop_payment->payment_data.'\' 
         return '&nbsp;<button type="button" class="btn btn-sm btn-info btn_order_payment_view"'.$attr.'>ดูการชำระเงิน</button>';
     }
     public function btn_payment()
     {
         $shop_payment = $this->shop_payment_transfer;
+        // dd($shop_payment);
         $price = $this->get_sold_price(true);
         $attr = ' 
         order_id="'.$this->id.'" 

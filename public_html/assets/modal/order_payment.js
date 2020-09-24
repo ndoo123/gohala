@@ -48,10 +48,12 @@ window.onload = function () {
                 // console.log(xhr);
                 // console.log(formData);
                 var form = $('#form_user_payment');
-                var inputs = $("#form_user_payment input,textarea").not("input[type='radio']");
-                var radio = form.find('input[type="radio"]:checked');
+                var modal = $('#form_user_payment').closest('.modal');
+                var inputs = $("#form_user_payment input,textarea",modal).not("input[type='radio']");
+                var radio = form.find('input[type="radio"]:checked',modal);
                 // console.log(radio);
                 // console.log(inputs);
+                // return;
                 inputs.each(function(index,input){
                     formData.append($(input).attr('name'),$(input).val());
                 });
@@ -101,44 +103,6 @@ window.onload = function () {
             alert('กรุณาเพิ่มไฟล์รูปการชำระเงิน');
             return;
         }
-        // var modal = $("#modal_user_payment");
-        // var modal = $(this).closest('.modal');
-        // var order_id = modal.attr('order_id');
-        // var url = $("#url").val()+'/user_payment';
-        // var obj = new Object();
-        // obj._token = $('meta[name=csrf-token]').attr('content');
-        // obj.order_id = order_id;
-        // obj.trace = modal.find('#order_send').val();
-        // // console.log(obj);
-        // $.ajax({
-        //     url: url,
-        //     type: 'post',
-        //     dataType: 'json',
-        //     data: obj,
-        //     success: function(res){
-        //         console.log(res);
-        //         if(res.status == 1)
-        //         {
-        //             Swal.fire({
-        //                 position: 'top-end',
-        //                 icon: 'success',
-        //                 title: 'Your Order has been saved',
-        //                 showConfirmButton: false,
-        //                 timer: 1500
-        //             });
-        //         }
-        //         else
-        //         {
-        //             Swal.fire({
-        //                 icon: 'error',
-        //                 title: 'Oops...',
-        //                 text: res.msg,
-        //             })
-        //         }
-        //         table_order.ajax.reload();
-        //     }
-        // });
-        // modal.modal('hide');
         newDropzone.processQueue();  // Tell Dropzone to process all queued files.
     });
     // console.log("Loaded");
@@ -205,14 +169,14 @@ $(document).on('click','.btn_order_payment',function(){
         //     <label class="custom-control-label" for="payment_check2">โอนเงิน</label>
         // </div>
     }
-    $(".bank_body").html('');
-    $(".bank_body").append(append);
-    $("#modal_user_payment_label span").html(order_id);
     var modal = $("#modal_user_payment");
     modal.attr('order_id',order_id);
-
+    $(".bank_body",modal).html('');
+    $(".bank_body",modal).append(append);
     $('input#order_id',modal).val(order_id);
     $('input#price',modal).val(price);
+    $("#modal_user_payment_label span").html(order_id);
+
 
     modal.modal('show');
     // console.log($("#profit").length());

@@ -28,6 +28,7 @@
 
     <body>
         <input type="hidden" id="url" value="{{ $url }}">
+        <input type="hidden" id="url_current" value="{{ $url }}">
         <div class="header-bg">
             <!-- Navigation Bar-->
             <header id="topnav" style="background-color:white">

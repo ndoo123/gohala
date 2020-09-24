@@ -135,9 +135,11 @@ Route::get('images/bank_tranfer/{shop_id}/{photo_name}.jpg',function($shop_id,$p
   // $path=public_path('assets/images/no_image_available.jpeg');
   // else
   $path=storage_path('app/uploads/bank_tranfer/'.$shop_id.'/'.$photo_name);
+  // dd($path);
   if(!file_exists($path))
   $path=public_path('assets/images/no_image_available.jpeg');
 
+  // dd($path);
   $file = File::get($path);
 
   $type = File::mimeType($path);
@@ -145,7 +147,6 @@ Route::get('images/bank_tranfer/{shop_id}/{photo_name}.jpg',function($shop_id,$p
   $response = Response::make($file, 200);
 
   $response->header("Content-Type", $type);
-  
   return $response;
 
 });

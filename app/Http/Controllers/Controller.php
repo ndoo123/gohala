@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Province;
 use App\Models\User;
+use App\Models\OrderTranfer;
 use App\Models\OrderDelivery;
 use App\Models\UserAddress;
 use App\Helper\LKS;
@@ -17,6 +18,22 @@ use DB;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+   public function get_payment_img(Request $r)
+   {
+    //  dd($r->all());
+    if(empty($r->order_id))
+      return json_encode(['result' => 0,'msg' => 'ไม่พบข้อมูล']);
+
+     $order_tranfer = OrderTranfer::where('order_id',$r->order_id)->first();
+     if(!$order_tranfer)
+      return json_encode(['result' => 0,'msg' => 'ไม่พบข้อมูล']);
+    $return = ['result' => 1,'img' => $order_tranfer->get_photo(),'btn' => 0,'order_id'=>$order_tranfer->order_id];
+    // dd($order_tranfer->order->status);
+    if(!empty($r->shop) && $order_tranfer->order->status == 6)
+        $return['btn'] = 1;
+    return json_encode($return);
+   }
     public function order_detail(Request $r)
     {
         // dd($r->all());
@@ -34,6 +51,7 @@ class Controller extends BaseController
         $detail['ค่าจัดส่ง'] = $order->total_delivery;
         $detail['ราคารวมทั้งหมด'] = number_format(((float)$order->total + (float)$order->total_delivery),2);
         $detail['สถานะออเดอร์'] = $order->get_status_show();
+        $detail['ชำระโดย'] = '<span class="badge badge-danger">'.$order->get_payment_method_name().'</span>';
         if(!empty($order->cancel_by))
             $detail['เหตุผลที่ยกเลิก'] = $order->cancel_remark ? '<span class="font-14">'.$order->cancel_remark.'</span>' : '';
         // dd($order,$order->delivery);
@@ -41,13 +59,13 @@ class Controller extends BaseController
         $cus['เบอร์ติดต่อ'] = !empty($order->delivery) && !empty($order->delivery->phone)?$order->delivery->phone:null;
         $cus['ที่อยู่'] = !empty($order->delivery) && !empty($order->delivery->address)?$order->delivery->address:null;
         $cus['จังหวัด'] = !empty($order->delivery) && !empty($order->delivery->province_id )? Province::find($order->delivery->province_id)->name : null;
-        $cus['รหัสไปรษณีย์'] = !empty($order->delivery) && !empty($order->delivery->zipcode)?$order->delivery->zipcode:null;
+        $cus['รหัสไปรษณีย์'] = !empty($order->delivery) && !empty($order->delivery->zipcode) ? $order->delivery->zipcode : null;
         // dd($order,$order->shop);
         $rest = [];
         $rest['ชื่อ'] = !empty($order->shop) && !empty($order->shop->name)?$order->shop->name:'ไม่พบชื่อร้าน';
         $rest['เลขผู้เสียภาษี'] = !empty($order->shop) && !empty($order->shop->tax_id)?$order->shop->tax_id:null;
         $rest['เบอร์ติดต่อ'] = !empty($order->shop) && !empty($order->shop->phone)?$order->shop->phone:null;
-        $rest['ที่อยู่'] = !empty($order->shop) && !empty($order->shop->address)?$order->shop->address:'ไม่พบที่อยู่';
+        $rest['ที่อยู่'] = !empty($order->shop) && !empty($order->shop->address) ? $order->shop->address : 'ไม่พบที่อยู่';
         $rest['จังหวัด'] = !empty($order->shop) && !empty($order->shop->province_id) ? Province::find($order->shop->province_id)->name : 'ไม่พบจังหวัด';
         $rest['รหัสไปรษณีย์'] = !empty($order->shop) && !empty($order->shop->zipcode)?$order->shop->zipcode:'ไม่พบรหัสไปรษณีย์';
         $rest['อีเมล'] = !empty($order->shop) && !empty($order->shop->email)?$order->shop->email:null;
@@ -122,7 +140,7 @@ class Controller extends BaseController
             $button .= $order->btn_view_payment(); 
             $button .= $order->btn_cancel();
             // ในฟังชั่นจะเช็คว่าตรงกับเงื่อนไขหรือไม่ ถ้าไม่ตรง return '';
-            
+
             return $button;
         })
         ->editColumn('status',function($order){

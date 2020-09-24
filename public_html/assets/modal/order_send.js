@@ -12,6 +12,7 @@ $(document).on('click','.btn_order',function(){
     }
     else
     {
+        $("#modal_view_payment").modal('hide');
         var url = $("#url").val()+'/update_order_status';
         var obj = new Object();
         obj._token = $('meta[name=csrf-token]').attr('content');

@@ -11,7 +11,10 @@ class OrderTranfer extends Model
     public $incrementing = false;
 
     public function get_photo(){
-      
-		return env('APP_URL').'/images/bank_tranfer/'.$this->shop_id.'/'.$this->payment_file.'.jpg';
-	}
+      // dd($this,$this->shop_id,$this->payment_file);
+      return env('APP_URL').'/images/bank_tranfer/'.$this->shop_id.'/'.$this->payment_file.'.jpg';
+    }
+    public function order(){
+      return $this->belongsTo('App\Models\Order');
+    }
 }
