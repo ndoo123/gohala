@@ -22,7 +22,8 @@ class CreateOrderTranferTb extends Migration
             $table->dateTime('payment_date');
             // $table->string('payment_hour',2);
             // $table->string('payment_minute',2);
-            $table->text('payment_remark');
+            $table->decimal('price',10,2);
+            $table->text('payment_remark')->nullable();
             $table->text('payment_file');
 			$table->timestamps();
             // $table->primary('order_id');

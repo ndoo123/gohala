@@ -30,10 +30,15 @@ class EditOrderAddCancel extends Migration
     public function down()
     {
         if (Schema::hasColumn('order_tb', 'cancel_remark')) {
-            $table->dropColumn('cancel_remark');
+
+            Schema::table('product_tb', function (Blueprint $table) {
+                $table->dropColumn('cancel_remark');
+            });
         }
         if (Schema::hasColumn('order_tb', 'cancel_by')) {
-            $table->dropColumn('cancel_by');
+            Schema::table('product_tb', function (Blueprint $table) {
+                $table->dropColumn('cancel_by');
+            });
         }
     }
 }

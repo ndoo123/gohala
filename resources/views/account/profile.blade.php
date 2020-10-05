@@ -14,10 +14,11 @@
         <link href="<?php echo url('assets/manage/login/css/icons.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/login/css/style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo url('assets/js/plugins/sweetalert2/sweetalert2.min.css');?>" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
         <style>
             *{
-                font-family: 'Kanit'
+                font-family: 'Kanit';
             }
             .flatpickr{
                 background-color: #e9ecef;
@@ -26,7 +27,8 @@
     </head>
 
     <body>
-
+        <input type="hidden" id="url" value="{{ $url }}">
+        <input type="hidden" id="url_current" value="{{ $url }}">
         <div class="header-bg">
             <!-- Navigation Bar-->
             <header id="topnav" style="background-color:white">
@@ -118,6 +120,7 @@
                        <div class="card directory-card">
                             <div class="card-body">
                                 <div class="float-left mr-4">
+                                    {{-- {{dd(\Auth::user()->get_photo())}} --}}
                                     <img src="<?php echo \Auth::user()->get_photo();?>" alt="" class="img-fluid img-thumbnail rounded-circle thumb-lg">
                                       <br>
                                       <form action="<?php echo url('profile/update/profile_image');?>" method="post" enctype="multipart/form-data">
@@ -264,46 +267,17 @@
                                                 
                                             </div>
                                             <div class="tab-pane p-3 <?=($op == "myorder")?'active':null?>" id="order" role="tabpanel">
-                                                <table class="table table-hover" id="table_order" remote_url="{{ $url.'/user_order_datatables' }}">
+                                                <table class="table table-hover w-100" id="table_order" remote_url="{{ $url.'/user_order_datatables' }}">
                                                     <thead>
                                                         <tr>
-                                                            <th>{{ __('view.order_id') }}</th>
-                                                            <th>วันที่สั่งซื้อ</th>
-                                                            <th>ยอดรวม</th>
-                                                            <th>สถานะ</th>
-                                                            <th></th>
+                                                            <th width="15%">{{ __('view.order_id') }}</th>
+                                                            <th width="20%">{{ __('view.order_date') }}</th>
+                                                            <th width="20%">ชื่อร้าน</th>
+                                                            <th width="15%">{{ __('view.total') }}</th>
+                                                            <th width="15%">{{ __('view.status') }}</th>
+                                                            <th ></th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
-                                                        <?php foreach($orders as $order):?>
-                                                        <tr>
-                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->id;?></td>
-                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo date('d/m/Y H:i:s',strtotime($order->order_date));?></td>
-                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo number_format($order->total+$order->total_delivery,2);?></td>
-                                                            <td class="order_detail" order_id="{{ $order->id }}"><?php echo $order->get_status_show();?></td>
-                                                            <td order_id="{{ $order->id }}" }}>
-                                                                <?php
-                                                                // $shop_payment = ShopPayment::get_payment($order->shop_id,1);
-                                                                $shop_payment = $order->shop_payment_transfer;
-                                                                // dd($shop_payment,$shop_payment->payment_data);
-                                                                $price = $order->get_sold_price(true);
-                                                                $attr = ' 
-                                                                order_id="'.$order->id.'" 
-                                                                price="'.$price.'"
-                                                                payment=\''.$shop_payment->payment_data.'\' 
-                                                                ';
-                                                                $button = '';
-                                                                if($order->status == 5)
-                                                                {
-                                                                    $button = '<button type="button" class="btn btn-sm btn-primary btn_order_payment"'.$attr.'>แจ้งโอนเงิน</button>';
-                                                                }
-                                                                
-                                                                echo $button;
-                                                                ?>
-                                                            </td>
-                                                        </tr>
-                                                        <?php endforeach;?>
-                                                    </tbody>
                                                 </table>
                                             </div>
                                    
@@ -343,25 +317,66 @@
         <!-- App js -->
          <script src="<?php echo url('assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js');?>"></script>
         <script src="<?php echo url('assets/manage/login/js/app.js');?>"></script>
+        <script src="<?php echo url('assets/js/plugins/sweetalert2/sweetalert2.all.min.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
+        <script src="<?php echo url('assets/js/Met.js');?>"></script>
         <script>
         var app=new LKS();
         app.url='<?php echo url('');?>';
         </script>
         <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
         <script>
-            $("#order_table").DataTable({
-                order: [[1, 'desc']],
-                "columnDefs": [
-                { "type": "date-de", targets: 1 }
-                ],
-            });
+            // $("#order_table").DataTable({
+            //     order: [[1, 'desc']],
+            //     "columnDefs": [
+            //     { "type": "date-de", targets: 1 }
+            //     ],
+            // });
         </script>
 
     {{-- <script src="js/jquery-ui.js"></script> --}}
 
         @include('modal.master_user')
         <script src="<?php echo url('assets/account/js/account.js');?>"></script>
+        <script>
+            $(document).ready(function(){
+                setInterval(function(){ table_order.ajax.reload(null,false); }, 5000);
+                
+            });
+
+            var table_order = $('#table_order').DataTable({
+                serverSide: true,
+                processing: false,
+                destroy: true,
+                // order: [[ 1, "asc" ]],
+                ajax: {
+                    url: $('#table_order').attr('remote_url'),
+                    data: {},
+                },
+                columns: [
+                    { data: 'id', name: 'id', class: 'text-center' },
+                    { data: 'order_date', name: 'order_date', class: 'text-center' },
+                    { data: 'shop_name', name: 'shop_name', class: 'text-center',"orderable": false },
+                    { data: 'get_sold_price', name: 'get_sold_price', class: 'text-center',"orderable": false },
+                    { data: 'status', name: 'status', class: 'text-center',"orderable": false },
+                    { data: 'action', name: 'action', class: 'text-center',"orderable": false },
+                ],
+                createdRow: function( row, data, dataIndex ) {
+                    var td_length = $('td',row).length-1;
+                    $.each($('td',row),function(index){
+                        if(index != td_length)
+                        {
+                            // $(this).attr('id', 'data');
+                            $(this).addClass('order_detail');
+                            $(this).attr('style','cursor: context-menu;');
+                        }
+                        $(this).attr('order_id',data.id);
+                        // console.log(td_length);
+                    });
+                    // console.log(data);
+                },
+            });
+        </script>
     </body>
 
 </html>

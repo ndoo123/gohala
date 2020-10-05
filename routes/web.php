@@ -129,6 +129,27 @@ Route::get('images/product/{shop_id}/{product_id}.{photo_name}.jpg',function($sh
   return $response;
 
 });
+Route::get('images/bank_tranfer/{shop_id}/{photo_name}.jpg',function($shop_id,$photo_name){
+  // $photo=\App\Models\ProductPhoto::where("product_id",$product_id)->where("id",$image_id)->first();
+  // if(!$photo)
+  // $path=public_path('assets/images/no_image_available.jpeg');
+  // else
+  $path=storage_path('app/uploads/bank_tranfer/'.$shop_id.'/'.$photo_name);
+  // dd($path);
+  if(!file_exists($path))
+  $path=public_path('assets/images/no_image_available.jpeg');
+
+  // dd($path);
+  $file = File::get($path);
+
+  $type = File::mimeType($path);
+
+  $response = Response::make($file, 200);
+
+  $response->header("Content-Type", $type);
+  return $response;
+
+});
 Route::get('/clear-cache', function() {
     Artisan::call('cache:clear');
     return "Cache is cleared";

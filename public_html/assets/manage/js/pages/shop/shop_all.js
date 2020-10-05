@@ -42,9 +42,7 @@ var table_order = $('#table_order').DataTable({
             if(colIndex != length)
             {
                 $(this).attr('order_id', data.id); 
-                // $(this).attr('data-toggle', 'modal'); 
-                // $(this).attr('data-target', '#modal_order_item'); 
-                // <td class="order_detail" order_id="{{ $ord->id }}">{{ $ord->id }}</td>
+                $(this).attr('style', 'cursor: context-menu;'); 
             }
         });
     }

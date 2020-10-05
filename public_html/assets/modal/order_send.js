@@ -12,6 +12,7 @@ $(document).on('click','.btn_order',function(){
     }
     else
     {
+        $("#modal_view_payment").modal('hide');
         var url = $("#url").val()+'/update_order_status';
         var obj = new Object();
         obj._token = $('meta[name=csrf-token]').attr('content');
@@ -43,7 +44,7 @@ $(document).on('click','.btn_order',function(){
                         text: res.msg,
                     })
                 }
-                table_order.ajax.reload();
+                table_order.ajax.reload( null, false);
                 if($("h5 span#profit").length > 0)
                     profit();
             }
@@ -89,7 +90,7 @@ $(document).on('click','.sm_order_send',function(){
                     text: res.msg,
                 })
             }
-            table_order.ajax.reload();
+            table_order.ajax.reload( null , false );
         }
     });
     modal.modal('hide');

@@ -9,11 +9,28 @@
 <a href="<?php echo url()->previous();?>">< กลับไปยังร้านก่อนหน้า</a>
 <img class="float-right" src="<?php echo url('');?>/assets/images/logo-dark.png" alt=""  height="35">
 </div>
-
+<style>
+    .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+    .alert-success {
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+    }
+    .alert-danger {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
+    }
+</style>
+{{ LKS::has_alert() }}
 <?php
 foreach($basket as $b):?>
 {{-- {{ dd($b) }} --}}
-
 <div class="card" style="margin-bottom:15px;margin-top:15px">
     <div class="card-body">
      <h3 style="margin-bottom:15px"><?php echo $b['name'];?>

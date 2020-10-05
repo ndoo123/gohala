@@ -10,6 +10,7 @@
     <title>Gohala</title>
 	<meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicons-->
+	{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> --}}
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
@@ -63,7 +64,8 @@
 				<div class="col-lg-6">
 					<ul class="footer-selector clearfix">
 						<li>
-							<a href="{{ $shop->get_url() }}">
+							{{-- <a href="//"> --}}
+							<a href="{{ !empty($shop) && !empty($shop->get_url()) ? $shop->get_url() : url('') }}">
 								<img src="{{ url('').'/assets/images/logo-dark.png' }}" data-src="{{ url('').'/assets/images/logo-dark.png' }}" alt="" height="50" class="lazy" style="background: white;border-radius: 5px">
 							</a>
 						</li>

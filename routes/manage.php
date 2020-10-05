@@ -20,10 +20,13 @@ Route::post('shops/create','MShopController@shop_create');
 Route::get('order_detail', 'MSettingController@order_detail');
 
 Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],function () {
+
+
     //สามารถเรีย $request->shop เพื่อ ดึงข้อมูลของ Shop มาได้เลย ในทุกๆฟังชั่นในนี้
     Route::get('/', "MShopController@shop_manage");
     Route::post('/profit', "MShopController@shop_profit");
     Route::get('/all', "MShopController@shop_manage_all");
+    Route::post('get_payment_img','MShopController@get_payment_img');
     Route::get('/order_datatables', "MShopController@order_datatables");
     Route::post('/order_cancel', "MShopController@order_cancel");
     Route::post('/update_order_status', "MShopController@update_order_status");

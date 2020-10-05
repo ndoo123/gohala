@@ -40,3 +40,4 @@
     {{-- </form> --}}
 </div>
 <!-- end modal_order_detail -->
+<script src="<?php echo url('assets/modal/order_detail.js');?>"></script>

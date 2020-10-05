@@ -65,10 +65,11 @@
                 <div class="card-body">
                     <h4 class="mt-0 text-primary header-title"><?php echo __('view.product.product_image');?></h4>
                     <p class="text-muted"><?php echo __('view.product.image_upload_info');?></p>
-                    <input type="file" id="file_input" style="display:none" multiple>
+                    <input type="file" id="file_input" style="display:none" multiple accept="image/*">
                      <div id="image_area">
                          <?php foreach($product->photos as $photo):?>
                          <div class="img_preview" img_id="<?php echo $photo->name;?>">
+                            <input type="hidden" name="position[]" value="{{ $photo->name }}">
                              <img src="<?php echo $photo->get_image_url();?>">
                              <button type="button" class="btn btn-sm btn-danger remove_btn">
                                  <i class="far fa-trash-alt"></i>
@@ -162,6 +163,8 @@
 
 
 <script src="<?php echo url('assets/js/plugins/dropzone/dist/dropzone.js');?>"></script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="<?php echo url('assets/manage/js/pages/shop/product/product_view.js');?>"></script>
 
 @stop

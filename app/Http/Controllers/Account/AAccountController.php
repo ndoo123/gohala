@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserAddress;
+use App\Models\OrderTranfer;
 use App\Helper\LKS;
 use App\Models\Order;
 use App\Models\Shop;
@@ -13,6 +14,8 @@ use Facebook\Facebook;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use DB;
+use Met;
+use Datatables;
 
 class AAccountController extends Controller
 {
@@ -43,10 +46,100 @@ class AAccountController extends Controller
       // dd($data,$r->all());
       return view('account.profile',$data);
    }
-  //  public function user_order_datatables(Request $r)
-  //  {
-  //    dd($r->all());
-  //  }
+   public function user_order_datatables(Request $r)
+   {
+    //  dd($r->all());
+     $model = Order::where("buyer_user_id",\Auth::user()->id)->orderBy('order_date','desc');
+    //  ->get();
+      return Datatables::of($model)
+      ->addColumn('shop_name',function($model){
+        return $model->shop->name;
+      })
+      ->editColumn('order_date',function($model){
+        return date('d/m/Y H:i:s',strtotime($model->order_date));
+      })
+      ->editColumn('status',function($model){
+        return $model->get_status_show();
+      })
+      ->addColumn('get_sold_price',function($model){
+        return $model->get_sold_price(true);
+      })
+      ->addColumn('action',function($model){
+        $button = '';
+        if($model->status == 5)
+        {
+            $button = $model->btn_payment();
+        }
+
+        $button .= $model->btn_view_payment(); // ดูการชำระเงิน เมื่อไม่ตรงกับเงื่อนไข return '';
+        
+        return $button;
+      })
+      ->make(true);
+   }
+   public function user_payment(Request $r)
+   {
+
+      //  return json_encode($r->input());
+      // dd($r->all(),json_decode($r->payment_data),\Auth::user(),isset($r->file)?gettype($r->file):null,uniqid());
+      try{
+        if(empty($r->order_id) && empty($r->price) && empty($r->payment_date) && empty($r->payment_data) && !\Auth::user() && !$r->file)
+          throw new \Exception('ข้อมูลไม่ครบ');
+        
+        $order = Order::find($r->order_id);
+        if(!$order)
+          throw new \Exception('ไม่พบออเดอร์');
+        
+        $r->price = str_replace(',','',$r->price);
+        $payment = json_decode($r->payment_data,true);
+        $orderTranfer = OrderTranfer::where('order_id',$r->order_id)->first();
+        if(!$orderTranfer)
+        {
+          $orderTranfer = new OrderTranfer();
+          $orderTranfer->order_id = $r->order_id;
+        }
+
+        // dd($r->file,1,$orderTranfer);
+        $orderTranfer->order_id = $r->order_id;
+        $orderTranfer->shop_id = $order->shop_id;
+        $orderTranfer->user_id = \Auth::user()->id;
+        $orderTranfer->bank_name = $payment['bank_name'];
+        $orderTranfer->account_name = $payment['account_name'];
+        $orderTranfer->account_no = $payment['account_no'];
+        $orderTranfer->payment_date = $r->payment_date.':00';
+        $orderTranfer->price = $r->price;
+        if($r->payment_remark)
+          $orderTranfer->payment_remark = $r->payment_remark;
+
+        $payment_file = [];
+        foreach($r->file as $file)
+        {
+          $img_name = uniqid();
+          $payment_file = $img_name;
+          // $payment_file[] = $img_name;
+          // $payment_file[] = $img_name.'.'.$file->getClientOriginalExtension();
+          $path = storage_path('app/uploads/bank_tranfer/'.$order->shop_id);
+          // dd($payment_file,Met::make_dir('uploads/shop_tranfer/'.$order->shop_id));
+          Met::make_dir($path);
+          $file->move($path, $img_name);
+        }
+        $orderTranfer->payment_file = $img_name;
+        // $orderTranfer->payment_file = json_encode($img_name);
+        // dd($orderTranfer);
+        $order->status = 6;
+        $order->save();
+        $orderTranfer->save();
+        DB::commit();
+        $result = [ 'result' => 1 , 'msg' => 'Payment Success' ];
+      }
+      catch(\Exception $e)
+      {
+        DB::rollback();
+        $result = [ 'result' => 0 , 'msg' => $e->getMessage().' On Line:'.$e->getLine().' On File'.$e->getFile()];
+      }
+      return json_encode($result);
+
+   }
    public function profile_address_get(Request $r)
    {
      $addr=UserAddress::where("user_id",\Auth::user()->id)->where("id",$r->address_id)->first();

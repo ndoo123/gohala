@@ -25,3 +25,4 @@
     {{-- </form> --}}
 </div>
 <!-- end modal_order_cancel -->
+<script src="<?php echo url('assets/modal/order_cancel.js');?>"></script>

@@ -1,3 +1,4 @@
+
 $(document).on('submit',"#login_form",function(e){
     e.preventDefault();
    
@@ -11,6 +12,8 @@ $(document).on('submit',"#login_form",function(e){
         
         Load('div.wrapper-page');
         window.top.location=r.data.redirect;
+        // console.log(r);
+        // console.log(r.data.redirect);
         
     }
     post.send($("#login_form"));

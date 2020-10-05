@@ -147,6 +147,7 @@ class HomeController extends Controller
         $data['provinces']=Province::orderBy('name','asc')->get();
         // dd($data);
         $data['shop']=$shop;
+        // if(empty($data['shop']->shop_payment_tranfer()->payment_data))
         $data['delivery_methods']= ShopDelivery::where("shop_id",$shop->id)
         ->leftJoin('ship_method_tb','ship_method_tb.id','shop_shipping_tb.shipping_id')
         ->where('shop_shipping_tb.is_checked',1)
@@ -154,7 +155,20 @@ class HomeController extends Controller
         $data['payment_methods']= ShopPayment::where("shop_id",$shop->id)
         ->leftJoin('payment_method_tb','payment_method_tb.id','shop_payment_tb.method_id')
         ->where('shop_payment_tb.is_checked',1)
+        // ->whereNotNull('shop_payment_tb.payment_data')
         ->selectRaw('payment_method_tb.name,shop_payment_tb.*')->get();
+        foreach($data['payment_methods'] as $p_key => $p)
+        {
+            if($p->method_id == 2)
+            {
+                if(empty($p->payment_data))
+                {
+                    unset($data['payment_methods'][$p_key]);
+                }
+            }
+        }
+        if($data['payment_methods']->count() < 1 )
+            return back()->with(['error'=>'เจ้าของร้านไม่ได้เพิ่มช่องทางการชำระ']);
 
         $data['cart'] = Cart::get_cart($shop->id);
         $data['totally'] = 0;
@@ -190,7 +204,8 @@ class HomeController extends Controller
         $data['url'] = url('').'/'.$data['shop']->url;
         $data['url_current'] = $data['url'].'/checkout';
         $data['url_submit'] = $data['url'].'/checkout/process';
-        // dd($data);
+        // dd($data['payment_methods']);
+        // dd($data,$data['shop']->shop_payment_tranfer());
         // dd($data['user_address'],$data['address_default']);
         return view('web.home.checkout',$data);
     }
@@ -337,26 +352,33 @@ class HomeController extends Controller
     }
     public function order_status(Request $r)
     {
-        // dd($r->all(),\Session::get('order'),session('order'));
+        // dd($r->all());
         if(!isset($r->order_id)){
             if(!session('order'))
             return redirect('/');
 
             $order=session('order');
+
+            // เมื่อ check มาเข้าตรงนี้
         }
         else
         {
             $order=Order::where("id",$r->order_id)->where("buyer_user_id",\Auth::user()->id)->first();
             if(!$order)
-            return redirect('/')->with('error','ไม่พบข้อมูลเลขที่สั่งซื้อ');
+                return redirect('/')->with('error','ไม่พบข้อมูลเลขที่สั่งซื้อ');
 
         }
+        $data['find_order'] = Order::find($order['id']);
+        // $r->order_id
         $data['url'] = \LKS::url_subdomain('account','').'/profile';
         $data['shop']=Shop::where("id",$order['shop_id'])->first();
         // $data['categories']=ProductCategory::all();
         $data['categories']=$data['shop']->get_categories(true);
         $data['order']=$order;
-        // dd($data);
+
+        $data['payment']= ShopPayment::where('method_id',2)->where('shop_id',$data['shop']->id)->where('is_checked',1)->first();
+        $data['payment']= !empty($data['payment']->payment_data) ? json_decode(json_decode($data['payment']->payment_data)) : null;
+        // dd($r->all(),$data);
         return view('web.home.order_status',$data);
     }
     public function get_products(Request $r)

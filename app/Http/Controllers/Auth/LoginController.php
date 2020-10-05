@@ -103,12 +103,13 @@ class LoginController extends Controller
         if(!\Hash::check($r->password,$u->password))
         return LKS::o(0,__('auth.wrong_password'));
 
-
+        // dd(\Auth::user(),\Auth::check(),LKS::o(1,array('redirect'=>url('profile'))),$r->all(),$r->redirect);
         \Auth::login($u);
         if(isset($r->redirect))
         return LKS::o(1,array('redirect'=>$r->redirect));
 
-        // dd(\Auth::user(),\Auth::check());
+
+        // dd(1,$r->all());
         return LKS::o(1,array('redirect'=>url('profile')));
     }
     public function register(Request $r)

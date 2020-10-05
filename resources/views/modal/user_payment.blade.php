@@ -1,6 +1,20 @@
 <!-- modal_user_payment -->
-<div class="modal fade" id="modal_user_payment" tabindex="-1" role="dialog" aria-labelledby="modal_user_payment_label" aria-hidden="true">
-    <form action="{{ $url.'/user_payment' }}" method="post" id="form_user_payment" enctype="multipart/form-data">
+<style>
+    .input-button
+    {
+        text-decoration: none; 
+        border: 1px solid #bbb;
+        display: block;
+        padding: 8.5px 12px;
+        border-left: 0;
+        cursor: pointer;
+        align-self: center;
+        justify-content: center;
+        line-height: 1; 
+    }
+</style>
+<div class="modal fade" id="modal_user_payment" role="dialog" aria-labelledby="modal_user_payment_label" aria-hidden="true">
+    <form action="{{ $url.'/user_payment' }}" method="post" class="needs-validation" novalidate id="form_user_payment" enctype="multipart/form-data">
     {{ csrf_field() }}
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -14,21 +28,23 @@
                 <div class="row modal_user_payment_body">
                     <div class="form-group col-6">
                         <label for="order_id">หมายเลขใบสั่งซื้อ <span class="text-danger">*</span></label>
-                        <input type="text" id="order_id" value="" class="form-control" readonly>
+                        <input type="text" id="order_id" name="order_id" value="" class="form-control" readonly>
                     </div>
                     <div class="form-group col-6">
                         <label for="price">จำนวนเงิน <span class="text-danger">*</span></label>
-                        <input type="text" id="price" value="" class="form-control" readonly>
+                        <input type="text" id="price" name="price" value="" class="form-control" readonly>
                     </div>
                     <div class="form-group col-12">
                         <label for="bank">ธนาคาร <span class="text-danger">*</span></label>
                         <div class="bank_body col-12">
-
+                            {{-- <input type="radio" name="payment_data" class="custom-control-input" id="payment_check_'+index+'" value=\''+JSON.stringify(payment_arr[index])+'\' required>'; 
+                            in ajax
+                            --}}
                         </div>
                     </div>
-                    <div class="form-group col-12">
-                        <label for="price">วันที่ <span class="text-danger">*</span></label>
-                        <input type="text" id="payment_date" name="payment_date" class="form-control flatpickr" required>
+                    <div class="form-group col-12 ">
+                            <label for="price">วันที่ <span class="text-danger">*</span></label>
+                            <input type="text" id="payment_date" name="payment_date" class="form-control flatpickr" required data-input>
                     </div>
                     {{-- <div class="form-group col-4">
                         <label for="price">ชั่วโมง <span class="text-danger">*</span></label>
@@ -50,12 +66,10 @@
                         <label for="price">หมายเหตุ <span class="text-danger"></span></label>
                         <textarea row=3 id="payment_remark" name="payment_remark" class="form-control"></textarea>
                     </div>
-                    {{-- <div class="form-group col-12">
-                        <label for="price">ไฟล์หลักฐานการชำระเงิน <span class="text-danger">*</span></label>
-                        <input type="file" id="payment_file" name="payment_file" accept="image/*" class="form-control" required>
-                    </div> --}}
 
-                    <div class="dropzone dropzone-previews w-100" id="my-awesome-dropzone"></div>
+                    <div class="form-group col-12">
+                        <div class="dropzone dropzone-previews w-100" id="my-awesome-dropzone"></div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -66,12 +80,10 @@
     </div>
     </form>
 </div>
-<script src="<?php echo url('assets/modal/order_detail.js');?>"></script>
 <link rel="stylesheet" href="<?php echo url('assets/js/plugins/flatpickr/flatpickr.min.css');?>">
 <link rel="stylesheet" href="<?php echo url('assets/js/plugins/dropzone/dist/dropzone.css');?>">
 <script src="<?php echo url('assets/js/plugins/flatpickr/flatpickr.js');?>"></script>
 <script src="{{ url('assets/js/plugins/dropzone/dist/dropzone.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="<?php echo url('assets/modal/order_payment.js');?>"></script>
-{{-- <script></script> --}}
 <!-- end modal_user_payment -->

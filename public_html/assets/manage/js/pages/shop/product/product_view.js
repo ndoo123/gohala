@@ -1,3 +1,5 @@
+
+$( "#image_area" ).sortable();
 function allow_file(file)
 {
     if(file.type=="image/jpeg" || file.type=="image/png" || file.type=="image/jpg")
@@ -20,6 +22,8 @@ function image_preview(image_data)
     var img_id="n"+Math.floor(Math.random() * 99)+10+""+new Date().getTime();
     var img='<div class="img_preview" tem_img_id="'+img_id+'">';
        
+    
+        img+='<input type="hidden" name="position[]" value="'+img_id+'">';
         img+='<input type="hidden" name="upload_image['+img_id+']" value="'+image_data+'"><img src="'+image_data+'">';
          img+='<button type="button" class="btn btn-sm btn-danger remove_btn"><i class="far fa-trash-alt"></i></button>';
           img+='<div class="set_default"><i class="fas fa-star"></i></div>';
