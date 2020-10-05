@@ -310,7 +310,12 @@ class PPosController extends Controller
         //return $id;
         if($id == '0')
         {
-            $data = Product::where("shop_id",$shop)->get();
+            $data = Product::where("shop_id", "=", $shop)->get();
+
+            // $data = DB::table('product_tb')
+            //             ->where('shop_id', '=', $shop)
+            //             ->get();
+            //dd($data);
             // $data = DB::table('product_tb')
             //         ->leftjoin('shop_category_product_tb','product_tb.id','=','shop_category_product_tb.product_id')
             //         ->leftjoin('shop_category_tb','shop_category_product_tb.category_id','=','shop_category_tb.id')
@@ -323,13 +328,15 @@ class PPosController extends Controller
         }
         else
         {
+            
             //$data = Product::where("shop_id",$shop)->where("status","1")->get();
             $data = DB::table('shop_category_product_tb')
                         ->leftJoin('product_tb', 'shop_category_product_tb.product_id', '=', 'product_tb.id')
-                        ->select('product_tb.*')
                         ->where('shop_category_product_tb.shop_id', '=', $shop)
                         ->where('shop_category_product_tb.category_id', '=', $id)
+                        ->select('product_tb.*')
                         ->get();
+            //dd($data);
 
             // $data = DB::table('product_tb')
             //         ->join('shop_category_product_tb','product_tb.id','=','shop_category_product_tb.product_id')
