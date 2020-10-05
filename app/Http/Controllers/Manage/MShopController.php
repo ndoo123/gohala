@@ -68,6 +68,7 @@ class MShopController extends Controller
    //SHOP MAnage
     public function product_save(Request $r)
     {
+        // dd($r->all());
         /* dd(preg_match('/[\/\'^£$%&*()}{@#~?><>"\\\.!,|=_+¬-]/', $r->sku) , 
         preg_match('/[\/\'^£$%&*()}{@#~?><>"\\\.!,|=_+¬-]/', $r->barcode)); */
         if(!isset($r->name)||$r->name==""||!isset($r->price)||!isset($r->qty)||!isset($r->sku)||$r->sku=="")
@@ -224,7 +225,8 @@ class MShopController extends Controller
                     if($img==null)
                     continue;
 
-                    $img_name=md5(rand(10,99).time().$img_id.$p->id.$r->shop->id.\Auth::user()->id);
+                    $img_name=$img_id;
+                    // $img_name=md5(rand(10,99).time().$img_id.$p->id.$r->shop->id.\Auth::user()->id);
                     \File::put($path.'/'.$img_name, $img);
 
                     $photo=new ProductPhoto();
@@ -249,7 +251,7 @@ class MShopController extends Controller
                     
                 }
             }
-
+            
             if(!$has_check_default_image &&isset($r->set_default))
             {
                 //ถ้าไม่พบการตั้งค่า default image ที่รูปที่อัพใหม่ แสดงว่าอาจจะใช้รูปเดิม
@@ -262,9 +264,16 @@ class MShopController extends Controller
                     $photo->save();
                 }
             }
-
             $p->save();
-
+            foreach($r->position as $posi_key => $posi)
+            {
+                $photo = ProductPhoto::where('name',$posi)->first();
+                if(!$photo)
+                    continue;
+                
+                $photo->position = $posi_key+1;
+                $photo->save();
+            }
          //Assign Category
          ProductCategory::where("product_id",$p->id)->where("shop_id",$r->shop->id)->delete();
          $add_categories=[];
@@ -726,7 +735,7 @@ class MShopController extends Controller
 
        }
        $data['categories']=ShopCategory::where("shop_id",$r->shop->id)->get();
-
+        // dd($data,$data['product']->photos);
        return view('manage.shop.product.product_view',$data);
    }
 

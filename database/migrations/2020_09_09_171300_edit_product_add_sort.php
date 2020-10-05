@@ -44,7 +44,9 @@ class EditProductAddSort extends Migration
     public function down()
     {
         if (Schema::hasColumn('product_tb', 'position')) {
-            $table->dropColumn('position');
+            Schema::table('product_tb', function (Blueprint $table) {
+                $table->dropColumn('position');
+            });
         }
     }
 }

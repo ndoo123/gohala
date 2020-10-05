@@ -44,7 +44,9 @@ class EditShopCateAddSort extends Migration
     public function down()
     {
         if (Schema::hasColumn('shop_category_tb', 'position')) {
-            $table->dropColumn('position');
+            Schema::table('shop_category_tb', function (Blueprint $table) {
+				$table->dropColumn('position');
+            });
         }
     }
 }
