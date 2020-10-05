@@ -420,18 +420,29 @@
     // click หมวดหมู่สินค้า
     function click_cat(id)
     {
-        let catid = $('#btncat'+id).attr("get_cat");
+        //let catid = $('#btncat'+id).attr("get_cat");
         // let shopid = $('#shopid').attr('value'); // shop id
         // let path = app.url+'/pos/readData/'+id+'/'+shopid;
+        // let catid = app.url+$('#btncat'+id).attr("get_cat");
 
-        console.log(catid);
+        // console.log(catid);
 
+        // $('.btn-cat').attr('class','btn btn-outline-primary waves-effect waves-light btn-cat');
+        // $('#btncat'+id).attr('class','btn btn-primary waves-effect waves-light btn-cat');
+
+        // $.get(catid, function(data){
+        //     $('#block-product').empty().html(data);
+        // });
+
+        let path = app.url+'/pos/readData/'+id+'/'+$('#shopid').attr("value");
+        console.log(path);
+        
         $('.btn-cat').attr('class','btn btn-outline-primary waves-effect waves-light btn-cat');
         $('#btncat'+id).attr('class','btn btn-primary waves-effect waves-light btn-cat');
 
-        $.get(catid, function(data){
-            $('#block-product').empty().html(data);
-        });
+        $.get(path, function(data){
+            $('#block-product').empty().html(data)                
+        })
         
     }
 
