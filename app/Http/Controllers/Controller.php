@@ -94,7 +94,12 @@ class Controller extends BaseController
         //     $orders = $orders->whereNotIn('status',[ 0,4 ]);
         //     $orderBy = 'asc';
         // }
-        if(isset($r->order_status))
+        if(isset($r->order_status) && $r->order_status == -1)
+        {
+            $orders = $orders->whereNotIn('status',[0,4]);
+            // $orderBy = 'asc';
+        }
+        else if(isset($r->order_status))
         {
             $orders = $orders->where('status',$r->order_status);
             // $orderBy = 'asc';

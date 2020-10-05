@@ -43,15 +43,13 @@ class MOrderController extends Controller
 		if(isset($r->order_status))
 		{
 			$order_label = Order::$label_status;
-			// $status_size = sizeof($order_label)-1;
 			$order_status = intval($r->order_status);
-			// if($order_status <= $status_size)
-			// dd($order_status);
 			if(array_key_exists($order_status,$order_label))
 			{
 				$data['order_status'] = $order_status;
 				$label = $order_label[$order_status];
 			}
+			// dd($data['order_status'],$label,$order_label);
 		}
 		// $data['label'] = $label;
 		$data['label'] = "ออเดอร์ $label ของร้าน | <span style='color:blue'>".$data['shop']->name."</span>";

@@ -13,6 +13,7 @@ class Order extends Model
     public $incrementing=false;
 
     public static $label_status = [
+        -1 => 'รายการรอดำเนินการ',
         0 => 'ยกเลิก',
         1 => 'สั่งซื้อ',
         2 => 'ยืนยันคำสั่งซื้อ',

@@ -355,7 +355,7 @@ class MShopController extends Controller
        );
        $data['url'] = $url = self::url($r);
        $data['remote_url'] = $url.'/order_datatables';
-
+        
        return view('manage.shop.shop_all_manage',$data);
    }
    public function shop_categories(Request $r)
