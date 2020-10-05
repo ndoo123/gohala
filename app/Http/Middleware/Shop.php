@@ -15,6 +15,7 @@ class Shop
      */
     public function handle($r, Closure $next)
     {
+        // dd(1);
         if(!isset($r->shop_url))
         return redirect()->back()->with('error',__('view.shop_id_not_found'));
 
@@ -24,7 +25,9 @@ class Shop
         $data=[];
         $data['shop']=$shop;
         $data['categories']=$shop->get_categories(true);
+        $data['user'] = \Auth::user();
         $r->merge(["data"=>$data]);
+        // dd($r->all());
         return $next($r);
     }
 }

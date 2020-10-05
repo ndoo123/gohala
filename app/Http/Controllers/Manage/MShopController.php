@@ -120,6 +120,10 @@ class MShopController extends Controller
             if($check_barcode)
             return LKS::o(0,"Barcode มีอยู่ในระบบแล้ว");
 
+            $check_barcode=Product::where("sku",$r->barcode)->where("shop_id",$r->shop->id)->first();
+            if($check_barcode)
+            return LKS::o(0,"Barcode ซ้ำกับ SKU ที่มีอยู่ในระบบ");
+
 
             $position=Product::where('shop_id',$r->shop->id)->get()->count() + 1;
             // dd($position);

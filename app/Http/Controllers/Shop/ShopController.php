@@ -17,7 +17,7 @@ use App\Models\ShopCat;
 use Exception;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Cart;
 use LKS;
@@ -25,12 +25,14 @@ class ShopController extends Controller
 {
     public function home(Request $r)
     {
+        // dd(\Auth::user());
         $output['search'] = !empty($r->search)?$r->search:null;
         foreach($r->data as $key => $data)
         {
             $output[$key] = $data;
         }
         // dd($output);
+        // dd($output,\Auth::user());
         return view('web.ecommerce.shop',$output);
     }
     public function product_view(Request $r)

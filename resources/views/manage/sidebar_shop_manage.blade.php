@@ -55,7 +55,7 @@
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect ">
                             <i class="ti-package"></i>
-                            <span>จัดการการสั่งซื้อ</span>
+                            <span>จัดการออเดอร์</span>
                         </a>
                         <ul class="sub-menu mm-collapse" aria-expanded="false">
                             <li >

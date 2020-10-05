@@ -137,7 +137,9 @@
 							</li>
 							<li>
 								<div class="dropdown dropdown-access">
-									<a href="#" class=""><img style="width: 40px;border-radius: 50%!important;height: 40px;" class="rounded-circle thumb-sm" alt="user" src="{{ \Auth::user()->get_photo() }}"></a>
+									<a href="#" class=""><img style="width: 40px;border-radius: 50%!important;height: 40px;" class="rounded-circle thumb-sm" alt="user" src="
+									{{ $user->get_photo() }}
+									"></a>
 									<div class="dropdown-menu">
 										{{-- <a href="account.html" class="btn_1">Sign In or Sign Up</a> --}}
 										<ul style="margin-top:0px">
@@ -145,8 +147,8 @@
 												<a href="{{ LKS::url_subdomain('account','') }}" class="">
 
 													<i class="ti-user"></i>
-													{{  \Auth::user()->name }}
-													{{-- <img src="{{ \Auth::user()->get_photo() }}" alt="" class="rounded-circle" style="height: 36px;width: 36px;"> --}}
+													{{  $user->name }}
+													{{-- <img src="{{ $user->get_photo() }}" alt="" class="rounded-circle" style="height: 36px;width: 36px;"> --}}
 													
 												</a>
 											</li>
