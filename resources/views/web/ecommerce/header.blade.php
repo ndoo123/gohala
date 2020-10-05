@@ -99,6 +99,7 @@
                                 // $count_item+=count($b['items']);
                             $html.='<ul shop_id="'.$b['shop_id'].'"><li class="title">'.$b['name'].'</li>';
                             foreach($b['items'] as $item){
+								// dd($item);
 								if(empty($item['price']))
 									continue;
 								else
@@ -138,7 +139,7 @@
 							<li>
 								<div class="dropdown dropdown-access">
 									<a href="#" class=""><img style="width: 40px;border-radius: 50%!important;height: 40px;" class="rounded-circle thumb-sm" alt="user" src="
-									{{ $user->get_photo() }}
+									{{ !empty($user) && !empty($user->get_photo()) ? $user->get_photo() : '' }}
 									"></a>
 									<div class="dropdown-menu">
 										{{-- <a href="account.html" class="btn_1">Sign In or Sign Up</a> --}}
@@ -147,7 +148,7 @@
 												<a href="{{ LKS::url_subdomain('account','') }}" class="">
 
 													<i class="ti-user"></i>
-													{{  $user->name }}
+													{{  !empty($user) && !empty($user->name) ? $user->name : null}}
 													{{-- <img src="{{ $user->get_photo() }}" alt="" class="rounded-circle" style="height: 36px;width: 36px;"> --}}
 													
 												</a>

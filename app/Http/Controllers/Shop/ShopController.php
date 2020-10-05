@@ -31,7 +31,7 @@ class ShopController extends Controller
         {
             $output[$key] = $data;
         }
-        // dd($output);
+        // dd($output,\Cart::get_cart());
         // dd($output,\Auth::user());
         return view('web.ecommerce.shop',$output);
     }

@@ -14,6 +14,8 @@ use Facebook\Facebook;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use DB;
+
+use Illuminate\Support\Facades\Auth;
 use Met;
 use Datatables;
 
@@ -43,7 +45,7 @@ class AAccountController extends Controller
       $data['shop'] = Shop::where('user_id',$data['user']->id)->get();
       $data['shop_count'] = $data['shop']->count();
       $data['url'] = url()->current();
-      // dd($data,$r->all());
+      // dd($data,$r->all(),\Auth::user());
       return view('account.profile',$data);
    }
    public function user_order_datatables(Request $r)

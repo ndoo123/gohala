@@ -105,6 +105,7 @@ class LoginController extends Controller
 
         // dd(\Auth::user(),\Auth::check(),LKS::o(1,array('redirect'=>url('profile'))),$r->all(),$r->redirect);
         \Auth::login($u);
+        // dd(\Auth::user());
         if(isset($r->redirect))
         return LKS::o(1,array('redirect'=>$r->redirect));
 

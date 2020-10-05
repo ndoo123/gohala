@@ -25,9 +25,9 @@ class Shop
         $data=[];
         $data['shop']=$shop;
         $data['categories']=$shop->get_categories(true);
-        $data['user'] = \Auth::user();
+        $data['user'] = !empty(\Auth::user()) ? \Auth::user() : null;
         $r->merge(["data"=>$data]);
-        // dd($r->all());
+        // dd($r->all(),\Auth::user());
         return $next($r);
     }
 }
