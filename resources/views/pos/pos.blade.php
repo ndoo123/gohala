@@ -204,9 +204,9 @@
                                 <div class="card">
                                     <div class="card-body">
                                     
-                                        <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat0" get_cat="<?php echo  URL::to('pos/readData/0/'.$shop->id) ; ?>" onclick="click_cat(0)">ทั้งหมด</button>
+                                        <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat0" get_cat="<?php echo  '/pos/readData/0/'.$shop->id ; ?>" onclick="click_cat(0)">ทั้งหมด</button>
                                         @foreach($pcats as $pcat)
-                                            <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat<?php echo  $pcat->id ; ?>" get_cat="<?php echo  URL::to('pos/readData/'.$pcat->id.'/'.$shop->id) ; ?>" onclick="click_cat(<?php echo  $pcat->id ; ?>)"><?php echo  $pcat->name ; ?></button>
+                                            <button type="button" class="btn btn-outline-primary waves-effect waves-light btn-cat" id="btncat<?php echo  $pcat->id ; ?>" get_cat="<?php echo '/pos/readData/'.$pcat->id.'/'.$shop->id ; ?>" onclick="click_cat(<?php echo  $pcat->id ; ?>)"><?php echo  $pcat->name ; ?></button>
                                         @endforeach
 
                                     </div>
