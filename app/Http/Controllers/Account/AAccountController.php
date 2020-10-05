@@ -43,14 +43,6 @@ class AAccountController extends Controller
       $data['shop'] = Shop::where('user_id',$data['user']->id)->get();
       $data['shop_count'] = $data['shop']->count();
       $data['url'] = url()->current();
-        // mkdir(storage_path('app/uploads/bank_tranfer'));
-        // mkdir('upload0755n', 755);
-        // mkdir('upload0755t', 755, true);
-        // mkdir('upload0755f', 755, false);
-        // mkdir('upload0777');
-        // mkdir('upload0777n',777);
-        // mkdir('upload0777f', 777, false);
-        // mkdir('upload0777t', 777, true);
       // dd($data,$r->all());
       return view('account.profile',$data);
    }
