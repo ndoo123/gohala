@@ -77,7 +77,7 @@
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
                                     <h4 class="page-title">
-                                    <img src="<?php echo \Auth::user()->get_photo();?>" alt="user" class="rounded-circle" height="45">
+                                    <img src="<?php echo $shop->get_photo();?>" alt="user" class="" height="45">
                                     <?php echo $shop->name ;?></h4>
                                 </div>
                                 <div class="col-sm-6">
