@@ -13,8 +13,8 @@
                         <label>รูปแบบใบเสร็จ</label>
 
                         <select name="s_receipt" class="form-control">
-                                <option value="1" <?php if($shop->receipt_type == '1'){ echo 'selected'; }?>>ขนาด 3 นิ้ว ไม่มี VAT</option>
-                                <option value="2" <?php if($shop->receipt_type == '2'){ echo 'selected'; }?>>ขนาด 3 นิ้ว แสดง VAT</option>
+                                <option value="1" <?php if($shop->receipt_type == '1'){ echo 'selected'; }?>>กระดาษสลิป 57mm, 80mm ไม่แสดง VAT</option>
+                                <option value="2" <?php if($shop->receipt_type == '2'){ echo 'selected'; }?>>กระดาษสลิป 57mm, 80mm แสดง VAT</option>
                         </select>
                         
                     </div>
