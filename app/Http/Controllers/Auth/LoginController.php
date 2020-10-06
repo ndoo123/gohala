@@ -90,7 +90,7 @@ class LoginController extends Controller
     }
     public function login(Request $r)
     {
-
+        dd($r->all());
         if((!isset($r->email)||$r->email=="") || (!isset($r->password) || $r->password==""))
         {
             return \LKS::o(0,__('auth.email_password_empty'));

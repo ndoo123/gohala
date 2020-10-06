@@ -222,7 +222,7 @@
 	// });
 	$(window).click(function(){
 		// alert(1);
-		$('.dropdown-cart, .dropdown-access').removeClass('show').find('.dropdown-menu').fadeOut(300);
+		// $('.dropdown-cart, .dropdown-access').removeClass('show').find('.dropdown-menu').fadeOut(300);
 	});
 	$(document).on('click','.dropdown-cart, .dropdown-access',function (event) {
 		// alert(1);
@@ -237,16 +237,13 @@
 			$(this).removeClass('show');
 			$(this).find('.dropdown-menu').removeClass('show').fadeOut(300);
 		}
-	});
-	$(document).on('change','.dropdown-cart, .dropdown-access',function () {
-		alert(1);
-	});
+	},);
 
 	/* Cart Dropdown Hidden From tablet */
 	$(window).bind('load resize', function () {
 		var width = $(window).width();
 		if (width <= 768) {
-			$('a.cart_bt, a.access_link').removeAttr("data-toggle", "dropdown")
+			// $('a.cart_bt, a.access_link').removeAttr("data-toggle", "dropdown")
 		} else {
 			$('a.cart_bt,a.access_link').attr("data-toggle", "dropdown")
 		}

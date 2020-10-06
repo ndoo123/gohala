@@ -42,3 +42,11 @@ a.btn_2,.btn_2{
   background-color: #004dda;
   color: #fff !important;
 }
+
+@media (max-width: 991px) {
+  /* style:2258 */
+  header ul.top_tools > li .dropdown-cart .dropdown-menu,
+  header ul.top_tools > li .dropdown-access .dropdown-menu {
+    display: none;  
+  }
+}

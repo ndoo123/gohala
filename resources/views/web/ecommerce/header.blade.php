@@ -121,7 +121,7 @@
 						<ul id="cart_top" class="top_tools">
 							<li>
 								<div class="dropdown dropdown-cart">
-									<a href="javascript:;" class="cart_bt"><strong style="display:<?php echo $count_item>0?'block':'none';?>"><?php echo $count_item;?></strong></a>
+									<a href="#" class="cart_bt"><strong style="display:<?php echo $count_item>0?'block':'none';?>"><?php echo $count_item;?></strong></a>
 									<div class="dropdown-menu">
                                         	<?php echo $html;?>
 										<div class="total_drop">
@@ -138,20 +138,30 @@
 							</li>
 							<li>
 								<div class="dropdown dropdown-access">
-									<a href="#" class=""><img style="width: 40px;border-radius: 50%!important;height: 40px;" class="rounded-circle thumb-sm" alt="user" src="
-									{{ !empty($user) && !empty($user->get_photo()) ? $user->get_photo() : '' }}
-									"></a>
+									@if (!empty($user))
+										
+										<a href="#" class="">
+											<img style="width: 40px;border-radius: 50%!important;height: 40px;" class="rounded-circle thumb-sm" alt="user" src="
+											{{ !empty($user) && !empty($user->get_photo()) ? $user->get_photo() : '' }}
+										"></a>
+									@else
+										<a href="#" class="access_link">
+										</a>
+									@endif
 									<div class="dropdown-menu">
-										{{-- <a href="account.html" class="btn_1">Sign In or Sign Up</a> --}}
-										<ul style="margin-top:0px">
-											<li>
-												<a href="{{ LKS::url_subdomain('account','') }}" class="">
 
+										@if(empty($user))
+											<a href="#" class="btn_login btn_1">Sign In or Sign Up</a>
+										@endif
+										{{-- <a href="account.html" class="btn_1">Sign In or Sign Up</a> --}}
+										<ul style="margin-top:{{ !empty($user) ? '0px' : '15px' }}">
+											<li>
+												@if (!empty($user))
+												<a href="{{ LKS::url_subdomain('account','') }}" class="">
 													<i class="ti-user"></i>
 													{{  !empty($user) && !empty($user->name) ? $user->name : null}}
-													{{-- <img src="{{ $user->get_photo() }}" alt="" class="rounded-circle" style="height: 36px;width: 36px;"> --}}
-													
 												</a>
+												@endif
 											</li>
 											{{-- <li>
 												<a href="track-order.html"><i class="ti-truck"></i>Track your Order</a>
@@ -159,12 +169,8 @@
 											<li>
 												<a href="{{ LKS::url_subdomain('account','profile?op=myorder') }}"><i class="ti-package"></i>My Orders</a>
 											</li>
-											<li>
-												{{-- <a href="account.html"><i class="ti-user"></i>My Profile</a> --}}
-											</li>
-											{{-- <li>
-												<a href="help.html"><i class="ti-help-alt"></i>Help and Faq</a>
-											</li> --}}
+											
+											@if(!empty($user))
 											<li>
 												<a href="{{ LKS::url_subdomain('account','logout') }}" class="">
 													<i class="ti-na"></i>
@@ -172,6 +178,7 @@
 													Logout
 												</a>
 											</li>
+											@endif
 										</ul>
 									</div>
 								</div>

@@ -47,6 +47,7 @@
 </head>
 
 <body>
+	
 	@include('web.ecommerce.header')
 	<main>
 		<div class="container pt-3">
@@ -122,7 +123,7 @@
     <script>
 		var app=new LKS();
     </script>
-    
+    @include('modal.login')
     @yield('js')
  
 </body>

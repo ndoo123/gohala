@@ -2253,12 +2253,12 @@ header ul.top_tools > li .dropdown-access .dropdown-menu {
   font-size: 13px;
   font-size: 0.8125rem;
 }
-@media (max-width: 991px) {
+/* @media (max-width: 991px) {
   header ul.top_tools > li .dropdown-cart .dropdown-menu,
   header ul.top_tools > li .dropdown-access .dropdown-menu {
     display: none !important;
   }
-}
+} */
 header ul.top_tools > li .dropdown-cart .dropdown-menu:before,
 header ul.top_tools > li .dropdown-access .dropdown-menu:before {
   bottom: 100%;
