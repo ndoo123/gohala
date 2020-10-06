@@ -154,7 +154,7 @@
                                         <div class="input-group mb-2">
                                             <input type="text" class="typeahead form-control clear_end" id="t_search" name="t_search" placeholder="บาร์โค้ด" autofocus>
                                             <div class="input-group-append">
-                                                <button type="button" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+                                                <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i></button>
                                             </div>
                                         </div>
                                         </form>
@@ -260,7 +260,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-6 col-form-label" >ส่วนลด</label>
                                             <div class="col-sm-6">
-                                                <input type="text" class="form-control sum_cash text-right text-primary" value="0" readonly id="discounttotal" name="discounttotal" >
+                                                <input type="text" class="form-control sum_cash text-right text-danger" value="0" readonly id="discounttotal" name="discounttotal" >
                                             </div>
                                         </div>
 

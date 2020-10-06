@@ -15,17 +15,29 @@
     function click_product(id)
     {
         //alert(id);
-        let pid = $('#pid'+id).attr("get_product");
         let list = $('#list_body').html();
         let search_id = $(list).find('#num'+id).html();
-        //console.log(search_id);
+        let tsearch = $('#t_search').val();
+        
+        //console.log(tfind);
 
         //let list_prod = $('#list_product').html();
 
+        // ถ้ามีสินค้าอยู่ในรายการแล้ว
         if(search_id){
             let real_price = $('#price'+id).attr("real_price").replace(",", ""); // ราคาสินค้า
-            let o_num = parseInt(search_id);
-            let num = parseInt(search_id) + 1;
+            let o_num = parseInt(search_id); //  จำนวนที่มีอยู่
+            let num = 0;
+            
+            // ถ้ามีข้อมูลในช่องบาร์โค้ด
+            if(tsearch.includes("*")){
+                let tsearch_num = tsearch.replace("*","");
+                //console.log(tsearch_num);
+                num = parseInt(search_id) + parseInt(tsearch_num);
+            }else{
+                num = parseInt(search_id) + 1;
+            }
+            
             let o_price = parseFloat(o_num) * parseFloat(real_price);
             let n_price = parseFloat(num) * parseFloat(real_price);
 
@@ -42,8 +54,23 @@
             clear_all();
 
         }else{
+            let num = 0;
+            
+            // ถ้ามีข้อมูลในช่องบาร์โค้ด
+            if(tsearch.includes("*")){
+                let tsearch_num = tsearch.replace("*","");
+                //console.log(tsearch_num);
+                num = parseInt(tsearch_num);
+            }else{
+                num = 1;
+            }
+            // let path = app.url+'/pos/readData/'+id+'/'+$('#shopid').attr("value");
+
+            let pid = $('#pid'+id).attr("get_product");  // จาก pos_product
+            let path = app.url+'/pos/read-barcode/'+pid+'*'+num+'/'+$('#shopid').attr("value");
+            console.log(path);
         
-            $.get(pid, function(txt){
+            $.get(path, function(txt){
                 list += txt;
                 $('#list_body').html(list);
 
@@ -246,7 +273,7 @@
 
     }
 
-    กดปุ่มชำระเงิน
+    //กดปุ่มชำระเงิน
     function pay()
     {
         $("#frm_save").submit();
