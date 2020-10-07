@@ -83,7 +83,8 @@ class ShopController extends Controller
         // $collection = $collection->paginate(30);
         // dd($r->all(),!empty($r->cat));
         // dd($r->cat,$count,$collection);
-        if(!empty($r->cat))
+        // dd($collection->get());
+        if(!empty($r->cat)) // กรณีกดเลือกประเภท
         {
             $collection->getCollection()->transform(function ($p) use($r) {
                 // Your code here
@@ -104,7 +105,7 @@ class ShopController extends Controller
                 ];
             });
         }
-        else
+        else // กรณีไม่กดเลือกประเภท
         {
             $collection->getCollection()->transform(function ($p) use($r) {
                 // Your code here

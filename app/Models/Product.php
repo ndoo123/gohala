@@ -10,14 +10,14 @@ class Product extends Model
 
     public function get_photo(){
       
-        if($this->default_photo!="")
-        {
-           return env('APP_URL').'/images/product/'.$this->shop_id.'/'.$this->id.'.'.$this->default_photo.'.jpg';
-        }
-        else if(!empty($this->photos->first()))
+        if(!empty($this->photos->first()))
         {
             // dd($this->photos);
            return env('APP_URL').'/images/product/'.$this->shop_id.'/'.$this->id.'.'.$this->photos->first()->name.'.jpg';
+        }
+        else if($this->default_photo!="")
+        {
+           return env('APP_URL').'/images/product/'.$this->shop_id.'/'.$this->id.'.'.$this->default_photo.'.jpg';
         }
 
         return env('APP_URL').'/assets/images/no_image_available.jpeg';
@@ -66,9 +66,14 @@ class Product extends Model
         // if($this->slug!="")
         // return env('APP_URL').$shop_url.'/product/'.$this->slug.'.'.$this->shop_id;
         // else
+        // if(!empty($this->photos) && $this->photos->first())
+        // {
+        //     $first = $this->photos->first();
+        //     return $first->get_image_url();
+        // }
         return env('APP_URL').$shop_url.'/product/'.$this->id;
 
-        return url('');
+        // return url('');
     }
     public function get_discount_price($is_money=false){
         $price=$this->price;

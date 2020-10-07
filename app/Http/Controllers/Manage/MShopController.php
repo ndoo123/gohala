@@ -584,7 +584,7 @@ class MShopController extends Controller
             DB::table('product_tb as p')
             ->leftJoin('shop_category_product_tb as m', 'm.product_id', '=', 'p.id')
             ->leftJoin('shop_category_tb as c', 'c.id', '=', 'm.category_id')
-            ->select('p.*', 'c.*', 'm.*','c.name as c_name','p.name as p_name','p.id as p_id','p.position as p_position','c.position as c_position')
+            ->select('p.*', 'c.*', 'm.*','c.name as c_name','p.name as p_name','p.id as p_id','p.position as p_position','c.position as c_position','p.shop_id as p_shop_id')
             ->groupBy('p_id')
             ->where('p.shop_id',$r->shop->id);
             // ->get();
@@ -612,7 +612,10 @@ class MShopController extends Controller
             // {
             //     $img = env('APP_URL').'/images/product/'.$products->shop_id.'/'.$products->p_id.'.'.$products->default_photo.'.jpg';
             // }
-            $photo = ProductPhoto::where('product_id',$products->p_id)->where('shop_id',$products->shop_id)->orderBy('is_default','desc')->orderBy('position','asc')->first();
+            $photo = ProductPhoto::where('product_id',$products->p_id)->where('shop_id',$products->p_shop_id)->orderBy('is_default','desc')->orderBy('position','asc')->first();
+            // if(!in_array($products->p_id,[2,3,4]))
+            //     dd($photo,$products->p_id,$products);
+                // continue;
             if($photo)
                 $img = $photo->get_image_url();
             return '<img src="'.$img.'" alt="" class="rounded thumb-lg">';
