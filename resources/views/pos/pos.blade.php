@@ -305,9 +305,28 @@
                                     </div>
                                     <div class="col-6">
 
-                                        <div class="form-group">
-                                            <label for="getdiscount">ส่วนลด</label>
-                                            <input type="decimal" class="form-control getmoney text-right" onkeyup="discount()"  id="discount" name="discount" maxlength="11" value="0">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="getdiscount">ส่วนลด</label>
+                                                    <input type="decimal" class="form-control getmoney text-right" onkeyup="discount()"  id="discount" name="discount" maxlength="11" value="0">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                
+                                                <div class="form-group">
+                                                    <label class="d-block">ประเภทส่วนลด</label>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="typeDiscount" value="bath" checked >
+                                                        <label class="form-check-label" for="example-radios-inline1">บาท</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="typeDiscount" value="percent">
+                                                        <label class="form-check-label" for="example-radios-inline2">เปอร์เซ็นต์</label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
                                         </div>
 
                                         <div class="form-group mb-2">

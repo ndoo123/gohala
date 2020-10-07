@@ -328,6 +328,18 @@
         $("#pricetotal").val(addCommas(sumprice));
     }
 
+    // เลือกส่วนลดเป็น percent
+    function real_percent_total()
+    {
+        let disc = $("#discount").val().replace(",", ""); // ส่วนลด
+        let price = $("#sumprice").val().replace(",", "");  // ยอดเงินรวม
+        let percent = (parseFloat(price) * parseFloat(disc)) / 100;
+        let sumprice = parseFloat(price) - parseFloat(percent);
+
+        $("#discounttotal").val(addCommas(percent));
+        $("#pricetotal").val(addCommas(sumprice));
+    }
+
     function torn()
     {
         let a = $("#pricetotal").val().replace(",", "");  // รวมเงิน
@@ -502,6 +514,19 @@
         Dashmix.helpers('notify', {type: 'danger', icon: 'fa fa-times mr-1', message: 'ลบแล้ว'});
     })
 
-    
-    
+    // เปลี่ยนประเภทส่วนลด
+    $('input[type=radio][name=typeDiscount]').change(function() {
+        if (this.value == 'bath') {
+            //console.log('value', 'bath');
+            discount();
+            get_clear();
+        }
+        else if (this.value == 'percent') {
+            //console.log('value', 'percent');
+            real_percent_total();
+            get_clear();
+        }
+    });
+
+
     
