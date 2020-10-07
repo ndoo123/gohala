@@ -53,8 +53,8 @@ class Product extends Model
     public function photos(){
         return $this->hasMany('\App\Models\ProductPhoto','product_id','id')
         ->orderBy('is_default','desc')
-        ->orderBy('position','asc')
-        ->orderBy('created_at','asc');
+        ->orderBy('position','asc');
+        // ->orderBy('created_at','asc');
     }
     public function shop(){
         return $this->hasOne('\App\Models\Shop','id','shop_id');
