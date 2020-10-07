@@ -608,11 +608,13 @@ class MShopController extends Controller
         })
         ->addColumn('img',function($products){
             $img = env('APP_URL').'/assets/images/no_image_available.jpeg';
-            if($products->default_photo!="")
-            {
-                $img = env('APP_URL').'/images/product/'.$products->shop_id.'/'.$products->p_id.'.'.$products->default_photo.'.jpg';
-            }
-
+            // if($products->default_photo!="")
+            // {
+            //     $img = env('APP_URL').'/images/product/'.$products->shop_id.'/'.$products->p_id.'.'.$products->default_photo.'.jpg';
+            // }
+            $photo = ProductPhoto::where('product_id',$products->p_id)->where('shop_id',$products->shop_id)->orderBy('is_default','desc')->orderBy('position','asc')->first();
+            if($photo)
+                $img = $photo->get_image_url();
             return '<img src="'.$img.'" alt="" class="rounded thumb-lg">';
             // return '<img src="'.$products->get_photo().'" alt="" class="rounded thumb-lg">';
         })
@@ -655,6 +657,7 @@ class MShopController extends Controller
         })
         ->addColumn('p_sort',function($products) use ($r,$p_count){
             $input = $products->p_position;
+            // dd($input);
             return $input;
         })
         ->make(true);

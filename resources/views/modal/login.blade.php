@@ -53,6 +53,28 @@
     </div>
 </div>
 <!-- end modal_login -->
+<div class="modal fade" id="forgot_pass_modal" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">ลืมรหัสผ่าน</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group input_email">
+                <label for="register_email">ระบุ Email ที่ได้ทำการลงทะเบียนไว้</label>
+                <input type="text" class="form-control register_email" placeholder="">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="reset_password_btn" class="btn_1 full-width">Reset รหัสผ่าน</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+        </div>
+        </div>
+    </div>
+</div>
 <script>
 $(document).on('click','.btn_login',function(){
     $("#modal_login").modal('show');
@@ -63,20 +85,29 @@ $(document).on('submit',"#login_form",function(e){
     var url = form.attr('action');
     // var obj = form.serialize();
     var obj = new Object();
-    obj._token = form.find("input[name=_token]").val();
+    obj._token = "{{ csrf_token() }}";
+    // obj._token = form.find("input[name=_token]").val();
     obj.email = form.find("input[name=email]").val();
     obj.password = form.find("input[name=password]").val();
     console.log(obj);
+    // console.log($('meta[name="csrf-token"]').attr('content'));
     // Load('#modal_login',true);
     $.ajax({
         url: url,
         type: 'post',
-        dataType: 'json',
+        dataType: 'jsonp',
         data: obj,
+        contentType: false,
+        // contentType: 'application/json; charset=utf-8',
+        crossDomain: true,
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success: function(res){
             console.log(res);
             
         }
     });
+});
+$(document).on('click','#forgot',function(){
+    $("#forgot_pass_modal").modal('show');
 });
 </script>

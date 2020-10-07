@@ -37,7 +37,7 @@ class ShopController extends Controller
     }
     public function product_view(Request $r)
     {
-        $product=Product::where("id",$r->product_id)->where('shop_id',$r->data['shop']->id)->first();
+        $product=Product::where("id",$r->product_id)->where('shop_id',$r->data['shop']->id)->with('photos')->first();
         if(!$product)
         {
             return redirect(env('APP_URL').'/error_404')->with('error',__('view.shop_not_found'));
