@@ -45,8 +45,8 @@ function remove_from_cart(product_id,shop_id)
         }
         console.log(r);
        
-        $('#cart_top li.item[product_id="'+product_id+'"]').remove();
-        if($('#cart_top ul[shop_id="'+shop_id+'"] li.item').length==0)
+        $('#cart_top li.items[product_id="'+product_id+'"]').remove();
+        if($('#cart_top ul[shop_id="'+shop_id+'"] li.items').length==0)
         {
             $('#cart_top ul[shop_id="'+shop_id+'"]').remove();
         }

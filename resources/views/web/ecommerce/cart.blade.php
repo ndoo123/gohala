@@ -127,5 +127,5 @@ foreach($basket as $b):?>
 <link href="<?php echo url('');?>/assets/web/css/cart.css" rel="stylesheet">
 @stop
 @section('js')
-<script src="<?php echo url('');?>/assets/web/js/pages/cart.js"></script>
+<script src="<?php echo url('').'/assets/web/js/pages/cart.js?v='.time();?>"></script>
 @stop

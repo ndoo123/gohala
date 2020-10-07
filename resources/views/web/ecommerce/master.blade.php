@@ -117,7 +117,7 @@
 	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script src="<?php echo url('');?>/assets/js/lks.js"></script>
 
-    <script src="<?php echo url('');?>/assets/web/js/cart.js"></script>
+    <script src="<?php echo url('').'/assets/web/js/cart.js?v='.time();?>"></script>
 
   
     <script>
