@@ -108,7 +108,7 @@
 								$item['price'] = (float)$item['price'];
                                 $qty+=$item['qty'];
                                 $total+=$item['qty']*$item['price'];
-                                $html.='<li class="item" product_id="'.$item['product_id'].'">';
+                                $html.='<li class="items" product_id="'.$item['product_id'].'">';
 									$html.='<a href="'.$item['link'].'">';
 									$html.='<figure><img src="'.$item['img'].'" data-src="'.$item['img'].'" alt="" width="50" height="50" class="lazy"></figure>';
 									$html.='<strong><span class="price" price="'.$item['price'].'"><span class="qty">'.$item['qty'].'</span>x '.$item['name'].'</span> '.number_format($item['price'],2).'</strong>';
