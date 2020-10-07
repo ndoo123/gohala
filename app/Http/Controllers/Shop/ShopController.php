@@ -129,4 +129,29 @@ class ShopController extends Controller
         return LKS::o(1,$collection);
     }
 
+    public function login(Request $r)
+    {
+        // dd($r->all());
+        if((!isset($r->email)||$r->email=="") || (!isset($r->password) || $r->password==""))
+        {
+            return \LKS::o(0,__('auth.email_password_empty'));
+        }
+
+        $u=User::where("email",$r->email)->where("facebook_id",null)->first();
+        if(!$u)
+        return LKS::o(0,__('auth.user_not_found'));
+
+        if(!\Hash::check($r->password,$u->password))
+        return LKS::o(0,__('auth.wrong_password'));
+
+        // dd(\Auth::user(),\Auth::check(),LKS::o(1,array('redirect'=>url('profile'))),$r->all(),$r->redirect);
+        \Auth::login($u);
+        // dd(\Auth::user());
+        if(isset($r->redirect))
+        return LKS::o(1,array('redirect'=>$r->redirect));
+
+
+        // dd(1,$r->all());
+        return LKS::o(1,array('redirect'=>url('profile')));
+    }
 }

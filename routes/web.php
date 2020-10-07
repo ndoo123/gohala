@@ -157,8 +157,10 @@ Route::get('/clear-cache', function() {
 Route::get('clear-cart',function(){
   \Cart::clear();
 });
-Route::get('login',function(Illuminate\Http\Request $r){
 
+Route::post('login','Shop\ShopController@login');
+// Route::post('login',);
+Route::get('login',function(Illuminate\Http\Request $r){
   if(session('redirect'))
   return redirect(LKS::url_subdomain('account','login'))->with('redirect',session('redirect'));
   

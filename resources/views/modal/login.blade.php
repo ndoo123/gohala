@@ -7,7 +7,8 @@
 				<div class="modal_header">
 					<h3>Sign In</h3>
 				</div>
-                <form id="login_form" class="form-horizontal m-t-10" method="post" action="<?php echo LKS::url_subdomain('account','auth');?>">
+                {{-- <form id="login_form" class="form-horizontal m-t-10" method="post" action="{{ LKS::url_subdomain('account','auth') }}"> --}}
+                <form id="login_form" class="form-horizontal m-t-10" method="post" action="{{ url('login') }}">
                 {{-- {{ csrf_field() }} --}}
 					<div class="sign-in-wrapper">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -81,6 +82,7 @@ $(document).on('click','.btn_login',function(){
 });
 $(document).on('submit',"#login_form",function(e){
     e.preventDefault();
+    Load('#modal_login',true);
     var form = $(this);
     var url = form.attr('action');
     // var obj = form.serialize();
@@ -89,21 +91,29 @@ $(document).on('submit',"#login_form",function(e){
     // obj._token = form.find("input[name=_token]").val();
     obj.email = form.find("input[name=email]").val();
     obj.password = form.find("input[name=password]").val();
-    console.log(obj);
-    // console.log($('meta[name="csrf-token"]').attr('content'));
-    // Load('#modal_login',true);
+    // console.log(obj);
+    // console.log(url);
     $.ajax({
         url: url,
         type: 'post',
-        dataType: 'jsonp',
+        dataType: 'json',
         data: obj,
-        contentType: false,
+        // contentType: false,
         // contentType: 'application/json; charset=utf-8',
-        crossDomain: true,
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        // crossDomain: true,
+        // headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success: function(res){
-            console.log(res);
-            
+            // console.log(res);
+            if(res.result == 1)
+            {
+                location.reload();
+            }
+            else
+            {
+                alert(r.msg);
+                return;
+            }
+            Load('#modal_login',false);
         }
     });
 });
