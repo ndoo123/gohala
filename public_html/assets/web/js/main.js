@@ -243,7 +243,7 @@
 	$(window).bind('load resize', function () {
 		var width = $(window).width();
 		if (width <= 768) {
-			// $('a.cart_bt, a.access_link').removeAttr("data-toggle", "dropdown")
+			$('a.cart_bt, a.access_link').removeAttr("data-toggle", "dropdown")
 		} else {
 			$('a.cart_bt,a.access_link').attr("data-toggle", "dropdown")
 		}
