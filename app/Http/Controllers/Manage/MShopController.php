@@ -98,13 +98,13 @@ class MShopController extends Controller
                 if($check_sku)
                 return LKS::o(0,__('view.product.sku_exists'));
             }
-            if($p->barcode!=$r->barcode)
-            {
+            // if($p->barcode!=$r->barcode)
+            // {
                 //check barcode
                 $check_barcode=Product::where("barcode",$r->barcode)->where("shop_id",$r->shop->id)->where('id','<>',$p->id)->first();
                 if($check_barcode)
                 return LKS::o(0,"Barcode มีอยู่ในระบบแล้ว");
-            }
+            // }
 
             $p->barcode=$r->barcode;
             $p->sku=$r->sku;
@@ -119,10 +119,6 @@ class MShopController extends Controller
             $check_barcode=Product::where("barcode",$r->barcode)->where("shop_id",$r->shop->id)->first();
             if($check_barcode)
             return LKS::o(0,"Barcode มีอยู่ในระบบแล้ว");
-
-            $check_barcode=Product::where("sku",$r->barcode)->where("shop_id",$r->shop->id)->first();
-            if($check_barcode)
-            return LKS::o(0,"Barcode ซ้ำกับ SKU ที่มีอยู่ในระบบ");
 
 
             $position=Product::where('shop_id',$r->shop->id)->get()->count() + 1;
@@ -140,6 +136,10 @@ class MShopController extends Controller
         }
 
         
+
+        $check_barcode=Product::where("sku",$r->barcode)->where("shop_id",$r->shop->id)->first();
+        if($check_barcode)
+        return LKS::o(0,"Barcode ซ้ำกับ SKU ที่มีอยู่ในระบบ");
 
         if(!is_numeric($r->qty))
         $r->qty=1;
