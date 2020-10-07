@@ -1,10 +1,12 @@
 function calculate_cart_item(){
        
+        var total_qty=0;
         var qty=0;
         var total=0;
         $('#cart_top div.dropdown-menu li.item').each(function(){
             // console.log('x1x');
             qty = parseInt($(this).find('span.qty').text());
+            total_qty += qty;
             total += parseFloat($(this).find('span.price').attr("price"))*qty;
             // console.log(qty);
             // console.log(total);
@@ -12,7 +14,8 @@ function calculate_cart_item(){
             
         });
         $('#cart_top .total').html(ToMoney(total));
-        $('#cart_top a.cart_bt strong').html($('#cart_top div.dropdown-menu li.item').length);
+        $('#cart_top a.cart_bt strong').html(total_qty);
+        // $('#cart_top a.cart_bt strong').html($('#cart_top div.dropdown-menu li.item').length);
         if($('#cart_top div.dropdown-menu  li.item').length>0)
         {
             $('#cart_top a.cart_bt strong').show();

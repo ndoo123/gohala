@@ -121,7 +121,7 @@
 						<ul id="cart_top" class="top_tools">
 							<li>
 								<div class="dropdown dropdown-cart">
-									<a href="#" class="cart_bt"><strong style="display:<?php echo $count_item>0?'block':'none';?>"><?php echo $count_item;?></strong></a>
+									<a href="#" class="cart_bt"><strong style="display:<?php echo $qty>0?'block':'none';?>"><?php echo $qty;?></strong></a>
 									<div class="dropdown-menu">
                                         	<?php echo $html;?>
 										<div class="total_drop">
