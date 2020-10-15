@@ -59,13 +59,19 @@
     <td colspan="2" align="center"><hr></td>
   </tr>
 
-  <? $vat = ($sum * 7) / 107; ?>
+  <? 
+  $vat = ($sum * 7) / 107; 
+  $disc = $sum - $order->total;
+  ?>
 
   <tr>
     <td align="left">Sub Total</td><td align="right"><?php echo  number_format($sum,2,'.',',') ; ?></td>
   </tr>
   <tr>
-    <td align="left"><b>TOTAL</b></td><td align="right"><b><?php echo  number_format($sum,2,'.',',') ; ?></b></td>
+    <td align="left">Discount</td><td align="right"><?php echo  number_format($disc,2,'.',',') ; ?></td>
+  </tr>
+  <tr>
+    <td align="left"><b>TOTAL</b></td><td align="right"><b><?php echo  number_format($order->total,2,'.',',') ; ?></b></td>
   </tr>
   <tr>
     <td align="left">Total Item</td><td align="right"><?php echo  $num ; ?></td>
@@ -74,7 +80,7 @@
     <td align="left">Pay Cash</td><td align="right"><?php echo  number_format($payment->amount,2,'.',',') ; ?></td>
   </tr>
   <tr>
-    <td align="left">Change</td><td align="right"><?php echo  number_format($payment->amount - $sum,2,'.',',') ; ?></td>
+    <td align="left">Change</td><td align="right"><?php echo  number_format($payment->amount - $order->total,2,'.',',') ; ?></td>
   </tr>
   <tr>
   	<td colspan="2" align="center">

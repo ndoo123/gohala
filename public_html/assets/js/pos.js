@@ -338,6 +338,7 @@
 
         $("#discounttotal").val(addCommas(percent));
         $("#pricetotal").val(addCommas(sumprice));
+        $("#h_discount").val(percent);
     }
 
     function torn()

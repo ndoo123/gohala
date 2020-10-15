@@ -101,7 +101,7 @@ class PPosController extends Controller
     // เมื่อคลิกปุ่ม บันทึก/พิมพ์ หน้า POS
     public function pos_save(Request $req)
     {
-        
+        //dd($req);
         try
         {
             $shop = Shop::where("user_id",Auth::user()->id)->first();
@@ -123,7 +123,7 @@ class PPosController extends Controller
                 $od->status = '4';
                 $od->shipping_id = '0';
                 $od->order_date = $ddate;
-                $od->total = $req->h_total;
+                $od->total = $req->h_total - $req->h_discount;
                 $od->total_delivery = '0';
                 $od->seller_user_id = Auth::user()->id;
                 $od->qty = array_sum($req->h_num);
@@ -132,6 +132,7 @@ class PPosController extends Controller
                 $i = '1';
                 // บันทึกรายการสินค้าลง order_item_tb
                 foreach($req->h_id as $key => $value){
+                    $hprice = str_replace(',','',$req->h_price[$key]);
                     $oditem = new OrderItem();
                     $oditem->order_id = $ord_no;
                     $oditem->id = $i++;
@@ -139,8 +140,8 @@ class PPosController extends Controller
                     $oditem->product_name = $req->h_name[$key];
                     $oditem->remark = '';
                     $oditem->qty = $req->h_num[$key];
-                    $oditem->price = $req->h_price[$key];
-                    $oditem->total = $req->h_num[$key] * $req->h_price[$key];
+                    $oditem->price = $hprice / $req->h_num[$key];
+                    $oditem->total = $req->h_num[$key] * $hprice;
                     $oditem->status = '2';
                     $oditem->save();
                 }
@@ -311,25 +312,10 @@ class PPosController extends Controller
         if($id == '0')
         {
             $data = Product::where("shop_id", "=", $shop)->get();
-
-            // $data = DB::table('product_tb')
-            //             ->where('shop_id', '=', $shop)
-            //             ->get();
             //dd($data);
-            // $data = DB::table('product_tb')
-            //         ->leftjoin('shop_category_product_tb','product_tb.id','=','shop_category_product_tb.product_id')
-            //         ->leftjoin('shop_category_tb','shop_category_product_tb.category_id','=','shop_category_tb.id')
-            //         ->select('product_tb.*')
-            //         ->where('product_tb.status','=','1')
-            //         ->where("shop_category_tb.shop_id",$shop)
-            //         ->where('shop_category_tb.is_active','=','1')
-            //         ->get();
-            //$data = DB::table("product_tb")->where("shop_id","=",$shop)->get();
         }
         else
         {
-            
-            //$data = Product::where("shop_id",$shop)->where("status","1")->get();
             $data = DB::table('shop_category_product_tb')
                         ->leftJoin('product_tb', 'shop_category_product_tb.product_id', '=', 'product_tb.id')
                         ->where('shop_category_product_tb.shop_id', '=', $shop)
@@ -337,15 +323,6 @@ class PPosController extends Controller
                         ->select('product_tb.*')
                         ->get();
             //dd($data);
-
-            // $data = DB::table('product_tb')
-            //         ->join('shop_category_product_tb','product_tb.id','=','shop_category_product_tb.product_id')
-            //         ->join('shop_category_tb','shop_category_product_tb.category_id','=','shop_category_tb.id')
-            //         ->select('shop_category_tb.id AS category_id','shop_category_tb.*')
-            //         ->where('product_tb.status','=','1')
-            //         ->where('shop_category_tb.shop_id','=',$shop)
-            //         //->where('shop_category_tb.is_active','=','1')
-            //         ->get();
         }       
         
         return view('pos.pos_product',[
