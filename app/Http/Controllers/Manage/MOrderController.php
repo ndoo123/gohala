@@ -55,6 +55,11 @@ class MOrderController extends Controller
 		$data['label'] = "ออเดอร์ $label ของร้าน | <span style='color:blue'>".$data['shop']->name."</span>";
 		$data['url'] = $url = self::url($r);
 		$data['remote_url'] = $url.'/order_datatables';
+
+		// dd(date('H:i:s'),__DIR__,__FILE__,file_exists('/vendor/autoload.php'),(url('/vendor/autoload.php')),file_exists( __DIR__.'/../vendor/autoload.php'),basename(__FILE__) , basename($_SERVER["SCRIPT_FILENAME"]),basename('asdf'), basename('/vendor/autoload.php'),get_included_files());
+		$pusher = new \Pusher\Pusher(env("PUSHER_APP_KEY"), env("PUSHER_APP_SECRET"), env("PUSHER_APP_ID"), array('cluster' => env('PUSHER_APP_CLUSTER')));
+
+		$pusher->trigger('my-channel', 'my-event', date('H:i:s'));
 		// dd($data);
 		return view('manage.shop.shop_all_manage',$data);
 	}

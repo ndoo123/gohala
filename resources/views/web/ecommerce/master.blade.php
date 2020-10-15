@@ -25,7 +25,7 @@
     <!-- BASE CSS -->
     <link href="<?php echo url('');?>/assets/web/css/bootstrap.custom.min.css" rel="stylesheet">
     <link href="<?php echo url('');?>/assets/web/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/js/plugins/toastr/toastr.min.css');?>"></link>
+    <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/js/plugins/toastr/toastr.min.css');?>">
 	<!-- SPECIFIC CSS -->
     <link href="<?php echo url('');?>/assets/web/css/home_1.css" rel="stylesheet">
     @yield('css')

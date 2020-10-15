@@ -17,6 +17,9 @@
         <link href="<?php echo url('assets/manage/css/vertical.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/custom.css');?>" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/js/plugins/toastr/toastr.min.css');?>">
+
         <style>
             *{
                 font-family: 'Kanit';
@@ -74,7 +77,7 @@
                         </li>
 
                         <!-- notification -->
-                        {{-- <li class="dropdown notification-list list-inline-item">
+                        <li class="dropdown notification-list list-inline-item">
                             <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <i class="mdi mdi-bell-outline noti-icon"></i>
                                 <span class="badge badge-pill badge-danger noti-icon-badge">3</span>
@@ -116,7 +119,7 @@
                                         View all <i class="fi-arrow-right"></i>
                                     </a>
                             </div>
-                        </li> --}}
+                        </li>
                         <li class="dropdown notification-list list-inline-item">
                             <div class="dropdown notification-list nav-pro-img">
                                 <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -196,12 +199,31 @@
         <script src="<?php echo url('assets/js/plugins/currency.min.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
 
+        <script src="<?php echo url('');?>/assets/web/js/plugins/toastr/toastr.min.js"></script>
+        <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
         <script>
         var app=new LKS();
         app.url='<?php echo (isset($shop)?url($shop->url):url(''));?>';
         </script>
         @yield('js')
 
+        <script>
+
+            // Enable pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+
+            var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+                cluster: "{{ env('PUSHER_APP_CLUSTER') }}"
+            });
+
+            var channel = pusher.subscribe('my-channel');
+            channel.bind('my-event', function(data) {
+                // alert(JSON.stringify(data));
+                toastr.info(data);
+            });
+
+    //    toastr.info("เพิ่มสินค้าลงในตะกร้าแล้ว");
+        </script>
     </body>
 
 </html>

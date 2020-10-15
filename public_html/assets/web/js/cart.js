@@ -175,7 +175,7 @@ function add_to_cart(product_id,qty,shop_url)
         // }
        calculate_cart_item();
        
-       toastr.info("เพิ่มสินค้าลงในตะกร้าแล้ว")
+       toastr.info("เพิ่มสินค้าลงในตะกร้าแล้ว");
     }
     post.send(obj);
 }

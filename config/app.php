@@ -1,6 +1,6 @@
 <?php
 
-$url = url('');
+$url = "$_SERVER[REQUEST_SCHEME]://$_SERVER[HTTP_HOST]";
 $arr_url = explode('.',$url);
 $extend = end($arr_url);
 // dd($url,$arr_url,$extend);
