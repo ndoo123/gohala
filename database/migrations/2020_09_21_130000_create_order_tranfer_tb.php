@@ -15,6 +15,7 @@ class CreateOrderTranferTb extends Migration
     {
         Schema::create('order_tranfer_tb', function (Blueprint $table) {
             $table->string('order_id',20)->primary();
+            $table->integer('shop_id');
             $table->integer('user_id');
             $table->string('bank_name');
             $table->string('account_name');

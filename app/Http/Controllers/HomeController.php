@@ -375,9 +375,13 @@ class HomeController extends Controller
         // $data['categories']=ProductCategory::all();
         $data['categories']=$data['shop']->get_categories(true);
         $data['order']=$order;
-
-        $data['payment']= ShopPayment::where('method_id',2)->where('shop_id',$data['shop']->id)->where('is_checked',1)->first();
-        $data['payment']= !empty($data['payment']->payment_data) ? json_decode(json_decode($data['payment']->payment_data)) : null;
+        $data['payment'] = [];
+        if(!empty($data['order']['payment']) && $data['order']['payment']['id'] == 2)
+        {
+            $data['payment']= ShopPayment::where('method_id',2)->where('shop_id',$data['shop']->id)->where('is_checked',1)->first();
+            $data['payment']= !empty($data['payment']->payment_data) ? json_decode(json_decode($data['payment']->payment_data)) : null;
+        }
+            // dd($data);
         // dd($r->all(),$data);
         return view('web.home.order_status',$data);
     }

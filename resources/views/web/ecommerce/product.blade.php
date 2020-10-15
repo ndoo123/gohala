@@ -7,7 +7,7 @@
                 <div class="owl-carousel owl-theme main">
                     <?php $photos=$product->photos;?>
                     <?php foreach($photos as $photo):?>
-                    <div style="background-image: url(<?php echo $photo->get_image_url();?>);" class="item-box"></div>
+                    <div style="background-image: url(<?php echo $photo->get_image_url();?>);background-size: contain;background-repeat: no-repeat;" class="item-box"></div>
                     <?php endforeach;?>
                     
                 </div>

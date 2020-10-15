@@ -90,7 +90,7 @@ class LoginController extends Controller
     }
     public function login(Request $r)
     {
-
+        // dd($r->all());
         if((!isset($r->email)||$r->email=="") || (!isset($r->password) || $r->password==""))
         {
             return \LKS::o(0,__('auth.email_password_empty'));
@@ -105,6 +105,7 @@ class LoginController extends Controller
 
         // dd(\Auth::user(),\Auth::check(),LKS::o(1,array('redirect'=>url('profile'))),$r->all(),$r->redirect);
         \Auth::login($u);
+        // dd(\Auth::user());
         if(isset($r->redirect))
         return LKS::o(1,array('redirect'=>$r->redirect));
 

@@ -26,6 +26,19 @@
         background-color: #f2dede;
         border-color: #ebccd1;
     }
+    .remove_shop_from_cart{
+        background-color: #C60707;
+    }
+    .remove_shop_from_cart:hover{
+        background-color: #EA5050;
+    }
+    a.btn_pay{
+        background-color: #4CAF50;
+    }
+    a.btn_pay:hover{
+        background-color: #2CC300;
+        color: white !important;
+    }
 </style>
 {{ LKS::has_alert() }}
 <?php
@@ -35,7 +48,7 @@ foreach($basket as $b):?>
     <div class="card-body">
      <h3 style="margin-bottom:15px"><?php echo $b['name'];?>
     <div class="float-right">
-        <a href='<?php echo url($b['url']);?>/checkout' class="btn_1">ชำระร้านนี้</a>
+        <a href='<?php echo url($b['url']);?>/checkout' class="btn_1 btn_pay">ชำระร้านนี้</a>
         <button type="button" shop_id="<?php echo $b['shop_id'];?>" class="btn_2 remove_shop_from_cart">ลบรายการร้านนี้</button>
     </div>
 </h3>
@@ -114,5 +127,5 @@ foreach($basket as $b):?>
 <link href="<?php echo url('');?>/assets/web/css/cart.css" rel="stylesheet">
 @stop
 @section('js')
-<script src="<?php echo url('');?>/assets/web/js/pages/cart.js"></script>
+<script src="<?php echo url('').'/assets/web/js/pages/cart.js?v='.time();?>"></script>
 @stop
