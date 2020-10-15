@@ -4,7 +4,7 @@
         <a id="pid<?php echo  $prod->id ; ?>" get_product="<?php echo $prod->sku ; ?>" onclick="click_product(<?php echo  $prod->id ; ?>)" title="<?php echo  $prod->name . ' | ราคา ' . number_format($prod->price,2,'.',',') ; ?>">
             <div class="card product-box card-b">
                 <div class="card-body p-1">
-                    <div class="product-img">
+                    <div class="product-img-pos">
                         <figure style="background-image:url(<?php echo  $prod->get_photo() ; ?>)"> 
     
                         </figure>

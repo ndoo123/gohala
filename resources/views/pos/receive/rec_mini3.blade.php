@@ -16,8 +16,13 @@
 <table width="300"  border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td colspan="2" align="center">
-    	<b><?php echo  $shop->name ; ?></b><br>
-        <?php echo  $shop->address ; ?> <?php echo  $shop->phone; ?><br>
+      <img src="<?php echo $shop->get_photo();?>" height="50">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+    	<p><b><?php echo  $shop->name ; ?></b><br>
+      <?php echo  $shop->address ; ?> <br>โทร. <?php echo  $shop->phone; ?></p>
         ใบเสร็จรับเงิน/ใบกำกับภาษีอย่างย่อ
     </td>
   </tr>
@@ -65,6 +70,12 @@
   ?>
 
   <tr>
+    <td align="left">Total Item</td><td align="right"><?php echo  $num ; ?></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><hr></td>
+  </tr>
+  <tr>
     <td align="left">Sub Total</td><td align="right"><?php echo  number_format($sum,2,'.',',') ; ?></td>
   </tr>
   <tr>
@@ -72,9 +83,6 @@
   </tr>
   <tr>
     <td align="left"><b>TOTAL</b></td><td align="right"><b><?php echo  number_format($order->total,2,'.',',') ; ?></b></td>
-  </tr>
-  <tr>
-    <td align="left">Total Item</td><td align="right"><?php echo  $num ; ?></td>
   </tr>
   <tr>
     <td align="left">Pay Cash</td><td align="right"><?php echo  number_format($payment->amount,2,'.',',') ; ?></td>
@@ -86,8 +94,7 @@
   	<td colspan="2" align="center">
         <hr>
     	** Have A Nice Day **<br>
-        ** Thank You **<br>
-    	** VAT Included **
+        ** Thank You **
     </td>
   </tr>
 </table>

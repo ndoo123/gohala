@@ -44,7 +44,8 @@
                 margin: 3px;
                 position: relative;
                 margin:0 auto;
-                background-size: cover;
+                background-size: contain;
+                background-repeat: no-repeat;
                 background-position: 50% 50%;
             }
 
@@ -61,6 +62,7 @@
                 height:40pt;
                 overflow:hidden;
             }
+
 
 
         </style>
