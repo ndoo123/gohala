@@ -110,8 +110,7 @@ $(document).on('submit',"#login_form",function(e){
             }
             else
             {
-                alert(r.msg);
-                return;
+                alert(res.msg);
             }
             Load('#modal_login',false);
         }
