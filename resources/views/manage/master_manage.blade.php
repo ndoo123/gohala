@@ -80,13 +80,15 @@
                         <li class="dropdown notification-list list-inline-item">
                             <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <i class="mdi mdi-bell-outline noti-icon"></i>
-                                <span class="badge badge-pill badge-danger noti-icon-badge">3</span>
+                                <span class="badge badge-pill badge-danger noti-icon-badge">
+                                    3
+                                </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg">
                                 <!-- item-->
                                 <h6 class="dropdown-item-text">
-                                        Notifications (258)
-                                    </h6>
+                                    Notifications (258)
+                                </h6>
                                 <div class="slimscroll notification-item-list">
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item active">
@@ -219,10 +221,9 @@
             var channel = pusher.subscribe('my-channel');
             channel.bind('my-event', function(data) {
                 // alert(JSON.stringify(data));
-                toastr.info(data);
+                toastr.info(data.msg + ' ' + data.type);
             });
 
-    //    toastr.info("เพิ่มสินค้าลงในตะกร้าแล้ว");
         </script>
     </body>
 

@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Datatables;
 use LKS;
 use DB;
+use Met;
 
 class MOrderController extends Controller
 {
@@ -30,7 +31,11 @@ class MOrderController extends Controller
     }
 	public function index(Request $r)
 	{
-		// dd(intval($r->order_status));
+		dd(intval($r->order_status),\Auth::check());
+		if(!\Auth::check())
+		{
+			return redirect(route('login'));
+		}
         $data['shop']=$r->shop;
         $data['summary']=(object)array(
             "order"=>\DB::table('order_tb')->where('shop_id',$r->shop->id)->count(),
@@ -57,10 +62,8 @@ class MOrderController extends Controller
 		$data['remote_url'] = $url.'/order_datatables';
 
 		// dd(date('H:i:s'),__DIR__,__FILE__,file_exists('/vendor/autoload.php'),(url('/vendor/autoload.php')),file_exists( __DIR__.'/../vendor/autoload.php'),basename(__FILE__) , basename($_SERVER["SCRIPT_FILENAME"]),basename('asdf'), basename('/vendor/autoload.php'),get_included_files());
-		$pusher = new \Pusher\Pusher(env("PUSHER_APP_KEY"), env("PUSHER_APP_SECRET"), env("PUSHER_APP_ID"), array('cluster' => env('PUSHER_APP_CLUSTER')));
 
-		$pusher->trigger('my-channel', 'my-event', date('H:i:s'));
-		// dd($data);
+		$p = Met::pusher('sell','มีการสั่งซื้อใหม่');
 		return view('manage.shop.shop_all_manage',$data);
 	}
 }

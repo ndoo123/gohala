@@ -7,9 +7,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Image;
 use Illuminate\Support\Facades\DB;
-
 class Met
 {
+    public $pusher;
+    public static function pusher($type, $msg){
+        try{
+            $pusher = new \Pusher\Pusher(env("PUSHER_APP_KEY"), env("PUSHER_APP_SECRET"), env("PUSHER_APP_ID"), array('cluster' => env('PUSHER_APP_CLUSTER')));
+            $pusher->trigger('my-channel', 'my-event', [ 'type' => $type, 'msg' => $msg ] );
+        }
+        catch(\Exception $e)
+        {
+
+        }
+    }
+
     public static $messageValidate = [
         '*image*.required'       => 'โปรดเลือกรูปภาพก่อน :attribute <br>',
         '*category_id*.required' => 'โปรดเลือก :attribute <br>',
@@ -399,3 +410,4 @@ class Met
 
     // });
 }
+
