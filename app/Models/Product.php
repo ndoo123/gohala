@@ -75,6 +75,13 @@ class Product extends Model
 
         // return url('');
     }
+
+    public function add_link()
+    {
+        // dd($this,$shop_url,$this->shop->url);
+        $url = $this->shop->url;
+        return " onclick=\"add_to_cart($this->id,1,'$url')\" ";
+    }
     public function get_discount_price($is_money=false){
         $price=$this->price;
         if($this->is_discount==1)//ลดแบบ ราคา

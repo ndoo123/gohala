@@ -30,6 +30,7 @@ function get_product(){
         for(var i=0;i<r.data.data.length;i++)
         {
             var p=r.data.data[i];
+            console.log(p);
             items+='<div class="col-6 col-md-4 col-xl-3">';
                 items+='<div class="grid_item">';
                    if(p.is_discount>0)
@@ -48,7 +49,7 @@ function get_product(){
                         items+='<span class="old_price">'+p.price_format+' ฿</span>';
                     items+='</div>';
                     items+='<ul>';
-                        items+='<li><a href="'+p.link+'" class="tooltip-1" data-toggle="tooltip" data-placement="left" title="ซื้อสินค้า"><i class="ti-shopping-cart"></i><span>ซื้อสินค้า</span></a></li>';
+                        items+='<li><a href="#" '+p.add_link+' class="tooltip-1" data-toggle="tooltip" data-placement="left" title="ซื้อสินค้า"><i class="ti-shopping-cart"></i><span>ซื้อสินค้า</span></a></li>';
                     items+='</ul>';
                 items+='</div>';
             items+='</div>';
