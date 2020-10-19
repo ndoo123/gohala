@@ -23,6 +23,9 @@
             .flatpickr{
                 background-color: #e9ecef;
             }
+            .table td{
+                /* word-break: break-word; */
+            }
         </style>
     </head>
 
@@ -267,18 +270,25 @@
                                                 
                                             </div>
                                             <div class="tab-pane p-3 <?=($op == "myorder")?'active':null?>" id="order" role="tabpanel">
-                                                <table class="table table-hover w-100" id="table_order" remote_url="{{ $url.'/user_order_datatables' }}">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="15%">{{ __('view.order_id') }}</th>
-                                                            <th width="20%">{{ __('view.order_date') }}</th>
-                                                            <th width="20%">ชื่อร้าน</th>
-                                                            <th width="15%">{{ __('view.total') }}</th>
-                                                            <th width="15%">{{ __('view.status') }}</th>
-                                                            <th ></th>
-                                                        </tr>
-                                                    </thead>
-                                                </table>
+                                                <div class="row">
+                                                    <div class="col-12" style="overflow-x:auto;">
+                                                        <table class="table table-hover w-100" id="table_order" remote_url="{{ $url.'/user_order_datatables' }}">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="15%">{{ __('view.order_id') }}</th>
+                                                                    <th width="20%">{{ __('view.order_date') }}</th>
+                                                                    <th width="20%">ชื่อร้าน</th>
+                                                                    <th width="15%">{{ __('view.total') }}</th>
+                                                                    <th width="15%">{{ __('view.status') }}</th>
+                                                                    <th ></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                        
+                                                    </div>
+                                                    
+                                                </div>
+
                                             </div>
                                    
                                         </div>
