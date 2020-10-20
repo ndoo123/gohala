@@ -34,22 +34,34 @@ class MSettingController extends Controller
    public function settings_change_profile(Request $r)
    {
     //    $path = storage_path('app/public/').strtotime(date('his')).'_'.uniqid();
-        // $image = \Image::make($r->profile_image->getRealPath())->resize(400, 300)->save($path);
-        // $image = \Image::make($r->profile_image->getRealPath())->save($path);
-        // $image = \Image::make($r->profile_image->getRealPath())->fit(400, 300)->save($path);
         // dd($r->all(),storage_path('app/uploads/shop_profile'),storage_path('app/uploads/shop_profile/'),!empty($path) ? $path : null ,$r->profile_image->getClientOriginalName());
-        $vali = $this->validate($r,[
-            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-        if(!empty($r->profile_image))
-        {
-            $path=storage_path('app/uploads/shop_profile');
-            $name = $r->shop->id;
-            $r->profile_image->move($path,$name);
-            // dd(1);
+        // dd($r->all());
+        // $vali = $this->validate($r,[
+        //     'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
+        try{
+            if(!empty($r->profile_image))
+            {
+                $image_base64 = \Met::base64_to_image($r->profile_image);
+                $path=storage_path('app/uploads/shop_profile/');
+                \Met::make_dir($path); // สร้าง path ที่มี sub ด้วย
+                $name = $r->shop->id;
+                file_put_contents($path.$name, $image_base64);
+                // $r->profile_image->move($path,$name);
+            }
+            $shop = Shop::find($r->shop->id);
+            $img = null;
+            if($shop)
+            {
+                $img = $shop->get_photo();
+            }
+            // dd($img);
+            return json_encode(['result'=>1,'msg'=>'เปลี่ยนรูปโปรไฟล์ร้านสำเร็จ','img'=>$img]);
         }
-            // dd(1,2);
-        return redirect()->back()->with('success','เปลี่ยนรูปโปรไฟล์ร้านสำเร็จ');
+        catch(\Exception $e)
+        {
+            return json_encode(['result'=>0,'msg'=>'on line: '.$e->getLine().' Message: '.$e->getMessage()]);
+        }
    }
    public function setting_info_save_json(Request $r){
      

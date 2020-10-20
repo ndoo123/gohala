@@ -5,7 +5,8 @@
     <button type="submit" class="btn btn-success form-submit-action"><i class="fas fa-save"></i> บันทึกข้อมูล</button>
     <div class="col-md-2 text-center">
         <div>
-            <img src="{{ $shop->get_photo() }}" width="150" height="150" class="rounded-circle">
+            <img src="{{ $shop->get_photo() }}" id="profile_show" width="150" height="150" style="border-color: gray;border-style: solid;" >
+            {{-- class="rounded-circle"> --}}
             {{-- <img src="{{ $shop->get_logo() }}" width="150" height="150" class="rounded-circle"> --}}
         </div>
         <div class="mt-3">
