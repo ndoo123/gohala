@@ -33,8 +33,11 @@ class MSettingController extends Controller
    }
    public function settings_change_profile(Request $r)
    {
-    //    dd($r->all(),$r->profile_image,$r->profile_image->getClientOriginalName());
-        // dd($r->all(),storage_path('app/uploads/shop_profile'),storage_path('app/uploads/shop_profile'));
+    //    $path = storage_path('app/public/').strtotime(date('his')).'_'.uniqid();
+        // $image = \Image::make($r->profile_image->getRealPath())->resize(400, 300)->save($path);
+        // $image = \Image::make($r->profile_image->getRealPath())->save($path);
+        // $image = \Image::make($r->profile_image->getRealPath())->fit(400, 300)->save($path);
+        // dd($r->all(),storage_path('app/uploads/shop_profile'),storage_path('app/uploads/shop_profile/'),!empty($path) ? $path : null ,$r->profile_image->getClientOriginalName());
         $vali = $this->validate($r,[
             'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);

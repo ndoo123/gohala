@@ -31,11 +31,6 @@ class MOrderController extends Controller
     }
 	public function index(Request $r)
 	{
-		dd(intval($r->order_status),\Auth::check());
-		if(!\Auth::check())
-		{
-			return redirect(route('login'));
-		}
         $data['shop']=$r->shop;
         $data['summary']=(object)array(
             "order"=>\DB::table('order_tb')->where('shop_id',$r->shop->id)->count(),
