@@ -16,6 +16,8 @@
         <link href="<?php echo url('assets/manage/css/style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/vertical.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/manage/css/custom.css');?>" rel="stylesheet" type="text/css">
+
+        <link href="<?php echo url('');?>/assets/web/css/custom.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/js/plugins/toastr/toastr.min.css');?>">

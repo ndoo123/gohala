@@ -50,3 +50,8 @@ a.btn_2,.btn_2{
     display: none;  
   }
 }
+.img_logo {
+  border: 10px solid transparent;
+  /* padding: 15px; */
+  border-image: url('../../images/border_shop.png') 25 round;
+}
