@@ -224,6 +224,9 @@
                 toastr.info(data.msg + ' ' + data.type);
             });
 
+            $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
+                window.location.reload();
+            };
         </script>
     </body>
 

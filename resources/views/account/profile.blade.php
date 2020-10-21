@@ -353,7 +353,9 @@
                 setInterval(function(){ table_order.ajax.reload(null,false); }, 5000);
                 
             });
-
+            $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
+                window.location.reload();
+            };
             var table_order = $('#table_order').DataTable({
                 serverSide: true,
                 processing: false,
@@ -362,6 +364,12 @@
                 ajax: {
                     url: $('#table_order').attr('remote_url'),
                     data: {},
+                    // error: function (xhr, error, code)
+                    // {
+                    //     console.log(xhr);
+                    //     console.log(code);
+                    //     console.log(error);
+                    // }
                 },
                 columns: [
                     { data: 'id', name: 'id', class: 'text-center' },
