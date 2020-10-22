@@ -57,7 +57,7 @@ class MOrderController extends Controller
 		$data['remote_url'] = $url.'/order_datatables';
 
 		// dd(date('H:i:s'),__DIR__,__FILE__,file_exists('/vendor/autoload.php'),(url('/vendor/autoload.php')),file_exists( __DIR__.'/../vendor/autoload.php'),basename(__FILE__) , basename($_SERVER["SCRIPT_FILENAME"]),basename('asdf'), basename('/vendor/autoload.php'),get_included_files());
-		$p = Met::pusher('sell','มีการสั่งซื้อใหม่');
+		// $p = Met::pusher('มีการสั่งซื้อใหม่');
 		return view('manage.shop.shop_all_manage',$data);
 	}
 }

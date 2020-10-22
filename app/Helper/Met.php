@@ -10,14 +10,15 @@ use Illuminate\Support\Facades\DB;
 class Met
 {
     public $pusher;
-    public static function pusher($type, $msg){
+    public static function pusher($msg){
         try{
             $pusher = new \Pusher\Pusher(env("PUSHER_APP_KEY"), env("PUSHER_APP_SECRET"), env("PUSHER_APP_ID"), array('cluster' => env('PUSHER_APP_CLUSTER')));
-            $pusher->trigger('my-channel', 'my-event', [ 'type' => $type, 'msg' => $msg ] );
+            $pusher->trigger('my-channel', 'my-event', $msg );
+            return true;
         }
         catch(\Exception $e)
         {
-            
+            return false;
         }
     }
 
