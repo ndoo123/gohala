@@ -18,9 +18,11 @@ class CreateNotificationTb extends Migration
                 $table->increments('id');
                 $table->integer('user_id');
                 $table->integer('shop_id');
+                $table->string('order_id',20)->nullable();
                 $table->mediumInteger('event_id');
                 $table->text('info');
-                $table->tinyInteger('is_read');
+                $table->tinyInteger('is_read')->default(0);
+                $table->tinyInteger('is_read_global')->default(0);
                 $table->timestamps();
             });
         }
