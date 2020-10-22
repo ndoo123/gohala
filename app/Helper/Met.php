@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\DB;
 class Met
 {
     public $pusher;
-    public static function pusher($msg){
+    public static function pusher($type,$msg,$shop_url = ''){
         try{
+            // type = manage = admin, account = user
             $pusher = new \Pusher\Pusher(env("PUSHER_APP_KEY"), env("PUSHER_APP_SECRET"), env("PUSHER_APP_ID"), array('cluster' => env('PUSHER_APP_CLUSTER')));
-            $pusher->trigger('my-channel', 'my-event', $msg );
+            $pusher->trigger('my-channel', 'my-event', [ 'type' => $type, 'msg' => $msg, 'shop_url' => $shop_url ] );
             return true;
         }
         catch(\Exception $e)

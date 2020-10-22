@@ -16,7 +16,7 @@ class CreateNotificationTb extends Migration
         if (!Schema::hasTable('notification_tb')) {
             Schema::create('notification_tb', function (Blueprint $table) {
                 $table->increments('id');
-                $table->integer('user_id');
+                $table->integer('user_id')->nullable();
                 $table->integer('shop_id');
                 $table->string('order_id',20)->nullable();
                 $table->mediumInteger('event_id');

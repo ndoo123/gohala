@@ -78,52 +78,8 @@
                             </a>
                         </li>
 
-                        <!-- notification -->
-                        <li class="dropdown notification-list list-inline-item">
-                            <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <i class="mdi mdi-bell-outline noti-icon"></i>
-                                <span class="badge badge-pill badge-danger noti-icon-badge">
-                                    3
-                                </span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg">
-                                <!-- item-->
-                                <h6 class="dropdown-item-text">
-                                    Notifications (258)
-                                </h6>
-                                <div class="slimscroll notification-item-list">
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                                        <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
-                                        <p class="notify-details">Your order is placed<span class="text-muted">Dummy text of the printing and typesetting industry.</span></p>
-                                    </a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <div class="notify-icon bg-warning"><i class="mdi mdi-message-text-outline"></i></div>
-                                        <p class="notify-details">New Message received<span class="text-muted">You have 87 unread messages</span></p>
-                                    </a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <div class="notify-icon bg-info"><i class="mdi mdi-glass-cocktail"></i></div>
-                                        <p class="notify-details">Your item is shipped<span class="text-muted">It is a long established fact that a reader will</span></p>
-                                    </a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <div class="notify-icon bg-primary"><i class="mdi mdi-cart-outline"></i></div>
-                                        <p class="notify-details">Your order is placed<span class="text-muted">Dummy text of the printing and typesetting industry.</span></p>
-                                    </a>
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <div class="notify-icon bg-danger"><i class="mdi mdi-message-text-outline"></i></div>
-                                        <p class="notify-details">New Message received<span class="text-muted">You have 87 unread messages</span></p>
-                                    </a>
-                                </div>
-                                <!-- All-->
-                                <a href="javascript:void(0);" class="dropdown-item text-center text-primary">
-                                        View all <i class="fi-arrow-right"></i>
-                                    </a>
-                            </div>
-                        </li>
+                        @include('notify')
+
                         <li class="dropdown notification-list list-inline-item">
                             <div class="dropdown notification-list nav-pro-img">
                                 <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -204,32 +160,78 @@
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
 
         <script src="<?php echo url('');?>/assets/web/js/plugins/toastr/toastr.min.js"></script>
-        <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
         <script>
         var app=new LKS();
         app.url='<?php echo (isset($shop)?url($shop->url):url(''));?>';
+
+        notify();
+        function notify()
+        {
+            if($("#shop_url").val() !== undefined)
+            {
+                var url = location.origin+'/'+$("#shop_url").val()+'/notify';
+                // console.log(url);
+                var obj = new Object();
+                obj._token = $('meta[name=csrf-token]').attr('content');
+                // console.log(obj);
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    dataType: 'json',
+                    data: obj,
+                    success: function(res){
+                        // console.log(res);
+                        if(res.result == 1)
+                        {
+                            $(".notify_unread_global").fadeIn();
+                            $('.notify_unread_element').html(res.notify_unread_element);
+                            $('.notify_unread_global').html(res.notify_unread_global);
+                            if(res.notify_unread_global < 1)
+                            {
+                                $(".notify_unread_global").fadeOut();
+                            }
+                            if(res.notify_unread_element > 0)
+                            {
+                                var icon = [ '',
+                                '<div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>',
+                                '<div class="notify-icon bg-info"><i class="mdi mdi-cash-multiple"></i></div>',];
+                                var append = '<!-- item-->';
+                                $.each(res.notify, function(key,value){
+                                    // console.log(key);
+                                    // console.log(value);
+                                    var unread = '';
+                                    if(value.is_read == 0)
+                                        unread = '<span class="notify-unread"></span>';
+                                    append += 
+                                    '<a href="javascript:void(0);" class="dropdown-item notify-item">'
+                                        + icon[value.event_id]
+                                        + '<p class="notify-details">' +res.event_name[value.event_id]
+                                            + unread
+                                            + '<span class="text-muted">'+ value.info +'</span>'
+                                            + '<span class="text-info">'+ value.created_show +'</span>'
+                                        + '</p>'
+                                    + '</a>';
+                                });
+                                
+                                $('.notify_body').css('height','auto').html(append);
+                            }
+                            else
+                            {
+                                $('.notify_body').css('height','auto').html('<span class="text-center d-block">ยังไม่มีการแจ้งเตือน</span>');
+                            }
+                        }
+                    }
+                });
+            }
+            else
+            {
+                $(".dropdown.notification-list.list-inline-item.notify").fadeOut();
+            }
+        }
         </script>
+        @include('pusher')
         @yield('js')
-
-        <script>
-
-            // Enable pusher logging - don't include this in production
-            Pusher.logToConsole = true;
-
-            var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
-                cluster: "{{ env('PUSHER_APP_CLUSTER') }}"
-            });
-
-            var channel = pusher.subscribe('my-channel');
-            channel.bind('my-event', function(data) {
-                // alert(JSON.stringify(data));
-                toastr.info(data.msg + ' ' + data.type);
-            });
-
-            $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
-                window.location.reload();
-            };
-        </script>
+        
     </body>
 
 </html>

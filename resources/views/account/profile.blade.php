@@ -347,15 +347,16 @@
     {{-- <script src="js/jquery-ui.js"></script> --}}
 
         @include('modal.master_user')
+        @include('pusher')
         <script src="<?php echo url('assets/account/js/account.js');?>"></script>
         <script>
             $(document).ready(function(){
                 setInterval(function(){ table_order.ajax.reload(null,false); }, 5000);
                 
             });
-            $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
-                window.location.reload();
-            };
+            // $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
+            //     window.location.reload();
+            // };
             var table_order = $('#table_order').DataTable({
                 serverSide: true,
                 processing: false,

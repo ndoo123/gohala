@@ -189,8 +189,8 @@ Route::get('/{shop_url}/cat/{cat_slug}','HomeController@shop_category_view');
 Route::get('/', "HomeController@home");
 Route::get('/email_admin', "HomeController@email_admin");
 
-Route::get('/{shop_url}/checkout','HomeController@shop_checkout');
 Route::get('dropzone','HomeController@dropzone');
+Route::get('/{shop_url}/checkout','HomeController@shop_checkout');
 Route::group(['middleware'=>'auth'],function(){
   Route::post('/{shop_url}/checkout/process','HomeController@shop_checkout_process');
   Route::get('/order/status','HomeController@order_status');

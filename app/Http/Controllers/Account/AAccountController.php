@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Notify;
 use App\Models\UserAddress;
 use App\Models\OrderTranfer;
 use App\Helper\LKS;
@@ -131,6 +132,16 @@ class AAccountController extends Controller
         $order->status = 6;
         $order->save();
         $orderTranfer->save();
+        // dd($order,$orderTranfer);
+        $notify = new Notify();
+        if(!empty($order->buyer_user_id))
+          $notify->user_id = $order->buyer_user_id;
+        $notify->shop_id = $order->buyer_user_id;
+        $notify->order_id = $order->id;
+        $notify->event_id = 2;
+        $notify->info = 'ชำระบิลเลขที่ '.$order->id.' ธนาคาร: '.$orderTranfer->bank_name.' หมายเลขบัญชี: '. $orderTranfer->account_no .' โดย '.\Auth::user()->name;
+        $notify->save();
+        Met::pusher('manage', Notify::$event[2], $order->shop->url);
         DB::commit();
         $result = [ 'result' => 1 , 'msg' => 'Payment Success' ];
       }

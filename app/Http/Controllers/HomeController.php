@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use App\Models\Notify;
 use App\Models\ProductCategory;
 use App\Models\Product;
 use App\Models\Province;
@@ -329,7 +330,16 @@ class HomeController extends Controller
                 $message->to($mail['owner']->email, 'M&M')->subject('You have New Order!');
 
             });
-
+            // dd($order,$deli);
+            $notify = new Notify();
+            if(\Auth::check())
+                $notify->user_id = \Auth::user()->id;
+            $notify->shop_id = $order->shop_id;
+            $notify->order_id = $order->id;
+            $notify->event_id = 1;
+            $notify->info = 'ออเดอร์หมายเลข '.$order->id.' จากคุณ '.$deli->name.' ติดต่อ: '.$deli->phone;
+            $notify->save();
+            \Met::pusher('manage', Notify::$event[1], $shop->url);
             
 
             \DB::commit();
