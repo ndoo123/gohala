@@ -31,6 +31,29 @@ class MNotifyController extends Controller
         // dd($data);
         return view('manage.shop.notify',$data);
     }
+    public function notify_read(Request $r)
+    {
+        // dd($r->all());
+        try
+        {
+            DB::beginTransaction();
+            $notify = Notify::where('order_id',$r->order_id)->where('shop_id',$r->shop->id)->first();
+            // dd($notify);
+            if(!$notify)
+                throw new \Exception('ไม่พบการแจ้งเตือน');
+
+            $notify->is_read = 1;
+            $notify->save();
+            DB::commit();
+            $return = ['result' => 1];
+        }
+        catch(\Exception $e)
+        {
+            DB::rollback();
+            $return = ['result' => 0, 'msg' => $e->getMessage()];
+        }
+        return $return;
+    }
     public function notify_datatables(Request $r)
     {
         // dd($r->all());
@@ -53,7 +76,7 @@ class MNotifyController extends Controller
             return $return;
         })
         ->addColumn('go_to',function($model){
-            return '<button type="button" class="btn btn-sm btn-success notify-item" order_id="'.$model->order_id.'" shop_url="'.$model->shop->url.'">View</button>';
+            return '<button type="button" class="btn btn-sm btn-primary notify-item" order_id="'.$model->order_id.'" shop_url="'.$model->shop->url.'">View</button>';
         })
         ->make(true);
     }

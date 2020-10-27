@@ -26,6 +26,7 @@ Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],funct
     Route::get('/', "MShopController@shop_manage");
 
     Route::get('/notify', "MNotifyController@notify_page");
+    Route::post('/notify_read', "MNotifyController@notify_read");
     Route::get('/notify/datatables', "MNotifyController@notify_datatables");
     Route::post('/notify_bar', "MNotifyController@notify_bar"); // return json สำหรับการแจ้งเตือนกระดิ่ง
     Route::post('/notify_update_global', "MNotifyController@notify_update_global");

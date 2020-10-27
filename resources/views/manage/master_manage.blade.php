@@ -18,8 +18,8 @@
         <link href="<?php echo url('assets/manage/css/custom.css');?>" rel="stylesheet" type="text/css">
 
         <link href="<?php echo url('');?>/assets/web/css/custom.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
-
+        {{-- <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet"> --}}
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/js/plugins/toastr/toastr.min.css');?>">
 
         <link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
@@ -166,14 +166,15 @@
         <script>
         var app=new LKS();
         app.url='<?php echo (isset($shop)?url($shop->url):url(''));?>';
+        
 
-        // var url = location.origin+'/'+$("#shop_url").val()+'/notify';
         notify();
         function notify()
         {
             if($("#shop_url").val() !== undefined)
             {
-                var url = location.origin+'/'+$("#shop_url").val()+'/notify_bar';
+                var base_url = location.origin+'/'+$("#shop_url").val();
+                var url = base_url+'/notify_bar';
                 // console.log(url);
                 var obj = new Object();
                 obj._token = $('meta[name=csrf-token]').attr('content');
@@ -204,12 +205,16 @@
                                     // console.log(key);
                                     // console.log(value);
                                     var unread = '';
+                                    var font_weight = ' style="font-weight: 400" ';
                                     if(value.is_read == 0)
+                                    {
                                         unread = '<span class="notify-unread"></span>';
+                                        font_weight = ' style="font-weight: 600" ';
+                                    }
                                     append += 
                                     '<a href="javascript:void(0);" class="dropdown-item notify-item" order_id="'+value.order_id+'" shop_url="'+res.shop_url+'" >'
                                         + icon[value.event_id]
-                                        + '<p class="notify-details">' +res.event_name[value.event_id]
+                                        + '<p class="notify-details"'+ font_weight +'>' +res.event_name[value.event_id]
                                             + unread
                                             + '<span class="text-muted">'+ value.info +'</span>'
                                             + '<span class="text-info">'+ value.created_show +'</span>'
@@ -234,7 +239,8 @@
         }
         $(document).on('shown.bs.dropdown','.notify',function(e){ 
             // e.preventDefault();
-            var url = location.origin+'/'+$("#shop_url").val()+'/notify_update_global';
+            var base_url = location.origin+'/'+$("#shop_url").val();
+            var url = baseurl+'/notify_update_global';
             var obj = new Object();
             obj._token = $('meta[name=csrf-token]').attr('content');
             // console.log(obj);
@@ -256,9 +262,27 @@
         $(document).on('click','.notify-item',function(){ // เปลี่ยนแต่คลิกแต่ละออเดอร์เป็นอ่านแล้ว
             var order_id = $(this).attr('order_id');
             var shop_url = $(this).attr('shop_url');
-            var go_location = $("#manage_url").val()+'/'+shop_url+'/order?order_id='+order_id;
-            // console.log(location);
-            window.location.href = go_location;
+            var base_url = location.origin+'/'+$("#shop_url").val();
+            var url = base_url+'/notify_read';
+            console.log(url);
+            var obj = new Object();
+            obj._token = $('meta[name=csrf-token]').attr('content');
+            obj.order_id = order_id;
+            console.log(obj);
+            $.ajax({
+                url: url,
+                type: 'post',
+                dataType: 'json',
+                data: obj,
+                success: function(res){
+                    // console.log(res);
+                    if(res.result == 1)
+                    {
+                        var go_location = $("#manage_url").val()+'/'+shop_url+'/order?order_id='+order_id;
+                        window.location.href = go_location;
+                    }
+                }
+            });
         });
 
         $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 

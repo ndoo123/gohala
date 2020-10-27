@@ -24,9 +24,9 @@
                         <table class="table table-hover mb-0 bg-light w-100" id="table_notify" remote_url="{{ $remote_url }}">
                             <thead>
                                 <tr>
-                                    <th width="20%" class="text-center">วันที่</th>
-                                    <th width="20%" class="text-center">คำสั่งซื้อเลขที่</th>
-                                    <th width="40%">รายละเอียด</th>
+                                    <th width="15%" class="text-center">วันที่</th>
+                                    <th width="15%" class="text-center">คำสั่งซื้อเลขที่</th>
+                                    <th width="50%">รายละเอียด</th>
                                     <th width="10%" class="text-center">สถานะ</th>
                                     <th width="10%" class="text-center">#</th>
                                 </tr>
@@ -44,9 +44,13 @@
 @stop
 @section('js')
 <script>
+    $(document).ready(function(){
+        setInterval(function(){ main_table.ajax.reload( null, false); }, 3000);
+    });
+    
     var main_table = $('#table_notify').DataTable({
         serverSide: true,
-        processing: true,
+        processing: false,
         destroy: true,
         order: [[ 1, "asc" ]],
         ajax: {
@@ -54,27 +58,12 @@
             data: {},
         },
         columns: [
-            { data: 'created_show', name: 'created_show', class: 'text-center' },
+            { data: 'created_show', name: 'created_show', class: 'text-center text-info' },
             { data: 'order_id', name: 'order_id', class: 'text-center' },
-            { data: 'info', name: 'info', class: 'text-center' },
+            { data: 'info', name: 'info', class: 'text-left' },
             { data: 'is_read', name: 'is_read', class: 'text-center' },
             { data: 'go_to', name: 'go_to', class: 'text-center' },
         ],
-        // createdRow: function( row, data, dataIndex ) {
-            // $.each($('td',row),function(index){
-                // if(index == 0)
-                // {
-                    // $(this).attr('id', 'data');
-                // }
-            // });
-            // console.log(data);
-            // $(row).attr('id', 'data');
-        // },
     });
-    // table_notify.on( 'order.dt search.dt', function () {
-        // table_notify.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-            // cell.innerHTML = i+1;
-        // } );
-    // } ).draw();
 </script>
 @endsection
