@@ -35,9 +35,11 @@
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#tab_1" role="tab" aria-controls="tab_1" aria-selected="true">Info</a>
                         </li>
+                        @if(!empty($user_address))
                         <li class="nav-item ml-auto">
                             <a class="nav-link" id="address-tab" data-toggle="tab" href="#tab_2" role="tab" aria-controls="tab_1" aria-selected="true">Address</a>
                         </li>
+                        @endif
                         {{-- <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#tab_2" role="tab" aria-controls="tab_2" aria-selected="false">Login</a>
                         </li> --}}
@@ -244,9 +246,12 @@
 @stop
 @section('js')
 {{-- <script src="{{ url('/assets/web/js/pages/cart.js') }}"></script> --}}
+<script src="{{ url('assets/js/plugins/maskedinput/jquery.maskedinput.min.js') }}"></script>
 <script>
 
 $('.select2').select2();
+$("input[name=phone]").mask('999-999-9999');
+$("input[name=zipcode]").mask('99999');
 $(document).on('change','input[name="ship_method_id"]',function(){
     var ship = parseFloat($(this).attr('price'));
     var price = parseFloat($("#total_price").attr('price'));

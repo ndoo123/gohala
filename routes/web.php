@@ -191,9 +191,9 @@ Route::get('/email_admin', "HomeController@email_admin");
 
 Route::get('dropzone','HomeController@dropzone');
 Route::get('/{shop_url}/checkout','HomeController@shop_checkout');
+Route::post('/{shop_url}/checkout/process','HomeController@shop_checkout_process');
+Route::get('/order/status','HomeController@order_status');
 Route::group(['middleware'=>'auth'],function(){
-  Route::post('/{shop_url}/checkout/process','HomeController@shop_checkout_process');
-  Route::get('/order/status','HomeController@order_status');
   //Account
   Route::post('/account/user/add_address','\App\Http\Controllers\Account\AAccountController@profile_address_save');
 

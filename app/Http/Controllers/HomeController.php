@@ -132,19 +132,20 @@ class HomeController extends Controller
     public function shop_checkout(Request $r)
     {
         // dd(url(''),$_SERVER['REQUEST_SCHEME']);
-        if(!\Auth::user())
-        {
-            return redirect('login')->with('redirect',env('APP_URL').'/checkout');
-        }
+        // if(!\Auth::user())
+        // {
+        //     return redirect('login')->with('redirect',env('APP_URL').'/checkout');
+        // }
         $shop=Shop::where("url",$r->shop_url)->first();
         if(!$shop)
         {
             return redirect('error_404');
         }
         $data['categories']=$shop->get_categories(true);
-        $data['user']=\Auth::user();
-        $data['user_address']=\Auth::user()->address;
-        $data['address_default']=\Auth::user()->address_default();
+        $data['user'] = \Auth::user() ? \Auth::user() : null;
+        $data['user_address'] = \Auth::user() ? \Auth::user()->address : null;
+        $data['address_default'] = \Auth::user() ? \Auth::user()->address_default() : null;
+        // dd($data);
         $data['provinces']=Province::orderBy('name','asc')->get();
         // dd($data);
         $data['shop']=$shop;
@@ -214,15 +215,15 @@ class HomeController extends Controller
     {
         // dd($r->all(),$r->shop_url);
         if(!$r->ship_method_id)
-        return redirect()->back()->with('error','ไม่พบข้อมูลการจัดส่ง');
+            return redirect()->back()->with('error','ไม่พบข้อมูลการจัดส่ง');
         if(!$r->payment)
-        return redirect()->back()->with('error','ไม่พบข้อมูลการจ่ายเงิน');
+            return redirect()->back()->with('error','ไม่พบข้อมูลการจ่ายเงิน');
 
-        $shop=Shop::where("url",$r->shop_url)->first();
+        $shop = Shop::where("url",$r->shop_url)->first();
         if(!$shop)
             return redirect()->back()->with('error','ไม่พบข้อมูลร้าน');
             
-        $cart=Cart::get_cart($shop->id);
+        $cart = Cart::get_cart($shop->id);
         // dd($cart);
         if(!$cart || $cart==null)
             return redirect()->back()->with('error','ไม่พบข้อมูลสินค้า');
@@ -238,25 +239,25 @@ class HomeController extends Controller
         {
             \DB::beginTransaction();
 
-            $order=new Order();
-            $order->id=crc32($shop->id.$shop->name.time().rand(10,99));
-            $order->shop_id=$shop->id;
+            $order = new Order();
+            $order->id = crc32($shop->id.$shop->name.time().rand(10,99));
+            $order->shop_id = $shop->id;
             $order->channel_id = 1;
             $order->status = $r->payment != 2 ? 1 : 5;
             $order->payment_type = $r->payment;
-            $delivery=ShopDelivery::where("shipping_id",$r->ship_method_id)->where("shop_id",$shop->id)->first();
+            $delivery = ShopDelivery::where("shipping_id",$r->ship_method_id)->where("shop_id",$shop->id)->first();
             if(!$delivery)
-            return redirect()->back()->with('error','ดำเนินการไม่สำเร็จ ไม่พบข้อมูลการชำระเงิน');
+                return redirect()->back()->with('error','ดำเนินการไม่สำเร็จ ไม่พบข้อมูลการชำระเงิน');
 
-            $order->shipping_id=$delivery->shipping_id;
-            $order->order_date=date('Y-m-d H:i:s');
-            $order->total=0;
-            $order->total_delivery=0;
-            $order->buyer_user_id=\Auth::user()->id;
+            $order->shipping_id = $delivery->shipping_id;
+            $order->order_date = date('Y-m-d H:i:s');
+            $order->total = 0;
+            $order->total_delivery = 0;
+            $order->buyer_user_id= \Auth::user() ? \Auth::user()->id : null;
             $order->save();
             // dd(crc32($shop->id.$shop->name.time().rand(10,99)),$shop->id,$shop->name,time(),rand(10,99));
-            $delivery_cost=0;
-            $qty=0;
+            $delivery_cost = 0;
+            $qty = 0;
             foreach($cart['items'] as $index=>$it)
             {
                 $qty+=intval($it['qty']);
@@ -275,24 +276,24 @@ class HomeController extends Controller
                 $order->total+=$item->total;
             }
 
-            if($delivery->cal_type==1)
+            if($delivery->cal_type == 1) // กำหนดค่าส่ง เฉพาะราคาที่ตั้งไว้อย่างเดียว
             {
-                $delivery_cost=$delivery->ship_cost; 
+                $delivery_cost = $delivery->ship_cost; 
             }
-            else if($delivery->cal_type==2)
+            else if($delivery->cal_type == 2) // หากค่าส่งคิดจาก จำนวน*ราคาที่ตั้งไว้
             {
-                $delivery_cost=$qty*$delivery->ship_cost;
+                $delivery_cost = $qty*$delivery->ship_cost;
             }
-            $order->total_delivery=$delivery_cost;
+            $order->total_delivery = $delivery_cost; // บันทึกค่าส่ง
             $order->save();
 
-            $deli=new OrderDelivery();
-            $deli->order_id=$order->id;
-            $deli->name=$r->name_contact;
-            $deli->address=$r->name_address.' '.$r->address;
-            $deli->province_id=$r->province_id;
-            $deli->zipcode=$r->zipcode;
-            $deli->phone=$r->phone;
+            $deli = new OrderDelivery();
+            $deli->order_id = $order->id;
+            $deli->name = $r->name_contact;
+            $deli->address = $r->name_address.' '.$r->address;
+            $deli->province_id = $r->province_id;
+            $deli->zipcode = $r->zipcode;
+            $deli->phone = $r->phone ? str_replace('-','',$r->phone) : null;
             $deli->save();
 
             $shop = Shop::find($order->shop_id);
@@ -314,15 +315,15 @@ class HomeController extends Controller
             ->where('is_checked',1)
             ->first();
             $mail['payment_data'] = $mail['payment']->payment_data ? json_decode(json_decode($mail['payment']->payment_data)) : null;
-            // dd('order',$order->toArray(),'shop',$shop->toArray(),'deli',$deli->toArray(),'owner',$owner->toArray(),'buyer',$mail['buyer']->toArray(),'items',$items->toArray(),\LKS::url_subdomain2('manage',$shop->url),$mail['payment_data']);
-            // return view('email.order_customer',$mail);
-            // return view('email.order_admin',$mail);
-            // dd($mail,$mail['owner']->email);
-            \Mail::send('email.order_customer', $mail , function($message) use ($mail)
+            
+            if($mail['buyer'] && !empty($mail['buyer']->email))
             {
-                $message->from(env('MAIL_USERNAME'),"Gohala Order" );
-                $message->to($mail['buyer']->email, 'M&M')->subject('You have New Order!');
-            });
+                \Mail::send('email.order_customer', $mail , function($message) use ($mail)
+                {
+                    $message->from(env('MAIL_USERNAME'),"Gohala Order" );
+                    $message->to($mail['buyer']->email, 'M&M')->subject('You have New Order!');
+                });
+            }
 
             \Mail::send('email.order_admin', $mail , function($message) use ($mail)
             {
