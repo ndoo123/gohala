@@ -333,47 +333,6 @@ class MShopController extends Controller
     //    dd($data);
        return view('manage.shop.shop_manage',$data);
    }
-    public function notify(Request $r)
-    {
-        try{
-            if(!empty($r->shop)) // $r->shop manage domain ได้จาก middleware กรณีเข้าจัดการร้าน
-            {
-                $model = Notify::where('shop_id',$r->shop->id);
-                // สำหรับกระดิ่ง
-                $notify_unread_global = Notify::where('shop_id',$r->shop->id)->where('is_read_global',0)->count(); 
-                // สำหรับแจ้งเตือนทั้งหมด
-                $notify_unread_element = Notify::where('shop_id',$r->shop->id)->where('is_read',0)->count(); 
-                $notify = $model->limit(3)->orderBy('created_at','desc')->get();
-                // dd($notify,$notify[0],$notify[0]->created_show);
-            }
-            if(empty($notify) || !isset($notify_unread_global))
-            {
-                throw new \Exception('ไม่พบข้อมูล');
-            }
-            return [ 'result' => 1, 'notify' => $notify, 'notify_unread_global' => $notify_unread_global, 'notify_unread_element' => $notify_unread_element ,'event_name' => Notify::$event ];
-        }
-        catch(\Exception $e)
-        {
-            return [ 'result' => 0, 'msg' => $e->getMessage() ];
-        }
-    }
-    public function notify_update_global(Request $r)
-    {
-        // dd($r->all());
-        try{
-            if(!empty($r->shop))
-            {
-                // DB::table('')->get();
-                Notify::where('shop_id',$r->shop->id)->update(['is_read_global' => 1]);
-                // dd($notify);
-            }
-            return [ 'result' => 1, 'msg' => '' ];
-        }
-        catch(\Exception $e)
-        {
-            return [ 'result' => 0, 'msg' => $e->getMessage() ];
-        }
-    }
    public function shop_profit(Request $r)
    {
     //    dd($r->all(),

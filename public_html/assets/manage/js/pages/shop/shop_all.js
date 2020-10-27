@@ -13,7 +13,6 @@ if($('#table_order').attr('order_status') !== undefined && $('#table_order').att
     // alert();
     order_obj['order_status'] = $('#table_order').attr('order_status');
 }
-console.log(order_obj);
 var table_order = $('#table_order').DataTable({
     serverSide: true,
     processing: false,
@@ -22,6 +21,9 @@ var table_order = $('#table_order').DataTable({
     ajax: {
         url: $('#table_order').attr('remote_url'),
         data: order_obj,
+    },
+    search: {
+        "search": $("#order_id").val()
     },
     columns: [
         { data: 'id', name: 'id', class: 'text-center order_detail' ,"searchable": true},
@@ -45,22 +47,20 @@ var table_order = $('#table_order').DataTable({
                 $(this).attr('style', 'cursor: context-menu;'); 
             }
         });
-    }
+    },
+    drawCallback: function( settings ) {
+        // alert( 'DataTables has redrawn the table' );
+    },
+    initComplete: function(settingss,json){
+        // alert( 'initComplete' );
+        var order_id = $("#order_id").val();
+        var td = $(this).find('td.order_detail.sorting_1');
+        td.each(function(){
+            // console.log(this);
+            if($(this).attr('order_id') == order_id)
+            {
+                $(this).click();
+            }
+        });
+    },
 });
-// $(document).on('submit',"#new_shop_form",function(e){
-//     e.preventDefault();
-   
-//     var post=new PostForm('div.modal-content');
-//     post.success=function(r){
-//         if(r.result==0)
-//         {
-//             alert(r.msg);
-//             return;
-//         }
-//        $("#new_shop_modal").modal('hide');
-//        Load('html');
-//       location.reload(true);
-        
-//     }
-//     post.send($("#new_shop_form"));
-// });

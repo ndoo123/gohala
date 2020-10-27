@@ -51,6 +51,7 @@
 
         <!-- Begin page -->
         <div id="wrapper">
+            <input type="hidden" id="manage_url" value="{{ LKS::url_subdomain('manage','') }}">
             <?php if(isset($shop)):?>
             <input type="hidden" id="shop_url" value="<?php echo $shop->url;?>">
             <?php endif;?>
@@ -172,7 +173,7 @@
         {
             if($("#shop_url").val() !== undefined)
             {
-                var url = location.origin+'/'+$("#shop_url").val()+'/notify';
+                var url = location.origin+'/'+$("#shop_url").val()+'/notify_bar';
                 // console.log(url);
                 var obj = new Object();
                 obj._token = $('meta[name=csrf-token]').attr('content');
@@ -183,7 +184,7 @@
                     dataType: 'json',
                     data: obj,
                     success: function(res){
-                        // console.log(res);
+                        console.log(res);
                         if(res.result == 1)
                         {
                             $(".notify_unread_global").fadeIn();
@@ -206,7 +207,7 @@
                                     if(value.is_read == 0)
                                         unread = '<span class="notify-unread"></span>';
                                     append += 
-                                    '<a href="javascript:void(0);" class="dropdown-item notify-item" order_id="'+value.order_id+'">'
+                                    '<a href="javascript:void(0);" class="dropdown-item notify-item" order_id="'+value.order_id+'" shop_url="'+res.shop_url+'" >'
                                         + icon[value.event_id]
                                         + '<p class="notify-details">' +res.event_name[value.event_id]
                                             + unread
@@ -253,7 +254,11 @@
         }); // เมื่อคลิกกระดิ่งให้เปลี่ยนเป็นอ่านให้หมด
 
         $(document).on('click','.notify-item',function(){ // เปลี่ยนแต่คลิกแต่ละออเดอร์เป็นอ่านแล้ว
-            alert($(this).attr('order_id'));
+            var order_id = $(this).attr('order_id');
+            var shop_url = $(this).attr('shop_url');
+            var go_location = $("#manage_url").val()+'/'+shop_url+'/order?order_id='+order_id;
+            // console.log(location);
+            window.location.href = go_location;
         });
 
         $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 

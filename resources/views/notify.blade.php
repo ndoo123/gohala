@@ -75,7 +75,14 @@
             </a>
         </div>
         <!-- All-->
-        <a href="javascript:void(0);" class="dropdown-item text-center text-primary">
+        <?php
+            $notify_url = url('');
+            // dd($shop);
+            if(!empty($shop))
+                $notify_url .= '/'.$shop->url;
+            $notify_url .= '/notify';
+        ?>
+        <a href="{{ $notify_url }}" class="dropdown-item text-center text-primary">
             View all <i class="fi-arrow-right"></i>
         </a>
     </div>

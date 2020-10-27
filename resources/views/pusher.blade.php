@@ -1,7 +1,7 @@
 
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 <script>
-    // console.log(location.pathname);
+    // console.log(location);
     // หาชื่อร้านค้า เพื่อ pusher ได้ถูกร้าน
     var path_name = location.pathname;
     var path_array = path_name.split("/");

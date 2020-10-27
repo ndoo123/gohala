@@ -24,8 +24,12 @@ Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],funct
 
     //สามารถเรีย $request->shop เพื่อ ดึงข้อมูลของ Shop มาได้เลย ในทุกๆฟังชั่นในนี้
     Route::get('/', "MShopController@shop_manage");
-    Route::post('/notify', "MShopController@notify");
-    Route::post('/notify_update_global', "MShopController@notify_update_global");
+
+    Route::get('/notify', "MNotifyController@notify_page");
+    Route::get('/notify/datatables', "MNotifyController@notify_datatables");
+    Route::post('/notify_bar', "MNotifyController@notify_bar"); // return json สำหรับการแจ้งเตือนกระดิ่ง
+    Route::post('/notify_update_global', "MNotifyController@notify_update_global");
+
     Route::post('/profit', "MShopController@shop_profit");
     Route::get('/all', "MShopController@shop_manage_all");
     Route::post('get_payment_img','MShopController@get_payment_img');

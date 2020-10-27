@@ -31,6 +31,7 @@ class MOrderController extends Controller
     }
 	public function index(Request $r)
 	{
+		// dd(url(''),$r->all());
         $data['shop']=$r->shop;
         $data['summary']=(object)array(
             "order"=>\DB::table('order_tb')->where('shop_id',$r->shop->id)->count(),
@@ -55,9 +56,10 @@ class MOrderController extends Controller
 		$data['label'] = "ออเดอร์ $label ของร้าน | <span style='color:blue'>".$data['shop']->name."</span>";
 		$data['url'] = $url = self::url($r);
 		$data['remote_url'] = $url.'/order_datatables';
-
+		if(!empty($r->order_id))
+			$data['order_id'] = $r->order_id;
 		// $p = Met::pusher('มีการสั่งซื้อใหม่');
-		// dd($data);
+		// dd($data,$r->all());
 		return view('manage.shop.shop_all_manage',$data);
 	}
 }
