@@ -39,12 +39,10 @@
 
 @stop
 @section('js')
- <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
  <script src="<?php echo url('assets/js/plugins/sweet-alert2/sweetalert2.all.min.js');?>"></script>
  @include('modal.master_admin')
  <script src="<?php echo url('assets/manage/js/pages/shop/shop_all.js');?>"></script>
 @stop
 @section('css')
-<link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
 <link href="<?php echo url('assets/js/plugins/sweet-alert2/sweetalert2.min.css');?>" rel="stylesheet" type="text/css">
 @stop

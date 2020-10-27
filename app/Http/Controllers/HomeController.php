@@ -316,7 +316,7 @@ class HomeController extends Controller
             ->first();
             $mail['payment_data'] = $mail['payment']->payment_data ? json_decode(json_decode($mail['payment']->payment_data)) : null;
             
-            if($mail['buyer'] && !empty($mail['buyer']->email))
+            if(!empty($mail['buyer']) && !empty($mail['buyer']->email))
             {
                 \Mail::send('email.order_customer', $mail , function($message) use ($mail)
                 {

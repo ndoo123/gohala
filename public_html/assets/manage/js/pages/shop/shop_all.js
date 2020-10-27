@@ -24,18 +24,18 @@ var table_order = $('#table_order').DataTable({
         data: order_obj,
     },
     columns: [
-        { data: 'id', name: 'id', class: 'text-center order_detail' },
-        { data: 'order_date', name: 'order_date', class: 'text-center order_detail' },
-        { data: 'delivery_name', name: 'delivery_name', class: 'text-center order_detail' },
-        { data: 'qty', name: 'qty', class: 'text-center order_detail' },
-        { data: 'total', name: 'total', class: 'text-center order_detail' },
-        { data: 'status', name: 'status', class: 'text-center order_detail' },
-        { data: 'actions', name: 'actions', class: 'text-center' },
+        { data: 'id', name: 'id', class: 'text-center order_detail' ,"searchable": true},
+        { data: 'order_date', name: 'order_date', class: 'text-center order_detail' ,"searchable": true},
+        { data: 'delivery_name', name: 'delivery_name', class: 'text-center order_detail' ,"searchable": false},
+        { data: 'qty', name: 'qty', class: 'text-center order_detail' ,"searchable": true},
+        { data: 'total', name: 'total', class: 'text-center order_detail' ,"searchable": true},
+        { data: 'status', name: 'status', class: 'text-center order_detail' ,"searchable": false},
+        { data: 'actions', name: 'actions', class: 'text-center' ,"searchable": false},
     ],
     createdRow: function( row, data, dataIndex ) {
         // Set the data-status attribute, and add a class
         var length = $(row).children().length - 1;
-        // console.log(length);
+        // console.log(data.delivery);
         $.each($('td', row), function (colIndex) {
             // console.log(colIndex);
             

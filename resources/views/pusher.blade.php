@@ -29,7 +29,4 @@
         }
     });
 
-    $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
-        window.location.reload();
-    };
 </script>

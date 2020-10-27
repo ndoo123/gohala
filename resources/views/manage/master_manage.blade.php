@@ -22,6 +22,7 @@
 
         <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/js/plugins/toastr/toastr.min.css');?>">
 
+        <link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
         <style>
             *{
                 font-family: 'Kanit';
@@ -158,12 +159,14 @@
         <script src="<?php echo url('assets/js/plugins/blockUI.js');?>"></script>
         <script src="<?php echo url('assets/js/plugins/currency.min.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
+        <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
 
         <script src="<?php echo url('');?>/assets/web/js/plugins/toastr/toastr.min.js"></script>
         <script>
         var app=new LKS();
         app.url='<?php echo (isset($shop)?url($shop->url):url(''));?>';
 
+        // var url = location.origin+'/'+$("#shop_url").val()+'/notify';
         notify();
         function notify()
         {
@@ -203,7 +206,7 @@
                                     if(value.is_read == 0)
                                         unread = '<span class="notify-unread"></span>';
                                     append += 
-                                    '<a href="javascript:void(0);" class="dropdown-item notify-item">'
+                                    '<a href="javascript:void(0);" class="dropdown-item notify-item" order_id="'+value.order_id+'">'
                                         + icon[value.event_id]
                                         + '<p class="notify-details">' +res.event_name[value.event_id]
                                             + unread
@@ -228,8 +231,37 @@
                 $(".dropdown.notification-list.list-inline-item.notify").fadeOut();
             }
         }
+        $(document).on('shown.bs.dropdown','.notify',function(e){ 
+            // e.preventDefault();
+            var url = location.origin+'/'+$("#shop_url").val()+'/notify_update_global';
+            var obj = new Object();
+            obj._token = $('meta[name=csrf-token]').attr('content');
+            // console.log(obj);
+            $.ajax({
+                url: url,
+                type: 'post',
+                dataType: 'json',
+                data: obj,
+                success: function(res){
+                    console.log(res);
+                    if(res.result == 1)
+                    {
+                        notify();
+                    }
+                }
+            });
+        }); // เมื่อคลิกกระดิ่งให้เปลี่ยนเป็นอ่านให้หมด
+
+        $(document).on('click','.notify-item',function(){ // เปลี่ยนแต่คลิกแต่ละออเดอร์เป็นอ่านแล้ว
+            alert($(this).attr('order_id'));
+        });
+
+        $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
+            // window.location.reload();
+        };
         </script>
         @include('pusher')
+
         @yield('js')
         
     </body>

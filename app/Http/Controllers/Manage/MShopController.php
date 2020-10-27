@@ -357,6 +357,23 @@ class MShopController extends Controller
             return [ 'result' => 0, 'msg' => $e->getMessage() ];
         }
     }
+    public function notify_update_global(Request $r)
+    {
+        // dd($r->all());
+        try{
+            if(!empty($r->shop))
+            {
+                // DB::table('')->get();
+                Notify::where('shop_id',$r->shop->id)->update(['is_read_global' => 1]);
+                // dd($notify);
+            }
+            return [ 'result' => 1, 'msg' => '' ];
+        }
+        catch(\Exception $e)
+        {
+            return [ 'result' => 0, 'msg' => $e->getMessage() ];
+        }
+    }
    public function shop_profit(Request $r)
    {
     //    dd($r->all(),

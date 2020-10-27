@@ -28,7 +28,7 @@
 </style>
 <!-- notification -->
 <li class="dropdown notification-list list-inline-item notify">
-    <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+    <a class="nav-link dropdown-toggle arrow-none waves-effect notify_icon" id="notify_icon" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
         <i class="mdi mdi-bell-outline noti-icon"></i>
         <span class="badge badge-pill badge-danger noti-icon-badge notify_unread_global">
             3
@@ -45,7 +45,7 @@
                 <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
                 <p class="notify-details">มีออเดอร์ใหม่
                     <span class="notify-unread"></span>
-                    <span class="text-muted">ออเดอร์จากคุณ เมธา สุเมธาพัฒนกิจ</span>
+                    <span class="text-muted">ออเดอร์จากคุณ เมฆา เลื่อนลอย</span>
                     <span class="text-info">เมื่อ 20/10/2563 10:10:10</span>
                 </p>
             </a>
