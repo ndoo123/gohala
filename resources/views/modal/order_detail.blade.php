@@ -32,7 +32,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <span class="btn_primary"></span>
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">ปิด</button>
                 {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
             </div>
         </div>

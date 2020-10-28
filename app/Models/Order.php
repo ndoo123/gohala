@@ -139,6 +139,23 @@ class Order extends Model
         $status = self::next_stats();
         return '<button type="button" class="btn btn-sm btn-success btn_order" order_id="'.$this->id.'" status="'.$status.'">'.__('view.order_success').'</button>';
     }
+    public function get_primary_btn(){
+        $button = '';
+        if($this->status == 1)
+        {
+            $button = $this->btn_confirm();
+            
+        }
+        else if($this->status == 2)
+        {
+            $button = $this->btn_send();
+        }
+        else if($this->status == 3)
+        {
+            $button = $this->btn_success();
+        }
+        return $button;
+    }
     public function btn_view_payment()
     {
         if(in_array($this->status,[0,5]) || $this->payment_type != 2)

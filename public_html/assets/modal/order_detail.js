@@ -21,7 +21,6 @@ $(document).on('click','.order_detail',function(){
         data: obj,
         success: function(res){
             // console.log(res);
-            // Load('modal_order_detail',false);
             Load(modal,false);
 
             // detail item
@@ -132,6 +131,10 @@ $(document).on('click','.order_detail',function(){
             });
             body.html('');
             body.append(append2);
+            
+            $("span.btn_primary").html('');
+            if(res.btn != '')
+                $("span.btn_primary").html(res.btn);
             // end detail order all
             $("#modal_order_detail").modal('show');
         }
