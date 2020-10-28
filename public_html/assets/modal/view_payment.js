@@ -71,7 +71,7 @@ $(document).on('click','.btn_order_payment_view',function(){
                     $(".modal_view_payment_footer").html('');
                     if(res.btn == 1)
                     {
-                        var btn = '<button type="button" class="btn btn-primary btn_order" order_id="'+res.order_id+'" status="2">Confirm Payment</button>';
+                        var btn = '<button type="button" class="btn btn-primary btn_order btn-sm" order_id="'+res.order_id+'" status="2">ยืนยันการชำระ</button>';
                         $(".modal_view_payment_footer").html(btn);
                     }
                 }
