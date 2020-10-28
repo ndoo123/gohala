@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Notify extends Model
 {
     protected $table = 'notification_tb';
-    protected $appends = ['created_show'];
+    protected $appends = ['created_show','shop_url','shop_name'];
     public static $event = [
         1 => 'คำสั่งซื้อใหม่',
         // 1 => 'มีออเดอร์ใหม่',
@@ -19,5 +19,13 @@ class Notify extends Model
     public function shop()
     {
         return $this->belongsTo('\App\Models\Shop');
+    }
+    public function getShopUrlAttribute()
+    {
+        return $this->shop->url;
+    }
+    public function getShopNameAttribute()
+    {
+        return $this->shop->name;
     }
 }

@@ -15,7 +15,7 @@ class Shop
      */
     public function handle($r, Closure $next)
     {
-        // dd(1);
+        // dd($r->all());
         if(!isset($r->shop_url))
         return redirect()->back()->with('error',__('view.shop_id_not_found'));
 

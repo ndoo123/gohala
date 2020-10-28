@@ -9,7 +9,7 @@ $(document).on('click','.order_detail',function(){
     // console.log(location);
     // console.log(order_id);
     var url = location.origin+'/order_detail';
-    console.log(url);
+    // console.log(url);
     var obj = new Object();
     obj._token = $('meta[name=csrf-token]').attr('content');
     obj.order_id = order_id;

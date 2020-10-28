@@ -54,6 +54,7 @@
             <input type="hidden" id="manage_url" value="{{ LKS::url_subdomain('manage','') }}">
             <?php if(isset($shop)):?>
             <input type="hidden" id="shop_url" value="<?php echo $shop->url;?>">
+            <input type="hidden" id="shop_id" value="<?php echo $shop->id;?>">
             <?php endif;?>
             <!-- Top Bar Start -->
             <div class="topbar">
@@ -169,13 +170,87 @@
         
 
         notify();
-        function notify()
+        function get_url() // สำหรับแยก url ของ ร้านค้าทั้งหมด และเฉพาะร้านค้า
         {
+            var url = location.origin;
             if($("#shop_url").val() !== undefined)
             {
-                var base_url = location.origin+'/'+$("#shop_url").val();
-                var url = base_url+'/notify_bar';
-                // console.log(url);
+                var url = location.origin+'/'+$("#shop_url").val();
+            }
+            return url;
+        }
+        function notify()
+        {
+            var url = get_url()+'/notify_bar';
+            var obj = new Object();
+            obj._token = $('meta[name=csrf-token]').attr('content');
+
+            // console.log(url);
+            // console.log(obj);
+            $.ajax({
+                url: url,
+                type: 'post',
+                dataType: 'json',
+                data: obj,
+                success: function(res){
+                    console.log(res);
+                    if(res.result == 1)
+                    {
+                        $(".notify_unread_global").fadeIn();
+                        $('.notify_unread_element').html(res.notify_unread_element);
+                        $('.notify_unread_global').html(res.notify_unread_global);
+                        if(res.notify_unread_global < 1)
+                        {
+                            $(".notify_unread_global").fadeOut();
+                        }
+                        if(res.notify_unread_element > 0)
+                        {
+                            var icon = [ '',
+                            '<div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>',
+                            '<div class="notify-icon bg-info"><i class="mdi mdi-cash-multiple"></i></div>',];
+                            var append = '<!-- item-->';
+                            $.each(res.notify, function(key,value){
+                                // console.log(key);
+                                // console.log(value);
+                                var unread = '';
+                                var font_weight = ' style="font-weight: 400" ';
+                                var event_name = res.event_name[value.event_id];
+                                if(value.is_read == 0)
+                                {
+                                    unread = '<span class="notify-unread"></span>';
+                                    font_weight = ' style="font-weight: 600" ';
+                                }
+                                if(res.from_shop == 1)
+                                {
+                                    event_name += ' <span style="font-size:12px">ร้าน '+value.shop_name+'</span>';
+                                }
+                                append += 
+                                '<a href="javascript:void(0);" class="dropdown-item notify-item" order_id="'+value.order_id+'" shop_url="'+value.shop_url+'" >'
+                                    + icon[value.event_id]
+                                    + '<p class="notify-details"'+ font_weight +'>' +event_name
+                                        + unread
+                                        + '<span class="text-muted">'+ value.info +'</span>'
+                                        + '<span class="text-info">'+ value.created_show +'</span>'
+                                    + '</p>'
+                                + '</a>';
+                            });
+                            
+                            $('.notify_body').css('height','auto').html(append);
+                        }
+                        else
+                        {
+                            $('.notify_body').css('height','auto').html('<span class="text-center d-block">ยังไม่มีการแจ้งเตือน</span>');
+                        }
+                    }
+                }
+            });
+        }
+        $(document).on('shown.bs.dropdown','.notify',function(e){ 
+            // e.preventDefault();
+
+            if($("#shop_url").val() !== undefined)
+            {
+                var url = get_url()+'/notify_update_global';
                 var obj = new Object();
                 obj._token = $('meta[name=csrf-token]').attr('content');
                 // console.log(obj);
@@ -188,61 +263,21 @@
                         console.log(res);
                         if(res.result == 1)
                         {
-                            $(".notify_unread_global").fadeIn();
-                            $('.notify_unread_element').html(res.notify_unread_element);
-                            $('.notify_unread_global').html(res.notify_unread_global);
-                            if(res.notify_unread_global < 1)
-                            {
-                                $(".notify_unread_global").fadeOut();
-                            }
-                            if(res.notify_unread_element > 0)
-                            {
-                                var icon = [ '',
-                                '<div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>',
-                                '<div class="notify-icon bg-info"><i class="mdi mdi-cash-multiple"></i></div>',];
-                                var append = '<!-- item-->';
-                                $.each(res.notify, function(key,value){
-                                    // console.log(key);
-                                    // console.log(value);
-                                    var unread = '';
-                                    var font_weight = ' style="font-weight: 400" ';
-                                    if(value.is_read == 0)
-                                    {
-                                        unread = '<span class="notify-unread"></span>';
-                                        font_weight = ' style="font-weight: 600" ';
-                                    }
-                                    append += 
-                                    '<a href="javascript:void(0);" class="dropdown-item notify-item" order_id="'+value.order_id+'" shop_url="'+res.shop_url+'" >'
-                                        + icon[value.event_id]
-                                        + '<p class="notify-details"'+ font_weight +'>' +res.event_name[value.event_id]
-                                            + unread
-                                            + '<span class="text-muted">'+ value.info +'</span>'
-                                            + '<span class="text-info">'+ value.created_show +'</span>'
-                                        + '</p>'
-                                    + '</a>';
-                                });
-                                
-                                $('.notify_body').css('height','auto').html(append);
-                            }
-                            else
-                            {
-                                $('.notify_body').css('height','auto').html('<span class="text-center d-block">ยังไม่มีการแจ้งเตือน</span>');
-                            }
+                            notify();
                         }
                     }
                 });
             }
-            else
-            {
-                $(".dropdown.notification-list.list-inline-item.notify").fadeOut();
-            }
-        }
-        $(document).on('shown.bs.dropdown','.notify',function(e){ 
-            // e.preventDefault();
-            var base_url = location.origin+'/'+$("#shop_url").val();
-            var url = baseurl+'/notify_update_global';
+        }); // เมื่อคลิกกระดิ่งให้เปลี่ยนเป็นอ่านให้หมด
+
+        $(document).on('click','.notify-item',function(){ // เปลี่ยนแต่คลิกแต่ละออเดอร์เป็นอ่านแล้ว
+            var order_id = $(this).attr('order_id');
+            var shop_url = $(this).attr('shop_url');
+            var url = get_url()+'/notify_read';
+            console.log(url);
             var obj = new Object();
             obj._token = $('meta[name=csrf-token]').attr('content');
+            obj.order_id = order_id;
             // console.log(obj);
             $.ajax({
                 url: url,
@@ -250,32 +285,7 @@
                 dataType: 'json',
                 data: obj,
                 success: function(res){
-                    console.log(res);
-                    if(res.result == 1)
-                    {
-                        notify();
-                    }
-                }
-            });
-        }); // เมื่อคลิกกระดิ่งให้เปลี่ยนเป็นอ่านให้หมด
-
-        $(document).on('click','.notify-item',function(){ // เปลี่ยนแต่คลิกแต่ละออเดอร์เป็นอ่านแล้ว
-            var order_id = $(this).attr('order_id');
-            var shop_url = $(this).attr('shop_url');
-            var base_url = location.origin+'/'+$("#shop_url").val();
-            var url = base_url+'/notify_read';
-            console.log(url);
-            var obj = new Object();
-            obj._token = $('meta[name=csrf-token]').attr('content');
-            obj.order_id = order_id;
-            console.log(obj);
-            $.ajax({
-                url: url,
-                type: 'post',
-                dataType: 'json',
-                data: obj,
-                success: function(res){
-                    console.log(res);
+                    // console.log(res);
                     if(res.result == 1)
                     {
                         var go_location = $("#manage_url").val()+'/'+shop_url+'/order?';

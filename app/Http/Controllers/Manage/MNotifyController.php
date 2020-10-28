@@ -37,7 +37,8 @@ class MNotifyController extends Controller
         try
         {
             DB::beginTransaction();
-            $notify = Notify::where('order_id',$r->order_id)->where('shop_id',$r->shop->id)->first();
+            $notify = Notify::where('order_id',$r->order_id)->first();
+            // $notify = Notify::where('order_id',$r->order_id)->where('shop_id',$r->shop->id)->first();
             // dd($notify);
             if(!$notify)
                 throw new \Exception('ไม่พบการแจ้งเตือน');
@@ -88,27 +89,35 @@ class MNotifyController extends Controller
     }
     public function notify_bar(Request $r)
     {
+        // dd('notify_bar',$r->all());
         try{
-            if(!empty($r->shop)) // $r->shop manage domain ได้จาก middleware กรณีเข้าจัดการร้าน
+            if(!empty($r->shop)) // $r->shop manage domain ได้จาก middleware กรณีเข้าจัดการร้าน สำหรับต่อร้าน
             {
-                $model = Notify::where('shop_id',$r->shop->id);
-                // สำหรับกระดิ่ง
+                $model = Notify::where('shop_id',$r->shop->id)->with(['shop']);
                 $notify_unread_global = Notify::where('shop_id',$r->shop->id)->where('is_read_global',0)->count(); 
-                // สำหรับแจ้งเตือนทั้งหมด
                 $notify_unread_element = Notify::where('shop_id',$r->shop->id)->where('is_read',0)->count(); 
-                $notify = $model->limit(3)->orderBy('created_at','desc')->get();
-                $shop_url = Shop::find($r->shop->id)->url;
-                // dd($shop_url,$notify,$notify[0],$notify[0]->created_show);
+                $from_shop = 0;
             }
-            if(empty($notify) || !isset($notify_unread_global))
+            else
+            {
+                $shop = Shop::where('user_id',\Auth::user()->id)->pluck('id');
+                $model = Notify::whereIn('shop_id',$shop);
+                $notify_unread_global = Notify::whereIn('shop_id',$shop)->where('is_read_global',0)->count(); 
+                $notify_unread_element = Notify::whereIn('shop_id',$shop)->where('is_read',0)->count();
+                $from_shop = 1; // สำหรับเช็คเพื่อแสดงชื่อร้าน (หน้าแสดงร้านค้าทั้งหมด)
+            }
+            
+            // สำหรับแจ้งเตือนทั้งหมด
+            $notify = $model->limit(5)->orderBy('created_at','desc')->get();
+            if(!isset($model))
             {
                 throw new \Exception('ไม่พบข้อมูล');
             }
-            return [ 'result' => 1, 'notify' => $notify, 'notify_unread_global' => $notify_unread_global, 'notify_unread_element' => $notify_unread_element ,'event_name' => Notify::$event ,'shop_url' => $shop_url ? $shop_url : null];
+            return [ 'result' => 1, 'notify' => $notify, 'notify_unread_global' => $notify_unread_global, 'notify_unread_element' => $notify_unread_element ,'event_name' => Notify::$event, 'from_shop' => $from_shop];
         }
         catch(\Exception $e)
         {
-            return [ 'result' => 0, 'msg' => $e->getMessage() ];
+            return [ 'result' => 0, 'msg' => 'on file: '.$e->getFile().' on line: '.$e->getLine().' Message: '.$e->getMessage() ];
         }
     }
     public function notify_update_global(Request $r)

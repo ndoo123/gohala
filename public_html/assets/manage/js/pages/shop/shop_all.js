@@ -60,7 +60,7 @@ var table_order = $('#table_order').DataTable({
         td.each(function(){
             if($(this).attr('order_id') == order_id)
             {
-                console.log(this);
+                // console.log(this);
                 if($("#notify_type").val() == 'order')
                 {
                     $(this).click();
