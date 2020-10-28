@@ -1,7 +1,7 @@
 @extends('manage.master_manage')
 @section('title')
 {{-- ออเดอร์ทั้งหมดของร้าน | <span style="color:blue">{{ $shop->name }}</span> --}}
-การแจ้งเตือนทั้งหมด
+การแจ้งเตือนทั้งหมด <?= !empty($shop) ? '| <span style="color:#008CBA">'.$shop->name.'</span>' : '' ?>
 @stop
 @section('content')
 
@@ -58,7 +58,7 @@
             data: {},
         },
         columns: [
-            { data: 'created_show', name: 'created_show', class: 'text-center text-info' },
+            { data: 'created_show', name: 'created_show', class: 'text-center' },
             { data: 'order_id', name: 'order_id', class: 'text-center' },
             { data: 'info', name: 'info', class: 'text-left' },
             { data: 'is_read', name: 'is_read', class: 'text-center' },

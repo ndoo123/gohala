@@ -45,7 +45,7 @@ class MNotifyController extends Controller
             $notify->is_read = 1;
             $notify->save();
             DB::commit();
-            $return = ['result' => 1];
+            $return = ['result' => 1, 'notify' => $notify];
         }
         catch(\Exception $e)
         {
@@ -74,6 +74,12 @@ class MNotifyController extends Controller
                 </button>';
             }
             return $return;
+        })
+        ->editColumn('order_id',function($model){
+            return '<span style="color:#CB0A0A">'.$model->order_id.'</span>';
+        })
+        ->editColumn('created_show',function($model){
+            return '<span style="color:#008CBA">'.$model->created_show.'</span>';
         })
         ->addColumn('go_to',function($model){
             return '<button type="button" class="btn btn-sm btn-primary notify-item" order_id="'.$model->order_id.'" shop_url="'.$model->shop->url.'">View</button>';

@@ -57,7 +57,16 @@ class MOrderController extends Controller
 		$data['url'] = $url = self::url($r);
 		$data['remote_url'] = $url.'/order_datatables';
 		if(!empty($r->order_id))
+		{
+			$data['notify_type'] = 'order';
 			$data['order_id'] = $r->order_id;
+		}
+		else if(!empty($r->payment_id))
+		{
+			$data['notify_type'] = 'payment';
+			$data['order_id'] = $r->payment_id;
+			// $data['payment_id'] = $r->payment_id;
+		}
 		// $p = Met::pusher('มีการสั่งซื้อใหม่');
 		// dd($data,$r->all());
 		return view('manage.shop.shop_all_manage',$data);

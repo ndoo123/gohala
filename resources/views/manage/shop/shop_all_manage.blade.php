@@ -5,6 +5,7 @@
 @stop
 @section('content')
 <input type="hidden" name="url" id="url" value="{{ $url }}">
+<input type="hidden" name="notify_type" id="notify_type" value="{{ !empty($notify_type) ? $notify_type : '' }}">
 <input type="hidden" name="order_id" id="order_id" value="{{ !empty($order_id) ? $order_id : '' }}">
 <div class="row">
     <div class="col-md-12">

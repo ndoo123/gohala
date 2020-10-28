@@ -6,18 +6,16 @@ $(document).ready(function(){
     }, 5000);
     // }, 100000);
 });
-
+// console.log(location);
 var order_obj = {};
 if($('#table_order').attr('order_status') !== undefined && $('#table_order').attr('order_status') != "")
 {
-    // alert();
     order_obj['order_status'] = $('#table_order').attr('order_status');
 }
 var table_order = $('#table_order').DataTable({
     serverSide: true,
     processing: false,
     destroy: true,
-    // order: [[ 1, "asc" ]],
     ajax: {
         url: $('#table_order').attr('remote_url'),
         data: order_obj,
@@ -41,10 +39,14 @@ var table_order = $('#table_order').DataTable({
         $.each($('td', row), function (colIndex) {
             // console.log(colIndex);
             
+            $(this).attr('order_id', data.id); 
             if(colIndex != length)
             {
-                $(this).attr('order_id', data.id); 
                 $(this).attr('style', 'cursor: context-menu;'); 
+            }
+            else if(colIndex == length)
+            {
+                $(this).addClass('td_edition');
             }
         });
     },
@@ -56,10 +58,17 @@ var table_order = $('#table_order').DataTable({
         var order_id = $("#order_id").val();
         var td = $(this).find('td.order_detail.sorting_1');
         td.each(function(){
-            // console.log(this);
             if($(this).attr('order_id') == order_id)
             {
-                $(this).click();
+                console.log(this);
+                if($("#notify_type").val() == 'order')
+                {
+                    $(this).click();
+                }
+                else if($("#notify_type").val() == 'payment')
+                {
+                    $(this).closest('tr').find('.btn_order_payment_view').click();
+                }
             }
         });
     },

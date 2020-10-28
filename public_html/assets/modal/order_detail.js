@@ -13,14 +13,14 @@ $(document).on('click','.order_detail',function(){
     var obj = new Object();
     obj._token = $('meta[name=csrf-token]').attr('content');
     obj.order_id = order_id;
-    console.log(obj);
+    // console.log(obj);
     $.ajax({
         url: url,
         type: 'get',
         dataType: 'json',
         data: obj,
         success: function(res){
-            console.log(res);
+            // console.log(res);
             // Load('modal_order_detail',false);
             Load(modal,false);
 
@@ -120,7 +120,7 @@ $(document).on('click','.order_detail',function(){
             append2 += '<hr>';
 
             var detail = res.detail;
-            console.log(Object.keys(detail));
+            // console.log(Object.keys(detail));
             Object.keys(detail).forEach(function(e){
                 // console.log(detail);
                 // console.log(e);

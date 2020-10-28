@@ -275,10 +275,18 @@
                 dataType: 'json',
                 data: obj,
                 success: function(res){
-                    // console.log(res);
+                    console.log(res);
                     if(res.result == 1)
                     {
-                        var go_location = $("#manage_url").val()+'/'+shop_url+'/order?order_id='+order_id;
+                        var go_location = $("#manage_url").val()+'/'+shop_url+'/order?';
+                        if(res.notify.event_id == 1)
+                        {
+                            go_location += 'order_id='+res.notify.order_id;
+                        }
+                        else if(res.notify.event_id == 2)
+                        {
+                            go_location += 'payment_id='+res.notify.order_id;
+                        }
                         window.location.href = go_location;
                     }
                 }
@@ -286,7 +294,7 @@
         });
 
         $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
-            // window.location.reload();
+            window.location.reload();
         };
         </script>
         @include('pusher')
