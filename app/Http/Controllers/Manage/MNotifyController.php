@@ -13,18 +13,19 @@ class MNotifyController extends Controller
     protected $url;
     private function url($r)
     {
-        if(!empty($r))
+        $this->url = url('');
+        if(!empty($r->shop))
         {
             $this->url = url($r->shop->url);
             // dd($r)
             // dd(1,$r->shop->url,$this->url);
-            return $this->url;
         }
+        return $this->url;
     }
     public function notify_page(Request $r)
     {
         // dd($r->all());
-        $data['shop'] = $r->shop;
+        $data['shop'] = $r->shop ? $r->shop : null;
         $data['url'] = $this->url($r);
         $data['current_url'] = $data['url'].'/notify';
         $data['remote_url'] = $data['current_url'].'/datatables';
@@ -58,8 +59,18 @@ class MNotifyController extends Controller
     public function notify_datatables(Request $r)
     {
         // dd($r->all());
-        $model = Notify::where('shop_id',$r->shop->id)->orderBy('id','desc');
-        // dd($model->first()->created_show);
+        if(!empty($r->shop))
+        {
+            $model = Notify::where('shop_id',$r->shop->id);
+            // $model = Notify::where('shop_id',$r->shop->id)->orderBy('id','desc');
+        }
+        else
+        {
+            $model = Shop::where('user_id',\Auth::user()->id)->pluck('id');
+            $model = Notify::whereIn('shop_id',$model);
+        }
+        $model->orderBy('id','desc');
+        // dd($model->get());
         return Datatables::of($model)
         ->editColumn('is_read',function ($model){
             if($model->is_read == 1)
@@ -76,8 +87,17 @@ class MNotifyController extends Controller
             }
             return $return;
         })
+        ->addColumn('event_name',function($model){
+            return Notify::$event[$model->event_id];
+        })
         ->editColumn('order_id',function($model){
             return '<span style="color:#CB0A0A">'.$model->order_id.'</span>';
+        })
+        ->editColumn('info',function($model) use ($r){
+            $info = $model->info;
+            if(empty($r->shop))
+                $info = 'ร้าน '.$model->shop_name.' - '.$model->info;
+            return $info;
         })
         ->editColumn('created_show',function($model){
             return '<span style="color:#008CBA">'.$model->created_show.'</span>';
@@ -96,6 +116,7 @@ class MNotifyController extends Controller
                 $model = Notify::where('shop_id',$r->shop->id)->with(['shop']);
                 $notify_unread_global = Notify::where('shop_id',$r->shop->id)->where('is_read_global',0)->count(); 
                 $notify_unread_element = Notify::where('shop_id',$r->shop->id)->where('is_read',0)->count(); 
+                $notify_all_element = Notify::where('shop_id',$r->shop->id)->count(); 
                 $from_shop = 0;
             }
             else
@@ -104,6 +125,7 @@ class MNotifyController extends Controller
                 $model = Notify::whereIn('shop_id',$shop);
                 $notify_unread_global = Notify::whereIn('shop_id',$shop)->where('is_read_global',0)->count(); 
                 $notify_unread_element = Notify::whereIn('shop_id',$shop)->where('is_read',0)->count();
+                $notify_all_element = Notify::whereIn('shop_id',$shop)->count(); 
                 $from_shop = 1; // สำหรับเช็คเพื่อแสดงชื่อร้าน (หน้าแสดงร้านค้าทั้งหมด)
             }
             
@@ -113,7 +135,7 @@ class MNotifyController extends Controller
             {
                 throw new \Exception('ไม่พบข้อมูล');
             }
-            return [ 'result' => 1, 'notify' => $notify, 'notify_unread_global' => $notify_unread_global, 'notify_unread_element' => $notify_unread_element ,'event_name' => Notify::$event, 'from_shop' => $from_shop];
+            return [ 'result' => 1, 'notify' => $notify, 'notify_unread_global' => $notify_unread_global, 'notify_unread_element' => $notify_unread_element, 'notify_all_element' => $notify_all_element ,'event_name' => Notify::$event, 'from_shop' => $from_shop];
         }
         catch(\Exception $e)
         {
@@ -129,6 +151,11 @@ class MNotifyController extends Controller
                 // DB::table('')->get();
                 Notify::where('shop_id',$r->shop->id)->update(['is_read_global' => 1]);
                 // dd($notify);
+            }
+            else
+            {
+                $shop = Shop::where('user_id',\Auth::user()->id)->pluck('id');
+                Notify::whereIn('shop_id',$shop)->update(['is_read_global' => 1]);
             }
             return [ 'result' => 1, 'msg' => '' ];
         }

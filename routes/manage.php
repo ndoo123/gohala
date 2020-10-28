@@ -20,6 +20,9 @@ Route::post('shops/create','MShopController@shop_create');
 Route::get('order_detail', 'MSettingController@order_detail');
 Route::post('/notify_bar', "MNotifyController@notify_bar"); // return json สำหรับการแจ้งเตือนกระดิ่ง
 Route::post('/notify_read', "MNotifyController@notify_read");
+Route::get('/notify', "MNotifyController@notify_page");
+Route::get('/notify/datatables', "MNotifyController@notify_datatables"); 
+Route::post('/notify_update_global', "MNotifyController@notify_update_global");
 
 Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],function () {
 

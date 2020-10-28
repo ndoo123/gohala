@@ -343,6 +343,7 @@ class HomeController extends Controller
             \Met::pusher('manage', Notify::$event[1], $shop->url);
             
 
+            // dd($order,$order->toArray());
             \DB::commit();
 
             Cart::clear_shop($order->shop_id);
@@ -357,16 +358,17 @@ class HomeController extends Controller
             \DB::rollback();
             return redirect()->back()->with('error',$e->getMessage());
         }
-        return redirect('/order/status')->with('order',$order->toArray());
+        // dd($order->toArray());
+        return redirect('/order/status?order_id='.$order->id)->with('order',$order->toArray());
 
 
     }
     public function order_status(Request $r)
     {
-        // dd($r->all());
+        // dd($r->all(),session('order'));
         if(!isset($r->order_id)){
             if(!session('order'))
-            return redirect('/');
+            return redirect('/')->with('error','ไม่พบข้อมูลเลขที่สั่งซื้อ');
 
             $order=session('order');
 
@@ -374,7 +376,7 @@ class HomeController extends Controller
         }
         else
         {
-            $order=Order::where("id",$r->order_id)->where("buyer_user_id",\Auth::user()->id)->first();
+            $order=Order::where("id",$r->order_id)->first();
             if(!$order)
                 return redirect('/')->with('error','ไม่พบข้อมูลเลขที่สั่งซื้อ');
 

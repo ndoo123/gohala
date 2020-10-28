@@ -21,11 +21,21 @@
 
     var channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function(data) {
-        // alert(JSON.stringify(data));
-        if(data.type == sub_domain && shop_url != '' && data.shop_url != '' && shop_url == data.shop_url)
+        // console.log(data);
+        if(data.type == sub_domain)
         {
-            toastr.info(data.msg);
             notify();
+            if(shop_url != '' && data.shop_url != '' && (shop_url == data.shop_url || shop_url == 'notify'))
+            {
+                toastr.info(data.msg);
+            }
+        }
+        if($('#table_notify').length >0)
+        {
+            console.log('reload table notify');
+            var datatable = $('#table_notify').DataTable();
+            console.log(datatable.ajax.reload(null,false));
+            // .ajax().reload(null,false)
         }
     });
 

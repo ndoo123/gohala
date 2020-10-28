@@ -30,14 +30,14 @@
 <li class="dropdown notification-list list-inline-item notify">
     <a class="nav-link dropdown-toggle arrow-none waves-effect notify_icon" id="notify_icon" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
         <i class="mdi mdi-bell-outline noti-icon"></i>
-        <span class="badge badge-pill badge-danger noti-icon-badge notify_unread_global">
+        <span class="badge badge-pill badge-danger noti-icon-badge notify_unread_global" style="display:none">
             3
         </span>
     </a>
     <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg">
         <!-- item-->
         <h6 class="dropdown-item-text">
-            Notifications (<span class="notify_unread_element">258</span>)
+            Notifications <span class="notify_unread_element">258</span> จาก <span class="notify_all_element">258</span>
         </h6>
         <div class="slimscroll notification-item-list notify_body">
             <!-- item-->

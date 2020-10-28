@@ -196,9 +196,11 @@
                     console.log(res);
                     if(res.result == 1)
                     {
-                        $(".notify_unread_global").fadeIn();
                         $('.notify_unread_element').html(res.notify_unread_element);
                         $('.notify_unread_global').html(res.notify_unread_global);
+                        $('.notify_all_element').html(res.notify_all_element);
+                        if(res.notify_unread_global > 0)
+                            $(".notify_unread_global").fadeIn();
                         if(res.notify_unread_global < 1)
                         {
                             $(".notify_unread_global").fadeOut();
@@ -246,10 +248,6 @@
             });
         }
         $(document).on('shown.bs.dropdown','.notify',function(e){ 
-            // e.preventDefault();
-
-            if($("#shop_url").val() !== undefined)
-            {
                 var url = get_url()+'/notify_update_global';
                 var obj = new Object();
                 obj._token = $('meta[name=csrf-token]').attr('content');
@@ -267,7 +265,6 @@
                         }
                     }
                 });
-            }
         }); // เมื่อคลิกกระดิ่งให้เปลี่ยนเป็นอ่านให้หมด
 
         $(document).on('click','.notify-item',function(){ // เปลี่ยนแต่คลิกแต่ละออเดอร์เป็นอ่านแล้ว

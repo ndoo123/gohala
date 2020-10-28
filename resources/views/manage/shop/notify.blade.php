@@ -24,8 +24,9 @@
                         <table class="table table-hover mb-0 bg-light w-100" id="table_notify" remote_url="{{ $remote_url }}">
                             <thead>
                                 <tr>
-                                    <th width="15%" class="text-center">วันที่</th>
-                                    <th width="15%" class="text-center">คำสั่งซื้อเลขที่</th>
+                                    <th width="10%" class="text-center">วันที่</th>
+                                    <th width="10%" class="text-center">คำสั่งซื้อเลขที่</th>
+                                    <th width="10%" class="text-center">หัวข้อ</th>
                                     <th width="50%">รายละเอียด</th>
                                     <th width="10%" class="text-center">สถานะ</th>
                                     <th width="10%" class="text-center">#</th>
@@ -45,7 +46,7 @@
 @section('js')
 <script>
     $(document).ready(function(){
-        setInterval(function(){ main_table.ajax.reload( null, false); }, 3000);
+        // setInterval(function(){ main_table.ajax.reload( null, false); }, 3000);
     });
     
     var main_table = $('#table_notify').DataTable({
@@ -58,11 +59,13 @@
             data: {},
         },
         columns: [
-            { data: 'created_show', name: 'created_show', class: 'text-center' },
+            { data: 'created_show', name: 'created_show', class: 'text-center', "searchable": false  },
             { data: 'order_id', name: 'order_id', class: 'text-center' },
+            { data: 'event_name', name: 'event_name', class: 'text-center', "searchable": false },
+            // { data: 'shop_name', name: 'shop_name', class: 'text-center', "searchable": false },
             { data: 'info', name: 'info', class: 'text-left' },
-            { data: 'is_read', name: 'is_read', class: 'text-center' },
-            { data: 'go_to', name: 'go_to', class: 'text-center' },
+            { data: 'is_read', name: 'is_read', class: 'text-center', "searchable": false  },
+            { data: 'go_to', name: 'go_to', class: 'text-center', "searchable": false  },
         ],
     });
 </script>
