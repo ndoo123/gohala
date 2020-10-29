@@ -301,7 +301,7 @@
         });
 
         $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
-            window.location.reload();
+            // window.location.reload();
         };
         </script>
         @include('pusher')

@@ -29,6 +29,18 @@ class MNotifyController extends Controller
         $data['url'] = $this->url($r);
         $data['current_url'] = $data['url'].'/notify';
         $data['remote_url'] = $data['current_url'].'/datatables';
+        if(!empty($r->shop))
+        {
+            $model = Notify::where('shop_id',$r->shop->id);
+            // $model = Notify::where('shop_id',$r->shop->id)->orderBy('id','desc');
+        }
+        else
+        {
+            $model = Shop::where('user_id',\Auth::user()->id)->pluck('id');
+            $model = Notify::whereIn('shop_id',$model);
+        }
+        $data['notify_count'] = $model->count();
+        $data['notify_unread'] = $model->where('is_read',0)->count();
         // dd($data);
         return view('manage.shop.notify',$data);
     }
@@ -68,6 +80,10 @@ class MNotifyController extends Controller
         {
             $model = Shop::where('user_id',\Auth::user()->id)->pluck('id');
             $model = Notify::whereIn('shop_id',$model);
+        }
+        if(isset($r->is_read) && $r->is_read !== null)
+        {
+            $model = $model->where('is_read',$r->is_read);
         }
         $model->orderBy('id','desc');
         // dd($model->get());
