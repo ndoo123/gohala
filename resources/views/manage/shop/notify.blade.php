@@ -1,8 +1,9 @@
 @extends('manage.master_manage')
 @section('title')
 {{-- ออเดอร์ทั้งหมดของร้าน | <span style="color:blue">{{ $shop->name }}</span> --}}
-<span>การแจ้งเตือนทั้งหมด <?= !empty($shop) ? '| <span style="color:#008CBA">'.$shop->name.'</span>' : '' ?></span>
-<span class="font-12">ยังไม่อ่าน {{ $notify_unread }} จาก {{ $notify_count }}</span>
+<span>การแจ้งเตือนทั้งหมด <span class="font-12">(ยังไม่อ่าน {{ $notify_unread }} จาก {{ $notify_count }})</span>
+<?= !empty($shop) ? ' | <span style="color:#008CBA">'.$shop->name.'</span>' : '' ?></span>
+
 @stop
 @section('content')
 
