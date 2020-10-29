@@ -16,6 +16,8 @@
         <link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/js/plugins/sweetalert2/sweetalert2.min.css');?>" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/js/plugins/toastr/toastr.min.css');?>">
         <style>
             *{
                 font-family: 'Kanit';

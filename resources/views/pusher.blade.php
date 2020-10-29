@@ -33,7 +33,11 @@
             }
             if(sub_domain == 'account')
             {
+                console.log('account');
+                console.log(data);
                 toastr.info(data.msg);
+                if($("#table_order").length > 0)
+                    $("#table_order").DataTable().ajax.reload(null,false);
             }
         }
         if($('#table_notify').length >0)
