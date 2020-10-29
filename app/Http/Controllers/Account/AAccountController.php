@@ -84,7 +84,7 @@ class AAccountController extends Controller
    {
 
       //  return json_encode($r->input());
-      // dd($r->all(),json_decode($r->payment_data),\Auth::user(),isset($r->file)?gettype($r->file):null,uniqid());
+      // dd($r->all());
       try{
         if(empty($r->order_id) && empty($r->price) && empty($r->payment_date) && empty($r->payment_data) && !\Auth::user() && !$r->file)
           throw new \Exception('ข้อมูลไม่ครบ');
@@ -151,6 +151,7 @@ class AAccountController extends Controller
         DB::rollback();
         $result = [ 'result' => 0 , 'msg' => $e->getMessage().' On Line:'.$e->getLine().' On File'.$e->getFile()];
       }
+      // dd($result);
       return json_encode($result);
 
    }

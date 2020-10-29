@@ -34,7 +34,6 @@
             if(sub_domain == 'account')
             {
                 toastr.info(data.msg);
-                table_order_datatables();
             }
         }
         if($('#table_notify').length >0)
