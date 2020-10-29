@@ -15,6 +15,9 @@ Route::get('user/reset_password','AAccountController@reset_password');
 Route::post('user/reset_password/process','AAccountController@reset_password_process');
 Route::middleware(['auth'])->group(function(){
     // dd(\Auth::user());
+    Route::post('notify_bar','ANotifyController@notify_bar');
+    Route::post('notify_update_global','ANotifyController@notify_update_global');
+    Route::post('notify_read','ANotifyController@notify_read');
     Route::get('profile','AAccountController@profile');
     Route::post('profile/get_payment_img','AAccountController@get_payment_img');
     Route::post('profile/user_payment','AAccountController@user_payment');

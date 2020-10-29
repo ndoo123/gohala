@@ -23,6 +23,9 @@ class CreateNotificationTb extends Migration
                 $table->text('info');
                 $table->tinyInteger('is_read')->default(0);
                 $table->tinyInteger('is_read_global')->default(0);
+                $table->text('user_info');
+                $table->tinyInteger('user_is_read')->default(0);
+                $table->tinyInteger('user_is_read_global')->default(0);
                 $table->timestamps();
             });
         }

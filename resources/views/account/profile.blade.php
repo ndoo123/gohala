@@ -32,6 +32,8 @@
     <body>
         <input type="hidden" id="url" value="{{ $url }}">
         <input type="hidden" id="url_current" value="{{ $url }}">
+        <input type="hidden" id="notify_type" value="">
+        <input type="hidden" id="master_order_id" value="">
         <div class="header-bg">
             <!-- Navigation Bar-->
             <header id="topnav" style="background-color:white">
@@ -50,8 +52,9 @@
                         <div class="menu-extras topbar-custom">
 
                             <ul class="navbar-right list-inline float-right mb-0">
-        
-                                  <li class="dropdown notification-list list-inline-item">
+
+                                @include('account.notify')
+                                <li class="dropdown notification-list list-inline-item">
                                     <div class="dropdown notification-list nav-pro-img">
                                         <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                             <img src="<?php echo \Auth::user()->get_photo();?>" alt="user" class="rounded-circle">
@@ -167,7 +170,7 @@
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link <?=($op == "myorder")?'active':null?>" data-toggle="tab" href="#order" role="tab">
+                                                <a class="nav-link myorder <?=($op == "myorder")?'active':null?>" data-toggle="tab" href="#order" role="tab">
                                                     <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                                                     <span class="d-none d-sm-block"><?php echo __('view.order_list');?></span>   
                                                 </a>
@@ -335,60 +338,11 @@
         app.url='<?php echo url('');?>';
         </script>
         <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
-        <script>
-            // $("#order_table").DataTable({
-            //     order: [[1, 'desc']],
-            //     "columnDefs": [
-            //     { "type": "date-de", targets: 1 }
-            //     ],
-            // });
-        </script>
 
-    {{-- <script src="js/jquery-ui.js"></script> --}}
-
+        {{-- ห้ามสลับ --}}
         @include('modal.master_user')
         @include('pusher')
-        <script src="<?php echo url('assets/account/js/account.js');?>"></script>
-        <script>
-            $(document).ready(function(){
-                setInterval(function(){ table_order.ajax.reload(null,false); }, 5000);
-            });
-            $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
-                window.location.reload();
-            };
-            var table_order = $('#table_order').DataTable({
-                serverSide: true,
-                processing: false,
-                destroy: true,
-                // order: [[ 1, "asc" ]],
-                ajax: {
-                    url: $('#table_order').attr('remote_url'),
-                    data: {},
-                },
-                columns: [
-                    { data: 'id', name: 'id', class: 'text-center' },
-                    { data: 'order_date', name: 'order_date', class: 'text-center' },
-                    { data: 'shop_name', name: 'shop_name', class: 'text-center',"orderable": false },
-                    { data: 'get_sold_price', name: 'get_sold_price', class: 'text-center',"orderable": false },
-                    { data: 'status', name: 'status', class: 'text-center',"orderable": false },
-                    { data: 'action', name: 'action', class: 'text-center',"orderable": false },
-                ],
-                createdRow: function( row, data, dataIndex ) {
-                    var td_length = $('td',row).length-1;
-                    $.each($('td',row),function(index){
-                        if(index != td_length)
-                        {
-                            // $(this).attr('id', 'data');
-                            $(this).addClass('order_detail');
-                            $(this).attr('style','cursor: context-menu;');
-                        }
-                        $(this).attr('order_id',data.id);
-                        // console.log(td_length);
-                    });
-                    // console.log(data);
-                },
-            });
-        </script>
+        <script src="<?php echo url('assets/account/js/account.js');?>"></script> 
     </body>
 
 </html>

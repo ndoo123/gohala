@@ -50,9 +50,7 @@ class MNotifyController extends Controller
         try
         {
             DB::beginTransaction();
-            $notify = Notify::where('order_id',$r->order_id)->first();
-            // $notify = Notify::where('order_id',$r->order_id)->where('shop_id',$r->shop->id)->first();
-            // dd($notify);
+            $notify = Notify::where('order_id',$r->order_id)->where('event_id',$r->event_id)->first();
             if(!$notify)
                 throw new \Exception('ไม่พบการแจ้งเตือน');
 

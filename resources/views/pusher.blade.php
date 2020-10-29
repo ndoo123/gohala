@@ -1,10 +1,12 @@
 
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+<script src="<?php echo url('');?>/assets/web/js/plugins/toastr/toastr.min.js"></script>
 <script>
     // console.log(location);
     // หาชื่อร้านค้า เพื่อ pusher ได้ถูกร้าน
     var path_name = location.pathname;
     var path_array = path_name.split("/");
+    // console.log(path_array);
     var shop_url = '';
     if(path_array[1] != '')
         shop_url = path_array[1];
@@ -22,20 +24,24 @@
     var channel = pusher.subscribe('my-channel');
     channel.bind('my-event', function(data) {
         // console.log(data);
-        if(data.type == sub_domain)
+        if(data.type == sub_domain) // manage, account = sub_domain
         {
             notify();
-            if(shop_url != '' && data.shop_url != '' && (shop_url == data.shop_url || shop_url == 'notify'))
+            if(shop_url == data.shop_url || shop_url == 'shops' || shop_url == 'notify') // path_array = ['','shop_url',]
             {
                 toastr.info(data.msg);
+            }
+            if(sub_domain == 'account')
+            {
+                toastr.info(data.msg);
+                table_order_datatables();
             }
         }
         if($('#table_notify').length >0)
         {
-            console.log('reload table notify');
+            // console.log('reload table notify');
             var datatable = $('#table_notify').DataTable();
-            console.log(datatable.ajax.reload(null,false));
-            // .ajax().reload(null,false)
+            datatable.ajax.reload(null,false);
         }
     });
 

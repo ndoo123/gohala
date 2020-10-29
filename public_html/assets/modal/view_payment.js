@@ -49,7 +49,7 @@ $(document).on('click','.btn_order_payment_view',function(){
         //     <label class="custom-control-label" for="payment_check2">โอนเงิน</label>
         // </div>
 
-        $('input#payment_date',modal).val(payment.payment_date);
+        $('input[name="payment_date"]',modal).val(payment.payment_date);
         $('textarea#payment_remark',modal).val(payment.payment_remark);
         $('.view_payment_img',modal).html('');
         var url = $("#url").val()+'/get_payment_img';
@@ -79,10 +79,10 @@ $(document).on('click','.btn_order_payment_view',function(){
         });
     }
     
-    $('input#order_id',modal).val(order_id);
+    $('input[name="order_id"]',modal).val(order_id);
     $(".bank_body",modal).html('');
     $(".bank_body",modal).append(append);
-    $('input#price',modal).val(price);
+    $('input[name="price"]',modal).val(price);
     $("#modal_view_payment_label span").html(order_id);
     $("#modal_view_payment").modal('show');
 });

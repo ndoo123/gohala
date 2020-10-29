@@ -61,9 +61,9 @@ window.onload = function () {
                     formData.append(radio.attr('name'),radio.val());
             });
             this.on('successmultiple',function(file, response){
-                console.log(file);
-                console.log(response);
-                console.log(JSON.parse(response));
+                // console.log(file);
+                // console.log(response);
+                // console.log(JSON.parse(response));
                 var res = JSON.parse(response);
                 if(res.result != 1)
                 {
@@ -173,8 +173,8 @@ $(document).on('click','.btn_order_payment',function(){
     modal.attr('order_id',order_id);
     $(".bank_body",modal).html('');
     $(".bank_body",modal).append(append);
-    $('input#order_id',modal).val(order_id);
-    $('input#price',modal).val(price);
+    $('input[name="order_id"]',modal).val(order_id);
+    $('input[name="price"]',modal).val(price);
     $("#modal_user_payment_label span").html(order_id);
 
 

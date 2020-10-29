@@ -341,6 +341,7 @@ class HomeController extends Controller
             $notify->info = 'ออเดอร์หมายเลข '.$order->id.' จากคุณ '.$deli->name.' ติดต่อ: '.$deli->phone;
             $notify->save();
             \Met::pusher('manage', Notify::$event[1], $shop->url);
+            \Met::pusher('account', Notify::$event[1], '');
             
 
             // dd($order,$order->toArray());

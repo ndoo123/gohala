@@ -142,6 +142,7 @@ class AAccountController extends Controller
         $notify->info = 'ชำระบิลเลขที่ '.$order->id.' ธนาคาร: '.$orderTranfer->bank_name.' หมายเลขบัญชี: '. $orderTranfer->account_no .' โดย '.\Auth::user()->name;
         $notify->save();
         Met::pusher('manage', Notify::$event[2], $order->shop->url);
+        Met::pusher('account', Notify::$event[2], '');
         DB::commit();
         $result = [ 'result' => 1 , 'msg' => 'Payment Success' ];
       }

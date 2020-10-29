@@ -12,11 +12,11 @@
                 <div class="row modal_view_payment_body">
                     <div class="form-group col-6">
                         <label for="order_id">หมายเลขใบสั่งซื้อ <span class="text-danger">*</span></label>
-                        <input type="text" id="order_id" name="order_id" value="" class="form-control" readonly>
+                        <input type="text" name="order_id" value="" class="form-control" readonly>
                     </div>
                     <div class="form-group col-6">
                         <label for="price">จำนวนเงิน <span class="text-danger">*</span></label>
-                        <input type="text" id="price" name="price" value="" class="form-control" readonly>
+                        <input type="text" name="price" value="" class="form-control" readonly>
                     </div>
                     <div class="form-group col-12">
                         <label for="bank">ธนาคาร <span class="text-danger">*</span></label>
@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-group col-12 ">
                             <label for="price">วันที่ <span class="text-danger">*</span></label>
-                            <input type="text" id="payment_date" name="payment_date" class="form-control" readonly>
+                            <input type="text" name="payment_date" class="form-control" readonly>
                     </div>
                     <div class="form-group col-12">
                         <label for="price">หมายเหตุ <span class="text-danger"></span></label>

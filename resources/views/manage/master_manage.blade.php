@@ -163,7 +163,7 @@
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
         <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
 
-        <script src="<?php echo url('');?>/assets/web/js/plugins/toastr/toastr.min.js"></script>
+        @include('pusher')
         <script>
         var app=new LKS();
         app.url='<?php echo (isset($shop)?url($shop->url):url(''));?>';
@@ -227,7 +227,7 @@
                                     event_name += ' <span style="font-size:12px">ร้าน '+value.shop_name+'</span>';
                                 }
                                 append += 
-                                '<a href="javascript:void(0);" class="dropdown-item notify-item" order_id="'+value.order_id+'" shop_url="'+value.shop_url+'" >'
+                                '<a href="javascript:void(0);" class="dropdown-item notify-item" order_id="'+value.order_id+'" shop_url="'+value.shop_url+'" event_id="'+value.event_id+'">'
                                     + icon[value.event_id]
                                     + '<p class="notify-details"'+ font_weight +'>' +event_name
                                         + unread
@@ -270,11 +270,13 @@
         $(document).on('click','.notify-item',function(){ // เปลี่ยนแต่คลิกแต่ละออเดอร์เป็นอ่านแล้ว
             var order_id = $(this).attr('order_id');
             var shop_url = $(this).attr('shop_url');
+            var event_id = $(this).attr('event_id');
             var url = get_url()+'/notify_read';
             console.log(url);
             var obj = new Object();
             obj._token = $('meta[name=csrf-token]').attr('content');
             obj.order_id = order_id;
+            obj.event_id = event_id;
             // console.log(obj);
             $.ajax({
                 url: url,
@@ -301,10 +303,9 @@
         });
 
         $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
-            // window.location.reload();
+            window.location.reload();
         };
         </script>
-        @include('pusher')
 
         @yield('js')
         
