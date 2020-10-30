@@ -47,6 +47,7 @@
 </head>
 
 <body>
+	
 	@include('web.ecommerce.header')
 	<main>
 		<div class="container pt-3">
@@ -116,13 +117,13 @@
 	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script src="<?php echo url('');?>/assets/js/lks.js"></script>
 
-    <script src="<?php echo url('');?>/assets/web/js/cart.js"></script>
+    <script src="<?php echo url('').'/assets/web/js/cart.js?v='.time();?>"></script>
 
   
     <script>
 		var app=new LKS();
     </script>
-    
+    @include('modal.login')
     @yield('js')
  
 </body>

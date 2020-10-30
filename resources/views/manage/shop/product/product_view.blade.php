@@ -37,7 +37,7 @@
                          <div class="col-md-3">
                              <div class="form-group">
                                 <label>Barcode</label>
-                                <input type="text" value="<?php echo $product->sku;?>" name="barcode" maxlength="20"  class="form-control maxlength" required="">
+                                <input type="text" value="<?php echo $product->barcode;?>" name="barcode" maxlength="20"  class="form-control maxlength" required="">
                             
                             </div>
                             

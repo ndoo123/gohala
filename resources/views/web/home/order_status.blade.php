@@ -15,11 +15,11 @@
                 <p>รหัสออเดอร์ของคุณคือ {{ $order['id'] }}</p>
                 <a href="{{ $url }}">ดูโปรไฟล์</a><br><br>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="{{ !empty($payment) ? 'col-6' : 'col-12' }}">
                         <p> ร้าน {{ $shop->name }} </p>
                         <p> ราคาที่ต้องชำระ <span class="text-primary">{{ $find_order->get_sold_price(true) }} </span></p>
                     </div>
-                    <div class="col-6">
+                    <div class="{{ !empty($payment) ? 'col-6' : 'col-12' }}">
                         @foreach ($payment as $p_key => $p)
                             <h5>{{ $p->bank_name }}</h5>
                             <p>ชื่อบัญชี {{ $p->account_name }}<p>
