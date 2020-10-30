@@ -155,6 +155,7 @@ class MSettingController extends Controller
     $shop=Shop::where("id",$r->shop->id)->first();
     $shop->receipt_type=$r->s_receipt;
     $shop->receipt_number=$r->t_recnum;
+    $shop->receipt_note = $r->t_note;
 
     $shop->save();
 

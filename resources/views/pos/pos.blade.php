@@ -63,9 +63,28 @@
                 overflow:hidden;
             }
 
-
-
         </style>
+
+        <style>
+        .tooltip3{display:inline-block;position:relative}
+
+        .tooltip3:hover:after{
+            background:#111;
+            background:rgba(0,0,0,.8);
+            border-radius:5px;
+            bottom:18px;
+            color:#fff;
+            content:attr(title);
+            display:block;
+            left:50%;
+            padding:5px 15px;
+            position:absolute;
+            white-space:nowrap;
+            z-index:98
+        }
+    
+        </style>
+
     </head>
 
     <body>
@@ -147,6 +166,7 @@
                         <div class="card">
                             <div class="card-body">
                                 
+                            
                                 <div class="form-group row">
                                     <label for="barcode-input" class="col-sm-4 col-form-label">แสกนบาร์โค้ด</label>
                                     <div class="col-sm-8">
@@ -424,6 +444,7 @@
         app.url='<?php echo url('');?>';
         </script>
         <script src="<?php echo url('assets/js/pos.js');?>"></script>
+    
     </body>
 
 </html>

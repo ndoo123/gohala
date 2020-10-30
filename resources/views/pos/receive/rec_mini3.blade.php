@@ -93,8 +93,7 @@
   <tr>
   	<td colspan="2" align="center">
         <hr>
-    	** Have A Nice Day **<br>
-        ** Thank You **
+        <?php echo $shop->receipt_note ; ?>
     </td>
   </tr>
 </table>

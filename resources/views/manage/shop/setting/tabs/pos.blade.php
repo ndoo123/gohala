@@ -25,6 +25,12 @@
                                     data-parsley-maxlength="6" value="{{ $shop->receipt_number }}"/>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label>ข้อความท้ายใบเสร็จ</label>
+                        <div>
+                            <textarea class="form-control" id="t_note" name="t_note" rows="3">{{ $shop->receipt_note }}</textarea>
+                        </div>
+                    </div>
 
 
             </div>

@@ -488,6 +488,14 @@
 
 
 
+    // click ชื่อสินค้า
+    function show_title(id)
+    {
+        $('#tt'+id).tooltip("show");
+    }
+
+
+
     // ปุ่มลบ ของการชำระเงินด้วยเงินสด
     $(document).on('click','.btn-del-cash',function(){
 
