@@ -313,7 +313,7 @@ class PPosController extends Controller
         {
             $data = Product::where("shop_id", "=", $shop)->get();
             //$data = DB::table('product_tb')->where('shop_id',$shop)->get();
-            //dd($data);
+            // dd($data);
         }
         else
         {
@@ -323,7 +323,14 @@ class PPosController extends Controller
                         ->where('shop_category_product_tb.category_id', '=', $id)
                         ->select('product_tb.*')
                         ->get();
-            //dd($data);
+            // $data = Product::leftJin('shop_category_product_tb', function($join){
+            //             $join->on('product_tb.id', '=', 'shop_category_product_tb.product_id');
+            //         })
+            //         ->where('shop_category_product_tb.shop_id', '=', $shop)
+            //         ->where('shop_category_product_tb.category_id', '=', $id)
+            //         ->get();
+            
+            // dd($data);
         }       
         
         return view('pos.pos_product',[
