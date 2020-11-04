@@ -9,19 +9,18 @@ $(document).on('click','.order_detail',function(){
     // console.log(location);
     // console.log(order_id);
     var url = location.origin+'/order_detail';
-    console.log(url);
+    // console.log(url);
     var obj = new Object();
     obj._token = $('meta[name=csrf-token]').attr('content');
     obj.order_id = order_id;
-    console.log(obj);
+    // console.log(obj);
     $.ajax({
         url: url,
         type: 'get',
         dataType: 'json',
         data: obj,
         success: function(res){
-            console.log(res);
-            // Load('modal_order_detail',false);
+            // console.log(res);
             Load(modal,false);
 
             // detail item
@@ -120,7 +119,7 @@ $(document).on('click','.order_detail',function(){
             append2 += '<hr>';
 
             var detail = res.detail;
-            console.log(Object.keys(detail));
+            // console.log(Object.keys(detail));
             Object.keys(detail).forEach(function(e){
                 // console.log(detail);
                 // console.log(e);
@@ -132,6 +131,10 @@ $(document).on('click','.order_detail',function(){
             });
             body.html('');
             body.append(append2);
+            
+            $("span.btn_primary").html('');
+            if(res.btn != '')
+                $("span.btn_primary").html(res.btn);
             // end detail order all
             $("#modal_order_detail").modal('show');
         }

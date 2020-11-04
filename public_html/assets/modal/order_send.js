@@ -2,6 +2,7 @@
 var table_order = $('#table_order').DataTable();
 // console.log($("h5 span#profit").length);
 $(document).on('click','.btn_order',function(){
+    $("#modal_order_detail").modal('hide');
     var order_id = $(this).attr('order_id');
     var status = $(this).attr('status');
     if(status == 3)

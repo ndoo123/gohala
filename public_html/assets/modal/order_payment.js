@@ -51,9 +51,6 @@ window.onload = function () {
                 var modal = $('#form_user_payment').closest('.modal');
                 var inputs = $("#form_user_payment input,textarea",modal).not("input[type='radio']");
                 var radio = form.find('input[type="radio"]:checked',modal);
-                // console.log(radio);
-                // console.log(inputs);
-                // return;
                 inputs.each(function(index,input){
                     formData.append($(input).attr('name'),$(input).val());
                 });
@@ -61,9 +58,9 @@ window.onload = function () {
                     formData.append(radio.attr('name'),radio.val());
             });
             this.on('successmultiple',function(file, response){
-                console.log(file);
-                console.log(response);
-                console.log(JSON.parse(response));
+                // console.log(file);
+                // console.log(response);
+                // console.log(JSON.parse(response));
                 var res = JSON.parse(response);
                 if(res.result != 1)
                 {
@@ -82,7 +79,9 @@ window.onload = function () {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    table_order.ajax.reload(null,false);
+                    $("#table_order").DataTable().ajax.reload(null,false);
+                    // table_order_datatables();
+                    // table_order.ajax.reload(null,false);
                     $("#modal_user_payment").modal('hide');
                 }
             });
@@ -95,9 +94,6 @@ window.onload = function () {
         e.preventDefault();
         e.stopPropagation();
 
-        // var form = $("#form_user_payment");
-        // var el = $("#form_user_payment input[name='payment_data'][required]:checked");
-        // console.log(el);
         if(newDropzone.files.length < 1)
         {
             alert('กรุณาเพิ่มไฟล์รูปการชำระเงิน');
@@ -127,6 +123,7 @@ $(".flatpickr").flatpickr({
     }
 });
 // console.log($("h5 span#profit").length);
+// สำหรับแสดงข้อมูลการชำระเงิน เป็น radio button เพื่อให้เลือก
 $(document).on('click','.btn_order_payment',function(){
     var order_id = $(this).attr('order_id');
     var price = $(this).attr('price');
@@ -173,8 +170,8 @@ $(document).on('click','.btn_order_payment',function(){
     modal.attr('order_id',order_id);
     $(".bank_body",modal).html('');
     $(".bank_body",modal).append(append);
-    $('input#order_id',modal).val(order_id);
-    $('input#price',modal).val(price);
+    $('input[name="order_id"]',modal).val(order_id);
+    $('input[name="price"]',modal).val(price);
     $("#modal_user_payment_label span").html(order_id);
 
 

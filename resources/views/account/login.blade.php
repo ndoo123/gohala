@@ -30,7 +30,7 @@
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) {return;}
             js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            js.src = "//connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
         </script>
@@ -132,7 +132,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-center">
-                             <div class="fb-login-button" onlogin="checkLoginState()" data-size="medium" data-button-type="login_with" data-layout="default"  data-width=""></div>
+                             <div class="fb-login-button" onlogin="checkLoginState()" data-size="medium" data-button-type="login_with" data-layout="default" data-scope="email,public_profile" data-width=""></div>
                             </div>
                         </div>
                     </div>
@@ -179,7 +179,7 @@
         <script src="<?php echo url('assets/js/plugins/blockUI.js');?>"></script>
         <!-- App js -->
       <script src="<?php echo url('assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js');?>"></script>
-        <script src="<?php echo url('assets/js/lks.js');?>"></script>
+        <script src="<?php echo url('assets/js/lks.js?v='.time());?>"></script>
        
         <script src="<?php echo url('assets/account/js/account.js');?>"></script>
         <script>
@@ -224,6 +224,7 @@ function checkLoginState() {
                     alert(r.msg);
                     return;
                 }
+                // console.log(r);
                 location.reload(); 
             }
             post.send(obj);

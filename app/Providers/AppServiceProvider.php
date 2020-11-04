@@ -13,6 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // dd(1,get_included_files());
         if(config('app.ssl')==true) {
             \URL::forceScheme('https');
         }

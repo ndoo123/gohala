@@ -1,6 +1,6 @@
 <?php
 
-$url = url('');
+$url = "$_SERVER[REQUEST_SCHEME]://$_SERVER[HTTP_HOST]";
 $arr_url = explode('.',$url);
 $extend = end($arr_url);
 // dd($url,$arr_url,$extend);
@@ -188,7 +188,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
-
+        Intervention\Image\ImageServiceProvider::class
     ],
 
     /*
@@ -241,6 +241,7 @@ return [
         'Met' => \App\Helper\Met::class,
         'Cart' => \App\Helper\Cart::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

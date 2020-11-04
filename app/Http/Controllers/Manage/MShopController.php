@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notify;
 use App\Models\Order;
 use App\Models\Shop;
 use App\Models\ShopCategory;
@@ -32,36 +33,39 @@ class MShopController extends Controller
    public function shops(Request $r)
    {
        $data['shops']=Shop::where("user_id",\Auth::user()->id)->get();
+    //    dd($data);
        return view('manage.shop.shops',$data);
    }
-   public function shop_create(Request $r)
-   {
+    public function shop_create(Request $r)
+    {
     
-       if($r->name=="" || $r->shop_url=="")
-       return LKS::o(0,"กรุณาระบุข้อมูลให้ครบ");
+        if($r->name=="" || $r->shop_url=="")
+            return LKS::o(0,"กรุณาระบุข้อมูลให้ครบ");
 
-       $r->shop_url=trim(strtolower($r->shop_url));
+        if($r->shop_url=="shops" || $r->shop_url=="dashboard" || $r->shop_url=="notify" || $r->shop_url=="order_detail")
+            return LKS::o(0,"ไม่อนุญาติให้ใช้ชื่อนี้");
+        $r->shop_url=trim(strtolower($r->shop_url));
 
-       if(strpos($r->shop_url, ' ')!=0)
-       return LKS::o(0,"ต้องไม่มีช่องว่างใน URL");
+        if(strpos($r->shop_url, ' ')!=0)
+            return LKS::o(0,"ต้องไม่มีช่องว่างใน URL");
 
-       if(strpos($r->shop_url, '.')!=0)
-       return LKS::o(0,"ต้องไม่มี . (จุด) ใดๆ ใน URL");
+        if(strpos($r->shop_url, '.')!=0)
+            return LKS::o(0,"ต้องไม่มี . (จุด) ใดๆ ใน URL");
 
-       $shop=Shop::where("url",$r->shop_url)->first();
-       if($shop)
-       return LKS::o(0,"URL นี้มีผู้ใช้แล้ว");
+        $shop=Shop::where("url",$r->shop_url)->first();
+        if($shop)
+            return LKS::o(0,"URL นี้มีผู้ใช้แล้ว");
 
-       $shop=new Shop();
-       $shop->user_id=\Auth::user()->id;
-       $shop->name=$r->name;
-       $shop->url=$r->shop_url;
-       $shop->province_id=1;
-       $shop->save();
+        $shop=new Shop();
+        $shop->user_id=\Auth::user()->id;
+        $shop->name=$r->name;
+        $shop->url=$r->shop_url;
+        $shop->province_id=1;
+        $shop->save();
 
-       return LKS::o(1,$shop);
+        return LKS::o(1,$shop);
 
-   }
+    }
 
 
 

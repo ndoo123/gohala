@@ -131,6 +131,7 @@
     <script>
 		var app=new LKS();
     </script>
+    @include('modal.login')
     
     @yield('js')
  

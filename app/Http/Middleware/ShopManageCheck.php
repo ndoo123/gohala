@@ -15,7 +15,7 @@ class ShopManageCheck
      */
     public function handle($r, Closure $next)
     {
-        // dd(1);
+        // dd($r->all(),$shop ? $shop : null);
         if(!isset($r->shop_id))
         return redirect()->back()->with('error',__('view.shop_id_not_found'));
 
@@ -24,7 +24,7 @@ class ShopManageCheck
         return redirect(env('APP_URL').'/error_404')->with('error',__('view.shop_not_found'));
 
         if(!$shop->is_allow(\Auth::user()))
-        return redirect()->back()->with('error',__('view.shop_not_allow'));
+            return redirect()->back()->with('error',__('view.shop_not_allow'));
 
         $r->merge(["shop"=>$shop]);
 

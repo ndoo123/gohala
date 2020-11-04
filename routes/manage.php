@@ -18,12 +18,24 @@ Route::get('shops','MShopController@shops');
 Route::post('shops/create','MShopController@shop_create');
 
 Route::get('order_detail', 'MSettingController@order_detail');
+Route::post('/notify_bar', "MNotifyController@notify_bar"); // return json สำหรับการแจ้งเตือนกระดิ่ง
+Route::post('/notify_read', "MNotifyController@notify_read");
+Route::get('/notify', "MNotifyController@notify_page");
+Route::get('/notify/datatables', "MNotifyController@notify_datatables"); 
+Route::post('/notify_update_global', "MNotifyController@notify_update_global");
 
 Route::group(['middleware' => ['shop_manage_check'],'prefix'=>'{shop_id}'],function () {
 
 
     //สามารถเรีย $request->shop เพื่อ ดึงข้อมูลของ Shop มาได้เลย ในทุกๆฟังชั่นในนี้
     Route::get('/', "MShopController@shop_manage");
+
+    Route::get('/notify', "MNotifyController@notify_page");
+    Route::post('/notify_read', "MNotifyController@notify_read");
+    Route::get('/notify/datatables', "MNotifyController@notify_datatables");
+    Route::post('/notify_bar', "MNotifyController@notify_bar"); // return json สำหรับการแจ้งเตือนกระดิ่ง
+    Route::post('/notify_update_global', "MNotifyController@notify_update_global");
+
     Route::post('/profit', "MShopController@shop_profit");
     Route::get('/all', "MShopController@shop_manage_all");
     Route::post('get_payment_img','MShopController@get_payment_img');

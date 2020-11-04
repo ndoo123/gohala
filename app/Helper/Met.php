@@ -7,9 +7,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Image;
 use Illuminate\Support\Facades\DB;
-
 class Met
 {
+    public $pusher;
+    public static function pusher($type,$msg,$shop_url = ''){
+        try{
+            // type = manage = admin, account = user
+            $pusher = new \Pusher\Pusher(env("PUSHER_APP_KEY"), env("PUSHER_APP_SECRET"), env("PUSHER_APP_ID"), array('cluster' => env('PUSHER_APP_CLUSTER')));
+            $pusher->trigger('my-channel', 'my-event', [ 'type' => $type, 'msg' => $msg, 'shop_url' => $shop_url ] );
+            return true;
+        }
+        catch(\Exception $e)
+        {
+            return false;
+        }
+    }
+
     public static $messageValidate = [
         '*image*.required'       => 'โปรดเลือกรูปภาพก่อน :attribute <br>',
         '*category_id*.required' => 'โปรดเลือก :attribute <br>',
@@ -59,11 +72,11 @@ class Met
         $image = str_replace(' ', '+', $image);
         return base64_decode($image);
     }
-    public static function image64($base64,$path='',$model=null,$field=null)
+    public static function image64($base64,$path='', $prefix = null, $model=null,$field=null)
     {
         $path_default=str_replace('/','',$path);
         $path=$path_default. '/' . date('Y-m-d').'/';
-        $prefix='uploads/';
+        $prefix= $prefix != null ? $prefix : public_path();
         if(!is_dir($prefix))
         {
             mkdir($prefix);
@@ -339,36 +352,42 @@ class Met
     public static function make_dir($str)
     {
         // $str รับมาเป็น public_path, storage_path
-        $arr = explode('/',$str);
-        foreach($arr as $key => $val)
-        {
-            // วนรอบแรกเพื่อเอา path ของที่ไม่ใช่โปรเจคออกไป เช่น XAMPP,htdocs
-            if($val == "storage" || $val == "public_html")
+        try{
+            $arr = explode('/',$str);
+            foreach($arr as $key => $val)
             {
-                $permission = $val;
+                // วนรอบแรกเพื่อเอา path ของที่ไม่ใช่โปรเจคออกไป เช่น XAMPP,htdocs
+                if($val == "storage" || $val == "public_html")
+                {
+                    $permission = $val;
+                    array_shift($arr);
+                    break;
+                }
                 array_shift($arr);
-                break;
             }
-            array_shift($arr);
+            $str_cat = '';
+            foreach($arr as $key => $val)
+            {
+                $str_cat .= $val.'/';
+                if($permission == "storage")
+                {
+                    if(!file_exists(storage_path($str_cat)))
+                        mkdir(storage_path($str_cat), 0777, true);
+                }
+                else
+                {
+                    if(!file_exists(public_path($str_cat)))
+                        mkdir(public_path($str_cat), 0777, true);
+                }
+            }
+            $return = $permission == "storage" ? storage_path($str_cat) : public_path($str_cat);
+            // dd($str,$arr,$str_cat,$permission);
+            return $return;
         }
-        $str_cat = '';
-        foreach($arr as $key => $val)
+        catch(\Exception $e)
         {
-            $str_cat .= $val.'/';
-            if($permission == "storage")
-            {
-                if(!file_exists(storage_path($str_cat)))
-                    mkdir(storage_path($str_cat), 0777, true);
-            }
-            else
-            {
-                if(!file_exists(public_path($str_cat)))
-                    mkdir(public_path($str_cat), 0777, true);
-            }
+            dd('Met make_dir error on Line :'.$e->getLine().' <br>Message: '.$e->getMessage());
         }
-        $return = $permission == "storage" ? storage_path($str_cat) : public_path($str_cat);
-        // dd($str,$arr,$str_cat,$permission);
-        return $return;
     }
     // protected function setKeysForSaveQuery(Builder $query)
     // {
@@ -399,3 +418,4 @@ class Met
 
     // });
 }
+

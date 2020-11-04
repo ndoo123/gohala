@@ -10,8 +10,8 @@
 						<div id="logo">
 							{{-- <a href="{{ url($shop->url) }}"><img src="{{ url('')./assets/images/logo-dark.png }}" alt=""  height="35"></a> --}}
 							<a href="{{ url($shop->url) }}">
-								<img src="{{ $shop->get_photo() }}" alt=""  height="50" style="border-radius: 25%;">
-								{{ $shop->name }}
+								<img src="{{ $shop->get_photo() }}" alt="" class="img_logo"  height="66" style="border-radius: 0%;">
+								{{-- {{ $shop->name }} --}}
 							</a>
 						</div>
 					</div>
@@ -81,7 +81,7 @@
 					</div>
 					<div class="col-xl-6 col-lg-7 col-md-6 d-none d-md-block">
 						<div class="custom-search-input">
-							<input type="text" id="search_product" name="search_product" placeholder="Search products" value="{{ !empty($search)?$search:null }}">
+							<input type="text" id="search_product" name="search_product" placeholder="ค้นหาสินค้าของร้าน {{ $shop->name }}" value="{{ !empty($search)?$search:null }}">
 							<button type="submit" id="btn_search"><i class="header-icon_search_custom"></i></button>
 						</div>
 					</div>

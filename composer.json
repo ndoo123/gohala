@@ -8,11 +8,13 @@
         "php": ">=5.6.4",
         "facebook/graph-sdk": "^5.7",
         "guzzlehttp/psr7": "^1.6",
+        "intervention/image": "^2.5",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "php-http/curl-client": "^2.1",
-        "yajra/laravel-datatables-oracle": "^6.0",
-        "phpmailer/phpmailer": "~5.2" 
+        "phpmailer/phpmailer": "~5.2",
+        "pusher/pusher-php-server": "^4.1",
+        "yajra/laravel-datatables-oracle": "^6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

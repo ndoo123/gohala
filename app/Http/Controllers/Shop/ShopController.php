@@ -45,7 +45,7 @@ class ShopController extends Controller
        $data= $r->data;
        $data['product']=$product;
        $data['link'] = $data['product']->id.',1,"'.$data['shop']->url.'"';
-        // dd($data['product']->photos);
+        // dd($data['product'],'add_to_cart('.$data['link'].')');
         return view('web.ecommerce.product',$data);
     }
     public function cart(Request $r)
@@ -101,6 +101,7 @@ class ShopController extends Controller
                     "photo"=>$p->product->get_photo(),
                     "is_discount"=>$p->product->is_discount,
                     "link"=>$p->product->get_link($r->data['shop']->url),
+                    "add_link"=>$p->product->add_link(),
                     'search' => $r->all(),
                 ];
             });
@@ -122,6 +123,7 @@ class ShopController extends Controller
                     "photo"=>$p->get_photo(),
                     "is_discount"=>$p->is_discount,
                     "link"=>$p->get_link($r->data['shop']->url),
+                    "add_link"=>$p->add_link(),
                     'search' => $r->all(),
                 ];
             });

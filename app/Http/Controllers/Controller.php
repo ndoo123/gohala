@@ -71,6 +71,7 @@ class Controller extends BaseController
         $rest['อีเมล'] = !empty($order->shop) && !empty($order->shop->email)?$order->shop->email:null;
         $rest['Facebook'] = !empty($order->shop) && !empty($order->shop->facebook)?$order->shop->facebook:null;
         $rest['Line'] = !empty($order->shop) && !empty($order->shop->line)?$order->shop->line:null;
+
         return json_encode(
             [
                 // 'delivery' => $order->delivery,
@@ -80,6 +81,7 @@ class Controller extends BaseController
                 'cus' => $cus,
                 'rest' => $rest,
                 'detail' => $detail,
+                'btn' => $order->get_primary_btn(),
             ]
         );
     }
@@ -87,30 +89,19 @@ class Controller extends BaseController
     {
         // dd(url()->full());
         $orders = Order::where('shop_id', $r->shop->id);
-        // dd($r->shop->id,$r->all());
         $orderBy = 'desc';
-        // if(empty($r->all))
-        // {
-        //     $orders = $orders->whereNotIn('status',[ 0,4 ]);
-        //     $orderBy = 'asc';
-        // }
         if(isset($r->order_status) && $r->order_status == -1)
         {
             $orders = $orders->whereNotIn('status',[0,4]);
-            // $orderBy = 'asc';
         }
         else if(isset($r->order_status))
         {
             $orders = $orders->where('status',$r->order_status);
-            // $orderBy = 'asc';
         }
-        // $orders = $orders->orderBy('created_at', 'desc')->get();
         $orders = $orders->orderBy('order_date', $orderBy);
-        // dd($r->order_status,$r->shop->id,$orders->get());
         return \Datatables::of($orders)
         ->addColumn('delivery_name',function($order){
             return !empty($order->delivery) && !empty($order->delivery->name) ? $order->delivery->name : 'ไม่พบข้อมูล';
-            // return $order->delivery->name ? $order->delivery->name : null;
         })
         ->editColumn('total',function($order){
             return number_format($order->total+$order->total_delivery,2);
@@ -118,7 +109,6 @@ class Controller extends BaseController
         ->addColumn('actions',function($order){
 
             $shop_payment = $order->shop_payment_transfer;
-            // dd($shop_payment,$shop_payment->payment_data);
             $price = $order->get_sold_price(true);
             $attr = ' 
             order_id="'.$order->id.'" 
@@ -128,20 +118,8 @@ class Controller extends BaseController
             $action = '';
             $button = '';
             $status = $order->status < 4 ? $order->status + 1 : '';
-            if($order->status == 1)
-            {
-                $button = $order->btn_confirm();
-                
-            }
-            else if($order->status == 2)
-            {
-                $button = $order->btn_send();
-            }
-            else if($order->status == 3)
-            {
-                $button = $order->btn_success();
-            }
-                
+
+            $button = $order->get_primary_btn();
             $button .= $order->btn_view_payment(); 
             $button .= $order->btn_cancel();
             // ในฟังชั่นจะเช็คว่าตรงกับเงื่อนไขหรือไม่ ถ้าไม่ตรง return '';
@@ -204,14 +182,16 @@ class Controller extends BaseController
             $order->delivery_update();
             $order->save();
             // dd($order,$order->buyer->email);
-            \Mail::send([], [], function ($message) use ($order) {
+            if(!empty($order->buyer))
+            {
+                \Mail::send([], [], function ($message) use ($order) {
 
-                $message->from(env('MAIL_USERNAME'),"Gohala" );
-                // $message->to("botlaster@gmail.com")->subject("หมายเลขการจัดส่งสินค้า")
-                $message->to($order->buyer->email)->subject("หมายเลขการจัดส่งสินค้า")
-                ->setBody('เลขแทรคกิ้งของหมายเลขออเดอร์ #' .$order->id. ' ตือหมายเลข '.$order->shipping_code.'<br>','text/html');
-            });
-                    
+                    $message->from(env('MAIL_USERNAME'),"Gohala" );
+                    // $message->to("botlaster@gmail.com")->subject("หมายเลขการจัดส่งสินค้า")
+                    $message->to($order->buyer->email)->subject("หมายเลขการจัดส่งสินค้า")
+                    ->setBody('เลขแทรคกิ้งของหมายเลขออเดอร์ #' .$order->id. ' ตือหมายเลข '.$order->shipping_code.'<br>','text/html');
+                });
+            }
             DB::commit();      
             $return = ['status' => 1]; 
         }

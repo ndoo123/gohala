@@ -16,6 +16,8 @@
         <link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo url('assets/js/plugins/sweetalert2/sweetalert2.min.css');?>" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/js/plugins/toastr/toastr.min.css');?>">
         <style>
             *{
                 font-family: 'Kanit';
@@ -23,12 +25,17 @@
             .flatpickr{
                 background-color: #e9ecef;
             }
+            .table td{
+                /* word-break: break-word; */
+            }
         </style>
     </head>
 
     <body>
         <input type="hidden" id="url" value="{{ $url }}">
         <input type="hidden" id="url_current" value="{{ $url }}">
+        <input type="hidden" id="notify_type" value="">
+        <input type="hidden" id="master_order_id" value="">
         <div class="header-bg">
             <!-- Navigation Bar-->
             <header id="topnav" style="background-color:white">
@@ -47,8 +54,9 @@
                         <div class="menu-extras topbar-custom">
 
                             <ul class="navbar-right list-inline float-right mb-0">
-        
-                                  <li class="dropdown notification-list list-inline-item">
+
+                                @include('account.notify')
+                                <li class="dropdown notification-list list-inline-item">
                                     <div class="dropdown notification-list nav-pro-img">
                                         <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                             <img src="<?php echo \Auth::user()->get_photo();?>" alt="user" class="rounded-circle">
@@ -164,7 +172,7 @@
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link <?=($op == "myorder")?'active':null?>" data-toggle="tab" href="#order" role="tab">
+                                                <a class="nav-link myorder <?=($op == "myorder")?'active':null?>" data-toggle="tab" href="#order" role="tab">
                                                     <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                                                     <span class="d-none d-sm-block"><?php echo __('view.order_list');?></span>   
                                                 </a>
@@ -267,18 +275,25 @@
                                                 
                                             </div>
                                             <div class="tab-pane p-3 <?=($op == "myorder")?'active':null?>" id="order" role="tabpanel">
-                                                <table class="table table-hover w-100" id="table_order" remote_url="{{ $url.'/user_order_datatables' }}">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="15%">{{ __('view.order_id') }}</th>
-                                                            <th width="20%">{{ __('view.order_date') }}</th>
-                                                            <th width="20%">ชื่อร้าน</th>
-                                                            <th width="15%">{{ __('view.total') }}</th>
-                                                            <th width="15%">{{ __('view.status') }}</th>
-                                                            <th ></th>
-                                                        </tr>
-                                                    </thead>
-                                                </table>
+                                                <div class="row">
+                                                    <div class="col-12" style="overflow-x:auto;">
+                                                        <table class="table table-hover w-100" id="table_order" remote_url="{{ $url.'/user_order_datatables' }}">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="15%">{{ __('view.order_id') }}</th>
+                                                                    <th width="20%">{{ __('view.order_date') }}</th>
+                                                                    <th width="20%">ชื่อร้าน</th>
+                                                                    <th width="15%">{{ __('view.total') }}</th>
+                                                                    <th width="15%">{{ __('view.status') }}</th>
+                                                                    <th ></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                        
+                                                    </div>
+                                                    
+                                                </div>
+
                                             </div>
                                    
                                         </div>
@@ -325,56 +340,214 @@
         app.url='<?php echo url('');?>';
         </script>
         <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
-        <script>
-            // $("#order_table").DataTable({
-            //     order: [[1, 'desc']],
-            //     "columnDefs": [
-            //     { "type": "date-de", targets: 1 }
-            //     ],
-            // });
-        </script>
 
-    {{-- <script src="js/jquery-ui.js"></script> --}}
-
+        {{-- ห้ามสลับ --}}
         @include('modal.master_user')
-        <script src="<?php echo url('assets/account/js/account.js');?>"></script>
+        @include('pusher')
+        <script src="<?php echo url('assets/account/js/account.js');?>"></script> 
         <script>
             $(document).ready(function(){
-                setInterval(function(){ table_order.ajax.reload(null,false); }, 5000);
-                
+                // setInterval(function(){ table_order.ajax.reload(null,false); }, 5000);
+                table_order_datatables();
+                notify();
             });
 
-            var table_order = $('#table_order').DataTable({
-                serverSide: true,
-                processing: false,
-                destroy: true,
-                // order: [[ 1, "asc" ]],
-                ajax: {
-                    url: $('#table_order').attr('remote_url'),
-                    data: {},
-                },
-                columns: [
-                    { data: 'id', name: 'id', class: 'text-center' },
-                    { data: 'order_date', name: 'order_date', class: 'text-center' },
-                    { data: 'shop_name', name: 'shop_name', class: 'text-center',"orderable": false },
-                    { data: 'get_sold_price', name: 'get_sold_price', class: 'text-center',"orderable": false },
-                    { data: 'status', name: 'status', class: 'text-center',"orderable": false },
-                    { data: 'action', name: 'action', class: 'text-center',"orderable": false },
-                ],
-                createdRow: function( row, data, dataIndex ) {
-                    var td_length = $('td',row).length-1;
-                    $.each($('td',row),function(index){
-                        if(index != td_length)
+            $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
+                window.location.reload();
+            };
+
+            function table_order_datatables()
+            {
+                return $('#table_order').DataTable(
+                {
+                    serverSide: true,
+                    processing: false,
+                    destroy: true,
+                    // retrieve: true,
+                    // order: [[ 1, "asc" ]],
+                    search: {
+                        search: $("#master_order_id").val()
+                    },
+                    ajax: {
+                        url: $('#table_order').attr('remote_url'),
+                        data: {},
+                    },
+                    columns: [
+                        { data: 'id', name: 'id', class: 'text-center' },
+                        { data: 'order_date', name: 'order_date', class: 'text-center' },
+                        { data: 'shop_name', name: 'shop_name', class: 'text-center',"orderable": false, "searchable": false },
+                        { data: 'get_sold_price', name: 'get_sold_price', class: 'text-center',"orderable": false, "searchable": false },
+                        { data: 'status', name: 'status', class: 'text-center',"orderable": false, "searchable": false },
+                        { data: 'action', name: 'action', class: 'text-center',"orderable": false, "searchable": false },
+                    ],
+                    createdRow: function( row, data, dataIndex ) {
+                        var td_length = $('td',row).length-1;
+                        $.each($('td',row),function(index){
+                            if(index != td_length)
+                            {
+                                // $(this).attr('id', 'data');
+                                $(this).addClass('order_detail');
+                                $(this).attr('style','cursor: context-menu;');
+                            }
+                            $(this).attr('order_id',data.id);
+                            // console.log(td_length);
+                        });
+                        // console.log(data);
+                    },
+                    initComplete: function(settingss,json){
+                        // console.log( 'initComplete' );
+                        var order_id = $("#master_order_id").val();
+                        var td = $(this).find('td.order_detail.sorting_1');
+                        td.each(function(){
+                            if($(this).attr('order_id') == order_id)
+                            {
+                                // console.log(this);
+                                if($("#notify_type").val() == 'order')
+                                {
+                                    $(this).click();
+                                }
+                                else if($("#notify_type").val() == 'payment')
+                                {
+                                    $(this).closest('tr').find('.btn_order_payment_view').click();
+                                }
+                                $("#notify_type").val('');
+                            }
+                        });
+                    },
+                });
+            }
+
+            function get_url()
+            {
+                var url = location.origin;
+                return url;
+            }
+            function notify()
+            {
+                var url = get_url()+'/notify_bar';
+                var obj = new Object();
+                obj._token = $('meta[name=csrf-token]').attr('content');
+
+                // console.log(url);
+                // console.log(obj);
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    dataType: 'json',
+                    data: obj,
+                    success: function(res){
+                        // console.log(res);
+                        if(res.result == 1)
                         {
-                            // $(this).attr('id', 'data');
-                            $(this).addClass('order_detail');
-                            $(this).attr('style','cursor: context-menu;');
+                            $('.notify_unread_element').html(res.notify_unread_element);
+                            $('.notify_unread_global').html(res.notify_unread_global);
+                            $('.notify_all_element').html(res.notify_all_element);
+                            if(res.notify_unread_global > 0)
+                                $(".notify_unread_global").fadeIn();
+                            if(res.notify_unread_global < 1)
+                            {
+                                $(".notify_unread_global").fadeOut();
+                            }
+                            if(res.notify_unread_element > 0)
+                            {
+                                var icon = [ '',
+                                '<div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>',
+                                '<div class="notify-icon bg-info"><i class="mdi mdi-cash-multiple"></i></div>',];
+                                var append = '<!-- item-->';
+                                $.each(res.notify, function(key,value){
+                                    // console.log(key);
+                                    // console.log(value);
+                                    var unread = '';
+                                    var font_weight = ' style="font-weight: 400" ';
+                                    var event_name = res.event_name[value.event_id];
+                                    if(value.user_is_read == 0)
+                                    {
+                                        unread = '<span class="notify-unread"></span>';
+                                        font_weight = ' style="font-weight: 600" ';
+                                    }
+                                    if(res.from_shop == 1)
+                                    {
+                                        event_name += ' <span style="font-size:12px">ร้าน '+value.shop_name+'</span>';
+                                    }
+                                    append += 
+                                    '<a href="javascript:void(0);" class="dropdown-item notify-item" order_id="'+value.order_id+'" shop_url="'+value.shop_url+'" event_id="'+value.event_id+'">'
+                                        + icon[value.event_id]
+                                        + '<p class="notify-details"'+ font_weight +'>' +event_name
+                                            + unread
+                                            + '<span class="text-muted">'+ value.info +'</span>'
+                                            + '<span class="text-info">'+ value.created_show +'</span>'
+                                        + '</p>'
+                                    + '</a>';
+                                });
+                                
+                                $('.notify_body').css('height','auto').html(append);
+                            }
+                            else
+                            {
+                                $('.notify_body').css('height','auto').html('<span class="text-center d-block">ยังไม่มีการแจ้งเตือน</span>');
+                            }
                         }
-                        $(this).attr('order_id',data.id);
-                        // console.log(td_length);
+                    }
+                });
+            }
+
+            $(document).on('shown.bs.dropdown','.notify',function(e){ 
+                    var url = get_url()+'/notify_update_global';
+                    var obj = new Object();
+                    obj._token = $('meta[name=csrf-token]').attr('content');
+                    // console.log(obj);
+                    $.ajax({
+                        url: url,
+                        type: 'post',
+                        dataType: 'json',
+                        data: obj,
+                        success: function(res){
+                            // console.log(res);
+                            if(res.result == 1)
+                            {
+                                notify();
+                            }
+                        }
                     });
-                    // console.log(data);
-                },
+            }); // เมื่อคลิกกระดิ่งให้เปลี่ยนเป็นอ่านให้หมด
+
+            $(document).on('click','.notify-item',function(){ // เปลี่ยนแต่คลิกแต่ละออเดอร์เป็นอ่านแล้ว
+                var order_id = $(this).attr('order_id');
+                var event_id = $(this).attr('event_id');
+                var shop_url = $(this).attr('shop_url');
+                var url = get_url()+'/notify_read';
+                // console.log(url);
+                var obj = new Object();
+                obj._token = $('meta[name=csrf-token]').attr('content');
+                obj.order_id = order_id;
+                obj.event_id = event_id;
+                // console.log(obj);
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    dataType: 'json',
+                    data: obj,
+                    success: function(res){
+                        // console.log(res);
+                        if(res.result == 1)
+                        {
+                            // console.log(res);
+                            $("ul.nav.nav-tabs a.nav-link.myorder").click();
+                            var notify_type = '';
+                            if(res.notify.event_id == 1)
+                            {
+                                notify_type = 'order';
+                            }
+                            else if(res.notify.event_id == 2)
+                            {
+                                notify_type = 'payment';
+                            }
+                            $("#notify_type").val(notify_type);
+                            $("#master_order_id").val(res.notify.order_id);
+                            table_order_datatables();
+                        }
+                    }
+                });
             });
         </script>
     </body>

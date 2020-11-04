@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Notify;
 use App\Models\UserAddress;
 use App\Models\OrderTranfer;
 use App\Helper\LKS;
@@ -83,7 +84,7 @@ class AAccountController extends Controller
    {
 
       //  return json_encode($r->input());
-      // dd($r->all(),json_decode($r->payment_data),\Auth::user(),isset($r->file)?gettype($r->file):null,uniqid());
+      // dd($r->all());
       try{
         if(empty($r->order_id) && empty($r->price) && empty($r->payment_date) && empty($r->payment_data) && !\Auth::user() && !$r->file)
           throw new \Exception('ข้อมูลไม่ครบ');
@@ -131,6 +132,17 @@ class AAccountController extends Controller
         $order->status = 6;
         $order->save();
         $orderTranfer->save();
+        // dd($order,$orderTranfer);
+        $notify = new Notify();
+        if(!empty($order->buyer_user_id))
+          $notify->user_id = $order->buyer_user_id;
+        $notify->shop_id = $order->buyer_user_id;
+        $notify->order_id = $order->id;
+        $notify->event_id = 2;
+        $notify->info = 'ชำระบิลเลขที่ '.$order->id.' ธนาคาร: '.$orderTranfer->bank_name.' หมายเลขบัญชี: '. $orderTranfer->account_no .' โดย '.\Auth::user()->name;
+        $notify->save();
+        Met::pusher('manage', Notify::$event[2], $order->shop->url);
+        Met::pusher('account', Notify::$event[2], '');
         DB::commit();
         $result = [ 'result' => 1 , 'msg' => 'Payment Success' ];
       }
@@ -139,6 +151,7 @@ class AAccountController extends Controller
         DB::rollback();
         $result = [ 'result' => 0 , 'msg' => $e->getMessage().' On Line:'.$e->getLine().' On File'.$e->getFile()];
       }
+      // dd($result);
       return json_encode($result);
 
    }
