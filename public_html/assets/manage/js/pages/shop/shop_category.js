@@ -85,7 +85,44 @@ $(document).on('submit','#shop_category_form',function(event){
 $(document).on('hidden.bs.modal','#shop_category_modal',function(){
     $('#shop_category_modal input.input_txt').val("");
 });
+$(document).on('click','#save_category_btn',function(){
+   
+    if($('#shop_category_modal input[name="name"]').val()=="")
+    {
+        alert("กรุณาระบุชื่อ");
+        return;
+    }
+    var form=$('#shop_category_modal form');
+    var post=new PostForm('#shop_category_modal div.modal-content');
+    post.success=function(r){
+        if(r.result==0)
+        {
+            alert(r.msg);
+            return;
+        }
+        if($('#shop_category_table tbody tr[category_id="'+r.data.id+'"]').length>0)
+        {
+            $('#shop_category_table tbody tr[category_id="'+r.data.id+'"] td').eq(0).html(r.data.name);
+        }
+        else
+        {
+            var tr='<tr category_id="'+r.data.id+'">';
+            tr+='<td>'+r.data.name+'</td>';
+            tr+='<td>0</td>';
+            tr+='<td><input class="category_active" type="checkbox" data-width="90" data-on="แสดง" data-off="ไม่แสดง" data-toggle="toggle" data-offstyle="light"></td>';
+        
+            tr+='<td><button type="button" class="btn btn-sm btn-primary edit_category">แก้ไข</button> <button type="button" class="btn btn-sm btn-danger delete_category">ลบออก</button></td>';
+            tr+='</tr>';
+            $('#shop_category_table tbody').append(tr);
 
+            $('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
+        }
+       
+        $('#shop_category_modal').modal('hide');
+
+    }
+    post.send(form);
+});
 $(document).on('click','.edit_category',function(){
     var tr=$(this).closest('tr');
     var obj=new Object();
