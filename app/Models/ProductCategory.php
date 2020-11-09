@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 class ProductCategory extends Model
 {
     protected $table='shop_category_product_tb';
+    protected $appends = ['products'];
     public $timestamps =false;
 
     protected $primaryKey = ['product_id', 'category_id'];
@@ -20,5 +21,7 @@ class ProductCategory extends Model
             ->where('category_id', '=', $this->getAttribute('category_id'));
         return $query;
     }
-
+    public function products(){
+        return $this->belongsTo('App\Models\Product');
+    }
 }
