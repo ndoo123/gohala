@@ -81,7 +81,7 @@
 @stop
 @section('js')
  <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
- <script src="<?php echo url('assets/manage/js/pages/shop/shop_category.js');?>"></script>
+ <script src="<?php echo url('assets/manage/js/pages/shop/shop_category.js?v='.time());?>"></script>
 @stop
 @section('css')
 <link href="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.css');?>" rel="stylesheet" type="text/css">
