@@ -141,18 +141,26 @@ class Order extends Model
     }
     public function get_primary_btn(){
         $button = '';
-        if($this->status == 1)
+        $current_url = url()->current();
+        $current_url = substr($current_url,strpos($current_url,'//')+2);
+        $prefix_url = explode('.',$current_url)[0];
+        // dd($current_url,$prefix_url,\Auth::user());
+        if($prefix_url == "manage")
         {
-            $button = $this->btn_confirm();
+            if($this->status == 1)
+            {
+                $button = $this->btn_confirm();
+                
+            }
+            else if($this->status == 2)
+            {
+                $button = $this->btn_send();
+            }
+            else if($this->status == 3)
+            {
+                $button = $this->btn_success();
+            }
             
-        }
-        else if($this->status == 2)
-        {
-            $button = $this->btn_send();
-        }
-        else if($this->status == 3)
-        {
-            $button = $this->btn_success();
         }
         return $button;
     }

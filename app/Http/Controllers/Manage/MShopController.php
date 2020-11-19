@@ -273,15 +273,15 @@ class MShopController extends Controller
                 }
             }
             $p->save();
-            foreach($r->position as $posi_key => $posi)
-            {
-                $photo = ProductPhoto::where('name',$posi)->first();
-                if(!$photo)
-                    continue;
+            // foreach($r->position as $posi_key => $posi)
+            // {
+            //     $photo = ProductPhoto::where('name',$posi)->first();
+            //     if(!$photo)
+            //         continue;
                 
-                $photo->position = $posi_key+1;
-                $photo->save();
-            }
+            //     $photo->position = $posi_key+1;
+            //     $photo->save();
+            // }
          //Assign Category
          ProductCategory::where("product_id",$p->id)->where("shop_id",$r->shop->id)->delete();
          $add_categories=[];
