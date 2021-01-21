@@ -94,7 +94,6 @@ class MShopController extends Controller
             $p=Product::where("id",$r->product_id)->first();
             if(!$p)
             return LKS::o(0,__('view.product.product_not_found'));
-
             if($p->sku!=$r->sku)
             {
                 //Check  change sku
@@ -141,9 +140,9 @@ class MShopController extends Controller
 
         
 
-        $check_barcode=Product::where("sku",$r->barcode)->where("shop_id",$r->shop->id)->first();
-        if($check_barcode)
-        return LKS::o(0,"Barcode ซ้ำกับ SKU ที่มีอยู่ในระบบ");
+        // $check_barcode=Product::where("sku",$r->barcode)->where("shop_id",$r->shop->id)->first();
+        // if($check_barcode)
+        // return LKS::o(0,"Barcode ซ้ำกับ SKU ที่มีอยู่ในระบบ");
 
         if(!is_numeric($r->qty))
         $r->qty=1;
