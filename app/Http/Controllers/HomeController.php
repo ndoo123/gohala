@@ -25,7 +25,9 @@ class HomeController extends Controller
     public function home(){
         // $data['categories']=ProductCategory::all();
         // $data['show_menu']=0;
-        return view('web.promote');
+        // dd('home');
+        return view('web.index');
+        // return view('web.promote');
     }
     public function email_admin(Request $r){
         return view('web.home.email_admin');
