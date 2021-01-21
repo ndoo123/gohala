@@ -430,6 +430,9 @@ class MShopController extends Controller
             }
             return $input;
         })
+        // ->editColumn('position',function($model){
+        //     return $model->position+1;
+        // })
         ->editColumn('is_active',function($model){
             // $input = '<input type="checkbox" class="category_active" '.($model->is_active==1?'checked':'').' data-width="90" data-on="แสดง" data-off="ไม่แสดง" data-toggle="toggle" data-offstyle="light">';
             $input = '
