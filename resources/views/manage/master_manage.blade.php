@@ -61,7 +61,7 @@
 
                 <!-- LOGO -->
                 <div class="topbar-left">
-                    <a href="index.html" class="logo">
+                    <a href="{{ LKS::url_subdomain('','') }}" class="logo">
                         <span>
                                 <img src="<?php echo url('assets/images/logo.png');?>" alt="" height="50">
                             </span>

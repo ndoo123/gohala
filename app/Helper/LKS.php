@@ -19,8 +19,10 @@ class LKS
 
         return redirect($to_url);
     }
-    public static function url_subdomain($sub,$url)
+    public static function url_subdomain($sub,$url = null)
     {
+        if(!$sub)
+            return $_SERVER['REQUEST_SCHEME']."://".env('APP_DOMAIN');
         $to_url=$_SERVER['REQUEST_SCHEME']."://".$sub.'.'.env('APP_DOMAIN');
         if($url!="")
         $to_url.='/'.$url;
