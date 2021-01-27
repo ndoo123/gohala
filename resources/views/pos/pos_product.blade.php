@@ -1,6 +1,7 @@
+
 @foreach($product as $prod)
 
-    <div class="col-xl-2 col-md-4 pos-rl tooltip3" title="{{$prod->name . ' | ราคา '.number_format($prod->price,2,'.',',')}}">
+    <div class="col-xl-2 col-md-4 pos-rl tooltip3" title3="{{$prod->name . ' | ราคา '.number_format($prod->price,2,'.',',')}}">
         <a id="pid<?php echo  $prod->id ; ?>" get_product="<?php echo $prod->sku ; ?>" onclick="click_product(<?php echo  $prod->id ; ?>)">
             <div class="card product-box card-b">
                 <div class="card-body p-1">

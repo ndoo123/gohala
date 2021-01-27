@@ -85,7 +85,7 @@ class PPosController extends Controller
         <input type="hidden" name="h_name[]" value="'.$pro->name.'">
         <input type="hidden" id="h_price'.$pro->id.'" name="h_price[]" value="'.number_format($price).'">
         <input type="hidden" id="h_num'.$pro->id.'" name="h_num[]" value="'.$num.'">
-        <td class="text-left tooltip3" id="tt'.$pro->id.'" onclick="show_title('.$pro->id.')" title="'. $pro->name . ' | ราคา '.number_format($pro->price,2,'.',',').'">'. $pro->name .'</td>
+        <td class="text-left tooltip3" id="tt'.$pro->id.'" onclick="show_title('.$pro->id.')" title3="'. $pro->name . ' | ราคา '.number_format($pro->price,2,'.',',').'">'. $pro->name .'</td>
         <td class="text-center" id="num'.$pro->id.'">'.$num.'</td>
         <td class="text-center" real_price="'.number_format($price,2,'.',',').'" id="price'.$pro->id.'">'. number_format($sumprice,2,'.',',') .'</td>
         <td class="text-center">
