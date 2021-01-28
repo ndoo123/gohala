@@ -491,7 +491,11 @@
     // click ชื่อสินค้า
     function show_title(id)
     {
-        $('#tt'+id).tooltip("show");
+        $('#tt' + id).attr("class","text-left");
+        let txt = $('#tt' + id).attr("title3");
+        console.log(txt);
+        $('#tt' + id).tooltip({ title: txt });
+        $('#tt' + id).tooltip("show");
     }
 
 

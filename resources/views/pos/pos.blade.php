@@ -65,6 +65,9 @@
 
         </style>
 
+
+
+
         <style>
         .tooltip3{display:inline-block;position:relative}
 
@@ -74,7 +77,7 @@
             border-radius:5px;
             bottom:18px;
             color:#fff;
-            content:attr(title);
+            content:attr(title3);
             display:block;
             left:50%;
             padding:5px 15px;

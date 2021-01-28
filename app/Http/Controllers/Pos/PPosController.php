@@ -85,7 +85,7 @@ class PPosController extends Controller
         <input type="hidden" name="h_name[]" value="'.$pro->name.'">
         <input type="hidden" id="h_price'.$pro->id.'" name="h_price[]" value="'.number_format($price).'">
         <input type="hidden" id="h_num'.$pro->id.'" name="h_num[]" value="'.$num.'">
-        <td class="text-left tooltip3" id="tt'.$pro->id.'" onclick="show_title('.$pro->id.')" title="'. $pro->name . ' | ราคา '.number_format($pro->price,2,'.',',').'">'. $pro->name .'</td>
+        <td class="text-left tooltip3" id="tt'.$pro->id.'" onclick="show_title('.$pro->id.')" title3="'. $pro->name . ' | ราคา '.number_format($pro->price,2,'.',',').'">'. $pro->name .'</td>
         <td class="text-center" id="num'.$pro->id.'">'.$num.'</td>
         <td class="text-center" real_price="'.number_format($price,2,'.',',').'" id="price'.$pro->id.'">'. number_format($sumprice,2,'.',',') .'</td>
         <td class="text-center">
@@ -317,18 +317,18 @@ class PPosController extends Controller
         }
         else
         {
-            $data = DB::table('shop_category_product_tb')
-                        ->leftJoin('product_tb', 'shop_category_product_tb.product_id', '=', 'product_tb.id')
-                        ->where('shop_category_product_tb.shop_id', '=', $shop)
-                        ->where('shop_category_product_tb.category_id', '=', $id)
-                        ->select('product_tb.*')
-                        ->get();
-            // $data = Product::leftJin('shop_category_product_tb', function($join){
-            //             $join->on('product_tb.id', '=', 'shop_category_product_tb.product_id');
-            //         })
-            //         ->where('shop_category_product_tb.shop_id', '=', $shop)
-            //         ->where('shop_category_product_tb.category_id', '=', $id)
-            //         ->get();
+            // $data = DB::table('shop_category_product_tb')
+            //             ->leftJoin('product_tb', 'shop_category_product_tb.product_id', '=', 'product_tb.id')
+            //             ->where('shop_category_product_tb.shop_id', '=', $shop)
+            //             ->where('shop_category_product_tb.category_id', '=', $id)
+            //             ->select('product_tb.*')
+            //             ->get();
+            $data = Product::leftJoin('shop_category_product_tb', function($join){
+                        $join->on('product_tb.id', '=', 'shop_category_product_tb.product_id');
+                    })
+                    ->where('shop_category_product_tb.shop_id', '=', $shop)
+                    ->where('shop_category_product_tb.category_id', '=', $id)
+                    ->get();
             
             // dd($data);
         }       
