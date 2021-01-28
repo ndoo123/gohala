@@ -79,6 +79,55 @@ $(document).on('change','#discount_switch,#product_view_form input[name="price"]
     
 calculate_price();
 });
+
+$(document).on('change','.discount_switch,.discount_type,.discount_value,.api_price',function(){ // สำหรับ api
+   
+    console.log('api');
+    calculate_price_api($(this).closest('.api_body'));
+});
+function calculate_price_api(parent){
+    var price=currency(parent.find('input.api_price').val());
+    
+    if(parent.find(".discount_switch").prop("checked")==true)
+    {
+        var discount_type=parent.find('.discount_type').val();
+        var discount_value=currency(parent.find('.discount_value').val());
+        element_discount_value = parent.find('.discount_value');
+        if(discount_type==1)
+        {
+            if(price-discount_value<=0){
+            discount_value=0;
+            element_discount_value.val(currency(discount_value));
+
+            }
+
+            price-=discount_value;
+           
+        }
+        else if(discount_type==2)
+        {
+            if(discount_value>100){
+            discount_value=100;
+            element_discount_value.val(currency(discount_value));
+
+            }
+            else if(discount_value<0){
+            discount_value=0;
+            element_discount_value.val(currency(discount_value));
+
+            }
+            
+            price-=(price*(discount_value/100));
+
+        }
+    }
+    if(price<=0)
+    price=0;
+    console.log(parent);
+    console.log(parent.find(".product_price_total"));
+    console.log(currency(price,',').format());
+    parent.find(".product_price_total").val(currency(price,',').format());
+}
 $(document).on('click','#file_selector',function(){
     $("#file_input").click();
 });
@@ -140,6 +189,18 @@ $(document).on('change','#discount_switch',function(){
    }
     
 });
+$(document).on('change','.discount_switch',function(){
+    console.log($(this).closest('.api_body .discount_price_panel'));
+   if($(this).prop('checked')==false)
+   {
+       $(this).closest('.api_body').find('.discount_price_panel').hide();
+    }
+    else
+    {
+        $(this).closest('.api_body').find('.discount_price_panel').show();
+   }
+    
+});
 $(document).on('keyup','#product_view_form input[name="name"]',function(){
     $("#product_title_name").html($(this).val());
 });
@@ -190,4 +251,8 @@ $(document).on('submit','#product_view_form',function(e){
 });
 $(document).ready(function(){
 calculate_price();
+$('.discount_switch').change();
+});
+$(document).on('click','#btn_api_product',function(){
+    $("#modal_api_product").modal('show');
 });

@@ -79,7 +79,7 @@ class ShopController extends Controller
         }
         // dd($collection->get());
         $count = $collection->count();
-        $collection = $collection->paginate($count);
+        $collection = $collection->orderBy('position','asc')->paginate($count);
         // $collection = $collection->paginate(30);
         // dd($r->all(),!empty($r->cat));
         // dd($r->cat,$count,$collection);

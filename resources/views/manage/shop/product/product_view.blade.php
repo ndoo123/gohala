@@ -4,11 +4,11 @@
 
 @stop
 @section('content')
+<form id="product_view_form" method="post" action="<?php echo url($shop->url.'/products/save');?>">
+<?php echo csrf_field();?>
 <div class="row">
     <div class="col-md-12">
     <?php LKS::has_alert();?>
-    <form id="product_view_form" method="post" action="<?php echo url($shop->url.'/products/save');?>">
-    <?php echo csrf_field();?>
     <input type="hidden" name="product_id" value="<?php echo $product->id;?>">
     <input type="hidden" name="set_default" value="">
       <div class="row">
@@ -112,21 +112,22 @@
                             <input type="checkbox" <?php echo ($product->is_discount>0?'checked':'');?> name="is_discount" id="discount_switch" data-height="20" data-width="120" data-on="<?php echo __('view.product.discount_on');?>" data-off="<?php echo __('view.product.discount_off');?>" data-toggle="toggle" data-offstyle="light">
                         
                             <div style="<?php echo $product->is_discount==0?'display:none':'display:block';?>" class="m-t-10" id="discount_price_panel">
-                                <div class="input-group"><input type="money" name="discount_amount" value="<?php echo number_format($product->discount_value,2);?>"  class="form-control"><span class="input-group-addon input-group-append">
-                                      <select name="discount_type" class="form-control">
-                                        <option <?php echo ($product->is_discount==1?'selected':'');?> value="1">บาท</option>
-                                        <option <?php echo ($product->is_discount==2?'selected':'');?> value="2">%</option>
+                                <div class="input-group">
+                                    <input type="money" name="discount_amount" value="<?php echo number_format($product->discount_amount,2);?>"  class="form-control">
+                                    <span class="input-group-addon input-group-append">
+                                        <select name="discount_type" class="form-control">
+                                            <option <?php echo ($product->is_discount==1?'selected':'');?> value="1">บาท</option>
+                                            <option <?php echo ($product->is_discount==2?'selected':'');?> value="2">%</option>
                                         </select>
                                     </span>
                                 </div>
-                              
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="input-group"><span class="input-group-addon input-group-prepend"><span class="input-group-text"><?php echo __('view.product.price');?></span></span><input type="money" id="product_price_total" disabled value=""  class="form-control"></div>
+                        <div class="input-group"><span class="input-group-addon input-group-prepend"><span class="input-group-text"><?php echo __('view.product.price');?></span></span><input type="money" disabled value="" id="product_price_total" class="form-control"></div>
                     </div>
-                    
+                    <button type="button" class="btn btn-warning w-100" id="btn_api_product">{{ __('view.product.api') }}</button>
                 </div>
             </div>
             <div class="card">
@@ -149,12 +150,88 @@
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
-      </form>
 
     </div>
 </div>
+<!-- modal_api_product -->
+<div class="modal fade" id="modal_api_product" tabindex="-1" role="dialog" aria-labelledby="modal_api_product_label" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_api_product_label">Api Third Party</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row modal_api_product_body">
+                    <div class="card col-12">
 
+                            {{-- <h4 class="mt-0 header-title">Accordion example</h4>
+                            <p class="text-muted mb-4">Extend the default collapse behavior to create an accordion.</p> --}}
 
+                            @if(!empty($api_products) && sizeof($api_products) > 0)
+                            @foreach($api_products as $a)
+                            <div id="accordion_{{ $a['name'] }}">
+                                <div class="card mb-1" style="border: 1px solid #e9ecef;">
+                                    <div class="card-header p-3" id="headingOne_{{ $a['name'] }}">
+                                        <h6 class="m-0 font-14">
+                                            <a href="#collapseOne_{{ $a['name'] }}" class="text-dark collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne_{{ $a['name'] }}">
+                                                {{ $a['name'] }}
+                                            </a>
+                                        </h6>
+                                    </div>
+
+                                    <div id="collapseOne_{{ $a['name'] }}" class="collapse" aria-labelledby="headingOne_{{ $a['name'] }}" data-parent="#accordion_{{ $a['name'] }}" style="">
+                                        <div class="card-body api_body">
+                                                                    
+                                            <div class="form-group">
+                                                <label><?php echo __('view.product.price');?></label>
+                                                <div class="input-group"><input required="" name="api[{{ $a['name'] }}][price]" type="money" value="{{ $a['price'] }}"  class="form-control required api_price"><span class="input-group-addon input-group-append"><span class="input-group-text"><?php echo __('view.currency');?></span></span></div>
+                                            </div>
+                                            <div class="form-group">
+                                                
+                                                <div>
+                                                    <input type="checkbox" {{ $a['is_discount']>0?'checked':'' }} name="api[{{ $a['name'] }}][is_discount]" class="discount_switch" data-height="20" data-width="120" data-on="{{ __('view.product.discount_on') }}" data-off="{{ __('view.product.discount_off') }}" data-toggle="toggle" data-offstyle="light">
+                                                
+                                                    <div style="{{ $a['is_discount']==0?'display:none':'display:block' }}" class="m-t-10 discount_price_panel">
+                                                        <div class="input-group">
+                                                            <input type="money" class="discount_value form-control" name="api[{{ $a['name'] }}][discount_value]" value="{{ number_format($a['discount_value'],2) }}" >
+                                                            <span class="input-group-addon input-group-append">
+                                                                <select name="api[{{ $a['name'] }}][discount_type]" class="form-control discount_type">
+                                                                    <option {{ $a['is_discount']==1?'selected':'' }} value="1">บาท</option>
+                                                                    <option {{ $a['is_discount']==2?'selected':'' }} value="2">%</option>
+                                                                </select>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label><?php echo __('view.product.real_price');?></label>
+                                                <div class="input-group"><span class="input-group-addon input-group-prepend"><span class="input-group-text"><?php echo __('view.product.price');?></span></span><input type="money" disabled value=""  class="form-control product_price_total"></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                            @endforeach
+                            @endif
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal_api_product -->
+
+</form>
 @stop
 @section('css')
 <link href="<?php echo url('assets/manage/css/pages/product.css');?>" rel="stylesheet" type="text/css">

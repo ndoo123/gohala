@@ -3,12 +3,16 @@
 <?php echo csrf_field();?>
 <div class="row justify-content-md-center">
     <button type="submit" class="btn btn-success form-submit-action"><i class="fas fa-save"></i> บันทึกข้อมูล</button>
-    <div class="col-md-2 text-center">
-        <div>
+    <div class="col-md-2 text-center mb-3">
+        <div class="font-weight-bold" style="text-decoration: underline;color:#00A2E3">รูปโปรไฟล์ร้านค้า </div>
+        <div class="mt-3">
+            {{-- <img src="{{ $shop->get_photo() }}" id="profile_show" width="200" height="150" class="" style="border-width: thin;border-style: solid;border-radius: 8px"> --}}
+            {{-- <img src="{{ $shop->get_photo() }}" id="profile_show" width="200" height="150" class="" style="border: 1px solid #ddd;border-radius: 4px;padding: 5px;"> --}}
             <img src="{{ $shop->get_photo() }}" id="profile_show" width="200" height="150" class="img_logo">
             {{-- class="rounded-circle"> --}}
-            {{-- <img src="{{ $shop->get_logo() }}" width="150" height="150" class="rounded-circle"> --}}
+            <br>
         </div>
+        <div class="mt-3">( ใช้ไฟล์รูปภาพประเภท JPG หรือ PNG ขนาดภาพที่เหมาะสม 200 x 150 pixel )</div>
         <div class="mt-3">
             {{-- {{ dd($current_ur  l.'/change_profile') }} --}}
             <button type="button" id="change_profile_image" class="btn btn-sm btn-primary" style="margin-left:10px">

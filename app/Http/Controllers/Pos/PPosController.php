@@ -317,12 +317,6 @@ class PPosController extends Controller
         }
         else
         {
-            // $data = DB::table('shop_category_product_tb')
-            //             ->leftJoin('product_tb', 'shop_category_product_tb.product_id', '=', 'product_tb.id')
-            //             ->where('shop_category_product_tb.shop_id', '=', $shop)
-            //             ->where('shop_category_product_tb.category_id', '=', $id)
-            //             ->select('product_tb.*')
-            //             ->get();
             $data = Product::leftJoin('shop_category_product_tb', function($join){
                         $join->on('product_tb.id', '=', 'shop_category_product_tb.product_id');
                     })

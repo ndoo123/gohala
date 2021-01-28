@@ -1,43 +1,42 @@
 $(document).ready(function(){
-    datatables();
+    // datatables();
 });
-function datatables()
-{
-    var shop_category_table = $('#shop_category_table').DataTable({
-        serverSide: true,
-        processing: true,
-        destroy: true,
-        // order: [[ 1, "asc" ]],
-        ajax: {
-            url: $('#shop_category_table').attr('remote_url'),
-            data: {
-                position : $("#position").val()
-            },
+var shop_category_table = $('#shop_category_table').DataTable({
+    serverSide: true,
+    processing: true,
+    destroy: true,
+    // order: [[ 1, "asc" ]],
+    ajax: {
+        url: $('#shop_category_table').attr('remote_url'),
+        data: {
+            position : $("#position").val()
         },
-        columns: [
-            { data: 'position', name: 'position', class: 'text-center' },
-            { data: 'name', name: 'name', class: 'text-center' },
-            { data: 'product_count', name: 'product_count', class: 'text-center' },
-            { data: 'is_active', name: 'is_active', class: 'text-center' },
-            { data: 'edit_del', name: 'edit_del', class: 'text-center' },
-            { data: 'p_position', name: 'p_position', class: 'text-center' },
-        ],
-        createdRow: function( row, data, dataIndex ) {
-            $.each($('td',row),function(index){
-                if(index == 0)
-                {
-                    // $(this)
-                    $(this).attr('category_id', data.id);
-                }
-            });
-            // console.log(data);
-            $(row).attr('category_id', data.id);
-        },
-    });
-}
+    },
+    columns: [
+        { data: 'position', name: 'position', class: 'text-center' },
+        { data: 'name', name: 'name', class: 'text-center' },
+        { data: 'product_count', name: 'product_count', class: 'text-center' },
+        { data: 'is_active', name: 'is_active', class: 'text-center' },
+        { data: 'edit_del', name: 'edit_del', class: 'text-center' },
+        { data: 'p_position', name: 'p_position', class: 'text-center' },
+    ],
+    createdRow: function( row, data, dataIndex ) {
+        $.each($('td',row),function(index){
+            if(index == 0)
+            {
+                // $(this)
+                $(this).attr('category_id', data.id);
+            }
+        });
+        // console.log(data);
+        $(row).attr('category_id', data.id);
+    },
+});
 $(document).on('click','#add_shop_category_btn',function(){
     $('#save_category_btn').html("เพิ่ม");
     $('#shop_category_modal').modal('show');
+    // console.log($('#shop_category_modal').find('input.input_txt'));
+    console.log($('#shop_category_modal input.input_txt').focus());
 });
 $(document).on('submit','#shop_category_form',function(event){
     event.preventDefault();
@@ -55,7 +54,8 @@ $(document).on('submit','#shop_category_form',function(event){
             return;
         }
         else{
-            datatables();
+            // datatables();
+            $('#shop_category_table').DataTable().ajax.reload();
         }
 
         // if($('#shop_category_table tbody tr[category_id="'+r.data.id+'"]').length>0)
@@ -85,7 +85,45 @@ $(document).on('submit','#shop_category_form',function(event){
 $(document).on('hidden.bs.modal','#shop_category_modal',function(){
     $('#shop_category_modal input.input_txt').val("");
 });
+$(document).on('click','#save_category_btn',function(){
+   
+    if($('#shop_category_modal input[name="name"]').val()=="")
+    {
+        alert("กรุณาระบุชื่อ");
+        return;
+    }
+    var form=$('#shop_category_modal form');
+    var post=new PostForm('#shop_category_modal div.modal-content');
+    post.success=function(r){
+        if(r.result==0)
+        {
+            alert(r.msg);
+            return;
+        }
+        // if($('#shop_category_table tbody tr[category_id="'+r.data.id+'"]').length>0)
+        // {
+        //     $('#shop_category_table tbody tr[category_id="'+r.data.id+'"] td').eq(0).html(r.data.name);
+        // }
+        // else
+        // {
+        //     var tr='<tr category_id="'+r.data.id+'">';
+        //     tr+='<td>'+r.data.name+'</td>';
+        //     tr+='<td>0</td>';
+        //     tr+='<td><input class="category_active" type="checkbox" data-width="90" data-on="แสดง" data-off="ไม่แสดง" data-toggle="toggle" data-offstyle="light"></td>';
+        
+        //     tr+='<td><button type="button" class="btn btn-sm btn-primary edit_category">แก้ไข</button> <button type="button" class="btn btn-sm btn-danger delete_category">ลบออก</button></td>';
+        //     tr+='</tr>';
+        //     $('#shop_category_table tbody').append(tr);
 
+        //     $('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
+        // }
+        shop_category_table.ajax.reload();
+       
+        $('#shop_category_modal').modal('hide');
+
+    }
+    post.send(form);
+});
 $(document).on('click','.edit_category',function(){
     var tr=$(this).closest('tr');
     var obj=new Object();
@@ -122,7 +160,8 @@ $(document).on('click','.delete_category',function(){
         if(r.result==0)
             return alert(r.msg);
 
-        datatables();
+        shop_category_table.ajax.reload();
+        // datatables();
         // $('#shop_category_table tbody tr[category_id="'+obj.category_id+'"]').remove();
     }
     post.send(obj);
@@ -162,7 +201,9 @@ $(document).on('click','.btn_sort',function(){
     {
         $("#position").val(0);
     }
-    datatables();
+    // datatables();
+
+    shop_category_table.ajax.reload();
 });
 
 $(document).on('change','.p_position',function(){
@@ -183,7 +224,9 @@ $(document).on('change','.p_position',function(){
             console.log(res);
             if(res.result == 1)
             {
-                datatables();
+                // datatables();
+
+                shop_category_table.ajax.reload();
             }
             else
             {
