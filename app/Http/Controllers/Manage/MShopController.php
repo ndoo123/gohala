@@ -12,6 +12,8 @@ use App\Models\Product;
 use App\Models\ProductSlug;
 use App\Models\ProductPhoto;
 use App\Models\ProductCategory;
+use App\Models\ApiProductName;
+use App\Models\ApiProductPrice;
 use Illuminate\Http\Request;
 use Datatables;
 use LKS;
@@ -176,8 +178,33 @@ class MShopController extends Controller
         {
 
             $p->save();
-
+            $array_name = ApiProductName::where("status",1)->pluck('name')->toArray();
             //Slug
+            if(!empty($r->api)) // ['Facebook'=>array('price'=>'100.00', 'is_discount'=>'on', 'discount_value'=>'80.00')]
+            {
+                foreach($r->api as $api_name => $api)
+                {
+                    // dd(in_array($api_name,$array_name),$api_name,$api,$r->all());
+                    if(in_array($api_name,$array_name))
+                    {
+                        $api_product_price = ApiProductPrice::where('product_id',$r->product_id)->where('name',$api_name)->first();
+                        if(empty($api_product_price))
+                        {
+                            $api_product_price = new ApiProductPrice();
+                            $api_product_price->product_id = $r->product_id;
+                            $api_product_price->name = $api_name;
+                        }
+
+                        $api_product_price->price = str_replace(',','',$api['price']);
+                        if(!empty($api['is_discount']))
+                        {
+                            $api_product_price->is_discount = $api['discount_type'];
+                            $api_product_price->discount_value = str_replace(',','',$api['discount_value']);
+                        }
+                        $api_product_price->save();
+                    }
+                }
+            }
         
             $slug=LKS::convertToSlug($r->name);
             $check_slug=ProductSlug::where("shop_id",$r->shop->id)->where("slug",$slug)->first();
@@ -750,7 +777,9 @@ class MShopController extends Controller
         return redirect()->back()->with('error',__('view.product.product_not_found'));
 
        }
-       $data['categories']=ShopCategory::where("shop_id",$r->shop->id)->get();
+       $data['categories'] = ShopCategory::where("shop_id",$r->shop->id)->get();
+    //    $data['api_product_name'] = ApiProductName::where("status",1)->pluck('name')->toArray();
+       $data['api_products'] = ApiProductPrice::api_products($r->product_id);
         // dd($data,$data['product']->photos);
        return view('manage.shop.product.product_view',$data);
    }

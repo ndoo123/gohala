@@ -61,6 +61,7 @@ return [
         'product_name'=>'ชื่อสินค้า',
         'qty'=>'จำนวน',
         'price'=>'ราคา',
+        'real_price'=>'ราคาสุทธิ',
         'discount'=>'ส่วนลด',
         'edit_product'=>'แก้ไขสินค้า',
         'delete_product'=>'ลบสินค้า',
@@ -77,6 +78,7 @@ return [
         'discount_off'=>'ไม่ใช้ส่วนลด',
         'discount_on'=>'ใช้ส่วนลด',
         'sku_exists'=>'SKU มีในระบบแล้ว',
+        'api'=>'จัดการราคา Api Third Party',
         
     ]
 
