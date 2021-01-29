@@ -100,23 +100,6 @@ $(document).on('click','#save_category_btn',function(){
             alert(r.msg);
             return;
         }
-        // if($('#shop_category_table tbody tr[category_id="'+r.data.id+'"]').length>0)
-        // {
-        //     $('#shop_category_table tbody tr[category_id="'+r.data.id+'"] td').eq(0).html(r.data.name);
-        // }
-        // else
-        // {
-        //     var tr='<tr category_id="'+r.data.id+'">';
-        //     tr+='<td>'+r.data.name+'</td>';
-        //     tr+='<td>0</td>';
-        //     tr+='<td><input class="category_active" type="checkbox" data-width="90" data-on="แสดง" data-off="ไม่แสดง" data-toggle="toggle" data-offstyle="light"></td>';
-        
-        //     tr+='<td><button type="button" class="btn btn-sm btn-primary edit_category">แก้ไข</button> <button type="button" class="btn btn-sm btn-danger delete_category">ลบออก</button></td>';
-        //     tr+='</tr>';
-        //     $('#shop_category_table tbody').append(tr);
-
-        //     $('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
-        // }
         shop_category_table.ajax.reload();
        
         $('#shop_category_modal').modal('hide');
@@ -192,7 +175,7 @@ $(document).on('change','#shop_category_table .category_active',function(){
 
 
 $(document).on('click','.btn_sort',function(){
-    // alert(1);
+    console.log($("#position").val());
     if($("#position").val() == 0)
     {
         $("#position").val(1);
@@ -203,7 +186,9 @@ $(document).on('click','.btn_sort',function(){
     }
     // datatables();
 
-    shop_category_table.ajax.reload();
+    shop_category_table.ajax.reload({position: $("#position").val()});
+
+    // $('#shop_category_table').DataTable().ajax.reload();
 });
 
 $(document).on('change','.p_position',function(){

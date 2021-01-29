@@ -31,7 +31,7 @@
                        <th width="100">ลำดับ</th>
                        <th width="30%">ชื่อ</th>
                        <th width="50">จำนวนสินค้า</th>
-                       <th width="100">สถานะ</th>
+                       <th width="100">ปิด/เปิด</th>
                        <th></th>
                        <th></th>
                     </tr>

@@ -217,7 +217,12 @@
                                                         <div class="col-md-4">
                                                            <div class="form-group">
                                                                 <label class="control-label"><?php echo __('view.facebook');?></label>
-                                                                <div class="input-group"><span class="input-group-addon input-group-prepend"><span class="input-group-text">facebook.com/</span></span><input type="text" value="<?php echo (old('facebook')?old('facebook'): $user->facebook);?>" name="facebook" class="form-control"></div>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon input-group-prepend">
+                                                                        <span class="input-group-text">facebook.com/</span>
+                                                                    </span>
+                                                                    <input type="text" value="<?php echo (old('facebook')?old('facebook'): $user->facebook);?>" name="facebook" class="form-control">
+                                                                </div>
                                                                 
                                                             </div>
                                                         </div>

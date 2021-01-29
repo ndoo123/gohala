@@ -246,6 +246,8 @@
 @stop
 @section('js')
 {{-- <script src="{{ url('/assets/web/js/pages/cart.js') }}"></script> --}}
+<link rel="stylesheet" type="text/css" href="{{ url('assets/js/plugins/waitme/waitMe.min.css') }}">
+<script src="{{ url('assets/js/plugins/waitme/waitMe.min.js') }}"></script>
 <script src="{{ url('assets/js/plugins/maskedinput/jquery.maskedinput.min.js') }}"></script>
 <script>
 
@@ -260,6 +262,9 @@ $(document).on('change','input[name="ship_method_id"]',function(){
     // console.log(price);
     $("#total_shipping").html( ship.toFixed(2) );
     $("#grand_total").html( grand_total.toFixed(2) );
+});
+$(document).on('submit',"form",function(){
+    $('form').waitMe();
 });
 $(document).on('change',".user_address",function(){
     var obj = new Object();

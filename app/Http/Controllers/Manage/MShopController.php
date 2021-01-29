@@ -167,7 +167,7 @@ class MShopController extends Controller
             $p->is_discount=$r->discount_type;
             $p->discount_value=$r->discount_amount;
         }
-
+        // dd($p,$r->all());
         $p->status=1;
         $p->is_pos=1;
         $p->is_ecom=1;
@@ -187,11 +187,12 @@ class MShopController extends Controller
                     // dd(in_array($api_name,$array_name),$api_name,$api,$r->all());
                     if(in_array($api_name,$array_name))
                     {
-                        $api_product_price = ApiProductPrice::where('product_id',$r->product_id)->where('name',$api_name)->first();
+                        // $api_product_price = ApiProductPrice::where('product_id',$r->product_id)->where('name',$api_name)->first();
+                        $api_product_price = ApiProductPrice::where('product_id',$p->id)->where('name',$api_name)->first();
                         if(empty($api_product_price))
                         {
                             $api_product_price = new ApiProductPrice();
-                            $api_product_price->product_id = $r->product_id;
+                            $api_product_price->product_id = $p->id;
                             $api_product_price->name = $api_name;
                         }
 
@@ -415,7 +416,7 @@ class MShopController extends Controller
    }
    public function shop_categories_datatables(Request $r)
    {
-    //    dd($r->all());
+    //    dd($r->position,$r->all());
        
         $c_count = ShopCategory::where('shop_id',$r->shop->id)->count();
        $model = ShopCategory::where("shop_id",$r->shop->id)
@@ -461,10 +462,15 @@ class MShopController extends Controller
         // })
         ->editColumn('is_active',function($model){
             // $input = '<input type="checkbox" class="category_active" '.($model->is_active==1?'checked':'').' data-width="90" data-on="แสดง" data-off="ไม่แสดง" data-toggle="toggle" data-offstyle="light">';
+            // $input = '
+            //     <div class="custom-control custom-switch">
+            //         <input type="checkbox" class="custom-control-input category_active" data-width="90" data-on="แสดง" data-off="ไม่แสดง" data-toggle="toggle" data-offstyle="light" id="switch_active_'.$model->id.'" '.($model->is_active==1?'checked':'').'>
+            //         <label class="custom-control-label" for="switch_active_'.$model->id.'"></label>
+            //     </div>';
             $input = '
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input category_active" data-width="90" data-on="แสดง" data-off="ไม่แสดง" data-toggle="toggle" data-offstyle="light" id="switch_active_'.$model->id.'" '.($model->is_active==1?'checked':'').'>
-                    <label class="custom-control-label" for="switch_active_'.$model->id.'"></label>
+                <div class="custom-control custom-switch" style="padding-left: 0px">
+                    <input type="checkbox" switch="bool" class="category_active" id="switch_active_'.$model->id.'" '.($model->is_active==1?'checked':'').'>
+                    <label for="switch_active_'.$model->id.'" data-on-label="เปิด" data-off-label="ปิด"></label>
                 </div>';
             return $input;
         })

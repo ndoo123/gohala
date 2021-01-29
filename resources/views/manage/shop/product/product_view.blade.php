@@ -107,13 +107,12 @@
                         <div class="input-group"><input required="" name="price" type="money" value="<?php echo $product->price;?>"  class="form-control"><span class="input-group-addon input-group-append"><span class="input-group-text"><?php echo __('view.currency');?></span></span></div>
                     </div>
                      <div class="form-group">
-                        
                         <div>
                             <input type="checkbox" <?php echo ($product->is_discount>0?'checked':'');?> name="is_discount" id="discount_switch" data-height="20" data-width="120" data-on="<?php echo __('view.product.discount_on');?>" data-off="<?php echo __('view.product.discount_off');?>" data-toggle="toggle" data-offstyle="light">
                         
                             <div style="<?php echo $product->is_discount==0?'display:none':'display:block';?>" class="m-t-10" id="discount_price_panel">
                                 <div class="input-group">
-                                    <input type="money" name="discount_amount" value="<?php echo number_format($product->discount_amount,2);?>"  class="form-control">
+                                    <input type="money" name="discount_amount" value="<?php echo number_format($product->discount_value,2);?>"  class="form-control">
                                     <span class="input-group-addon input-group-append">
                                         <select name="discount_type" class="form-control">
                                             <option <?php echo ($product->is_discount==1?'selected':'');?> value="1">บาท</option>

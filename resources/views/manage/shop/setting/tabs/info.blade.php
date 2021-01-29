@@ -60,10 +60,18 @@
                         <input type="text" name="line" class="form-control" value="<?php echo $shop->line;?>" >
                     </div>
                     <div class="input-group mt-3">
-                        <div class="input-group-prepend">
+                        {{-- <div class="input-group-prepend">
                             <span class="input-group-text">Facebook</span>
-                        </div>
+                        </div> --}}
+                        <span class="input-group-addon input-group-prepend">
+                            <span class="input-group-text">facebook.com/</span>
+                        </span>
                         <input type="text" name="facebook" class="form-control" value="<?php echo $shop->facebook;?>" >
+
+                    {{-- <label class="control-label">{{  }}__('view.facebook');?></label> --}}
+                    {{-- <div class="input-group"> --}}
+                    {{-- </div> --}}
+                    
                     </div>
             </div>
         </div>
@@ -83,13 +91,13 @@
                     <select name="province" class="form-control">
               
                         <?php foreach($provinces as $p):?>
-                            <option value="<?php echo $p->id;?>"><?php echo $p->name;?></option>
+                            <option value="<?php echo $p->id;?>" <?=$p->id == $shop->province_id ? 'selected' : ''?>><?php echo $p->name;?></option>
                         <?php endforeach;?>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <h6>ไปรษณีย์</h6>
-                    <input name="zipcode" type="text" class="form-control" value="<?php echo $shop->address;?>" >
+                    <input name="zipcode" type="text" class="form-control" value="<?php echo $shop->zipcode;?>" >
                 </div>
                 
         </div>

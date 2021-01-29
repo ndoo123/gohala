@@ -81,7 +81,7 @@
 
 @stop
 @section('js')
- {{-- <script src="{{ url('assets/manage/js/pages/shop/shop.js') }}"></script> --}}
+ <script src="{{ url('assets/manage/js/pages/shop/shop.js') }}"></script>
  <script>
 
     $(document).on('submit',"#new_shop_form",function(event){

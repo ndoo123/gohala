@@ -170,7 +170,7 @@ $(document).on('click','#reset_password_btn',function(){
     post.success=function(r){
         if(r.result==0)
         {
-            alert(r.data);
+            alert(r.msg);
             return;
         }
         alert('Reset รหัสผ่านจะถูกส่งไปยังอีเมล์ที่ท่านระบุไว้ ท่านมีเวลา 60 นาทีในการดำเนินการ');

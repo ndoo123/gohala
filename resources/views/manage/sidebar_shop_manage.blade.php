@@ -40,14 +40,14 @@
                         </a>
                         <ul class="sub-menu mm-collapse" aria-expanded="false">
                             <li >
-                                <a 
-                                href="<?php echo url($shop->url.'/products');?>">
-                                    <?php echo __('menu.product');?>
+                                <a href="<?php echo url($shop->url.'/categories');?>">
+                                    {{ __('menu.categories') }}
                                 </a>
                             </li>
                             <li >
-                                <a href="<?php echo url($shop->url.'/categories');?>">
-                                    หมวดหมู่สินค้า
+                                <a 
+                                href="<?php echo url($shop->url.'/products');?>">
+                                    <?php echo __('menu.product');?>
                                 </a>
                             </li>
                         </ul>
