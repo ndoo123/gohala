@@ -36,6 +36,7 @@ class AAccountController extends Controller
    }
    public function profile(Request $r)
    {
+    //  dd($_SERVER['REQUEST_METHOD'],!empty($_SERVER['HTTP_X_REQUESTED_WITH']),Auth::guard());
       $data['user']=\Auth::user();
       $data['address']=\Auth::user()->address;
       $data['provinces']=\DB::table('province_tb')->get();

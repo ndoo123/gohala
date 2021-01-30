@@ -17,8 +17,8 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        // dd(Auth::guard(),$guard,Auth::guard()->check(),Auth::guard($guard)->check());
-        if (Auth::guard($guard)->check()) {
+        // dd($_SERVER['REQUEST_METHOD'],$_SERVER['HTTP_X_REQUESTED_WITH'],Auth::guard(),Auth::guard($guard)->check(),$return);
+        if (Auth::guard($guard)->check() && empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             return redirect('/profile');
         }
 
