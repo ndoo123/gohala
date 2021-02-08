@@ -336,9 +336,9 @@
         let percent = (parseFloat(price) * parseFloat(disc)) / 100;
         let sumprice = parseFloat(price) - parseFloat(percent);
 
-        $("#discounttotal").val(addCommas(percent));
-        $("#pricetotal").val(addCommas(sumprice));
-        $("#h_discount").val(percent);
+        $("#discounttotal").val(addCommas(percent.toFixed(2)));
+        $("#pricetotal").val(addCommas(sumprice.toFixed(2)));
+        $("#h_discount").val(percent.toFixed(2));
     }
 
     function torn()

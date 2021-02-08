@@ -191,6 +191,7 @@
 
                                         <form name="frm_save" id="frm_save" method="POST" action="<?php echo  url($shop->url.'/pos/save') ; ?>">
                                             <?php echo  csrf_field() ; ?>
+                                            <input type="hidden" name="h_shopid" id="h_shopid" value="<?php echo $shop->id ; ?>">
                                             <input type="hidden" name="h_total" id="h_total" value="">
                                             <input type="hidden" name="h_amount" id="h_amount" value="">
                                             <input type="hidden" name="h_discount" id="h_discount" value="">

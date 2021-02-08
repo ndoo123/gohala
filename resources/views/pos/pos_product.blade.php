@@ -6,7 +6,7 @@
             <div class="card product-box card-b">
                 <div class="card-body p-1">
                     <div class="product-img">
-                        <figure style="background-image:url(<?php //echo $prod->get_photo(); ?>)">
+                        <figure style="background-image:url(<?php echo $prod->get_photo(); ?>)">
     
                         </figure>
                         

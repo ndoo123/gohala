@@ -51,8 +51,8 @@ class PPosController extends Controller
     {
         if(strpos($sku, "*")){
             $idx = explode("*",$sku);
-            $sku = $idx[0];
-            $num = $idx[1];
+            $sku = $idx[1];
+            $num = $idx[0];
         }else{
             $num = 1;
         }
@@ -104,8 +104,9 @@ class PPosController extends Controller
         //dd($req);
         try
         {
-            $shop = Shop::where("user_id",Auth::user()->id)->first();
-
+            //$shop = Shop::where("user_id",Auth::user()->id)->first();
+            $shop = Shop::where("id", $req->h_shopid)->first();
+            
             // เลขที่ใบเสร็จ
             $rec_no = 'R'.$shop->id.date('ym').$shop->run_receipt_id;
             // เลขที่ order
@@ -140,7 +141,8 @@ class PPosController extends Controller
                     $oditem->product_name = $req->h_name[$key];
                     $oditem->remark = '';
                     $oditem->qty = $req->h_num[$key];
-                    $oditem->price = $hprice / $req->h_num[$key];
+                    //$oditem->price = $hprice / $req->h_num[$key];
+                    $oditem->price = $hprice;
                     $oditem->total = $req->h_num[$key] * $hprice;
                     $oditem->status = '2';
                     $oditem->save();
@@ -209,7 +211,7 @@ class PPosController extends Controller
                     ->where('order_id', $receipt->order_id)
                     ->get();
         $payment = OrderPayment::where('order_id', $receipt->order_id)->first();
-        $shop = Shop::where("user_id",Auth::user()->id)->first();
+        $shop = Shop::where("id",$order->shop_id)->first();
         $seller = User::where('id', $receipt->seller_user_id)->first();
 
         $rec = array('','pos.receive.rec_mini3','pos.receive.rec_mini3_vat');
@@ -253,8 +255,8 @@ class PPosController extends Controller
     {
         if(strpos($id, "*")){
             $idx = explode("*",$id);
-            $id = $idx[0];
-            $num = $idx[1];
+            $id = $idx[1];
+            $num = $idx[0];
         }else{
             $num = 1;
         }
@@ -281,8 +283,8 @@ class PPosController extends Controller
     {
         if(strpos($id, "*")){
             $idx = explode("*",$id);
-            $id = $idx[0];
-            $num = $idx[1];
+            $id = $idx[1];
+            $num = $idx[0];
         }else{
             $num = 1;
         }
