@@ -8,6 +8,35 @@ $(document).on('click','.goto',function(){
         location.href = $(this).attr('goto');
     }
 });
+$(document).on('change','.open_shop',function(){
+    var url = location.origin + '/shops/change_shop_status';
+    var obj = new Object();
+    obj._token = $('meta[name=csrf-token]').attr('content');
+    obj.is_open = $(this).is(":checked") == true ? 1 : 0;
+    obj.shop_id = $(this).attr('shop_id');
+    // console.log(obj);
+    $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'json',
+        data: obj,
+        success: function(res){
+            // console.log(res);
+            if(res.result == 1)
+            {
+                
+            }
+            else
+            {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: res.msg,
+                })
+            }
+        }
+    });
+});
 // var table_order = $('#table_order').DataTable({
 //     serverSide: true,
 //     processing: false,

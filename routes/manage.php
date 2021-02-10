@@ -15,6 +15,7 @@ Route::get('/', "MDashboardController@dashboard");
 Route::get('dashboard', "MDashboardController@dashboard");
 
 Route::get('shops','MShopController@shops');
+Route::post('shops/change_shop_status','MShopController@change_shop_status');
 Route::post('shops/create','MShopController@shop_create');
 
 Route::get('order_detail', 'MSettingController@order_detail');
