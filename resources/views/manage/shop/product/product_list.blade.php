@@ -9,9 +9,6 @@
    <button type="button" class="btn btn-success dropdown-toggle arrow-none waves-effect waves-light btn_sort">
         <i class="ti-list mr-2"></i> จัดเรียง
     </button>
-   {{-- <button type="button" class="btn btn-success dropdown-toggle arrow-none waves-effect waves-light btn_sort">
-        <i class="ti-list mr-2"></i> จัดเรียง
-    </button> --}}
 </div>
 @stop
 @section('content')

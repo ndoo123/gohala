@@ -6,6 +6,15 @@ $(document).ready(function(){
 });
 $(document).on('change','.filter_cate',function(){
     // alert($(this).val());
+    if($(".filter_cate").val() != '')
+    {
+        $("#position").val(0);
+        $(".btn_sort").fadeOut();
+    }
+    else
+    {
+        $(".btn_sort").fadeIn();
+    }
     datatables($(this).val());
 });
 function datatables(val){
@@ -19,7 +28,7 @@ function datatables(val){
             { data: 'edit', name: 'edit', class: 'text-center' },
             { data: 'p_position', name: 'p_position', class: 'text-center' },
         ];
-    console.log(columns);
+    // console.log(columns);
     var products_table = $('#products_table').DataTable({
         serverSide: true,
         processing: true,
@@ -43,11 +52,16 @@ function datatables(val){
 }
 $(document).on('click','.btn_sort',function(){
     // alert(1);
+    // console.log($(".filter_cate").val());
     if($("#position").val() == 0)
     {
         $("#position").val(1);
     }
     else
+    {
+        $("#position").val(0);
+    }
+    if($(".filter_cate").val() != '')
     {
         $("#position").val(0);
     }
