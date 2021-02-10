@@ -298,6 +298,7 @@ class HomeController extends Controller
             $deli->province_id = $r->province_id;
             $deli->zipcode = $r->zipcode;
             $deli->phone = $r->phone ? str_replace('-','',$r->phone) : null;
+            $deli->email = $r->email;
             $deli->save();
 
             $shop = Shop::find($order->shop_id);
@@ -305,10 +306,10 @@ class HomeController extends Controller
             $items = OrderItem::where('order_id',$order->id)->get();
             $mail = [];
             $mail['order'] = $order; 
-            $mail['buyer'] = $order->buyer;
+            $mail['buyer'] = $order->buyer; // ผู้ซื้อ ไม่ได้ใช้งาน
             $mail['shop'] = $shop;
             $mail['deli'] = $deli;
-            $mail['owner'] = $owner;
+            $mail['owner'] = $owner; // เจ้าของร้าน
             $mail['items'] = $items;
             $mail['payment'] = 
             \DB::table('shop_payment_tb as cat')
@@ -320,16 +321,16 @@ class HomeController extends Controller
             ->first();
             $mail['payment_data'] = $mail['payment']->payment_data ? json_decode(json_decode($mail['payment']->payment_data)) : null;
             
-            if(!empty($mail['buyer']) && !empty($mail['buyer']->email))
+            if(!empty($r->email)) // ส่งให้ลูกค้า
             {
-                \Mail::send('email.order_customer', $mail , function($message) use ($mail)
+                \Mail::send('email.order_customer', $mail , function($message) use ($mail, $r)
                 {
                     $message->from(env('MAIL_USERNAME'),"Gohala Order" );
-                    $message->to($mail['buyer']->email, 'M&M')->subject('You have New Order!');
+                    $message->to($r->email, 'M&M')->subject('You have New Order!');
                 });
             }
-
-            \Mail::send('email.order_admin', $mail , function($message) use ($mail)
+            // dd(!empty($mail['buyer']), !empty($r->email));
+            \Mail::send('email.order_admin', $mail , function($message) use ($mail) // ส่งให้เจ้าของร้าน
             {
                 $message->from(env('MAIL_USERNAME'),"Gohala Order" );
                 $message->to($mail['owner']->email, 'M&M')->subject('You have New Order!');
