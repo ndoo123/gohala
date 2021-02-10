@@ -160,7 +160,9 @@ class HomeController extends Controller
         ->leftJoin('payment_method_tb','payment_method_tb.id','shop_payment_tb.method_id')
         ->where('shop_payment_tb.is_checked',1)
         // ->whereNotNull('shop_payment_tb.payment_data')
-        ->selectRaw('payment_method_tb.name,shop_payment_tb.*')->get();
+        ->selectRaw('payment_method_tb.name,shop_payment_tb.*');
+        $data['payment_methods']= empty($data['user']) ? $data['payment_methods']->where('payment_method_tb.id','!=',3)->get() : $data['payment_methods']->get(); // กรณีที่ไม่ล็อคอินให้เอาชำระเงินปลายทางออก payment_method_tb.id = 3
+        // dd($data);
         foreach($data['payment_methods'] as $p_key => $p)
         {
             if($p->method_id == 2)
