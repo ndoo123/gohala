@@ -137,7 +137,7 @@ class AAccountController extends Controller
         $notify = new Notify();
         if(!empty($order->buyer_user_id))
           $notify->user_id = $order->buyer_user_id;
-        $notify->shop_id = $order->buyer_user_id;
+        $notify->shop_id = $order->shop_id;
         $notify->order_id = $order->id;
         $notify->event_id = 2;
         $notify->info = 'ชำระบิลเลขที่ '.$order->id.' ธนาคาร: '.$orderTranfer->bank_name.' หมายเลขบัญชี: '. $orderTranfer->account_no .' โดย '.\Auth::user()->name;
