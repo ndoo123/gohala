@@ -14,6 +14,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Models\Notify;
 use DB;
 class Controller extends BaseController
 {
@@ -154,13 +155,36 @@ class Controller extends BaseController
     }
     public function update_order_status(Request $r)
     {
-        // dd($r->all());
         DB::beginTransaction();
         try{
             $order = Order::find($r->order_id);
             $order->status = $r->status;
             $order->delivery_update();
             $order->save();
+            if($r->status == 4)
+            {
+
+                \Mail::send([], [] , function($message) use ($order, $r)
+                {
+                    $message->from(env('MAIL_USERNAME'),"Gohala" );
+                    $message->to($order->delivery->email)->subject("Gohala:ร้านค้า - จัดส่งสินค้าเรียบร้อย")
+                    ->setBody('<a href="'.LKS::url_subdomain('','').'"><img src="https://gohala.com/assets/images/logo-dark.png"></a><br>
+                    เลขแทรคกิ้งของหมายเลขออเดอร์ #' .$order->id. ' ตือหมายเลข '.$order->shipping_code.' ได้จัดส่งสินค้าเรียบร้อย<br>','text/html');
+                    // $message->to($order->delivery->email)->subject("ยืนยันอีเมล์")
+                    // ->setBody('<a href="'.LKS::url_subdomain('','').'"><img src="https://gohala.com/assets/images/logo-dark.png"></a><br><br><a href="'.LKS::url_subdomain('account','').'/email/verify?email='.$user->email.'&code='.$user->email_verify_code.'">คลิกเพื่อยืนยันอีเมล</a>','text/html');
+
+                    $notify = new Notify();
+                    $notify->user_id = $order->buyer_user_id;
+                    $notify->shop_id = $order->shop_id;
+                    $notify->order_id = $order->id;
+                    $notify->event_id = 3;
+                    $notify->info = 'ออเดอร์หมายเลข #'.$order->id.' หมายเลขจัดส่งสินค้า '.$order->shipping_code.' จัดส่งสินค้าเรียบร้อย';
+                    $notify->save();
+                    \Met::pusher('manage', Notify::$event[3], $order->shop->url);
+                    \Met::pusher('account', Notify::$event[3], '');
+                });
+            }
+            // dd($order->delivery->email,$r->all(),$order);
             DB::commit();
             $return = ['status' => 1];
         }

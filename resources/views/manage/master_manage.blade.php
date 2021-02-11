@@ -208,8 +208,10 @@
                         if(res.notify_unread_element > 0)
                         {
                             var icon = [ '',
+                            '<div class="notify-icon bg-warning"><i class="mdi mdi-cart-outline"></i></div>',
+                            '<div class="notify-icon bg-info"><i class="mdi mdi-cash-multiple"></i></div>',
                             '<div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>',
-                            '<div class="notify-icon bg-info"><i class="mdi mdi-cash-multiple"></i></div>',];
+                            ];
                             var append = '<!-- item-->';
                             $.each(res.notify, function(key,value){
                                 // console.log(key);
