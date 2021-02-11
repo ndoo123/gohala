@@ -1,5 +1,19 @@
 
 notify();
+
+function getSubDomain()
+{
+    var array = window.location.host.split('.');
+    // console.log(array);
+    // console.log(array.length);
+    if(array.length == 3)
+    {
+        // console.log('Met getSubDomain()');
+        // console.log(array[0]);
+        return array[0];
+    }
+    return null;
+}
 function get_url() // สำหรับแยก url ของ ร้านค้าทั้งหมด และเฉพาะร้านค้า
 {
     var url = location.origin;
@@ -119,11 +133,11 @@ $(document).on('click','.notify-item',function(){ // เปลี่ยนแต
             // console.log(res);
             if(res.result == 1)
             {
-                console.log(res);
-                console.log(window.location);
-                console.log('profile');
                 var sub_domain = getSubDomain();
-                console.log(sub_domain);
+                // console.log(res);
+                // console.log(window.location);
+                // console.log('notify.js');
+                // console.log(sub_domain);
                 if(sub_domain == "account")
                 {
                     $("ul.nav.nav-tabs a.nav-link.myorder").click();
@@ -136,9 +150,13 @@ $(document).on('click','.notify-item',function(){ // เปลี่ยนแต
                     {
                         notify_type = 'payment';
                     }
+                    else if(res.notify.event_id == 3)
+                    {
+                        notify_type = 'order';
+                    }
                     $("#notify_type").val(notify_type);
                     $("#master_order_id").val(res.notify.order_id);
-                    // table_order_datatables();
+                    table_order_datatables();
                 }
                 else if(sub_domain == "manage")
                 {
@@ -161,3 +179,63 @@ $(document).on('click','.notify-item',function(){ // เปลี่ยนแต
         }
     });
 });
+function table_order_datatables()
+{
+    return $('#table_order').DataTable(
+    {
+        serverSide: true,
+        processing: false,
+        destroy: true,
+        // retrieve: true,
+        // order: [[ 1, "asc" ]],
+        search: {
+            search: $("#master_order_id").val()
+        },
+        ajax: {
+            url: $('#table_order').attr('remote_url'),
+            data: {},
+        },
+        columns: [
+            { data: 'id', name: 'id', class: 'text-center' },
+            { data: 'order_date', name: 'order_date', class: 'text-center' },
+            { data: 'shop_name', name: 'shop_name', class: 'text-center',"orderable": false, "searchable": false },
+            { data: 'get_sold_price', name: 'get_sold_price', class: 'text-center',"orderable": false, "searchable": false },
+            { data: 'status', name: 'status', class: 'text-center',"orderable": false, "searchable": false },
+            { data: 'action', name: 'action', class: 'text-center',"orderable": false, "searchable": false },
+        ],
+        createdRow: function( row, data, dataIndex ) {
+            var td_length = $('td',row).length-1;
+            $.each($('td',row),function(index){
+                if(index != td_length)
+                {
+                    // $(this).attr('id', 'data');
+                    $(this).addClass('order_detail');
+                    $(this).attr('style','cursor: context-menu;');
+                }
+                $(this).attr('order_id',data.id);
+                // console.log(td_length);
+            });
+            // console.log(data);
+        },
+        initComplete: function(settingss,json){
+            // console.log( 'initComplete' );
+            var order_id = $("#master_order_id").val();
+            var td = $(this).find('td.order_detail.sorting_1');
+            td.each(function(){
+                if($(this).attr('order_id') == order_id)
+                {
+                    // console.log(this);
+                    if($("#notify_type").val() == 'order')
+                    {
+                        $(this).click();
+                    }
+                    else if($("#notify_type").val() == 'payment')
+                    {
+                        $(this).closest('tr').find('.btn_order_payment_view').click();
+                    }
+                    $("#notify_type").val('');
+                }
+            });
+        },
+    });
+}
