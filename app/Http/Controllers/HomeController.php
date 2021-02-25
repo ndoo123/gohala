@@ -477,4 +477,16 @@ class HomeController extends Controller
     public function dropzone(){
         return view('dropzone.test');
     }
+    public function privacy_th()
+    {
+        return view('privacy.th');
+    }
+    public function privacy_en()
+    {
+        return view('privacy.en');
+    }
+    public function manual()
+    {
+        return view('web.manual');
+    }
 }
