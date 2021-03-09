@@ -18,7 +18,7 @@ class ShopManageCheck
         // dd($r->all(),$shop ? $shop : null);
         if(!isset($r->shop_id))
         return redirect()->back()->with('error',__('view.shop_id_not_found'));
-
+        // dd(1);
         $shop=\App\Models\Shop::where("url",$r->shop_id)->first();
         if(!$shop)
         return redirect(env('APP_URL').'/error_404')->with('error',__('view.shop_not_found'));

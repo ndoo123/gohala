@@ -160,7 +160,9 @@ class HomeController extends Controller
         ->leftJoin('payment_method_tb','payment_method_tb.id','shop_payment_tb.method_id')
         ->where('shop_payment_tb.is_checked',1)
         // ->whereNotNull('shop_payment_tb.payment_data')
-        ->selectRaw('payment_method_tb.name,shop_payment_tb.*')->get();
+        ->selectRaw('payment_method_tb.name,shop_payment_tb.*');
+        $data['payment_methods']= empty($data['user']) ? $data['payment_methods']->where('payment_method_tb.id','!=',3)->get() : $data['payment_methods']->get(); // กรณีที่ไม่ล็อคอินให้เอาชำระเงินปลายทางออก payment_method_tb.id = 3
+        // dd($data);
         foreach($data['payment_methods'] as $p_key => $p)
         {
             if($p->method_id == 2)
@@ -296,6 +298,7 @@ class HomeController extends Controller
             $deli->province_id = $r->province_id;
             $deli->zipcode = $r->zipcode;
             $deli->phone = $r->phone ? str_replace('-','',$r->phone) : null;
+            $deli->email = $r->email;
             $deli->save();
 
             $shop = Shop::find($order->shop_id);
@@ -303,10 +306,10 @@ class HomeController extends Controller
             $items = OrderItem::where('order_id',$order->id)->get();
             $mail = [];
             $mail['order'] = $order; 
-            $mail['buyer'] = $order->buyer;
+            $mail['buyer'] = $order->buyer; // ผู้ซื้อ ไม่ได้ใช้งาน
             $mail['shop'] = $shop;
             $mail['deli'] = $deli;
-            $mail['owner'] = $owner;
+            $mail['owner'] = $owner; // เจ้าของร้าน
             $mail['items'] = $items;
             $mail['payment'] = 
             \DB::table('shop_payment_tb as cat')
@@ -318,16 +321,16 @@ class HomeController extends Controller
             ->first();
             $mail['payment_data'] = $mail['payment']->payment_data ? json_decode(json_decode($mail['payment']->payment_data)) : null;
             
-            if(!empty($mail['buyer']) && !empty($mail['buyer']->email))
+            if(!empty($r->email)) // ส่งให้ลูกค้า
             {
-                \Mail::send('email.order_customer', $mail , function($message) use ($mail)
+                \Mail::send('email.order_customer', $mail , function($message) use ($mail, $r)
                 {
                     $message->from(env('MAIL_USERNAME'),"Gohala Order" );
-                    $message->to($mail['buyer']->email, 'M&M')->subject('You have New Order!');
+                    $message->to($r->email, 'M&M')->subject('You have New Order!');
                 });
             }
-
-            \Mail::send('email.order_admin', $mail , function($message) use ($mail)
+            // dd(!empty($mail['buyer']), !empty($r->email));
+            \Mail::send('email.order_admin', $mail , function($message) use ($mail) // ส่งให้เจ้าของร้าน
             {
                 $message->from(env('MAIL_USERNAME'),"Gohala Order" );
                 $message->to($mail['owner']->email, 'M&M')->subject('You have New Order!');
@@ -473,5 +476,17 @@ class HomeController extends Controller
     }
     public function dropzone(){
         return view('dropzone.test');
+    }
+    public function privacy_th()
+    {
+        return view('privacy.th');
+    }
+    public function privacy_en()
+    {
+        return view('privacy.en');
+    }
+    public function manual()
+    {
+        return view('web.manual');
     }
 }

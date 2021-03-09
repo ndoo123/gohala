@@ -199,3 +199,7 @@ Route::group(['middleware'=>'auth'],function(){
 
 
 });
+
+Route::get('privacy/th','HomeController@privacy_th');
+Route::get('privacy/en','HomeController@privacy_en');
+Route::get('manual','HomeController@manual');

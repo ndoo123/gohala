@@ -38,6 +38,16 @@ class MShopController extends Controller
     //    dd($data);
        return view('manage.shop.shops',$data);
    }
+    public function change_shop_status(Request $r)
+    {
+        // dd($r->all());
+        $shop = Shop::find($r->shop_id);
+        if(!$shop)
+            return ['result' => 0, 'msg' => 'ไม่พบร้านค้า'];
+        $shop->is_open = $r->is_open;
+        $shop->save();
+        return ['result' => 1];
+    }
     public function shop_create(Request $r)
     {
     

@@ -63,6 +63,10 @@ $(document).on('click','.order_detail',function(){
             var body = modal.find('.col-4');
             var append2 = '';
             append2 += '<h5> Order # ' + order.id + '</h5>';
+            if(order.shipping_code != null)
+            {
+                append2 += '<h5> เลขพัศดุ - ' + order.shipping_code + '</h5>';
+            }
             append2 += '<hr>';
             append2 += '<div id="accordion">';
                 append2 += '<div class="card mb-1">';

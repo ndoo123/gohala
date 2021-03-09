@@ -90,7 +90,7 @@
                                                                             </tr>
                                                                             <tr>
                                                                                 <td class="esd-block-text es-p10l" align="center">
-                                                                                    <p style="color: #242424;">สวัสดี {{ $owner->name }}, คุณมีออเดอร์ใหม่เลขที่ № {{ $order->id }}.<br></p>
+                                                                                    <p style="color: #242424;">สวัสดี {{ $deli->name }}, คุณมีหมายเลขคำสั่งซื้อใหม่เลขที่ № {{ $order->id }}.<br></p>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>

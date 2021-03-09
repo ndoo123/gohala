@@ -21,16 +21,28 @@ met.baseurl = location.origin;
         }, false);
         });
     }, false);
-    })();
-
+})();
+getSubDomain();
+function getSubDomain()
+{
+    var array = window.location.host.split('.');
+    // console.log(array);
+    // console.log(array.length);
+    if(array.length == 3)
+    {
+        // console.log('Met getSubDomain()');
+        // console.log(array[0]);
+        return array[0];
+    }
+    return null;
+}
 // Object.keys(obj).forEach(function (item) {
 //     console.log(item); // key
 //     console.log(obj[item]); // value
 // });
-$(document).on('change','.only-one',function(){
-    $('input:checkbox.only-one').not(this).prop('checked', false);
-    // console.log($('input:checkbox.only-one'));
-    
+$(document).on('change','.check_one',function(){
+    $('input:checkbox.check_one').not(this).prop('checked', false);
+    // console.log($('input:checkbox.check_one'));
 });
 // console.log(met.baseurl);
 function formToObj(form)

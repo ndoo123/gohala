@@ -115,6 +115,7 @@ class LoginController extends Controller
     }
     public function register(Request $r)
     {
+        // dd($r->all());
         if($r->email=="" || $r->name=="" || $r->password=="" || $r->password_confirm=="")
         return LKS::o(0,__('auth.please_enter_data'));
 
@@ -146,8 +147,7 @@ class LoginController extends Controller
 
         \Auth::login($u);
         
-
-        return redirect()->back()->with('success','ส่งยืนยัน Email ไปเรียบร้อยแล้ว');
+        // return redirect()->back()->with('success','ส่งยืนยัน Email ไปเรียบร้อยแล้ว');
 
          if(isset($r->redirect))
         return LKS::o(1,array('redirect'=>$r->redirect));

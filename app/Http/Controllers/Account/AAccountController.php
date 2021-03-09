@@ -36,6 +36,7 @@ class AAccountController extends Controller
    }
    public function profile(Request $r)
    {
+    //  dd($_SERVER['REQUEST_METHOD'],!empty($_SERVER['HTTP_X_REQUESTED_WITH']),Auth::guard());
       $data['user']=\Auth::user();
       $data['address']=\Auth::user()->address;
       $data['provinces']=\DB::table('province_tb')->get();
@@ -136,7 +137,7 @@ class AAccountController extends Controller
         $notify = new Notify();
         if(!empty($order->buyer_user_id))
           $notify->user_id = $order->buyer_user_id;
-        $notify->shop_id = $order->buyer_user_id;
+        $notify->shop_id = $order->shop_id;
         $notify->order_id = $order->id;
         $notify->event_id = 2;
         $notify->info = 'ชำระบิลเลขที่ '.$order->id.' ธนาคาร: '.$orderTranfer->bank_name.' หมายเลขบัญชี: '. $orderTranfer->account_no .' โดย '.\Auth::user()->name;
@@ -235,7 +236,7 @@ class AAccountController extends Controller
             
 
             $message->to($user->email)->subject("ยืนยันอีเมล์")
-            ->setBody('กรุณายืนยันอีเมล์เพื่อใช้งาน ณ '.date('วันที่ d เดือน m ปี Y เวลา H:i:s').'<br><a href="'.LKS::url_subdomain('account','').'/email/verify?email='.$user->email.'&code='.$user->email_verify_code.'">ยืนยัน</a>','text/html');
+            ->setBody('<a href="'.LKS::url_subdomain('','').'"><img src="https://gohala.com/assets/images/logo-dark.png"></a><br>กรุณายืนยันอีเมล์เพื่อใช้งาน ณ '.date('วันที่ d เดือน m ปี Y เวลา H:i:s').'<br><a href="'.LKS::url_subdomain('account','').'/email/verify?email='.$user->email.'&code='.$user->email_verify_code.'">คลิกเพื่อยืนยันอีเมล</a>','text/html');
         });
 
         return redirect()->back()->with('success','ส่งยืนยัน Email ไปเรียบร้อยแล้ว');

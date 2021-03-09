@@ -51,6 +51,10 @@
                                     <label for="name_contact">ชื่อ-สกุล<span style="color:red">*</span></label>
                                     <input type="text" class="form-control" placeholder="" name="name_contact" id="name_contact" value="{{ !empty($address_default->name_contact)?$address_default->name_contact:'' }}" required>
                                 </div>
+                                <div class="col-12 form-group">
+                                    <label for="email">อีเมล<span style="color:red">*</span></label>
+                                    <input type="text" class="form-control" placeholder="" id="email" name="email" value="{{ !empty($user->email)?$user->email:'' }}" required>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="name_address">ชื่ออาคาร<span style="color:red">*</span></label>
@@ -160,14 +164,19 @@
                     <ul>
                         @if(!empty($payment_methods))
                         @foreach($payment_methods as $pay)
-                        <li>
-                            <label class="container_radio">{{ $pay->name }}
-                                {{-- <a href="#0" class="info" data-toggle="modal" data-target="#payments_method"></a> --}}
-                                <input type="radio" name="payment" id="payment" value="{{ $pay->method_id }}" required>
-                                <span class="checkmark"></span>
-                            </label>
-                        </li>
-                        @endforeach
+                            <?php
+                            $disabled = '';
+                            // if($pay->method_id == 3 && empty($user))
+                            //     $disabled = 'disabled';
+                            ?>
+                            <li>
+                                <label class="container_radio">{{ $pay->name }}
+                                    {{-- <a href="#0" class="info" data-toggle="modal" data-target="#payments_method"></a> --}}
+                                    <input type="radio" name="payment" id="payment" value="{{ $pay->method_id }}" required {{ $disabled }}>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </li>
+                            @endforeach
                         @endif
                     </ul>
                     <div class="payment_info d-none d-sm-block">

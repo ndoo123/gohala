@@ -12,6 +12,7 @@ class Notify extends Model
         1 => 'คำสั่งซื้อใหม่',
         // 1 => 'มีออเดอร์ใหม่',
         2 => 'การชำระเงินโอน',
+        3 => 'ออเดอร์จัดส่งสำเร็จ',
     ];
     public function getCreatedShowAttribute(){
         return date("d/m/Y H:i:s",strtotime($this->created_at));

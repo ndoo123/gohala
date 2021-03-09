@@ -1,0 +1,342 @@
+@charset "UTF-8";
+@-webkit-keyframes typed {
+  /* string 1, char 1 */
+  0%, 0.2737252747% {
+    content: " ";
+  }
+  /* string 1, char 2 */
+  0.2747252747%, 0.5484505495% {
+    content: " ❝";
+  }
+  /* string 1, char 3 */
+  0.5494505495%, 0.8231758242% {
+    content: " ❝ ";
+  }
+  /* string 1, char 4 */
+  0.8241758242%, 1.0979010989% {
+    content: " ❝ ส";
+  }
+  /* string 1, char 5 */
+  1.0989010989%, 1.3726263736% {
+    content: " ❝ สม";
+  }
+  /* string 1, char 6 */
+  1.3736263736%, 1.6473516484% {
+    content: " ❝ สมั";
+  }
+  /* string 1, char 7 */
+  1.6483516484%, 1.9220769231% {
+    content: " ❝ สมัค";
+  }
+  /* string 1, char 8 */
+  1.9230769231%, 2.1968021978% {
+    content: " ❝ สมัคร";
+  }
+  /* string 1, char 9 */
+  2.1978021978%, 2.4715274725% {
+    content: " ❝ สมัครว";
+  }
+  /* string 1, char 10 */
+  2.4725274725%, 2.7462527473% {
+    content: " ❝ สมัครวั";
+  }
+  /* string 1, char 11 */
+  2.7472527473%, 3.020978022% {
+    content: " ❝ สมัครวัน";
+  }
+  /* string 1, char 12 */
+  3.021978022%, 3.2957032967% {
+    content: " ❝ สมัครวันน";
+  }
+  /* string 1, char 13 */
+  3.2967032967%, 3.5704285714% {
+    content: " ❝ สมัครวันนี";
+  }
+  /* string 1, char 14 */
+  3.5714285714%, 3.8451538462% {
+    content: " ❝ สมัครวันนี้";
+  }
+  /* string 1, char 15 */
+  3.8461538462%, 4.1198791209% {
+    content: " ❝ สมัครวันนี้ ";
+  }
+  /* string 1, char 16 */
+  4.1208791209%, 4.3946043956% {
+    content: " ❝ สมัครวันนี้ ใ";
+  }
+  /* string 1, char 17 */
+  4.3956043956%, 4.6693296703% {
+    content: " ❝ สมัครวันนี้ ใช";
+  }
+  /* string 1, char 18 */
+  4.6703296703%, 4.9440549451% {
+    content: " ❝ สมัครวันนี้ ใช้";
+  }
+  /* string 1, char 19 */
+  4.9450549451%, 5.2187802198% {
+    content: " ❝ สมัครวันนี้ ใช้ฟ";
+  }
+  /* string 1, char 20 */
+  5.2197802198%, 5.4935054945% {
+    content: " ❝ สมัครวันนี้ ใช้ฟร";
+  }
+  /* string 1, char 21 */
+  5.4945054945%, 5.7682307692% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรี";
+  }
+  /* string 1, char 22 */
+  5.7692307692%, 6.042956044% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีต";
+  }
+  /* string 1, char 23 */
+  6.043956044%, 6.3176813187% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตล";
+  }
+  /* string 1, char 24 */
+  6.3186813187%, 6.5924065934% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอ";
+  }
+  /* string 1, char 25 */
+  6.5934065934%, 6.8671318681% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอด";
+  }
+  /* string 1, char 26 */
+  6.8681318681%, 7.1418571429% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอดไ";
+  }
+  /* string 1, char 27 */
+  7.1428571429%, 7.4165824176% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอดไป";
+  }
+  /* string 1, char 28 */
+  7.4175824176%, 7.6913076923% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอดไป ";
+  }
+  /* string 1, char 29 */
+  7.6923076923%, 7.966032967% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอดไป ❞";
+  }
+  /* string 1, char 30 */
+  7.967032967%, 90.8781208791% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอดไป ❞ ";
+  }
+  /* string 1, char 31 */
+  /* string 1, char 32 */
+  /* string 1, char 33 */
+  /* string 1, char 34 */
+  /* string 1, char 35 */
+  /* string 1, char 36 */
+  /* string 1, char 37 */
+  /* string 1, char 38 */
+  /* string 1, char 39 */
+  /* string 1, char 40 */
+  /* string 1, char 41 */
+  /* string 1, char 42 */
+  /* string 1, char 43 */
+  /* string 1, char 44 */
+  /* string 1, char 45 */
+  /* string 1, char 46 */
+  /* string 1, char 47 */
+  /* string 1, char 48 */
+  /* string 1, char 49 */
+  /* string 1, char 50 */
+  /* string 1, char 51 */
+  /* string 1, char 52 */
+  /* string 1, char 53 */
+  /* string 1, char 54 */
+  /* string 1, char 55 */
+  /* string 1, char 56 */
+  /* string 1, char 57 */
+  /* string 1, char 58 */
+  /* string 1, char 59 */
+  /* string 1, char 60 */
+  97.2527472527%, 100% {
+    content: "​";
+  }
+}
+@keyframes typed {
+  /* string 1, char 1 */
+  0%, 0.2737252747% {
+    content: " ";
+  }
+  /* string 1, char 2 */
+  0.2747252747%, 0.5484505495% {
+    content: " ❝";
+  }
+  /* string 1, char 3 */
+  0.5494505495%, 0.8231758242% {
+    content: " ❝ ";
+  }
+  /* string 1, char 4 */
+  0.8241758242%, 1.0979010989% {
+    content: " ❝ ส";
+  }
+  /* string 1, char 5 */
+  1.0989010989%, 1.3726263736% {
+    content: " ❝ สม";
+  }
+  /* string 1, char 6 */
+  1.3736263736%, 1.6473516484% {
+    content: " ❝ สมั";
+  }
+  /* string 1, char 7 */
+  1.6483516484%, 1.9220769231% {
+    content: " ❝ สมัค";
+  }
+  /* string 1, char 8 */
+  1.9230769231%, 2.1968021978% {
+    content: " ❝ สมัคร";
+  }
+  /* string 1, char 9 */
+  2.1978021978%, 2.4715274725% {
+    content: " ❝ สมัครว";
+  }
+  /* string 1, char 10 */
+  2.4725274725%, 2.7462527473% {
+    content: " ❝ สมัครวั";
+  }
+  /* string 1, char 11 */
+  2.7472527473%, 3.020978022% {
+    content: " ❝ สมัครวัน";
+  }
+  /* string 1, char 12 */
+  3.021978022%, 3.2957032967% {
+    content: " ❝ สมัครวันน";
+  }
+  /* string 1, char 13 */
+  3.2967032967%, 3.5704285714% {
+    content: " ❝ สมัครวันนี";
+  }
+  /* string 1, char 14 */
+  3.5714285714%, 3.8451538462% {
+    content: " ❝ สมัครวันนี้";
+  }
+  /* string 1, char 15 */
+  3.8461538462%, 4.1198791209% {
+    content: " ❝ สมัครวันนี้ ";
+  }
+  /* string 1, char 16 */
+  4.1208791209%, 4.3946043956% {
+    content: " ❝ สมัครวันนี้ ใ";
+  }
+  /* string 1, char 17 */
+  4.3956043956%, 4.6693296703% {
+    content: " ❝ สมัครวันนี้ ใช";
+  }
+  /* string 1, char 18 */
+  4.6703296703%, 4.9440549451% {
+    content: " ❝ สมัครวันนี้ ใช้";
+  }
+  /* string 1, char 19 */
+  4.9450549451%, 5.2187802198% {
+    content: " ❝ สมัครวันนี้ ใช้ฟ";
+  }
+  /* string 1, char 20 */
+  5.2197802198%, 5.4935054945% {
+    content: " ❝ สมัครวันนี้ ใช้ฟร";
+  }
+  /* string 1, char 21 */
+  5.4945054945%, 5.7682307692% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรี";
+  }
+  /* string 1, char 22 */
+  5.7692307692%, 6.042956044% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีต";
+  }
+  /* string 1, char 23 */
+  6.043956044%, 6.3176813187% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตล";
+  }
+  /* string 1, char 24 */
+  6.3186813187%, 6.5924065934% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอ";
+  }
+  /* string 1, char 25 */
+  6.5934065934%, 6.8671318681% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอด";
+  }
+  /* string 1, char 26 */
+  6.8681318681%, 7.1418571429% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอดไ";
+  }
+  /* string 1, char 27 */
+  7.1428571429%, 7.4165824176% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอดไป";
+  }
+  /* string 1, char 28 */
+  7.4175824176%, 7.6913076923% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอดไป ";
+  }
+  /* string 1, char 29 */
+  7.6923076923%, 7.966032967% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอดไป ❞";
+  }
+  /* string 1, char 30 */
+  7.967032967%, 90.8781208791% {
+    content: " ❝ สมัครวันนี้ ใช้ฟรีตลอดไป ❞ ";
+  }
+  /* string 1, char 31 */
+  /* string 1, char 32 */
+  /* string 1, char 33 */
+  /* string 1, char 34 */
+  /* string 1, char 35 */
+  /* string 1, char 36 */
+  /* string 1, char 37 */
+  /* string 1, char 38 */
+  /* string 1, char 39 */
+  /* string 1, char 40 */
+  /* string 1, char 41 */
+  /* string 1, char 42 */
+  /* string 1, char 43 */
+  /* string 1, char 44 */
+  /* string 1, char 45 */
+  /* string 1, char 46 */
+  /* string 1, char 47 */
+  /* string 1, char 48 */
+  /* string 1, char 49 */
+  /* string 1, char 50 */
+  /* string 1, char 51 */
+  /* string 1, char 52 */
+  /* string 1, char 53 */
+  /* string 1, char 54 */
+  /* string 1, char 55 */
+  /* string 1, char 56 */
+  /* string 1, char 57 */
+  /* string 1, char 58 */
+  /* string 1, char 59 */
+  /* string 1, char 60 */
+  97.2527472527%, 100% {
+    content: "​";
+  }
+}
+@-webkit-keyframes beam-blink {
+  75% {
+    border-color: transparent;
+  }
+}
+@keyframes beam-blink {
+  75% {
+    border-color: transparent;
+  }
+}
+#text_run {
+  font-size: calc(10px + 2vw);
+  color: #0e81b3;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+#text_run::after {
+  content: "​";
+  position: relative;
+  top: -13px;
+  display: inline-block;
+  text-shadow: 0 0 1px rgba(51, 51, 255, 0.75);
+  white-space: nowrap;
+  -webkit-animation: typed 36.4s linear 1s infinite, beam-blink 1s infinite;
+          animation: typed 36.4s linear 1s infinite, beam-blink 1s infinite;
+}
+@media (max-width: 575px) {
+  #text_run::after {
+    top: -33px;
+  }
+}
