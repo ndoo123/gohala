@@ -51,11 +51,12 @@ class PPosController extends Controller
     {
         if(strpos($sku, "*")){
             $idx = explode("*",$sku);
-            $sku = $idx[1];
-            $num = $idx[0];
+            $sku = $idx[0];
+            $num = $idx[1];
         }else{
             $num = 1;
         }
+        // dd($shopid,$sku,strpos($sku, "*"),$num);
 
         //$pro = TbProduct::where('p_id',$id)->first();
         $pro = Product::where('shop_id','=',$shopid)
@@ -69,7 +70,7 @@ class PPosController extends Controller
                 ->where('status','1')
                 ->first();
         }
-
+        // dd($pro,$shopid,$sku);
         if($pro->is_discount == '0'){
             $price = $pro->price;
         }elseif($pro->is_discount == '1'){
@@ -326,8 +327,8 @@ class PPosController extends Controller
                     ->where('shop_category_product_tb.category_id', '=', $id)
                     ->get();
             
-            // dd($data);
         }       
+        // dd($id == '0',$data);
         
         return view('pos.pos_product',[
             'shop'=>$shop,

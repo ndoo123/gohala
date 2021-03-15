@@ -62,7 +62,7 @@ class ShopController extends Controller
     {
         // dd($r->all());
         $collection = Product::
-        where("shop_id",$r->data['shop']->id);
+        where("shop_id",$r->data['shop']->id)->orderBy('position','asc');
         if(!empty($r->cat))
         {
             $collection = ShopCat::where('shop_id',$r->data['shop']->id)
@@ -79,8 +79,8 @@ class ShopController extends Controller
         }
         // dd($collection->get());
         $count = $collection->count();
-        $collection = $collection->orderBy('position','asc')->paginate($count);
-        // $collection = $collection->paginate(30);
+        // $collection = $collection->orderBy('position','asc')->paginate($count);
+        $collection = $collection->paginate(30);
         // dd($r->all(),!empty($r->cat));
         // dd($r->cat,$count,$collection);
         // dd($collection->get());
