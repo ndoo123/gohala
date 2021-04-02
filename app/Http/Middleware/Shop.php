@@ -15,7 +15,7 @@ class Shop
      */
     public function handle($r, Closure $next)
     {
-        // dd($r->all());
+        // dd($r->all(),'shop.php');
         if(!isset($r->shop_url))
         return redirect()->back()->with('error',__('view.shop_id_not_found'));
         $shop=\App\Models\Shop::where("url",$r->shop_url)->first();

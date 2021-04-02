@@ -352,6 +352,7 @@ class MShopController extends Controller
     }
    public function shop_manage(Request $r)
    {
+    //    dd('MShopController@shop_manage',$r->all());
         $data['shop']=$r->shop;
     //    $data['orders'] = \DB::table('order_tb')
     //                 ->join('order_item_tb', 'order_item_tb.order_id', 'order_tb.id')

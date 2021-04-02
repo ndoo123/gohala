@@ -210,7 +210,7 @@ class HomeController extends Controller
         $data['url'] = url('').'/'.$data['shop']->url;
         $data['url_current'] = $data['url'].'/checkout';
         $data['url_submit'] = $data['url'].'/checkout/process';
-        // dd($data['payment_methods']);
+        // dd($r->all(),$data);
         // dd($data,$data['shop']->shop_payment_tranfer());
         // dd($data['user_address'],$data['address_default']);
         return view('web.home.checkout',$data);

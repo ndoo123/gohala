@@ -25,7 +25,7 @@ class EditOrderDeliveryTbAddEmail extends Migration
      */
     public function down()
     {
-		if (Schema::hasColumn('order_delivery_tb', 'receipt_note')) {
+		if (Schema::hasColumn('order_delivery_tb', 'email')) {
             Schema::table('order_delivery_tb', function (Blueprint $table) {
 				$table->dropColumn('email');
             });

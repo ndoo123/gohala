@@ -138,6 +138,7 @@
 							</li>
 							<li>
 								<div class="dropdown dropdown-access">
+									<?php $user = \Auth::check() ? \Auth::user() : null ?>
 									@if (!empty($user))
 										
 										<a href="#" class="">
@@ -149,7 +150,6 @@
 										</a>
 									@endif
 									<div class="dropdown-menu">
-
 										@if(empty($user))
 											<a href="#" class="btn_login btn_1">Sign In or Sign Up</a>
 										@endif
