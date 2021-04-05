@@ -1,4 +1,8 @@
 @extends('web.ecommerce.master')
+{{-- @section('meta')
+<title></title>
+<meta>
+@endsection --}}
 @section('content')
 <div class="main_title">
 	<h2><?php echo $shop->name;?></h2>

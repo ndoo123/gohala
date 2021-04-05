@@ -45,7 +45,7 @@ class ShopController extends Controller
        $data= $r->data;
        $data['product']=$product;
        $data['link'] = $data['product']->id.',1,"'.$data['shop']->url.'"';
-        // dd($data['product'],'add_to_cart('.$data['link'].')');
+        // dd($data['product'],'add_to_cart('.$data['link'].')',$data);
         return view('web.ecommerce.product',$data);
     }
     public function cart(Request $r)

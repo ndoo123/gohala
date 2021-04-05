@@ -91,7 +91,7 @@
                          <div class="col-12">
                              <div class="form-group">
                                 <label>Title</label>
-                                <input type="text" value="{{ $product->metaTitle }}" name="metaTitle"  class="form-control">
+                                <input type="text" value="{{ $product->metaTitle }}" name="metaTitle"  class="form-control" maxlength="60">
                             </div>
                         </div>
 
@@ -111,7 +111,7 @@
                          <div class="col-12">
                              <div class="form-group">
                                 <label>Descriptions</label>
-                                <textarea maxlength="2000" name="metaDescription" class="form-control" rows="5">{{ $product->metaDescription }}</textarea>
+                                <textarea maxlength="150" name="metaDescription" class="form-control" rows="5">{{ $product->metaDescription }}</textarea>
                             </div>
                         </div>
 

@@ -1,4 +1,17 @@
 @extends('web.ecommerce.master')
+@section('meta')
+<title>{{ !empty($product->metaTitle) ? $product->metaTitle : 'Gohala' }}</title>
+<link rel="canonical" href="{{ !empty($shop) ? url($shop->url) : url('') }}" /> 
+@php
+$metaKeywords = '';
+if(!empty($product->metaKeywords))
+{
+    $metaKeywords = implode(',',json_decode($product->metaKeywords));
+}
+@endphp
+<meta name=“keywords” content="{{ $metaKeywords }}" />
+<meta name="description" content="{{ !empty($product->metaDescription) ? $product->metaDescription : '' }}">
+@stop
 @section('content')
 <div class="row">
     <div class="col-md-6">
