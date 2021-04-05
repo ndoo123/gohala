@@ -1,8 +1,8 @@
 @extends('web.ecommerce.master')
-{{-- @section('meta')
-<title></title>
+@section('meta')
+<title>{{ !empty($shop) ? strtoupper($shop->url) : 'Gohala' }}</title>
 <meta>
-@endsection --}}
+@endsection
 @section('content')
 <div class="main_title">
 	<h2><?php echo $shop->name;?></h2>
