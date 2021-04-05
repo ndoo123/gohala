@@ -98,15 +98,20 @@
                          <div class="col-12">
                              <div class="form-group">
                                 <label>Keywords</label>
-                                <input type="text" value="{{ $product->metaKeywords }}" name="metaKeywords"  class="form-control">
+                                {{-- <input type="text" value="{{ $product->metaKeywords }}" name="metaKeywords"  class="metaKeywords form-control"> --}}
+                                <select name="metaKeywords[]" class="metaKeywords form-control" multiple="multiple">
+                                    @if(!empty($product->metaKeywords))
+                                        @foreach(json_decode($product->metaKeywords) as $key => $val)
+                                        <option value="{{ $val }}" selected>{{ $val }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
                             </div>
                         </div>
                          <div class="col-12">
                              <div class="form-group">
                                 <label>Descriptions</label>
-                                <textarea maxlength="2000" name="metaDescription" class="form-control" rows="5"> 
-                                    {{ $product->metaDescription }}
-                                </textarea>
+                                <textarea maxlength="2000" name="metaDescription" class="form-control" rows="5">{{ $product->metaDescription }}</textarea>
                             </div>
                         </div>
 
@@ -265,14 +270,16 @@
 </form>
 @stop
 @section('css')
-<link href="<?php echo url('assets/manage/css/pages/product.css');?>" rel="stylesheet" type="text/css">
+<link href="{{ url('assets/manage/css/pages/product.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ url('assets/js/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css">
 @stop
 @section('js')
 
 
-<script src="<?php echo url('assets/js/plugins/dropzone/dist/dropzone.js');?>"></script>
-
+<script src="{{ url('assets/js/plugins/dropzone/dist/dropzone.js') }}"></script>
+<script src="{{ url('assets/js/plugins/select2/js/select2.min.js') }}"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="<?php echo url('assets/manage/js/pages/shop/product/product_view.js');?>"></script>
+
+<script src="{{ url('assets/manage/js/pages/shop/product/product_view.js') }}"></script>
 
 @stop

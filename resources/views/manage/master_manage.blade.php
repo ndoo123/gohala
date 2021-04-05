@@ -36,15 +36,16 @@
         </style>
         <?php
 
-        $url = url('');
-        $arr_url = explode('.',$url);
-        $extend = end($arr_url);
-        // dd($url,$arr_url,$extend);
-        if($extend == 'com')
-        {
-            echo '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">';
-        }
+        // $url = url('');
+        // $arr_url = explode('.',$url);
+        // $extend = end($arr_url);
+        // // dd($url,$arr_url,$extend);
+        // if($extend == 'com')
+        // {
+        //     echo '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">';
+        // }
         ?>
+        {{ !empty(env('META_SECURE','')) ? '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">' : '' }}
     </head>
 
     <body>

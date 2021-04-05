@@ -1,4 +1,8 @@
-
+// $(".metaKeywords").select2();
+$(".metaKeywords").select2({
+    tags: true,
+    tokenSeparators: [',', ' ']
+});
 $( "#image_area" ).sortable();
 function allow_file(file)
 {

@@ -181,7 +181,10 @@ class MShopController extends Controller
         $p->status=1;
         $p->is_pos=1;
         $p->is_ecom=1;
-       
+        
+        $p->metaTitle = $r->metaTitle;
+        $p->metaKeywords = !empty($r->metaKeywords) ? json_encode($r->metaKeywords) : '';
+        $p->metaDescription = $r->metaDescription;
        $has_check_default_image=false;
        \DB::beginTransaction();
         try

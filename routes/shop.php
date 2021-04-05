@@ -1,5 +1,8 @@
 <?php
 
+	// Route::get('/',function(){
+	// 	dd('shop.php');
+	// });
 	Route::get('/','ShopController@home');
 	Route::get('product/{product_id}','ShopController@product_view');
 

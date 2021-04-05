@@ -32,7 +32,7 @@ class ShopController extends Controller
             $output[$key] = $data;
         }
         // dd($output,\Cart::get_cart());
-        // dd($output,\Auth::user());
+        // dd($output,\Auth::user(),$r->data);
         return view('web.ecommerce.shop',$output);
     }
     public function product_view(Request $r)

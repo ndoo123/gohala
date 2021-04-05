@@ -11,6 +11,9 @@
 |
 */
 
+// Route::get('/', function(){
+//     dd("MDashboardController@dashboard");
+// });
 Route::get('/', "MDashboardController@dashboard");
 Route::get('dashboard', "MDashboardController@dashboard");
 
