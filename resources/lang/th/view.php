@@ -79,7 +79,8 @@ return [
         'discount_on'=>'ใช้ส่วนลด',
         'sku_exists'=>'SKU มีในระบบแล้ว',
         'api'=>'จัดการราคา Api Third Party',
-        
+        'seo_tag'=>'Seo Tag',
+        'keywords_text'=>'ใส่คีย์เวิร์ดเพื่อใช้ในการค้นหา',
     ]
 
 ];

@@ -81,6 +81,38 @@
                     <br><br><span class="text-muted">กดที่รูป <i class="fas fa-star"></i> เพื่อตั้งค่าให้เป็นรูปหลัก</span>
                 </div>
             </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="mt-0 text-primary header-title">{{ __('view.product.seo_tag') }}</h4>
+                    <p class="text-muted">{{ __('view.product.keywords_text') }}</p>
+                    <div class="row">
+
+                         <div class="col-12">
+                             <div class="form-group">
+                                <label>Title</label>
+                                <input type="text" value="{{ $product->metaTitle }}" name="metaTitle"  class="form-control">
+                            </div>
+                        </div>
+
+                         <div class="col-12">
+                             <div class="form-group">
+                                <label>Keywords</label>
+                                <input type="text" value="{{ $product->metaKeywords }}" name="metaKeywords"  class="form-control">
+                            </div>
+                        </div>
+                         <div class="col-12">
+                             <div class="form-group">
+                                <label>Descriptions</label>
+                                <textarea maxlength="2000" name="metaDescription" class="form-control" rows="5"> 
+                                    {{ $product->metaDescription }}
+                                </textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
             
         </div> <!-- end col -->
          <div class="col-4">
