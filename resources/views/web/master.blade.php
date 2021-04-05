@@ -148,6 +148,9 @@
     </div>
   </footer><!-- End Footer -->
 
+  {{-- start plugin messager --}}
+  <div class="fb-customerchat" page_id="346672293114200"> logged_in_greeting="สอบถามเพิ่มเติม ?" logged_out_greeting="สอบถามเพิ่มเติม"</div> 
+  {{-- end --}}
   <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
   <div id="preloader"></div>
 
@@ -170,6 +173,26 @@
 </html>
 
 <script>
+
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '2524662764512771',
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: 'v7.0'
+        });
+    };
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
 $(window).resize(function () {
     if ($(window).width() < 992) {
       // $("#banner").css({"border": "20px solid black", "top":"-1.5rem"});
