@@ -39,6 +39,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapManageRoutes();
         $this->mapAccountRoutes();
         $this->mapPosRoutes();
+        $this->mapAdmintRoutes();
         $this->mapWebRoutes();
         $this->mapShopRoutes();
         //
@@ -99,5 +100,13 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware(['web','auth'])
              ->namespace("App\Http\Controllers\Pos")
              ->group(base_path('routes/pos.php'));
+    }
+    protected function mapAdmintRoutes()
+    {
+        // dd(2,base_path('routes/admin.php'),$this->namespace,'admin.'.env('APP_DOMAIN'));
+        Route::domain('admin.'.env('APP_DOMAIN'))
+             ->middleware('web')
+             ->namespace("App\Http\Controllers\Admin")
+             ->group(base_path('routes/admin.php'));
     }
 }
