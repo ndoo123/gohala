@@ -3,8 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
+use Illuminate\Http\Request;
 use App\Models\Shop;
+use App\Models\User;
+use Datatables;
+
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductSlug;
+use App\Models\ProductPhoto;
+use App\Models\ProductCategory;
+use App\Models\Province;
+use App\Models\ShopDelivery;
+use App\Models\ShopPayment;
+
+use LKS;
 
 class AdminController extends Controller
 {
@@ -12,11 +25,203 @@ class AdminController extends Controller
    {
        return view('admin.dashboard.dashboard');
    }
-
-   public function info_shop()
+   //  admin shop ทั้งหมด
+   public function info_shop(Request $r)
    {
-        $output['shops'] = Shop::all();
-        // dd($output);
-        return view('admin.test.test_ex',$output);    
+     // $output['shops']=Shop::where("url",$r->shops_url)->first();
+     // if(!$output)
+     // return redirect('error_404');
+
+     // $data['shops']=$output;
+     $data['shops'] = Shop::all();
+     // $data['remote_url'] = url('shop/datatables');
+     return view('admin.shops.shop',$data);    
    }
+   public function shop_datatables(Request $r)
+   {
+     $data['shops'] = Shop::all();
+     //    $data['remote_url'] = url('shop/datatables');
+     return Datatables::of($data['shops'])->make(true);
+   }
+
+
+   // admin user ทั้งหมด
+   public function info_user(Request $r)
+   {
+     $data['users'] = User::all();
+     // $data['remote_url'] = url('shop/datatables');
+     return view('admin.users.user',$data);    
+   }
+   public function user_datatables(Request $r)
+   {
+     $data['users'] = User::all();
+     //    $data['remote_url'] = url('shop/datatables');
+     return Datatables::of($data['users'])->make(true);
+   }
+   public function edit_user(Request $r)
+   {
+     return view('admin.users.edit_user');
+   }
+
+
+//    public function edit_shop(Request $r)
+//    {
+       
+//      $data['shop']=$r->shop;
+//      $data['provinces']=Province::all();
+//      $data['ship_method_tb']=\DB::table('ship_method_tb')->get();
+//      $data['shop_shippings']=ShopDelivery::where("shop_id",$r->shop->id)->get();
+//      $data['payment_methods']=\DB::table('payment_method_tb')->where('id','!=',1)->get();
+//      $data['shop_payment_methods']=ShopPayment::where("shop_id",$r->shop->id)->get();
+//      $data['url'] = url($r->shop->url);
+//      $data['current_url'] = $data['url'].'/settings';
+//      // dd($data);
+//      return view('admin.shops.edit_shop',$data);
+//    }
+//    public function settings_change_profile(Request $r)
+//    {
+//     //    $path = storage_path('app/public/').strtotime(date('his')).'_'.uniqid();
+//         // dd($r->all(),storage_path('app/uploads/shop_profile'),storage_path('app/uploads/shop_profile/'),!empty($path) ? $path : null ,$r->profile_image->getClientOriginalName());
+//         // dd($r->all());
+//         // $vali = $this->validate($r,[
+//         //     'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+//         // ]);
+//         try{
+//             if(!empty($r->profile_image))
+//             {
+//                 $image_base64 = \Met::base64_to_image($r->profile_image);
+//                 $path=storage_path('app/uploads/shop_profile/');
+//                 \Met::make_dir($path); // สร้าง path ที่มี sub ด้วย
+//                 $name = $r->shop->id;
+//                 file_put_contents($path.$name, $image_base64);
+//                 // $r->profile_image->move($path,$name);
+//             }
+//             $shop = Shop::find($r->shop->id);
+//             $img = null;
+//             if($shop)
+//             {
+//                 $img = $shop->get_photo();
+//             }
+//             // dd($img);
+//             return json_encode(['result'=>1,'msg'=>'เปลี่ยนรูปโปรไฟล์ร้านสำเร็จ','img'=>$img]);
+//         }
+//         catch(\Exception $e)
+//         {
+//             return json_encode(['result'=>0,'msg'=>'on line: '.$e->getLine().' Message: '.$e->getMessage()]);
+//         }
+//    }
+//    public function setting_info_save_json(Request $r){
+     
+//        if(!isset($r->name)||$r->name=="")
+//        {
+//            return LKS::o(0,"กรุณาระบุชื่อร้าน");
+//        }
+//        $r->shop->phone=$r->phone;
+//        $r->shop->email=$r->email;
+//        $r->shop->name=$r->name;
+//        $r->shop->line=$r->line;
+//        $r->shop->facebook=$r->facebook;
+//        $r->shop->address=$r->address;
+//        $r->shop->province_id=$r->province;
+//        $r->shop->zipcode=$r->zipcode;
+//        $r->shop->tax_id=$r->tax_id;
+
+//        $r->shop->save();
+
+//        return LKS::o(1,"");
+
+//    }
+//    public function setting_delivery_save_json(Request $r)
+//    {
+//     //    dd($r->all()); 
+
+//        foreach($r->ship_cost as $method_id=>$sc)
+//        {
+//            $ship=\DB::table('ship_method_tb')->where('id',$method_id)->first();
+//            if(!$ship)
+//            continue;
+           
+//            $shop_ship=ShopDelivery::where("shop_id",$r->shop->id)->where("shipping_id",$ship->id)->first();
+//            if(!$shop_ship)
+//            {
+//                $shop_ship=new ShopDelivery();
+//                $shop_ship->shipping_id=$ship->id;
+//                $shop_ship->shop_id=$r->shop->id;
+//            }
+
+//             $shop_ship->is_checked=0;
+//            if(isset($r->ship_method[$ship->id]))
+//            $shop_ship->is_checked=1;
+
+//            $shop_ship->ship_cost=0;
+//            if(isset($r->ship_cost[$ship->id]))
+//            $shop_ship->ship_cost=$r->ship_cost[$ship->id];
+
+//            if(!is_numeric($shop_ship->ship_cost))
+//            $shop_ship->ship_cost=0;
+
+//            $shop_ship->cal_type=1;
+//            if(isset($r->ship_cal[$ship->id]))
+//            $shop_ship->cal_type=$r->ship_cal[$ship->id];
+
+//            $shop_ship->save();
+
+         
+
+
+           
+
+//        }
+//          return LKS::o(1,"");
+//    }
+
+//    public function setting_payment_save_json(Request $r){
+//     //    \DB::table('shop_payment_tb')->where('shop_id',$r->shop->id)->delete();
+       
+//        if(isset($r->payment_method))
+//        {
+//         foreach($r->payment_method as $index=>$method_id)
+//         {
+//             $payment=ShopPayment::where("shop_id",$r->shop->id)->where("method_id",$method_id)->first();
+//             if(!$payment)
+//             {
+//                 $payment=new ShopPayment();
+//                 $payment->shop_id=$r->shop->id;
+//                 $payment->method_id=$method_id;
+                
+//             }
+//             $payment->is_checked=0;
+//             if(isset($r->payment_check[$method_id]))
+//             $payment->is_checked=1;
+
+//             $payment->payment_data=null;
+//             if(isset($r->payment_data[$method_id]))
+//             {
+//                 $payment->payment_data=json_encode($r->payment_data[$method_id]);
+//             }
+
+//             $payment->save();
+            
+//         }
+//        }
+
+//        return LKS::o(1,"");
+//    }
+
+//    public function setting_pos_save_json(Request $r){
+     
+//     if(!isset($r->t_recnum))
+//     {
+//         return LKS::o(0,"กรุณาระบุจำนวนใบเสร็จ");
+//     }
+//     $shop=Shop::where("id",$r->shop->id)->first();
+//     $shop->receipt_type=$r->s_receipt;
+//     $shop->receipt_number=$r->t_recnum;
+//     $shop->receipt_note = $r->t_note;
+
+//     $shop->save();
+
+//     return LKS::o(1,"");
+
+//      }
 }

@@ -157,4 +157,5 @@ class ShopController extends Controller
         // dd(1,$r->all());
         return LKS::o(1,array('redirect'=>url('profile')));
     }
+
 }

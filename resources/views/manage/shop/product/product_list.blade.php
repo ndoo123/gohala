@@ -67,7 +67,7 @@
 <!-- Responsive-table-->
 <script src="<?php echo url('assets/js/plugins/sweet-alert2/sweetalert2.all.min.js');?>"></script>
 <script src="<?php echo url('assets/js/plugins/RWD-Table-Patterns/dist/js/rwd-table.min.js');?>"></script>
- <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
+<script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
 
 <script src="<?php echo url('assets/manage/js/pages/shop/product/product.js');?>"></script>
 @stop

@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Gohala - [Admin]ระบบจัดการหลังร้าน</title>
+        <title>Gohala - ระบบจัดการหลังร้าน</title>
         <link rel="shortcut icon" href="<?php echo url('assets/manage/images/favicon.ico');?>">
 
         <link href="<?php echo url('assets/manage/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css">
@@ -18,7 +18,7 @@
         <link href="<?php echo url('assets/manage/css/custom.css');?>" rel="stylesheet" type="text/css">
 
         <link href="<?php echo url('');?>/assets/web/css/custom.css" rel="stylesheet">
-      
+        {{-- <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet"> --}}
         <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="<?php echo url('assets/web/js/plugins/toastr/toastr.min.css');?>">
 
@@ -36,21 +36,27 @@
         </style>
         <?php
 
-        $url = url('');
-        $arr_url = explode('.',$url);
-        $extend = end($arr_url);
-        // dd($url,$arr_url,$extend);
-        if($extend == 'com')
-        {
-            echo '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">';
-        }
+        // $url = url('');
+        // $arr_url = explode('.',$url);
+        // $extend = end($arr_url);
+        // // dd($url,$arr_url,$extend);
+        // if($extend == 'com')
+        // {
+        //     echo '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">';
+        // }
         ?>
+        {{ !empty(env('META_SECURE','')) ? '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">' : '' }}
     </head>
 
     <body>
 
         <!-- Begin page -->
         <div id="wrapper">
+            <input type="hidden" id="manage_url" value="{{ LKS::url_subdomain('manage','') }}">
+            <?php if(isset($shop)):?>
+            <input type="hidden" id="shop_url" value="<?php echo $shop->url;?>">
+            <input type="hidden" id="shop_id" value="<?php echo $shop->id;?>">
+            <?php endif;?>
             <!-- Top Bar Start -->
             <div class="topbar">
 
@@ -76,20 +82,21 @@
                             </a>
                         </li>
 
-                     
+                        {{-- @include('notify') --}}
 
                         <li class="dropdown notification-list list-inline-item">
                             <div class="dropdown notification-list nav-pro-img">
                                 <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                    <img src="<?php echo Auth::user()?Auth::user()->get_photo():url('assets/images/no_user.png');?>" alt="user" class="rounded-circle">
-                                  
+                                    <img src="{{ Auth::user()->get_photo() }}" alt="user" class="rounded-circle">
+                                    {{-- <img src="{{ !empty($shop)?$shop->get_photo():(\Auth::user()->get_photo()?\Auth::user()->get_photo():null) }}" alt="user" class="rounded-circle"> --}}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                     <!-- item-->
-                                    <a class="dropdown-item" href="<?php echo \LKS::url_subdomain('admin','profile');?>"><i class="mdi mdi-account-circle m-r-5"></i> ข้อมูลของฉัน</a>
-                                   
+                                    <a class="dropdown-item" href="<?php echo \LKS::url_subdomain('account','profile');?>"><i class="mdi mdi-account-circle m-r-5"></i> ข้อมูลของฉัน</a>
+                                    <a class="dropdown-item" href="<?php echo \LKS::url_subdomain('manage','shops');?>"><i class="mdi mdi-wallet m-r-5"></i> ร้านค้าของฉัน</a>
+                                
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-danger" href="<?php echo \LKS::url_subdomain('admin','logout');?>"><i class="mdi mdi-power text-danger"></i> ออกจากระบบ</a>
+                                    <a class="dropdown-item text-danger" href="<?php echo \LKS::url_subdomain('account','logout');?>"><i class="mdi mdi-power text-danger"></i> ออกจากระบบ</a>
                                 </div>
                             </div>
                         </li>
@@ -100,7 +107,11 @@
 
             </div>
             <!-- Top Bar End -->
+            <?php if(isset($shop)):?>
+            @include('manage.sidebar_shop_manage')
+            <?php else:?>
             @include('admin.sidebar')
+            <?php endif;?>
 
             <!-- ============================================================== -->
             <!-- Start right Content here -->
@@ -151,11 +162,55 @@
         <script src="<?php echo url('assets/js/plugins/blockUI.js');?>"></script>
         <script src="<?php echo url('assets/js/plugins/currency.min.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
+        <script src="<?php echo url('assets/js/Met.js');?>"></script>
         <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
+        {{-- <script src="{{ url('assets/js/notify.js') }}"></script>  --}}
 
+        {{-- @include('pusher') --}}
         <script>
         var app=new LKS();
-        app.url='<?php echo url('');?>';
+        app.url='<?php echo (isset($shop)?url($shop->url):url(''));?>';
+        
+        // $(document).on('click','.notify-item',function(){ // เปลี่ยนแต่คลิกแต่ละออเดอร์เป็นอ่านแล้ว
+        //     var order_id = $(this).attr('order_id');
+        //     var shop_url = $(this).attr('shop_url');
+        //     var event_id = $(this).attr('event_id');
+        //     var url = get_url()+'/notify_read';
+        //     console.log(url);
+        //     var obj = new Object();
+        //     obj._token = $('meta[name=csrf-token]').attr('content');
+        //     obj.order_id = order_id;
+        //     obj.event_id = event_id;
+        //     // console.log(obj);
+        //     $.ajax({
+        //         url: url,
+        //         type: 'post',
+        //         dataType: 'json',
+        //         data: obj,
+        //         success: function(res){
+        //             console.log(res);
+        //             console.log(window.location);
+        //             console.log('admin');
+        //             if(res.result == 1)
+        //             {
+        //                 var go_location = $("#manage_url").val()+'/'+shop_url+'/order?';
+        //                 if(res.notify.event_id == 1)
+        //                 {
+        //                     go_location += 'order_id='+res.notify.order_id;
+        //                 }
+        //                 else if(res.notify.event_id == 2)
+        //                 {
+        //                     go_location += 'payment_id='+res.notify.order_id;
+        //                 }
+        //                 // window.location.href = go_location;
+        //             }
+        //         }
+        //     });
+        // });
+
+        $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
+            window.location.reload();
+        };
         </script>
 
         @yield('js')

@@ -9,6 +9,13 @@ class Shop extends Model
 {
     protected $table='shop_tb';
 
+    protected $fillable = [
+        'name',
+        'url',
+        'created_at',
+        'updated_at'
+    ];
+    
     public function get_url(){
         return env('APP_URL').'/'.$this->url;
     }

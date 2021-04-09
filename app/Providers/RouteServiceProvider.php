@@ -35,11 +35,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        $this->mapAdmintRoutes();
         $this->mapApiRoutes();
         $this->mapManageRoutes();
         $this->mapAccountRoutes();
         $this->mapPosRoutes();
-        $this->mapAdmintRoutes();
         $this->mapWebRoutes();
         $this->mapShopRoutes();
         //
@@ -103,10 +103,10 @@ class RouteServiceProvider extends ServiceProvider
     }
     protected function mapAdmintRoutes()
     {
-        // dd(2,base_path('routes/admin.php'),$this->namespace,'admin.'.env('APP_DOMAIN'));
+        // dd(2,base_path('routes\admin.php'),$this->namespace,'admin.'.env('APP_DOMAIN'));
         Route::domain('admin.'.env('APP_DOMAIN'))
              ->middleware('web')
              ->namespace("App\Http\Controllers\Admin")
-             ->group(base_path('routes/admin.php'));
+             ->group(base_path('routes\admin.php'));
     }
 }

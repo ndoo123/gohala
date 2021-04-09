@@ -1,15 +1,15 @@
 <?php
 
-$url = "$_SERVER[REQUEST_SCHEME]://$_SERVER[HTTP_HOST]";
-$arr_url = explode('.',$url);
-$extend = end($arr_url);
-// dd($url,$arr_url,$extend);
-$ssl = false;
-if($extend == 'com')
-{
-    $ssl = true;
-    // echo '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">';
-}
+// $url = "$_SERVER[REQUEST_SCHEME]://$_SERVER[HTTP_HOST]";
+// $arr_url = explode('.',$url);
+// $extend = end($arr_url);
+// // dd($url,$arr_url,$extend);
+// $ssl = false;
+// if($extend == 'com')
+// {
+//     $ssl = true;
+//     // echo '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">';
+// }
 return [
 
     /*
@@ -23,7 +23,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'ssl' => $ssl,
+    'ssl' => env('SSL',false),
 
     /*
     |--------------------------------------------------------------------------

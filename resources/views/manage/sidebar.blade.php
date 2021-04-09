@@ -14,7 +14,7 @@
                     </li>
                     <li>
                         <a href="<?php echo url('shops');?>" class="waves-effect">
-                            <i class="ti-home"></i> <span> ร้านของฉัน </span>
+                            <i class="ti-home"></i> <span> ร้านค้าในระบบ </span>
                         </a>
                     </li>
                     

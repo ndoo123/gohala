@@ -82,7 +82,7 @@
                             </a>
                         </li>
 
-                        @include('notify')
+                        {{--@include('notify')--}}
 
                         <li class="dropdown notification-list list-inline-item">
                             <div class="dropdown notification-list nav-pro-img">
@@ -163,13 +163,13 @@
         <script src="<?php echo url('assets/js/plugins/currency.min.js');?>"></script>
         <script src="<?php echo url('assets/js/lks.js');?>"></script>
         <script src="<?php echo url('assets/js/Met.js');?>"></script>
-        <script src="<?php echo url('assets/js/plugins/datatable/jquery.dataTables.min.js');?>"></script>
-        <script src="<?php echo url('assets/js/notify.js');?>"></script> 
+        <script src=" {{ url('assets/js/plugins/datatable/jquery.dataTables.min.js') }}"></script>
+        {{-- <script src="{{ url('assets/js/notify.js') }}"></script>  --}}
 
-        @include('pusher')
+        {{--@include('pusher')--}}
         <script>
         var app=new LKS();
-        app.url='<?php echo (isset($shop)?url($shop->url):url(''));?>';
+        // app.url='<?php echo (isset($shop)?url($shop->url):url(''));?>';
         
         // $(document).on('click','.notify-item',function(){ // เปลี่ยนแต่คลิกแต่ละออเดอร์เป็นอ่านแล้ว
         //     var order_id = $(this).attr('order_id');
@@ -208,9 +208,9 @@
         //     });
         // });
 
-        $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
-            window.location.reload();
-        };
+        // $.fn.dataTable.ext.errMode = function ( settings, helpPage, message ) { 
+        //     window.location.reload();
+        // };
         </script>
 
         @yield('js')
